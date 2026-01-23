@@ -4,9 +4,8 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 
-new #[Layout('layouts::login-admin.app')] #[Title('Login Admin')] class extends Component {
+new #[Layout('layouts::auth.app')] #[Title('Login | Kencana Sport')] class extends Component {
     public $ready = false;
-    public $showPassword = false;
 
     public function load()
     {
