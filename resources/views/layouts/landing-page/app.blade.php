@@ -51,7 +51,7 @@
             </main>
 
             <div
-                class="dock dock-md sm:dock-xl bg-base-100/40 backdrop-blur-xl border-t border-info/5 h-16 sm:h-20 pb-safe">
+                class="dock dock-md sm:dock-xl bg-base-100/40 backdrop-blur-xl border-t border-info/5 h-16 sm:h-20 pb-safe z-50">
                 <button class="dock-active text-info group relative">
                     <div
                         class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-50 sm:hidden">

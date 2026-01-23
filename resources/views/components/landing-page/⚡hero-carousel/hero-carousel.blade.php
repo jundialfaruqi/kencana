@@ -44,10 +44,10 @@
                             vinyl flooring
                             with
                             international standard lighting for the best smash experience.</p>
-                        <button
+                        <a href="/booking" wire:navigate
                             class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
                             <span class="skew-x-12">Book Now</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -75,10 +75,10 @@
                             High-quality wood
                             parquet
                             flooring and professional rims for your ultimate game.</p>
-                        <button
+                        <a href="/booking" wire:navigate
                             class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
                             <span class="skew-x-12">Book Now</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -105,10 +105,10 @@
                             High-grade synthetic
                             grass
                             with excellent drainage system for all-weather play.</p>
-                        <button
+                        <a href="/booking" wire:navigate
                             class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
                             <span class="skew-x-12">Book Now</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -134,10 +134,10 @@
                         <p class="text-[10px] sm:text-[11px] text-base-content/70 leading-relaxed line-clamp-2">Smooth
                             concrete surface
                             with various obstacles for beginners and pros alike.</p>
-                        <button
+                        <a href="/booking" wire:navigate
                             class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
                             <span class="skew-x-12">Book Now</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -165,10 +165,10 @@
                             sized court
                             with
                             high-tension nets for competitive team play.</p>
-                        <button
+                        <a href="/booking" wire:navigate
                             class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
                             <span class="skew-x-12">Book Now</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
