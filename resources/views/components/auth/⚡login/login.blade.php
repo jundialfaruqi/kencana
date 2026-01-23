@@ -41,7 +41,7 @@
         </div>
 
         @if ($ready)
-            <div class="card-body p-8" wire:key="login-form-container" wire:transition="login-form">
+            <div class="card-body p-8" wire:key="login-form-container" x-transition>
                 <div class="flex flex-col items-center mb-8">
                     <div>
                         <!-- Logo Kencana Mini Soccer -->

@@ -1,6 +1,6 @@
 <div class="mt-4 sm:mt-8" wire:init="load">
     @if ($ready)
-        <div class="flex flex-col gap-4 sm:gap-6" wire:transition>
+        <div class="flex flex-col gap-4 sm:gap-6" x-transition>
             <!-- Section Header -->
             <div class="flex items-end justify-between px-2">
                 <div>
@@ -182,10 +182,16 @@
             </div>
             <div
                 class="carousel carousel-center w-full bg-base-200/30 rounded-2xl sm:rounded-3xl space-x-3 sm:space-x-4 p-3 sm:p-4">
-                <div class="carousel-item w-55 sm:w-72 h-72.5 sm:h-96 bg-base-300 rounded-xl sm:rounded-2xl">
-                </div>
-                <div class="carousel-item w-55 sm:w-72 h-72.5 sm:h-96 bg-base-300 rounded-xl sm:rounded-2xl">
-                </div>
+                @for ($i = 0; $i < 3; $i++)
+                    <div class="carousel-item w-55 sm:w-72 flex flex-col gap-2 sm:gap-3">
+                        <div class="w-full h-72.5 sm:h-90 bg-base-300 rounded-xl sm:rounded-2xl"></div>
+                        <div class="px-1 sm:px-2 space-y-2">
+                            <div class="h-3 bg-base-300 w-full rounded"></div>
+                            <div class="h-3 bg-base-300 w-2/3 rounded"></div>
+                            <div class="h-6 sm:h-8 bg-base-300 w-full mt-2 rounded-lg"></div>
+                        </div>
+                    </div>
+                @endfor
             </div>
         </div>
     @endif

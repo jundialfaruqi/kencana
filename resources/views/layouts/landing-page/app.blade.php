@@ -27,7 +27,7 @@
                     <a class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
                             <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
-                                class="h-7 w-7 sm:h-8 sm:w-8 object-contain">
+                                class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         </div>
                         <span
                             class="text-lg sm:text-xl font-black italic tracking-tighter uppercase text-base-content group-hover:text-info transition-colors leading-none">
