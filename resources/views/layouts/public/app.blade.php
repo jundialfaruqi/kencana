@@ -81,14 +81,17 @@
             </main>
 
             <div
-                class="dock dock-md sm:dock-xl bg-base-100/40 backdrop-blur-xl border-t border-info/5 h-16 sm:h-20 pb-safe z-50">
-                <a wire:navigate href="/" class="dock-active text-info group relative">
-                    <div
-                        class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-50 sm:hidden">
-                    </div>
-                    <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
+                class="dock dock-md sm:dock-xl bg-base-100/40 backdrop-blur-xl border-t border-info/5 h-16 sm:h-20 pb-safe z-50 transition-all duration-1000">
+                <a wire:navigate href="/"
+                    class="{{ request()->is('/') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                    @if (request()->is('/'))
+                        <div
+                            class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
+                        </div>
+                    @endif
+                    <svg class="size-5 sm:size-6 transition-transform duration-700 group-hover:scale-110 {{ request()->is('/') ? 'scale-110' : '' }}"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2.5">
+                        stroke-width="{{ request()->is('/') ? '2.5' : '2' }}">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
@@ -96,10 +99,16 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider">Home</span>
                 </a>
 
-                <a wire:navigate href="/booking" class="hover:text-info transition-all group">
-                    <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
+                <a wire:navigate href="/booking"
+                    class="{{ request()->is('booking*') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                    @if (request()->is('booking*'))
+                        <div
+                            class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
+                        </div>
+                    @endif
+                    <svg class="size-5 sm:size-6 transition-transform duration-700 group-hover:scale-110 {{ request()->is('booking*') ? 'scale-110' : '' }}"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
+                        stroke-width="{{ request()->is('booking*') ? '2.5' : '2' }}">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
@@ -107,10 +116,16 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">Booking</span>
                 </a>
 
-                <a wire:navigate href="/store" class="hover:text-info transition-all group">
-                    <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
+                <a wire:navigate href="/store"
+                    class="{{ request()->is('store*') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                    @if (request()->is('store*'))
+                        <div
+                            class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
+                        </div>
+                    @endif
+                    <svg class="size-5 sm:size-6 transition-transform duration-700 group-hover:scale-110 {{ request()->is('store*') ? 'scale-110' : '' }}"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
+                        stroke-width="{{ request()->is('store*') ? '2.5' : '2' }}">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
@@ -118,10 +133,16 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">Store</span>
                 </a>
 
-                <button class="hover:text-info transition-all group">
-                    <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
+                <button
+                    class="{{ request()->is('history*') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                    @if (request()->is('history*'))
+                        <div
+                            class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
+                        </div>
+                    @endif
+                    <svg class="size-5 sm:size-6 transition-transform duration-700 group-hover:scale-110 {{ request()->is('history*') ? 'scale-110' : '' }}"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
+                        stroke-width="{{ request()->is('history*') ? '2.5' : '2' }}">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -129,10 +150,16 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">History</span>
                 </button>
 
-                <a wire:navigate href="/login" class="hover:text-info transition-all group">
-                    <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
+                <a wire:navigate href="/login"
+                    class="{{ request()->is('login*') || request()->is('profile*') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                    @if (request()->is('login*') || request()->is('profile*'))
+                        <div
+                            class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
+                        </div>
+                    @endif
+                    <svg class="size-5 sm:size-6 transition-transform duration-700 group-hover:scale-110 {{ request()->is('login*') || request()->is('profile*') ? 'scale-110' : '' }}"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
+                        stroke-width="{{ request()->is('login*') || request()->is('profile*') ? '2.5' : '2' }}">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
