@@ -28,11 +28,6 @@
         </div>
     </div>
 
-    <!-- Background Sporty Pattern Overlay (More visible Diagonal Lines) -->
-    {{-- <div class="absolute inset-0 pointer-events-none z-1 opacity-[0.08]"
-        style="background-image: url('data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\' fill=\'%23888888\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');">
-    </div> --}}
-
     <div wire:key="login-card"
         class="card w-full max-w-md bg-base backdrop-blur-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden relative z-10">
         <!-- Sporty Accent Line (Top Border with Glow) -->
@@ -123,22 +118,33 @@
                         </label>
                     </div>
 
-                    <div class="card-actions mt-4">
+                    <div class="grid grid-cols-2 gap-3 mt-4">
                         <button type="button"
-                            class="btn btn-info btn-block text-sm sm:text-lg font-black italic uppercase tracking-widest shadow-lg group">
+                            class="btn btn-info text-[10px] sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
                             Enter Kencana
                             <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" fill="none"
+                                class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </button>
+                        <a href="/register" wire:navigate
+                            class="btn btn-warning text-[10px] sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
+                            Buat Akun
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" class="size-4 ml-1">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                            </svg>
+                        </a>
                     </div>
+
                     <a href="/" wire:navigate
                         class="text-[10px] sm:text-xs font-black italic uppercase tracking-widest text-info hover:text-info/80 transition-colors flex items-center justify-center gap-2 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                            stroke="currentColor" class="size-3 transition-transform group-hover:-translate-x-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="2.5" stroke="currentColor"
+                            class="size-3 transition-transform group-hover:-translate-x-1">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>

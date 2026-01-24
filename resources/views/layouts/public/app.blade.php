@@ -61,8 +61,8 @@
 
             <div
                 class="dock dock-md sm:dock-xl bg-base-100/40 backdrop-blur-xl border-t border-info/5 h-16 sm:h-20 pb-safe z-50 transition-all duration-1000">
-                <a wire:navigate href="/"
-                    class="{{ request()->is('/') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                <a wire:navigate href="/" wire:current.exact="dock-active text-info"
+                    class="hover:text-info opacity-70 hover:opacity-100 transition-all duration-700 group relative flex flex-col items-center justify-center">
                     @if (request()->is('/'))
                         <div
                             class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
@@ -78,8 +78,8 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider">Home</span>
                 </a>
 
-                <a wire:navigate href="/booking"
-                    class="{{ request()->is('booking*') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                <a wire:navigate href="/booking" wire:current="dock-active text-info"
+                    class="hover:text-info opacity-70 hover:opacity-100 transition-all duration-700 group relative flex flex-col items-center justify-center">
                     @if (request()->is('booking*'))
                         <div
                             class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
@@ -95,8 +95,8 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">Booking</span>
                 </a>
 
-                <a wire:navigate href="/store"
-                    class="{{ request()->is('store*') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                <a wire:navigate href="/store" wire:current="dock-active text-info"
+                    class="hover:text-info opacity-70 hover:opacity-100 transition-all duration-700 group relative flex flex-col items-center justify-center">
                     @if (request()->is('store*'))
                         <div
                             class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
@@ -129,8 +129,8 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">History</span>
                 </button>
 
-                <a wire:navigate href="/login"
-                    class="{{ request()->is('login*') || request()->is('profile*') ? 'dock-active text-info' : 'hover:text-info opacity-70 hover:opacity-100' }} transition-all duration-700 group relative flex flex-col items-center justify-center">
+                <a wire:navigate href="/login" wire:current="dock-active text-info"
+                    class="hover:text-info opacity-70 hover:opacity-100 transition-all duration-700 group relative flex flex-col items-center justify-center">
                     @if (request()->is('login*') || request()->is('profile*'))
                         <div
                             class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-80 sm:hidden animate-pulse">
