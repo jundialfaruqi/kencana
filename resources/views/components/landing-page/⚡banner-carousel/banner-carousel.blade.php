@@ -25,11 +25,11 @@
             <!-- Section Header -->
             <div class="px-2">
                 <h3 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
-                    Promo <span class="text-info">Spesial</span>
+                    Update <span class="text-info">Terbaru</span>
                 </h3>
                 <p
                     class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                    Don't miss our latest offers
+                    Informasi seputar fasilitas & kegiatan kencana mini soccer
                 </p>
             </div>
 
@@ -37,73 +37,74 @@
             <div class="relative w-full group">
                 <div
                     class="carousel w-full rounded-2xl sm:rounded-3xl shadow-2xl aspect-video sm:aspect-21/9 scroll-smooth">
-                    <!-- Banner 1 -->
+                    <!-- Banner 1: Peresmian -->
                     <div class="carousel-item relative w-full overflow-hidden">
                         <img src="{{ asset('assets/images/landing-pages/banners/gb-1.jpg') }}"
-                            class="w-full h-full object-cover" alt="Special Promo 1" />
-                        <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
-                        <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
-                            <span
-                                class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Limited
-                                Time</span>
-                            <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">
-                                Weekend<br>Warriors</h2>
-                            <p
-                                class="text-white/80 text-[10px] sm:text-sm max-w-50 sm:max-w-md font-medium leading-relaxed">
-                                Dapatkan diskon 20% untuk penyewaan lapangan di hari Sabtu & Minggu pagi. Mulai harimu
-                                dengan energi!</p>
-                        </div>
-                    </div>
-
-                    <!-- Banner 2 -->
-                    <div class="carousel-item relative w-full overflow-hidden">
-                        <img src="{{ asset('assets/images/landing-pages/banners/gb-2.jpg') }}"
-                            class="w-full h-full object-cover" alt="Special Promo 2" />
+                            class="w-full h-full object-cover" alt="Peresmian Kencana Mini Soccer" />
                         <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
                         <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
                             <span
                                 class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">New
-                                Member</span>
-                            <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">Join
-                                The<br>Community</h2>
+                                Facility</span>
+                            <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">
+                                Kencana<br>Mini Soccer</h2>
                             <p
                                 class="text-white/80 text-[10px] sm:text-sm max-w-50 sm:max-w-md font-medium leading-relaxed">
-                                Daftar sekarang dan nikmati gratis 1 jam bermain untuk booking pertama Anda. Mari
-                                bertanding!</p>
+                                Resmi dibuka oleh Wali Kota Pekanbaru sebagai sarana olahraga modern untuk masyarakat
+                                Sukajadi dan sekitarnya.</p>
                         </div>
                     </div>
 
-                    <!-- Banner 3 -->
+                    <!-- Banner 2: Gratis -->
+                    <div class="carousel-item relative w-full overflow-hidden">
+                        <img src="{{ asset('assets/images/landing-pages/banners/gb-2.jpg') }}"
+                            class="w-full h-full object-cover" alt="Gratis Untuk Umum" />
+                        <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
+                        <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
+                            <span
+                                class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Public
+                                Service</span>
+                            <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">
+                                Gratis<br>Untuk
+                                Warga</h2>
+                            <p
+                                class="text-white/80 text-[10px] sm:text-sm max-w-50 sm:max-w-md font-medium leading-relaxed">
+                                Fasilitas olahraga publik yang dapat digunakan secara gratis. Mari jaga kebersihan dan
+                                kenyamanan bersama.</p>
+                        </div>
+                    </div>
+
+                    <!-- Banner 3: Lokasi -->
                     <div class="carousel-item relative w-full overflow-hidden">
                         <img src="{{ asset('assets/images/landing-pages/banners/gb-3.jpg') }}"
-                            class="w-full h-full object-cover" alt="Special Promo 3" />
+                            class="w-full h-full object-cover" alt="Lokasi Strategis" />
                         <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
                         <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
                             <span
-                                class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Night
-                                Session</span>
+                                class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Location</span>
                             <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">
-                                Midnight<br>Match</h2>
+                                Simpang<br>Melur</h2>
                             <p
                                 class="text-white/80 text-[10px] sm:text-sm max-w-50 sm:max-w-md font-medium leading-relaxed">
-                                Main malam lebih seru dengan fasilitas lampu standar internasional dan harga lebih
-                                hemat.</p>
+                                Terletak di kawasan strategis eks Kantor Dinkes Pekanbaru, Sukajadi. Ruang interaksi
+                                positif warga kota.</p>
                         </div>
                     </div>
 
-                    <!-- Banner 4 -->
+                    <!-- Banner 4: Gaya Hidup Sehat -->
                     <div class="carousel-item relative w-full overflow-hidden">
                         <img src="{{ asset('assets/images/landing-pages/banners/gb-4.jpg') }}"
-                            class="w-full h-full object-cover" alt="Special Promo 4" />
+                            class="w-full h-full object-cover" alt="Healthy Lifestyle" />
                         <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
                         <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
                             <span
-                                class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Facility</span>
+                                class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Healthy</span>
                             <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">
-                                Professional<br>Standard</h2>
+                                Gaya Hidup<br>Sehat</h2>
                             <p
                                 class="text-white/80 text-[10px] sm:text-sm max-w-50 sm:max-w-md font-medium leading-relaxed">
-                                Nikmati pengalaman bermain di arena dengan standar kompetisi dan fasilitas lengkap.</p>
+                                Komitmen Pemko Pekanbaru menyediakan fasilitas olahraga berkualitas untuk meningkatkan
+                                kesehatan masyarakat.</p>
                         </div>
                     </div>
                 </div>

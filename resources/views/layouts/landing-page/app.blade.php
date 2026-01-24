@@ -41,22 +41,28 @@
         <div class="fixed inset-0 z-0">
             <img src="{{ asset('assets/images/landing-pages/bg.webp') }}"
                 class="w-full h-full object-cover object-top opacity-40 grayscale-[0.3]" alt="Background">
-            <div class="absolute inset-0 bg-linear-to-b from-base-100/10 via-base-100/50 to-base-100/70"></div>
+            <div class="absolute inset-0 bg-linear-to-b from-base-100/40 via-base-100/85 to-base-100/95"></div>
         </div>
 
         <div class="relative z-10 flex flex-col min-h-screen">
             <div id="navbar"
-                class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-4 py-3 border-b border-info/5 transition-transform duration-300">
+                class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-5 py-3 border-b border-info/5 transition-transform duration-300">
                 <div class="navbar-start">
                     <a class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
                             <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
                                 class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         </div>
-                        <span
-                            class="text-lg sm:text-xl font-black italic tracking-tighter uppercase text-base-content group-hover:text-info transition-colors leading-none">
-                            Kencana<span class="text-info ml-0.5"> Sport</span>
-                        </span>
+                        <div class="flex flex-col leading-none">
+                            <span
+                                class="text-1xl sm:text-1xl font-black italic tracking-tighter uppercase text-info group-hover:text-base-content transition-colors">
+                                Kencana
+                            </span>
+                            <span
+                                class="text-xs font-bold italic tracking-wider uppercase text-base-content -mt-0.2 sm:-mt-0.2">
+                                Mini Soccer
+                            </span>
+                        </div>
                     </a>
                 </div>
 
@@ -64,13 +70,13 @@
                     <div class="flex items-center gap-2">
                         <a href="/login" wire:navigate
                             class="btn btn-info btn-xs sm:btn-sm italic uppercase font-bold -skew-x-12 px-4 sm:px-6 shadow-lg shadow-info/20">
-                            <span class="skew-x-12">Book Now</span>
+                            <span class="skew-x-12">Pesan Arena</span>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <main class="grow container-xl px-4 pt-20 pb-18 sm:pt-20 sm:px-6 sm:pb-25">
+            <main class="grow container-xl px-4 pt-21 pb-18 sm:pt-22 sm:px-6 sm:pb-25">
                 {{ $slot }}
             </main>
 
