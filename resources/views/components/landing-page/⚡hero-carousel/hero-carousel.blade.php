@@ -56,6 +56,14 @@
                         <img src="{{ asset('assets/images/landing-pages/badminton.webp') }}"
                             class="w-full h-full object-cover -skew-x-2 scale-110 group-hover:skew-x-0 group-hover:scale-100 transition-all duration-500"
                             alt="Badminton Arena" />
+                        <!-- Coming Soon Overlay -->
+                        <div
+                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
+                                Coming Soon
+                            </span>
+                        </div>
                         <div
                             class="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-60">
                         </div>
@@ -72,10 +80,10 @@
                             vinyl flooring
                             with
                             international standard lighting for the best smash experience.</p>
-                        <a href="/booking" wire:navigate
-                            class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
-                            <span class="skew-x-12">Pesan Sekarang</span>
-                        </a>
+                        <button disabled
+                            class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                            <span class="skew-x-12">Coming Soon</span>
+                        </button>
                     </div>
                 </div>
 
@@ -86,6 +94,14 @@
                         <img src="{{ asset('assets/images/landing-pages/basket-ball.webp') }}"
                             class="w-full h-full object-cover -skew-x-2 scale-110 group-hover:skew-x-0 group-hover:scale-100 transition-all duration-500"
                             alt="Basketball Court" />
+                        <!-- Coming Soon Overlay -->
+                        <div
+                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
+                                Coming Soon
+                            </span>
+                        </div>
                         <div
                             class="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-60">
                         </div>
@@ -103,10 +119,10 @@
                             High-quality wood
                             parquet
                             flooring and professional rims for your ultimate game.</p>
-                        <a href="/booking" wire:navigate
-                            class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
-                            <span class="skew-x-12">Pesan Sekarang</span>
-                        </a>
+                        <button disabled
+                            class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                            <span class="skew-x-12">Coming Soon</span>
+                        </button>
                     </div>
                 </div>
 
@@ -117,6 +133,14 @@
                         <img src="{{ asset('assets/images/landing-pages/skates.webp') }}"
                             class="w-full h-full object-cover -skew-x-2 scale-110 group-hover:skew-x-0 group-hover:scale-100 transition-all duration-500"
                             alt="Skate Park" />
+                        <!-- Coming Soon Overlay -->
+                        <div
+                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
+                                Coming Soon
+                            </span>
+                        </div>
                         <div
                             class="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-60">
                         </div>
@@ -132,10 +156,10 @@
                         <p class="text-[10px] sm:text-[11px] text-base-content/70 leading-relaxed line-clamp-2">Smooth
                             concrete surface
                             with various obstacles for beginners and pros alike.</p>
-                        <a href="/booking" wire:navigate
-                            class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
-                            <span class="skew-x-12">Pesan Sekarang</span>
-                        </a>
+                        <button disabled
+                            class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                            <span class="skew-x-12">Coming Soon</span>
+                        </button>
                     </div>
                 </div>
 
@@ -146,6 +170,14 @@
                         <img src="{{ asset('assets/images/landing-pages/volleyball.webp') }}"
                             class="w-full h-full object-cover -skew-x-2 scale-110 group-hover:skew-x-0 group-hover:scale-100 transition-all duration-500"
                             alt="Volleyball Court" />
+                        <!-- Coming Soon Overlay -->
+                        <div
+                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
+                                Coming Soon
+                            </span>
+                        </div>
                         <div
                             class="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-60">
                         </div>
@@ -163,10 +195,10 @@
                             sized court
                             with
                             high-tension nets for competitive team play.</p>
-                        <a href="/booking" wire:navigate
-                            class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
-                            <span class="skew-x-12">Pesan Sekarang</span>
-                        </a>
+                        <button disabled
+                            class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                            <span class="skew-x-12">Coming Soon</span>
+                        </button>
                     </div>
                 </div>
             </div>

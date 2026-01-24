@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? config('app.name') }}</title>
+    <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -48,7 +48,7 @@
             <div id="navbar"
                 class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-5 py-3 border-b border-info/5 transition-transform duration-300">
                 <div class="navbar-start">
-                    <a class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
+                    <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
                             <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
                                 class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
