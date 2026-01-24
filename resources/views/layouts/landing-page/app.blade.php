@@ -10,6 +10,29 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles
+    <script>
+        document.addEventListener('livewire:navigated', () => {
+            let lastScrollTop = 0;
+            const navbar = document.getElementById('navbar');
+            const threshold = 50;
+
+            if (!navbar) return;
+
+            window.addEventListener('scroll', () => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop < 0) scrollTop = 0;
+
+                if (scrollTop > lastScrollTop && scrollTop > threshold) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+
+                lastScrollTop = scrollTop;
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -22,7 +45,8 @@
         </div>
 
         <div class="relative z-10 flex flex-col min-h-screen">
-            <div class="navbar bg-base-100/40 backdrop-blur-md sticky top-0 z-50 px-4 py-3 border-b border-info/5">
+            <div id="navbar"
+                class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-4 py-3 border-b border-info/5 transition-transform duration-300">
                 <div class="navbar-start">
                     <a class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
@@ -46,7 +70,7 @@
                 </div>
             </div>
 
-            <main class="grow container-xl px-4 py-6 sm:p-6 pb-18 sm:pb-25">
+            <main class="grow container-xl px-4 pt-20 pb-18 sm:pt-20 sm:px-6 sm:pb-25">
                 {{ $slot }}
             </main>
 

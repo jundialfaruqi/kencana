@@ -5,7 +5,7 @@
             <div class="flex items-end justify-between px-2">
                 <div>
                     <h3 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
-                        Our <span class="text-info">Arenas</span>
+                        Lapangan <span class="text-info">Tersedia</span>
                     </h3>
                     <p
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
