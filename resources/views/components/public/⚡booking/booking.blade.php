@@ -49,7 +49,7 @@
                                 @endphp
                                 <div class="carousel-item">
                                     <button
-                                        class="flex flex-col items-center justify-center w-16 h-20 rounded-xl transition-all {{ $isSelected ? 'bg-info text-info-content shadow-lg shadow-info/20 -translate-y-1' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
+                                        class="flex flex-col items-center justify-center w-16 h-20 rounded-xl transition-all {{ $isSelected ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
                                         <span class="text-[10px] font-bold uppercase">{{ $date->format('D') }}</span>
                                         <span class="text-xl font-black italic">{{ $date->format('d') }}</span>
                                         <span class="text-[9px] font-bold uppercase">{{ $date->format('M') }}</span>
@@ -59,7 +59,7 @@
                         </div>
                     </section>
 
-                    <!-- 2. Select Arena -->
+                    <!-- 2. Select Arena & Time (Horizontal Scroll on Mobile) -->
                     <section>
                         <div class="flex items-center gap-3 mb-4 px-2">
                             <div class="w-8 h-8 rounded-lg bg-info/10 flex items-center justify-center">
@@ -71,86 +71,99 @@
                                         d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-4.625 3.352A3.75 3.75 0 0 0 12 18Z" />
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-black italic uppercase tracking-tight">2. Select Arena</h3>
+                            <h3 class="text-xl font-black italic uppercase tracking-tight">2. Select Arena & Time</h3>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div
+                            class="carousel carousel-start w-full gap-4 pb-6 px-2 lg:grid lg:grid-cols-2 lg:carousel-none">
                             @php
                                 $arenas = [
-                                    ['name' => 'Badminton Court 1', 'type' => 'Indoor', 'price' => 'Rp 50k/hr'],
-                                    ['name' => 'Basketball Court', 'type' => 'Premium', 'price' => 'Rp 150k/hr'],
-                                    ['name' => 'Mini Soccer Arena', 'type' => 'Grass', 'price' => 'Rp 250k/hr'],
-                                    ['name' => 'Tennis Court', 'type' => 'Outdoor', 'price' => 'Rp 100k/hr'],
-                                    ['name' => 'Volleyball Arena', 'type' => 'Team', 'price' => 'Rp 80k/hr'],
+                                    ['name' => 'Mini Soccer Arena', 'type' => 'Grass', 'price' => 'GRATIS'],
+                                    ['name' => 'Badminton Court 1', 'type' => 'Indoor', 'price' => 'GRATIS'],
+                                    ['name' => 'Basketball Court', 'type' => 'Premium', 'price' => 'GRATIS'],
+                                    ['name' => 'Tennis Court', 'type' => 'Outdoor', 'price' => 'GRATIS'],
+                                    ['name' => 'Volleyball Arena', 'type' => 'Team', 'price' => 'GRATIS'],
                                 ];
                             @endphp
+
                             @foreach ($arenas as $index => $arena)
-                                <button
-                                    class="group relative overflow-hidden rounded-2xl bg-base-100 border-2 {{ $index === 0 ? 'border-info shadow-lg' : 'border-base-200 hover:border-info/30' }} p-4 transition-all text-left">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <span
-                                                class="text-[10px] font-black uppercase italic px-1.5 py-0.5 rounded {{ $index === 0 ? 'bg-info text-info-content' : 'bg-base-200 text-base-content/50' }}">
-                                                {{ $arena['type'] }}
-                                            </span>
-                                            <h4
-                                                class="text-lg font-black italic uppercase mt-2 leading-none group-hover:text-info transition-colors">
-                                                {{ $arena['name'] }}
-                                            </h4>
+                                @php
+                                    $isComingSoon = $arena['name'] !== 'Mini Soccer Arena';
+                                @endphp
+                                <div class="carousel-item w-[85%] sm:w-95 lg:w-full flex-col gap-3 relative">
+                                    <!-- Coming Soon Overlay -->
+                                    @if ($isComingSoon)
+                                        <div
+                                            class="absolute inset-0 z-20 bg-base-200/40 backdrop-blur-[1px] rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-base-content/10">
+                                            <div
+                                                class="bg-black/60 backdrop-blur-md px-4 py-2 -skew-x-12 border border-white/20">
+                                                <span
+                                                    class="text-white text-lg font-black italic uppercase tracking-widest skew-x-12 block">
+                                                    Coming Soon
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="text-right">
-                                            <span
-                                                class="text-sm font-black italic text-info">{{ $arena['price'] }}</span>
+                                    @endif
+
+                                    <!-- Arena Header Card -->
+                                    <div
+                                        class="w-full p-4 rounded-2xl bg-base-100 border-2 {{ $index === 0 ? 'border-info shadow-lg' : 'border-base-200' }} transition-all">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <span
+                                                    class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded {{ $index === 0 ? 'bg-info text-info-content' : 'bg-base-200 text-base-content/50' }}">
+                                                    {{ $arena['type'] }}
+                                                </span>
+                                                <h4 class="text-base font-black italic uppercase mt-1 leading-none">
+                                                    {{ $arena['name'] }}
+                                                </h4>
+                                            </div>
+                                            <div class="text-right">
+                                                <span
+                                                    class="text-xs font-black italic text-info">{{ $arena['price'] }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </button>
+
+                                    <!-- Time Grid for this Arena -->
+                                    <div class="bg-base-200/40 rounded-2xl p-4 border border-base-200/50">
+                                        <div class="grid grid-cols-4 gap-2">
+                                            @for ($h = 6; $h <= 22; $h++)
+                                                @php
+                                                    $time = sprintf('%02d:00', $h);
+                                                    $isBooked = in_array($h, [10, 14, 15, 19]);
+                                                    $isSelected = !$isComingSoon && $index === 0 && $h === 8;
+                                                @endphp
+                                                <button {{ $isBooked || $isComingSoon ? 'disabled' : '' }}
+                                                    class="py-2 rounded-lg font-black italic text-[10px] transition-all
+                                                    {{ $isBooked || $isComingSoon
+                                                        ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
+                                                        : ($isSelected
+                                                            ? 'bg-info text-info-content shadow-md shadow-info/20'
+                                                            : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
+                                                    {{ $time }}
+                                                </button>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </div>
-                    </section>
 
-                    <!-- 3. Select Time -->
-                    <section>
-                        <div class="flex items-center gap-3 mb-4 px-2">
-                            <div class="w-8 h-8 rounded-lg bg-info/10 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2" stroke="currentColor" class="size-5 text-info">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
+                        <!-- Legend -->
+                        <div
+                            class="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-[9px] font-bold uppercase tracking-widest text-base-content/50 px-4">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-2.5 h-2.5 rounded bg-base-100 border border-base-300"></div>
+                                Available
                             </div>
-                            <h3 class="text-xl font-black italic uppercase tracking-tight">3. Select Time</h3>
-                        </div>
-
-                        <div class="bg-base-200/30 rounded-3xl p-6">
-                            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                                @for ($h = 6; $h <= 22; $h++)
-                                    @php
-                                        $time = sprintf('%02d:00', $h);
-                                        $isBooked = in_array($h, [10, 14, 15, 19]);
-                                    @endphp
-                                    <button {{ $isBooked ? 'disabled' : '' }}
-                                        class="py-2 px-3 rounded-xl font-black italic text-sm transition-all
-                                        {{ $isBooked
-                                            ? 'bg-base-300 text-base-content/20 cursor-not-allowed line-through'
-                                            : 'bg-base-100 hover:bg-info hover:text-info-content shadow-sm hover:shadow-info/30' }}">
-                                        {{ $time }}
-                                    </button>
-                                @endfor
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-2.5 h-2.5 rounded bg-info"></div>
+                                Selected
                             </div>
-                            <div
-                                class="mt-6 flex flex-wrap gap-4 text-[10px] font-bold uppercase tracking-widest text-base-content/50 px-2">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-3 h-3 rounded bg-base-100 border border-base-300"></div>
-                                    Available
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-3 h-3 rounded bg-info"></div>
-                                    Selected
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-3 h-3 rounded bg-base-300 line-through"></div>
-                                    Booked
-                                </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-2.5 h-2.5 rounded bg-base-300/50 line-through"></div>
+                                Booked
                             </div>
                         </div>
                     </section>
@@ -169,7 +182,7 @@
                                 <div
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                     <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
-                                    <span class="font-black italic uppercase text-sm">Badminton Court 1</span>
+                                    <span class="font-black italic uppercase text-sm">Mini Soccer Arena</span>
                                 </div>
                                 <div
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
@@ -186,14 +199,14 @@
                                 <div class="pt-4">
                                     <div class="flex justify-between items-end">
                                         <span class="text-xs font-bold uppercase text-base-content/50">Total
-                                            Price</span>
-                                        <span class="text-2xl font-black italic text-info leading-none">Rp 50,000</span>
+                                            Biaya</span>
+                                        <span class="text-2xl font-black italic text-info leading-none">GRATIS</span>
                                     </div>
                                 </div>
 
                                 <button
                                     class="btn btn-info w-full mt-6 -skew-x-12 italic font-black uppercase text-lg h-14 shadow-lg shadow-info/20">
-                                    <span class="skew-x-12">Continue to Pay</span>
+                                    <span class="skew-x-12">Konfirmasi Booking</span>
                                 </button>
                             </div>
                         </div>
@@ -248,31 +261,36 @@
                         </div>
                     </section>
 
-                    <!-- Arena Skeleton -->
+                    <!-- Arena & Time Skeleton -->
                     <section>
                         <div class="flex items-center gap-3 mb-4 px-2">
                             <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                            <div class="h-6 bg-base-300 w-40 rounded"></div>
+                            <div class="h-6 bg-base-300 w-48 rounded"></div>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            @for ($i = 0; $i < 4; $i++)
-                                <div class="h-24 bg-base-300 rounded-2xl"></div>
+                        <div
+                            class="carousel carousel-start w-full gap-4 pb-6 px-2 lg:grid lg:grid-cols-2 lg:carousel-none">
+                            @for ($i = 0; $i < 2; $i++)
+                                <div class="carousel-item w-[85%] sm:w-95 lg:w-full flex-col gap-3">
+                                    <!-- Header Card Skeleton -->
+                                    <div class="w-full p-4 rounded-2xl bg-base-200 border-2 border-base-300/30 h-20">
+                                        <div class="flex justify-between items-start">
+                                            <div class="space-y-2">
+                                                <div class="h-3 bg-base-300 w-16 rounded"></div>
+                                                <div class="h-5 bg-base-300 w-32 rounded"></div>
+                                            </div>
+                                            <div class="h-4 bg-base-300 w-20 rounded"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Time Grid Skeleton -->
+                                    <div class="bg-base-200/40 rounded-2xl p-4 border border-base-200/50">
+                                        <div class="grid grid-cols-4 gap-2">
+                                            @for ($j = 0; $j < 12; $j++)
+                                                <div class="h-8 bg-base-300 rounded-lg"></div>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                </div>
                             @endfor
-                        </div>
-                    </section>
-
-                    <!-- Time Skeleton -->
-                    <section>
-                        <div class="flex items-center gap-3 mb-4 px-2">
-                            <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                            <div class="h-6 bg-base-300 w-36 rounded"></div>
-                        </div>
-                        <div class="bg-base-200/30 rounded-3xl p-6">
-                            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                                @for ($i = 0; $i < 12; $i++)
-                                    <div class="h-10 bg-base-300 rounded-xl"></div>
-                                @endfor
-                            </div>
                         </div>
                     </section>
                 </div>
@@ -289,13 +307,13 @@
                                         <div class="h-4 bg-base-300 w-24 rounded"></div>
                                     </div>
                                 @endfor
-                                <div class="pt-4 border-t border-base-200">
-                                    <div class="flex justify-between">
-                                        <div class="h-4 bg-base-300 w-20 rounded"></div>
-                                        <div class="h-8 bg-base-300 w-32 rounded"></div>
+                                <div class="pt-4">
+                                    <div class="flex justify-between items-end">
+                                        <div class="h-3 bg-base-300 w-20 rounded"></div>
+                                        <div class="h-8 bg-base-300 w-24 rounded"></div>
                                     </div>
                                 </div>
-                                <div class="h-14 bg-base-300 rounded-xl"></div>
+                                <div class="h-14 bg-base-300 rounded-xl mt-6"></div>
                             </div>
                         </div>
                     </div>
