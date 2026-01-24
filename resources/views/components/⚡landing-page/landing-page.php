@@ -3,7 +3,7 @@
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layouts::landing-page.app')] class extends Component
+new #[Layout('layouts::public.app')] class extends Component
 {
     //
 };

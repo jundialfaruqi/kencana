@@ -51,7 +51,7 @@
                             <p
                                 class="text-white/80 text-[10px] sm:text-sm max-w-50 sm:max-w-md font-medium leading-relaxed">
                                 Resmi dibuka oleh Wali Kota Pekanbaru sebagai sarana olahraga modern untuk masyarakat
-                                Sukajadi dan sekitarnya.</p>
+                                Pekanbaru dan sekitarnya.</p>
                         </div>
                     </div>
 
