@@ -48,10 +48,11 @@
                         <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
                             alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
                     </div>
-                    <h3 class="text-xl sm:text-3xl font-bold italic tracking-tighter uppercase text-info">
-                        Kencana <span class="text-warning">SPORT</span>
+                    <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-info">
+                        KENCANA <span class="text-warning">SPORT</span>
                     </h3>
-                    <div class="text-xs text-center font-bold uppercase">Kencana mini soccer - Fun, Safe & Free</div>
+                    <div class="text-xs text-base-content text-center font-bold italic tracking-tighter uppercase">MINI
+                        SOCCER</div>
                 </div>
 
                 <form class="space-y-6">
@@ -133,9 +134,18 @@
                             </svg>
                         </button>
                     </div>
+                    <a href="/" wire:navigate
+                        class="text-[10px] sm:text-xs font-black italic uppercase tracking-widest text-info hover:text-info/80 transition-colors flex items-center justify-center gap-2 group">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                            stroke="currentColor" class="size-3 transition-transform group-hover:-translate-x-1">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                        Back to Home
+                    </a>
                 </form>
 
-                <div class="mt-8 text-center border-t border-white/10 pt-6">
+                <div class="mt-4 text-center border-t border-white/10 pt-6">
                     <p
                         class="text-[10px] sm:text-xs font-medium opacity-50 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
                         Powered by DISKOMINFOTIKSAN

@@ -10,6 +10,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function load()
     {
+        sleep(1);
         $this->ready = true;
     }
 };

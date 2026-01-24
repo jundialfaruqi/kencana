@@ -7,6 +7,7 @@ new class extends Component {
 
     public function load()
     {
+        sleep(1);
         $this->ready = true;
     }
 };

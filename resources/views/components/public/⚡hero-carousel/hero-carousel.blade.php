@@ -212,7 +212,7 @@
             </div>
             <div
                 class="carousel carousel-center w-full bg-base-200/30 rounded-2xl sm:rounded-3xl space-x-3 sm:space-x-4 p-3 sm:p-4">
-                @for ($i = 0; $i < 3; $i++)
+                @for ($i = 0; $i < 5; $i++)
                     <div class="carousel-item w-55 sm:w-72 flex flex-col gap-2 sm:gap-3">
                         <div class="w-full h-72.5 sm:h-90 bg-base-300 rounded-xl sm:rounded-2xl"></div>
                         <div class="px-1 sm:px-2 space-y-2">

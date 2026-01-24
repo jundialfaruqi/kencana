@@ -68,7 +68,7 @@
 
                 <div class="navbar-end">
                     <div class="flex items-center gap-2">
-                        <a href="/login" wire:navigate
+                        <a href="/booking" wire:navigate
                             class="btn btn-info btn-xs sm:btn-sm italic uppercase font-bold -skew-x-12 px-4 sm:px-6 shadow-lg shadow-info/20">
                             <span class="skew-x-12">Pesan Arena</span>
                         </a>
@@ -82,7 +82,7 @@
 
             <div
                 class="dock dock-md sm:dock-xl bg-base-100/40 backdrop-blur-xl border-t border-info/5 h-16 sm:h-20 pb-safe z-50">
-                <button class="dock-active text-info group relative">
+                <a wire:navigate href="/" class="dock-active text-info group relative">
                     <div
                         class="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-info rounded-full blur-[2px] opacity-50 sm:hidden">
                     </div>
@@ -94,9 +94,9 @@
                     </svg>
                     <span
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider">Home</span>
-                </button>
+                </a>
 
-                <button class="hover:text-info transition-all group">
+                <a wire:navigate href="/booking" class="hover:text-info transition-all group">
                     <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="2">
@@ -105,9 +105,9 @@
                     </svg>
                     <span
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">Booking</span>
-                </button>
+                </a>
 
-                <button class="hover:text-info transition-all group">
+                <a wire:navigate href="/store" class="hover:text-info transition-all group">
                     <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="2">
@@ -116,7 +116,7 @@
                     </svg>
                     <span
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">Store</span>
-                </button>
+                </a>
 
                 <button class="hover:text-info transition-all group">
                     <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
@@ -129,7 +129,7 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">History</span>
                 </button>
 
-                <button class="hover:text-info transition-all group">
+                <a wire:navigate href="/login" class="hover:text-info transition-all group">
                     <svg class="size-5 sm:size-6 transition-transform group-hover:scale-110"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="2">
@@ -138,7 +138,7 @@
                     </svg>
                     <span
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider transition-colors">Profile</span>
-                </button>
+                </a>
             </div>
         </div>
     </div>
