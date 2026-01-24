@@ -69,8 +69,8 @@
                             </span>
                         </label>
                         <input type="email" placeholder="admin@kencana.com"
-                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full" required
-                            autofocus />
+                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic"
+                            required autofocus />
                     </div>
 
                     <div class="form-control">
@@ -87,7 +87,7 @@
                         </label>
                         <div class="relative group/input">
                             <input :type="showPassword ? 'text' : 'password'" placeholder="••••••••"
-                                class="input input-bordered focus:input-info bg-base-200/50 mb-2 w-full pr-12"
+                                class="input input-bordered focus:input-info bg-base-200/50 mb-2 w-full pr-12 italic"
                                 required />
                             <div class="absolute right-4 top-2">
                                 <label class="swap text-base-content/30 hover:text-info transition-colors">
@@ -110,7 +110,8 @@
                             </div>
                         </div>
                         <label class="label justify-end">
-                            <a href="#" class="label-text-alt link link-hover text-info font-semibold">Forgot
+                            <a href="#"
+                                class="label-text-alt link link-hover text-info italic font-semibold">Forgot
                                 Key?</a>
                         </label>
                     </div>
