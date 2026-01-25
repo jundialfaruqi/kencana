@@ -205,7 +205,7 @@
 
                     <div class="grid grid-cols-2 gap-3 mt-6">
                         <button type="button"
-                            class="btn btn-info text-[10px] sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12">
+                            class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12">
                             Daftar Sekarang
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
@@ -215,7 +215,7 @@
                             </svg>
                         </button>
                         <a href="/" wire:navigate
-                            class="btn btn-warning text-[10px] sm:text-xs font-black italic uppercase tracking-widest shadow-lg h-12 flex items-center justify-center">
+                            class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg h-12 flex items-center justify-center">
                             Batal
                         </a>
                     </div>

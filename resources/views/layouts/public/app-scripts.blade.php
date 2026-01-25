@@ -1,6 +1,3 @@
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/TextPlugin.min.js"></script>
-
     <!-- Leaflet Resources -->
     <link rel="stylesheet" href="{{ asset('assets/leaflet/dist/leaflet.css') }}" />
     <script src="{{ asset('assets/leaflet/dist/leaflet-global.js') }}"></script>

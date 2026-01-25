@@ -104,23 +104,20 @@
                                 </label>
                             </div>
                         </div>
-                        <label class="label justify-end">
+                        <div class="flex items-center justify-between mt-2">
+                            <label class="label text-xs cursor-pointer justify-start gap-3 p-0">
+                                <input type="checkbox" class="checkbox checkbox-sm checkbox-info" />
+                                <span class="label-text font-medium">Keep me in the game</span>
+                            </label>
                             <a href="#"
-                                class="label-text-alt link link-hover text-info italic font-semibold">Forgot
+                                class="label-text-alt text-xs link link-hover text-info italic font-semibold">Forgot
                                 Key?</a>
-                        </label>
-                    </div>
-
-                    <div class="form-control">
-                        <label class="label cursor-pointer justify-start gap-3">
-                            <input type="checkbox" class="checkbox checkbox-sm checkbox-info" />
-                            <span class="label-text font-medium">Keep me in the game</span>
-                        </label>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 mt-4">
                         <button type="button"
-                            class="btn btn-info text-[10px] sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
+                            class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
                             Enter Kencana
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
@@ -130,7 +127,7 @@
                             </svg>
                         </button>
                         <a href="/register" wire:navigate
-                            class="btn btn-warning text-[10px] sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
+                            class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
                             Buat Akun
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                                 stroke="currentColor" class="size-4 ml-1">
