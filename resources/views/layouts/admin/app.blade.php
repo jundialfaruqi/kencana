@@ -185,7 +185,7 @@
                     </div> --}}
                     <!-- Theme Toggle -->
                     <button id="theme-toggle"
-                        class="btn btn-circle btn-sm btn-secondary hover:bg-neutral hover:text-primary-content">
+                        class="btn btn-circle btn-sm btn-primary hover:bg-base hover:text-base-content">
                         <!-- Sun Icon -->
                         <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -420,7 +420,7 @@
                         </li>
                         {{-- @endcan --}}
                         <li class="mt-4">
-                            <a class="text-secondary font-medium">
+                            <a class="text-primary font-medium">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"

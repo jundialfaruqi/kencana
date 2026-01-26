@@ -25,7 +25,7 @@
 
         <div class="relative z-10 flex flex-col min-h-screen">
             <div id="navbar"
-                class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-5 py-3 border-b border-info/5 transition-transform duration-300">
+                class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-4 sm:px-6 py-3 border-b border-info/5 transition-transform duration-300">
                 <div class="navbar-start">
                     <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
@@ -38,7 +38,7 @@
                                 Kencana
                             </span>
                             <span
-                                class="text-[9px] sm:text-[10px] font-medium italic tracking-widest uppercase text-base-content -mt-0.2 sm:-mt-0.2">
+                                class="text-[9px] sm:text-[10px] font-medium italic tracking-widest uppercase text-base-content/50 -mt-0.2 sm:-mt-0.2">
                                 Mini Soccer
                             </span>
                         </div>
