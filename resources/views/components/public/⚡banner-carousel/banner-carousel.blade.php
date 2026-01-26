@@ -39,7 +39,7 @@
                     class="carousel w-full rounded-2xl sm:rounded-3xl shadow-2xl aspect-video sm:aspect-21/9 scroll-smooth">
                     <!-- Banner 1: Peresmian -->
                     <div class="carousel-item relative w-full overflow-hidden">
-                        <img src="{{ asset('assets/images/landing-pages/banners/gb-1.jpg') }}"
+                        <img src="{{ asset('assets/images/landing-pages/banners/bc-1.webp') }}"
                             class="w-full h-full object-cover" alt="Peresmian Kencana Mini Soccer" />
                         <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
                         <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
@@ -57,10 +57,11 @@
 
                     <!-- Banner 2: Gratis -->
                     <div class="carousel-item relative w-full overflow-hidden">
-                        <img src="{{ asset('assets/images/landing-pages/banners/gb-2.jpg') }}"
+                        <img src="{{ asset('assets/images/landing-pages/banners/bc-2.webp') }}"
                             class="w-full h-full object-cover" alt="Gratis Untuk Umum" />
-                        <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
-                        <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
+                        <div class="absolute inset-0 bg-linear-to-r from-transparent via-black/40 to-black/80"></div>
+                        <div
+                            class="absolute inset-0 flex flex-col justify-center items-end text-right px-6 sm:px-12 gap-1 sm:gap-2">
                             <span
                                 class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Public
                                 Service</span>
@@ -76,7 +77,7 @@
 
                     <!-- Banner 3: Lokasi -->
                     <div class="carousel-item relative w-full overflow-hidden">
-                        <img src="{{ asset('assets/images/landing-pages/banners/gb-3.jpg') }}"
+                        <img src="{{ asset('assets/images/landing-pages/banners/bc-3.webp') }}"
                             class="w-full h-full object-cover" alt="Lokasi Strategis" />
                         <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
                         <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
@@ -93,10 +94,11 @@
 
                     <!-- Banner 4: Gaya Hidup Sehat -->
                     <div class="carousel-item relative w-full overflow-hidden">
-                        <img src="{{ asset('assets/images/landing-pages/banners/gb-4.jpg') }}"
+                        <img src="{{ asset('assets/images/landing-pages/banners/bc-4.webp') }}"
                             class="w-full h-full object-cover" alt="Healthy Lifestyle" />
-                        <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
-                        <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
+                        <div class="absolute inset-0 bg-linear-to-r from-transparent via-black/40 to-black/80"></div>
+                        <div
+                            class="absolute inset-0 flex flex-col justify-center items-end text-right px-6 sm:px-12 gap-1 sm:gap-2">
                             <span
                                 class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">Healthy</span>
                             <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">

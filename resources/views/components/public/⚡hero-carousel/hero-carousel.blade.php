@@ -58,7 +58,7 @@
                             alt="Badminton Arena" />
                         <!-- Coming Soon Overlay -->
                         <div
-                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
                             <span
                                 class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
                                 Coming Soon
@@ -96,7 +96,7 @@
                             alt="Basketball Court" />
                         <!-- Coming Soon Overlay -->
                         <div
-                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
                             <span
                                 class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
                                 Coming Soon
@@ -135,7 +135,7 @@
                             alt="Skate Park" />
                         <!-- Coming Soon Overlay -->
                         <div
-                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
                             <span
                                 class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
                                 Coming Soon
@@ -172,7 +172,7 @@
                             alt="Volleyball Court" />
                         <!-- Coming Soon Overlay -->
                         <div
-                            class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                            class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
                             <span
                                 class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
                                 Coming Soon
