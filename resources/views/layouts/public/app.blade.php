@@ -27,18 +27,18 @@
             <div id="navbar"
                 class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-5 py-3 border-b border-info/5 transition-transform duration-300">
                 <div class="navbar-start">
-                    <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
+                    <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-1.9 group cursor-pointer">
                         <div class="shrink-0">
                             <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
                                 class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         </div>
                         <div class="flex flex-col leading-none">
                             <span id="kencana-text" wire:ignore
-                                class="text-1xl sm:text-1xl font-black italic tracking-tighter uppercase text-info group-hover:text-base-content transition-colors min-w-25">
+                                class="text-[21.4px] sm:text-[24.3px] font-black italic tracking-tighter uppercase text-info group-hover:text-base-content transition-colors min-w-25">
                                 Kencana
                             </span>
                             <span
-                                class="text-xs font-bold italic tracking-wider uppercase text-base-content -mt-0.2 sm:-mt-0.2">
+                                class="text-[9px] sm:text-[10px] font-medium italic tracking-widest uppercase text-base-content -mt-0.2 sm:-mt-0.2">
                                 Mini Soccer
                             </span>
                         </div>
