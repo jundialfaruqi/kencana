@@ -29,7 +29,7 @@
     </div>
 
     <div wire:key="login-card"
-        class="card w-full max-w-md bg-base backdrop-blur-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden relative z-10">
+        class="card w-full max-w-md bg-base backdrop-blur-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10">
         <!-- Sporty Accent Line (Top Border with Glow) -->
         <div
             class="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
@@ -46,7 +46,8 @@
                     <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-info">
                         KENCANA <span class="text-warning">SPORT</span>
                     </h3>
-                    <div class="text-xs text-base-content text-center font-bold italic tracking-tighter uppercase">MINI
+                    <div class="text-xs text-base-content/50 text-center font-bold italic tracking-tighter uppercase">
+                        MINI
                         SOCCER</div>
                 </div>
 
@@ -149,7 +150,19 @@
                     </a>
                 </form>
 
-                <div class="mt-4 text-center border-t border-white/10 pt-6">
+                <div
+                    class="flex items-center justify-center gap-4 sm:gap-5 mt-8 grayscale opacity-100 hover:grayscale-0 hover:opacity-200 transition-all duration-500">
+                    <img src="{{ asset('assets/images/logo/aman.webp') }}" alt="Aman"
+                        class="h-4.5 sm:h-5.5 object-contain">
+                    <img src="{{ asset('assets/images/logo/bangun-negeri.webp') }}" alt="Bangun Negeri"
+                        class="h-4.5 sm:h-5.5 object-contain">
+                    <img src="{{ asset('assets/images/logo/dispora.webp') }}" alt="Dispora"
+                        class="h-4.5 sm:h-5.5 object-contain">
+                    <img src="{{ asset('assets/images/logo/logo-diskominfo-pekanbaru.webp') }}" alt="Diskominfo"
+                        class="h-4.5 sm:h-5.5 object-contain">
+                </div>
+
+                <div class="mt-2 text-center border-t border-white/10 pt-3">
                     <p
                         class="text-[10px] sm:text-xs font-medium opacity-50 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
                         Powered by DISKOMINFOTIKSAN
