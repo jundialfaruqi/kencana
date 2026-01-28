@@ -223,7 +223,7 @@
 
             <footer class="footer footer-center p-4 bg-base-100 text-base-content border-t border-base-200 mt-auto">
                 <aside>
-                    <p>Copyright © {{ date('Y') }} - <span class="font-bold">DISKOMINFO</span></p>
+                    <p>Copyright © {{ date('Y') }} - <span class="font-bold">DISKOMINFOTIKSAN</span></p>
                 </aside>
             </footer>
         </div>
