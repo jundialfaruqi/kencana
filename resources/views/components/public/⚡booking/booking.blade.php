@@ -212,7 +212,7 @@
                         </div>
 
                         <!-- Sporty Info Card -->
-                        <div class="bg-warning rounded-3xl p-6 -rotate-2 shadow-lg">
+                        <div class="bg-warning rounded-3xl p-6 shadow-lg">
                             <div class="flex items-center gap-3 mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2.5" stroke="currentColor" class="size-6 text-warning-content">
