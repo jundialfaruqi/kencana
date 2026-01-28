@@ -44,7 +44,7 @@
                             alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
                     </div>
                     <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-info">
-                        KENCANA <span class="text-warning">SPORT</span>
+                        KENCANA
                     </h3>
                     <div class="text-xs text-base-content/50 text-center font-bold italic tracking-tighter uppercase">
                         MINI

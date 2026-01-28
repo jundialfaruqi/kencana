@@ -223,8 +223,7 @@
 
             <footer class="footer footer-center p-4 bg-base-100 text-base-content border-t border-base-200 mt-auto">
                 <aside>
-                    <p>Copyright © {{ date('Y') }} - All right reserved by <span class="font-bold">KENCANA - Mini
-                            Soccer</span></p>
+                    <p>Copyright © {{ date('Y') }} - <span class="font-bold">DISKOMINFO</span></p>
                 </aside>
             </footer>
         </div>
