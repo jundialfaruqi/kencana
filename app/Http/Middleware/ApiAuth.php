@@ -23,8 +23,8 @@ class ApiAuth
         if ($role) {
             $user = Session::get('user_data');
 
-            if (!$user || $user['role'] !== $role) {
-                // Jika bukan admin tapi mencoba akses dashboard, lempar ke home
+            if (!$user || ($role === 'admin' && !in_array($user['role'], ['admin', 'superadmin'])) || ($role !== 'admin' && $user['role'] !== $role)) {
+                // Jika bukan admin atau superadmin tapi mencoba akses dashboard, lempar ke home
                 if ($role === 'admin') {
                     return redirect('/');
                 }

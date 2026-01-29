@@ -25,8 +25,8 @@ new #[Layout('layouts::public.app')] #[Title('Profil Saya')] class extends Compo
 
         $this->user = Session::get('user_data');
 
-        // Proteksi Role: Jika admin, lempar ke dashboard
-        if ($this->user && $this->user['role'] === 'admin') {
+        // Proteksi Role: Jika admin atau superadmin, lempar ke dashboard
+        if ($this->user && in_array($this->user['role'], ['admin', 'superadmin'])) {
             return $this->redirect('/dashboard', navigate: true);
         }
     }

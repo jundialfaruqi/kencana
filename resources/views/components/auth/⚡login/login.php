@@ -37,7 +37,7 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
     {
         if (Session::has('auth_token')) {
             $user = Session::get('user_data');
-            if ($user && $user['role'] === 'admin') {
+            if ($user && in_array($user['role'], ['admin', 'superadmin'])) {
                 return $this->redirect('/dashboard', navigate: true);
             }
             return $this->redirect('/', navigate: true);
@@ -69,7 +69,7 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
                 // Redirect berdasarkan role
                 $role = $result['data']['user']['role'];
 
-                if ($role === 'admin') {
+                if (in_array($role, ['admin', 'superadmin'])) {
                     return $this->redirect('/dashboard', navigate: true);
                 }
 
@@ -89,7 +89,7 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
             // Handle error dari API (401 atau lainnya)
             $message = $result['message'] ?? 'Login gagal, silakan coba lagi.';
             $this->addError('loginError', $message);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->addError('loginError', 'Terjadi kesalahan sistem. Silakan coba beberapa saat lagi.');
         }
     }

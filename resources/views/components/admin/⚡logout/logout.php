@@ -24,7 +24,7 @@ new class extends Component
 
         Session::forget(['auth_token', 'user_data']);
 
-        if ($role === 'admin') {
+        if (in_array($role, ['admin', 'superadmin'])) {
             return $this->redirect('/login', navigate: true);
         }
 
