@@ -23,13 +23,13 @@
         }
     </style>
     <script>
-        function initKencanaAnimation() {
+        function initAmanAnimation() {
             gsap.registerPlugin(TextPlugin);
-            const kencanaText = document.getElementById('kencana-text');
+            const amanText = document.getElementById('aman-text');
 
-            if (kencanaText) {
-                kencanaText.classList.add('typing-cursor');
-                gsap.set(kencanaText, {
+            if (amanText) {
+                amanText.classList.add('typing-cursor');
+                gsap.set(amanText, {
                     text: ""
                 });
 
@@ -38,15 +38,15 @@
                     delay: 0.5,
                     onComplete: () => {
                         // Hilangkan kursor setelah selesai
-                        setTimeout(() => kencanaText.classList.remove('typing-cursor'), 2000);
+                        setTimeout(() => amanText.classList.remove('typing-cursor'), 1500);
                     }
                 });
 
-                // Ketik langsung KENCANA
-                tl.to(kencanaText, {
-                    duration: 1.5,
+                // Ketik langsung AMAN
+                tl.to(amanText, {
+                    duration: 1.2,
                     text: {
-                        value: "KENCANA"
+                        value: "AMAN"
                     },
                     ease: "none"
                 });
@@ -54,7 +54,7 @@
         }
 
         document.addEventListener('livewire:navigated', () => {
-            initKencanaAnimation();
+            initAmanAnimation();
 
             let lastScrollTop = 0;
             const navbar = document.getElementById('navbar');
@@ -82,7 +82,7 @@
                 succeed
             }) => {
                 succeed(() => {
-                    setTimeout(() => initKencanaAnimation(), 0);
+                    setTimeout(() => initAmanAnimation(), 0);
                 });
             });
         });

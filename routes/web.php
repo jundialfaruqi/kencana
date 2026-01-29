@@ -13,5 +13,12 @@ Route::livewire('/booking', 'public::public.booking');
 Route::livewire('/store', 'public::public.store');
 Route::livewire('/', 'public::landing-page');
 
+// Protected Public Route
+Route::middleware(['api.auth'])->group(function () {
+    Route::livewire('/profile', 'public::public.profile');
+});
+
 // Admin Route
-Route::livewire('/dashboard', 'admin::dashboard');
+Route::middleware(['api.auth:admin'])->group(function () {
+    Route::livewire('/dashboard', 'admin::dashboard');
+});

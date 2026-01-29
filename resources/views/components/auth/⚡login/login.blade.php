@@ -20,11 +20,11 @@
         <!-- Large Background Text (Sporty Vibe) -->
         <div
             class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/4 rotate-90 text-[15rem] font-black opacity-[0.02] select-none uppercase italic leading-none">
-            KENCANA
+            AMAN
         </div>
         <div
             class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 -rotate-90 text-[15rem] font-black opacity-[0.02] select-none uppercase italic leading-none text-right">
-            SPORT
+            ARENA
         </div>
     </div>
 
@@ -39,19 +39,33 @@
             <div class="card-body p-8" wire:key="login-form-container" x-transition>
                 <div class="flex flex-col items-center mb-8">
                     <div>
-                        <!-- Logo Kencana Mini Soccer -->
+                        <!-- Logo AMAN Arena -->
                         <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
                             alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
                     </div>
                     <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-info">
-                        KENCANA
+                        AMAN <span
+                            class="text-xl sm:text-3xl text-warning text-center font-black italic tracking-tighter uppercase">
+                            ARENA</span>
                     </h3>
-                    <div class="text-xs text-base-content/50 text-center font-bold italic tracking-tighter uppercase">
-                        MINI
-                        SOCCER</div>
+                    {{-- <div class="text-xs text-base-content/50 text-center font-bold italic tracking-tighter uppercase">
+                        ARENA
+                    </div> --}}
                 </div>
 
-                <form class="space-y-6">
+                <form class="space-y-6" wire:submit.prevent="authenticate">
+                    @if ($errors->has('loginError'))
+                        <div
+                            class="alert alert-warning shadow-lg py-2 text-xs font-bold italic uppercase tracking-wider">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-4 w-4"
+                                fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{{ $errors->first('loginError') }}</span>
+                        </div>
+                    @endif
+
                     <div class="form-control">
                         <label class="label">
                             <span
@@ -64,9 +78,14 @@
                                 Email Address
                             </span>
                         </label>
-                        <input type="email" placeholder="kencana@email.com"
-                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic"
-                            required autofocus />
+                        <input type="text" wire:model="email" placeholder="contoh@email.com"
+                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic @error('email') input-warning @enderror"
+                            autofocus />
+                        @error('email')
+                            <label class="label p-0 mt-1">
+                                <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
+                            </label>
+                        @enderror
                     </div>
 
                     <div class="form-control">
@@ -82,9 +101,9 @@
                             </span>
                         </label>
                         <div class="relative group/input">
-                            <input :type="showPassword ? 'text' : 'password'" placeholder="••••••••"
-                                class="input input-bordered focus:input-info bg-base-200/50 mb-2 w-full pr-12 italic"
-                                required />
+                            <input :type="showPassword ? 'text' : 'password'" wire:model="password"
+                                placeholder="••••••••"
+                                class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic @error('password') input-warning @enderror" />
                             <div class="absolute right-4 top-2">
                                 <label class="swap text-base-content/30 hover:text-info transition-colors">
                                     <input type="checkbox" x-model="showPassword" />
@@ -105,7 +124,12 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between mt-2">
+                        @error('password')
+                            <label class="label">
+                                <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
+                            </label>
+                        @enderror
+                        <div class="flex items-center justify-between mt-4">
                             <label class="label text-xs cursor-pointer justify-start gap-3 p-0">
                                 <input type="checkbox" class="checkbox checkbox-sm checkbox-info" />
                                 <span class="label-text font-medium">Keep me in the game</span>
@@ -117,10 +141,11 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 mt-4">
-                        <button type="button"
+                        <button type="submit" wire:loading.attr="disabled"
                             class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
-                            Enter Kencana
-                            <svg xmlns="http://www.w3.org/2000/svg"
+                            <span wire:loading.remove>Enter Aman Arena</span>
+                            <span wire:loading>Authenticating...</span>
+                            <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg"
                                 class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -130,8 +155,8 @@
                         <a href="/register" wire:navigate
                             class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
                             Buat Akun
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor" class="size-4 ml-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="size-4 ml-1">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                             </svg>

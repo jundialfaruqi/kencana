@@ -472,7 +472,6 @@
                                     </a>
                                 </li>
                                 <li>
-                                    {{-- <form id="logout-form" method="POST" action="{{ route('logout') }}"> --}}
                                     @csrf
                                     <button type="button" onclick="logout_modal.showModal()"
                                         class="flex items-center gap-2 cursor-pointer w-full text-left">
@@ -483,7 +482,6 @@
                                         </svg>
                                         Logout
                                     </button>
-                                    {{-- </form> --}}
                                 </li>
                             </ul>
                         </div>
@@ -500,8 +498,7 @@
                         <form method="dialog">
                             <button class="btn btn-ghost">Batal</button>
                         </form>
-                        <button type="button" onclick="document.getElementById('logout-form').submit()"
-                            class="btn btn-error text-white">Logout</button>
+                        <livewire:admin::logout />
                     </div>
                 </div>
                 <form method="dialog" class="modal-backdrop">

@@ -33,13 +33,13 @@
                                 class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         </div>
                         <div class="flex flex-col leading-none">
-                            <span id="kencana-text" wire:ignore
+                            <span id="aman-text" wire:ignore
                                 class="text-[21.4px] sm:text-[24.3px] font-black italic tracking-tighter uppercase text-info group-hover:text-base-content transition-colors min-w-25">
-                                Kencana
+                                AMAN
                             </span>
                             <span
-                                class="text-[9px] sm:text-[10px] font-medium italic tracking-widest uppercase text-base-content/50 -mt-0.2 sm:-mt-0.2">
-                                Mini Soccer
+                                class="text-[11px] sm:text-[12px] font-bold uppercase text-base-content/50 tracking-[0.2em] -mt-0.2 sm:-mt-0.2 transform -skew-x-12">
+                                Arena
                             </span>
                         </div>
                     </a>
@@ -129,7 +129,7 @@
                         class="dock-label text-[8px] sm:text-[9px] font-black italic uppercase tracking-wider">History</span>
                 </button>
 
-                <a wire:navigate href="/login" wire:current="dock-active text-info"
+                <a wire:navigate href="/profile" wire:current="dock-active text-info"
                     class="hover:text-info opacity-70 hover:opacity-100 transition-all duration-700 group relative flex flex-col items-center justify-center">
                     @if (request()->is('login*') || request()->is('profile*'))
                         <div
