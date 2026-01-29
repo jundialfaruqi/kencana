@@ -94,6 +94,17 @@
                     </div>
 
                     <form class="space-y-6" wire:submit.prevent="register" enctype="multipart/form-data">
+                        @if ($errors->has('registerError'))
+                            <div
+                                class="alert bg-warning/20 border border-warning text-white shadow-lg py-2 text-xs font-bold italic uppercase tracking-wider">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-5 w-5"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>{{ $errors->first('registerError') }}</span>
+                            </div>
+                        @endif
                         <!-- Nama -->
                         <div class="form-control">
                             <label class="label">
@@ -330,7 +341,8 @@
                                 </div>
                                 @error('password_confirmation')
                                     <label class="label p-0 mt-1">
-                                        <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
+                                        <span
+                                            class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
                                     </label>
                                 @enderror
                             </div>

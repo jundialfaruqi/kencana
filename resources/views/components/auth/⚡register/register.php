@@ -7,6 +7,8 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 
 new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component {
     use WithFileUploads;
@@ -109,6 +111,16 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
     {
         $this->validate();
 
+        // Rate limiting: Max 100 registrations per day
+        $dailyLimit = 100;
+        $cacheKey = 'daily_registrations_' . Carbon::now()->format('Y-m-d');
+        $currentCount = Cache::get($cacheKey, 0);
+
+        if ($currentCount >= $dailyLimit) {
+            $this->addError('registerError', 'Batas registrasi harian telah tercapai. Silakan coba lagi besok.');
+            return;
+        }
+
         try {
             // Persiapkan data untuk dikirim ke API
             $formData = [
@@ -132,6 +144,9 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
             $result = $response->json();
 
             if ($response->successful() && $result['success']) {
+                // Increment registration count
+                Cache::put($cacheKey, $currentCount + 1, Carbon::now()->endOfDay());
+
                 // Tampilkan pesan sukses
                 $this->registrationSuccess = true;
                 $this->successMessage = $result['message'];
