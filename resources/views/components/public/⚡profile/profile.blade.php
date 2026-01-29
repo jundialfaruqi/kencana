@@ -42,10 +42,12 @@
                                         <span
                                             class="text-xs font-medium text-base-content/50 italic">{{ $user['email'] ?? '-' }}</span>
                                     </div>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <!-- Logout Button -->
+                                        <livewire:admin::logout />
+                                    </div>
                                 </div>
                             </div>
-                            <!-- Logout Button -->
-                            <livewire:admin::logout />
                         </div>
                     </div>
 
@@ -126,7 +128,7 @@
         <div class="w-full animate-pulse">
             <!-- Header Skeleton -->
             <div class="mb-8 px-2 flex items-center gap-4">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-base-300"></div>
+                <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
                 <div class="space-y-2">
                     <div class="h-6 sm:h-8 bg-base-300 w-48 rounded"></div>
                     <div class="h-3 bg-base-300 w-64 rounded"></div>

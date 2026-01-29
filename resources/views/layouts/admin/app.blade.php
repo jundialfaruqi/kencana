@@ -239,10 +239,9 @@
                             class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         <div class="flex flex-col">
                             <span
-                                class="font-black italic tracking-tighter uppercase text-base-content group-hover:text-base-content transition-colors leading-none">Kencana</span>
+                                class="font-black italic tracking-tighter uppercase text-base-content group-hover:text-base-content transition-colors leading-none">AMAN</span>
                             <span
-                                class="text-[10px] font-bold italic tracking-widest uppercase text-base-content/50 group-hover:text-base-content/70 transition-colors leading-none">Mini
-                                Soccer</span>
+                                class="text-[10px] font-bold italic tracking-widest uppercase text-base-content/50 group-hover:text-base-content/70 transition-colors leading-none">Arena</span>
                         </div>
                     </div>
                 </div>
@@ -473,7 +472,7 @@
                                 </li>
                                 <li>
                                     @csrf
-                                    <button type="button" onclick="logout_modal.showModal()"
+                                    <button type="button" onclick="logout_modal_profile.showModal()"
                                         class="flex items-center gap-2 cursor-pointer w-full text-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -489,26 +488,11 @@
                 </div>
             </aside>
 
-            <!-- Logout Confirmation Modal -->
-            <dialog id="logout_modal" class="modal">
-                <div class="modal-box">
-                    <h3 class="font-bold text-lg">Konfirmasi Logout</h3>
-                    <p class="py-4 text-base-content/70">Apakah Anda yakin ingin keluar dari sistem?</p>
-                    <div class="modal-action">
-                        <form method="dialog">
-                            <button class="btn btn-ghost">Batal</button>
-                        </form>
-                        <livewire:admin::logout />
-                    </div>
-                </div>
-                <form method="dialog" class="modal-backdrop">
-                    <button>close</button>
-                </form>
-            </dialog>
         </div>
 
     </div>
     @livewireScripts
+    <livewire:admin::logout />
     {{-- <script src="{{ asset('js/global-loading.js') }}"></script>
     <script src="{{ asset('js/theme-toggle.js') }}"></script>
     @stack('scripts') --}}
