@@ -7,3 +7,5 @@ gsap.registerPlugin(TextPlugin);
 
 window.gsap = gsap;
 window.TextPlugin = TextPlugin;
+
+import '../views/components/admin/⚡lapangan-detail/lapangan-detail.js';

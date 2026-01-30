@@ -1,0 +1,73 @@
+<div>
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+        <div>
+            <h1 class="text-xl font-bold">Manajemen Lapangan</h1>
+            <p class="text-sm text-base-content/60 mt-1">Daftar lapangan</p>
+        </div>
+        <div class="text-sm breadcrumbs text-base-content/60">
+            <ul>
+                <li><a href="#">Aman Arena</a></li>
+                <li>Settings</li>
+                <li>Lapangan</li>
+            </ul>
+        </div>
+    </div>
+    <div class="card" wire:init="load">
+
+        <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
+            <span class="loading loading-spinner loading-md"></span>
+        </div>
+        <div wire:loading.remove wire:target="load">
+            @if ($error)
+                <div class="alert alert-error mb-4">
+                    <span>{{ $error }}</span>
+                </div>
+            @else
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @forelse ($lapangan as $lp)
+                        <div class="card border-2 border-dashed border-base-300 bg-base-100">
+                            <div class="card-body">
+                                <div class="flex items-start justify-between">
+                                    <h2 class="card-title">{{ $lp['nama_lapangan'] ?? '-' }}</h2>
+                                    <span
+                                        class="badge {{ ($lp['status'] ?? '') === 'open' ? 'badge-success' : 'badge-warning' }}">
+                                        {{ $lp['status_label'] ?? ucfirst($lp['status'] ?? '-') }}
+                                    </span>
+                                </div>
+                                <p class="text-sm text-base-content/70">{{ $lp['deskripsi'] ?? '-' }}</p>
+                                <div class="mt-2 text-sm">
+                                    <div class="flex items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            class="w-4 h-4" stroke="currentColor" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19.5 10.5c0 7.5-7.5 10.5-7.5 10.5S4.5 18 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                        </svg>
+                                        <span>{{ $lp['alamat'] ?? '-' }}</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-xs text-base-content/60">
+                                    <span>Admin: {{ data_get($lp, 'admin.name', '-') }}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer p-3 bg-base-200 border-t border-base-200 rounded-b-xl">
+                                <a wire:navigate href="/lapangan-detail?id={{ $lp['id'] ?? 0 }}"
+                                    class="btn btn-sm btn-primary">
+                                    Detail Lapangan
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-span-full">
+                            <div class="alert">
+                                <span>Tidak ada data lapangan</span>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            @endif
+        </div>
+
+    </div>
+</div>

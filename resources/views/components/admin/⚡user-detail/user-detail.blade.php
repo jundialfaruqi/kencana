@@ -41,7 +41,7 @@
                                         </svg>
                                         <span class="text-base-content/70">Nama</span>
                                     </div>
-                                    <div class="mt-1 text-base font-medium">{{ $user['name'] ?? '-' }}</div>
+                                    <div class="mt-1 text-base">{{ $user['name'] ?? '-' }}</div>
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2">
@@ -53,7 +53,7 @@
 
                                         <span class="text-base-content/70">Email</span>
                                     </div>
-                                    <div class="mt-1 text-base font-medium">{{ $user['email'] ?? '-' }}</div>
+                                    <div class="mt-1 text-base">{{ $user['email'] ?? '-' }}</div>
                                 </div>
 
                                 <div>
@@ -91,7 +91,7 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <div class="mt-1 text-base font-medium">
+                                    <div class="mt-1 text-base">
                                         @if ($showNik)
                                             {{ $user['nik'] ?? '-' }}
                                         @else
@@ -108,7 +108,7 @@
                                         </svg>
                                         <span class="text-base-content/70">No. WA</span>
                                     </div>
-                                    <div class="mt-1 text-base font-medium">{{ $user['no_wa'] ?? '-' }}</div>
+                                    <div class="mt-1 text-base">{{ $user['no_wa'] ?? '-' }}</div>
                                 </div>
                             </div>
 

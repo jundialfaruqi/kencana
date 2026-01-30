@@ -112,12 +112,23 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
                 ]);
                 return;
             }
-            $this->error = $result['message'] ?? 'Gagal memperbarui data user';
-            $this->dispatch('toast', [
-                'title' => 'Gagal',
-                'message' => $this->error,
-                'type' => 'error',
-            ]);
+            $errors = $result['errors'] ?? ($result['data']['errors'] ?? null);
+            if (is_array($errors)) {
+                foreach ($errors as $field => $messages) {
+                    $messages = (array) $messages;
+                    foreach ($messages as $msg) {
+                        $this->addError($field, (string) $msg);
+                    }
+                }
+                $this->error = null;
+            } else {
+                $this->error = $result['message'] ?? 'Gagal memperbarui data user';
+                $this->dispatch('toast', [
+                    'title' => 'Gagal',
+                    'message' => $this->error,
+                    'type' => 'error',
+                ]);
+            }
         } catch (\Throwable $e) {
             $this->error = 'Terjadi kesalahan saat memperbarui data user';
             $this->dispatch('toast', [

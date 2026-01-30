@@ -32,6 +32,9 @@
                         </div>
                         <input type="text" class="input input-bordered w-full mt-1.5" wire:model.live="name"
                             placeholder="Nama lengkap">
+                        @error('name')
+                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                        @enderror
                     </label>
                     <label class="form-control w-full">
                         <div class="label">
@@ -39,6 +42,9 @@
                         </div>
                         <input type="email" class="input input-bordered w-full mt-1.5" wire:model.live="email"
                             placeholder="email@contoh.com">
+                        @error('email')
+                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                        @enderror
                     </label>
                     <label class="form-control w-full">
                         <div class="label">
@@ -46,6 +52,9 @@
                         </div>
                         <input type="text" class="input input-bordered w-full mt-1.5" wire:model.live="nik"
                             placeholder="Nomor Induk Kependudukan">
+                        @error('nik')
+                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                        @enderror
                     </label>
                     <label class="form-control w-full">
                         <div class="label">
@@ -61,6 +70,9 @@
                                 wire:model.live.debounce.300ms="phone_number" inputmode="numeric" pattern="[0-9]*"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
                         </div>
+                        @error('phone_number')
+                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                        @enderror
                     </label>
                     <label class="form-control w-full">
                         <div class="label">
@@ -85,17 +97,21 @@
                                 </label>
                             </div>
                         </div>
+                        @error('password')
+                            <p class="text-warning italic text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </label>
                 </div>
-                <div class="mt-6 flex items-center justify-end gap-2">
-                    <a wire:navigate href="/manajemen-user" class="btn btn-ghost" wire:loading.attr="disabled"
-                        wire:loading.class="btn-disabled pointer-events-none opacity-50" wire:target="submit">Batal</a>
-                    <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
-                        wire:target="submit">
-                        <span wire:loading.remove wire:target="submit">Update</span>
-                        <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
-                    </button>
-                </div>
+            </div>
+        </div>
+        <div class="card-footer p-4 rounded-b-xl">
+            <div class="flex items-center justify-end gap-2 rounded-b-xl">
+                <a wire:navigate href="/manajemen-user" class="btn btn-ghost" wire:loading.attr="disabled"
+                    wire:loading.class="btn-disabled pointer-events-none opacity-50" wire:target="submit">Batal</a>
+                <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled" wire:target="submit">
+                    <span wire:loading.remove wire:target="submit">Update</span>
+                    <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
+                </button>
             </div>
         </div>
     </div>

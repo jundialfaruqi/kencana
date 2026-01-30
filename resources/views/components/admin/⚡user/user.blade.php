@@ -42,7 +42,7 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    {{-- <th>No</th> --}}
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Role</th>
@@ -55,7 +55,7 @@
                             <tbody>
                                 @forelse ($this->filteredUsers as $u)
                                     <tr>
-                                        <td>{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td>
+                                        {{-- <td>{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td> --}}
                                         <td>{{ $u['name'] ?? '-' }}</td>
                                         <td>{{ $u['email'] ?? '-' }}</td>
                                         <td>{{ $u['role'] ?? '-' }}</td>
@@ -71,7 +71,7 @@
                                         <td>
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate href="/user-detail?id={{ $u['id'] ?? 0 }}"
-                                                    class="text-xs text-info" aria-label="Detail">
+                                                    class="text-xs text-secondary" aria-label="Detail">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -88,8 +88,7 @@
                                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                     </svg>
                                                 </a>
-                                                <label class="toggle toggle-xs text-base-content"
-                                                    aria-label="Toggle Status">
+                                                <label class="toggle toggle-xs text-blue" aria-label="Toggle Status">
                                                     <input type="checkbox" @checked(($u['is_active'] ?? false) === true)
                                                         wire:change="toggleUserStatus({{ $u['id'] ?? 0 }})"
                                                         wire:loading.attr="disabled" wire:target="toggleUserStatus">
