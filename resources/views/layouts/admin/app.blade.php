@@ -344,7 +344,7 @@
                         {{-- @role(['super-admin', 'admin']) --}}
                         <li>
                             <details
-                                {{ request()->is('manajemen-user*') || request()->is('user-detail*') || request()->routeIs('role_permission.*') ? 'open' : '' }}>
+                                {{ request()->is('manajemen-user*') || request()->is('user-detail*') || request()->is('user-update*') ? 'open' : '' }}>
                                 <summary class="group">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -356,7 +356,7 @@
                                 <ul>
                                     <li>
                                         <a wire:navigate href="/manajemen-user"
-                                            class="{{ request()->is('manajemen-user*') || request()->is('user-detail*') ? 'active bg-base-300 text-base-content font-medium' : '' }}">
+                                            class="{{ request()->is('manajemen-user*') || request()->is('user-detail*') || request()->is('user-update*') ? 'active bg-base-300 text-base-content font-medium' : '' }}">
                                             Manajemen User
                                         </a>
                                     </li>
@@ -547,7 +547,7 @@
                 window.__toastLastKey = key;
                 window.__toastLastAt = now;
                 var alert = document.createElement('div');
-                alert.className = 'alert bg-white text-base-content shadow-xl';
+                alert.className = 'alert bg-white text-black shadow-xl';
                 var iconWrap = document.createElement('div');
                 iconWrap.className = (type === 'error' ? 'bg-red-600 text-white' : 'bg-blue-600 text-white') +
                     ' rounded-full p-1.5 flex items-center justify-center';
@@ -634,9 +634,27 @@
                             showToast(payload);
                         }
                     });
+                    window.Livewire.on('set-pending-toast', function(payload) {
+                        try {
+                            localStorage.setItem('pendingToast', JSON.stringify(payload));
+                        } catch (_) {}
+                    });
                     window.__toastLWBound = true;
                 }
                 window.__toastBound = true;
+                try {
+                    var pending = localStorage.getItem('pendingToast');
+                    if (pending) {
+                        localStorage.removeItem('pendingToast');
+                        var payloadObj;
+                        try {
+                            payloadObj = JSON.parse(pending);
+                        } catch (_) {
+                            payloadObj = pending;
+                        }
+                        showToast(payloadObj);
+                    }
+                } catch (_) {}
             }
             document.addEventListener('DOMContentLoaded', bindToast);
             document.addEventListener('livewire:navigated', bindToast);
