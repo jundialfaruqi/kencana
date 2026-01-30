@@ -1,0 +1,9 @@
+{
+    "success": true,
+    "message": "User jundi22 berhasil diaktifkan"
+}
+
+{
+    "success": true,
+    "message": "User jundi22 berhasil dinonaktifkan dan seluruh sesi login dihentikan"
+}

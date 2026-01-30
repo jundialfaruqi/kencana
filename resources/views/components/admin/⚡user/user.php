@@ -83,4 +83,29 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
             return str_contains($name, $q) || str_contains($email, $q) || str_contains($nik, $q);
         }));
     }
+    public function toggleUserStatus(int $id): void
+    {
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim(config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/user/' . $id . '/status';
+            /** @var \Illuminate\Http\Client\Response $response */
+            $response = Http::withToken($token)->accept('application/json')->post($url);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                foreach ($this->users as &$u) {
+                    if (($u['id'] ?? null) === $id) {
+                        $u['is_active'] = !((bool)($u['is_active'] ?? false));
+                        break;
+                    }
+                }
+                unset($u);
+                $this->error = null;
+                return;
+            }
+            $this->error = $result['message'] ?? 'Gagal mengubah status user';
+        } catch (\Throwable $e) {
+            $this->error = 'Terjadi kesalahan saat mengubah status user';
+        }
+    }
 };

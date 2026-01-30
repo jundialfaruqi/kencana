@@ -69,15 +69,35 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a wire:navigate href="/user-detail?id={{ $u['id'] ?? 0 }}"
-                                                class="btn btn-ghost btn-xs" aria-label="Detail">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    class="w-4 h-4">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                                </svg>
-                                            </a>
+                                            <div class="flex items-center gap-3">
+                                                <a wire:navigate href="/user-detail?id={{ $u['id'] ?? 0 }}"
+                                                    class="text-xs text-info" aria-label="Detail">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                                                    </svg>
+                                                </a>
+                                                <label class="toggle text-base-content" aria-label="Toggle Status">
+                                                    <input type="checkbox" @checked(($u['is_active'] ?? false) === true)
+                                                        wire:change="toggleUserStatus({{ $u['id'] ?? 0 }})"
+                                                        wire:loading.attr="disabled" wire:target="toggleUserStatus">
+                                                    <svg aria-label="enabled" xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24">
+                                                        <g stroke-linejoin="round" stroke-linecap="round"
+                                                            stroke-width="4" fill="none" stroke="currentColor">
+                                                            <path d="M20 6 9 17l-5-5"></path>
+                                                        </g>
+                                                    </svg>
+                                                    <svg aria-label="disabled" xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M18 6 6 18" />
+                                                        <path d="m6 6 12 12" />
+                                                    </svg>
+                                                </label>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
