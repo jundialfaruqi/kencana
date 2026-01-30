@@ -7,7 +7,7 @@
         </div>
         <div class="text-sm breadcrumbs text-base-content/60">
             <ul>
-                <li><a href="#">Kencana</a></li>
+                <li><a href="#">Aman Arena</a></li>
                 <li>Dashboard</li>
                 {{-- <li><a href="{{ route('opd.index') }}"><span class="text-base-content">Master OPD</span></a></li> --}}
             </ul>

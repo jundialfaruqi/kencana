@@ -25,7 +25,7 @@
     @stack('styles')
 </head>
 
-<body class="bg-base-200 font-sans text-base-content" data-theme="goldcandy">
+<body class="bg-base-200 font-sans text-base-content">
 
     <div class="drawer lg:drawer-open">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
@@ -252,8 +252,8 @@
                         <li class="menu-title text-xs font-semibold opacity-50 uppercase mb-1">Overview</li>
 
                         <li>
-                            <a wire:navigate href="#"
-                                class="{{ request()->routeIs('dashboard.*') ? 'active bg-base-200 text-base-content font-medium' : '' }}">
+                            <a wire:navigate href="/dashboard"
+                                class="{{ request()->is('dashboard*') ? 'active bg-base-300 text-base-content font-medium' : '' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -285,7 +285,7 @@
                         {{-- @can('view-event') --}}
                         <li>
                             <a wire:navigate href="#"
-                                class="{{ request()->routeIs('event.*') ? 'active bg-base-200 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                                class="{{ request()->routeIs('event.*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                 <div class="flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -344,20 +344,20 @@
                         {{-- @role(['super-admin', 'admin']) --}}
                         <li>
                             <details
-                                {{ request()->routeIs('users.*') || request()->routeIs('role_permission.*') ? 'open' : '' }}>
+                                {{ request()->is('manajemen-user*') || request()->routeIs('role_permission.*') ? 'open' : '' }}>
                                 <summary class="group">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                     </svg>
-                                    User Management
+                                    User
                                 </summary>
                                 <ul>
                                     <li>
-                                        <a wire:navigate href="#"
-                                            class="{{ request()->routeIs('users.*') ? 'active bg-base-200 text-base-content font-medium' : '' }}">
-                                            Users
+                                        <a wire:navigate href="/manajemen-user"
+                                            class="{{ request()->is('manajemen-user*') ? 'active bg-base-300 text-base-content font-medium' : '' }}">
+                                            Manajemen User
                                         </a>
                                     </li>
                                     {{-- @role('super-admin') --}}
@@ -492,6 +492,43 @@
 
     </div>
     @livewireScripts
+    <script>
+        (function() {
+            function setIcons(theme) {
+                var sun = document.getElementById('sun-icon');
+                var moon = document.getElementById('moon-icon');
+                if (!sun || !moon) return;
+                if (theme === 'chaotictoast') {
+                    sun.classList.add('hidden');
+                    moon.classList.remove('hidden');
+                } else {
+                    sun.classList.remove('hidden');
+                    moon.classList.add('hidden');
+                }
+            }
+
+            function init() {
+                var body = document.body;
+                var saved = localStorage.getItem('adminTheme');
+                var current = saved || body.getAttribute('data-theme') || 'goldcandy';
+                body.setAttribute('data-theme', current);
+                setIcons(current);
+                var btn = document.getElementById('theme-toggle');
+                if (btn && !btn.__bound) {
+                    btn.addEventListener('click', function() {
+                        var now = body.getAttribute('data-theme') || 'goldcandy';
+                        var next = now === 'goldcandy' ? 'chaotictoast' : 'goldcandy';
+                        body.setAttribute('data-theme', next);
+                        localStorage.setItem('adminTheme', next);
+                        setIcons(next);
+                    });
+                    btn.__bound = true;
+                }
+            }
+            document.addEventListener('DOMContentLoaded', init);
+            document.addEventListener('livewire:navigated', init);
+        })();
+    </script>
     <livewire:admin::logout />
     {{-- <script src="{{ asset('js/global-loading.js') }}"></script>
     <script src="{{ asset('js/theme-toggle.js') }}"></script>

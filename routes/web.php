@@ -17,4 +17,7 @@ Route::middleware(['api.auth'])->group(function () {
 // Admin Route
 Route::middleware(['api.auth:admin'])->group(function () {
     Route::livewire('/dashboard', 'admin::dashboard');
+
+    // Manajemen User
+    Route::livewire('/manajemen-user', 'admin::user');
 });
