@@ -101,11 +101,23 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
                 }
                 unset($u);
                 $this->error = null;
+                $this->dispatch('toast', [
+                    'message' => $result['message'] ?? 'Status user berhasil diubah',
+                    'type' => 'success',
+                ]);
                 return;
             }
             $this->error = $result['message'] ?? 'Gagal mengubah status user';
+            $this->dispatch('toast', [
+                'message' => $this->error,
+                'type' => 'error',
+            ]);
         } catch (\Throwable $e) {
             $this->error = 'Terjadi kesalahan saat mengubah status user';
+            $this->dispatch('toast', [
+                'message' => $this->error,
+                'type' => 'error',
+            ]);
         }
     }
 };
