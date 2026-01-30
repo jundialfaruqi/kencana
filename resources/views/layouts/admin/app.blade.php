@@ -344,7 +344,7 @@
                         {{-- @role(['super-admin', 'admin']) --}}
                         <li>
                             <details
-                                {{ request()->is('manajemen-user*') || request()->routeIs('role_permission.*') ? 'open' : '' }}>
+                                {{ request()->is('manajemen-user*') || request()->is('user-detail*') || request()->routeIs('role_permission.*') ? 'open' : '' }}>
                                 <summary class="group">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -356,18 +356,10 @@
                                 <ul>
                                     <li>
                                         <a wire:navigate href="/manajemen-user"
-                                            class="{{ request()->is('manajemen-user*') ? 'active bg-base-300 text-base-content font-medium' : '' }}">
+                                            class="{{ request()->is('manajemen-user*') || request()->is('user-detail*') ? 'active bg-base-300 text-base-content font-medium' : '' }}">
                                             Manajemen User
                                         </a>
                                     </li>
-                                    {{-- @role('super-admin') --}}
-                                    <li>
-                                        <a href="#"
-                                            class="{{ request()->routeIs('role_permission.*') ? 'active bg-base-200 text-base-content font-medium' : '' }}">
-                                            Role & Permissions
-                                        </a>
-                                    </li>
-                                    {{-- @endrole --}}
                                 </ul>
                             </details>
                         </li>

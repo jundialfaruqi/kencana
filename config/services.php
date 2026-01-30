@@ -37,6 +37,7 @@ return [
 
     'api' => [
         'base_url' => env('API_BASE_URL'),
+        'image_base_url' => env('IMAGE_BASE_URL', env('API_BASE_URL')),
     ],
 
 ];
