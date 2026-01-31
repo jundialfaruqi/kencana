@@ -79,27 +79,31 @@
                                 </span>
                             </div>
                             <div class="mt-4 space-y-2 text-sm">
-                                <div class="flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        class="w-4 h-4" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 10.5c0 7.5-7.5 10.5-7.5 10.5S4.5 18 4.5 10.5a7.5 7.5 0 1115 0z" />
-                                    </svg>
-                                    <span>{{ data_get($lapangan, 'alamat', '-') }}</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="badge badge-outline">Lat:
-                                        {{ data_get($lapangan, 'latitude', '-') }}</span>
-                                    <span class="badge badge-outline">Lng:
-                                        {{ data_get($lapangan, 'longitude', '-') }}</span>
-                                </div>
-                                <div class="text-xs text-base-content/60">
-                                    <span>Admin: {{ data_get($lapangan, 'admin.name', '-') }}</span>
+                                <div class="flex items-start gap-3 p-3 rounded-xl bg-base-200 border border-base-200">
+                                    <div class="bg-secondary p-2 rounded-3xl">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5 text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-semibold text-base-content/60">Alamat</p>
+                                        <p class="text-sm font-medium text-base-content truncate">
+                                            {{ data_get($lapangan, 'alamat', '-') }}
+                                        </p>
+                                        <div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1">
+                                            <span class="font-mono text-xs">Lat:
+                                                {{ data_get($lapangan, 'latitude', '-') }}</span>
+                                            <span class="font-mono text-xs">Lng:
+                                                {{ data_get($lapangan, 'longitude', '-') }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mt-4">
-                                    <h3 class="text-sm font-semibold mb-2">Lokasi</h3>
+                                    <h3 class="text-sm text-center font-semibold mb-2">Maps</h3>
                                     <div class="w-full rounded-2xl overflow-hidden aspect-video bg-base-200"
                                         data-lat="{{ data_get($lapangan, 'latitude', '') }}"
                                         data-lng="{{ data_get($lapangan, 'longitude', '') }}"
@@ -108,6 +112,9 @@
                                         data-status="{{ data_get($lapangan, 'status_label', ucfirst(data_get($lapangan, 'status', '-'))) }}">
                                         <div id="lapangan-map" class="w-full h-full z-0" wire:ignore></div>
                                     </div>
+                                </div>
+                                <div class="text-xs text-center text-base-content/60 mt-2">
+                                    <span>Admin: {{ data_get($lapangan, 'admin.name', '-') }}</span>
                                 </div>
                             </div>
                         </div>
