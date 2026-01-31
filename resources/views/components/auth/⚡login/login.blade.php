@@ -143,7 +143,7 @@
                     <div class="grid grid-cols-2 gap-3 mt-4">
                         <button type="submit" wire:loading.attr="disabled"
                             class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
-                            <span wire:loading.remove>Enter Aman Arena</span>
+                            <span wire:loading.remove>Masuk</span>
                             <span wire:loading>Authenticating...</span>
                             <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg"
                                 class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
