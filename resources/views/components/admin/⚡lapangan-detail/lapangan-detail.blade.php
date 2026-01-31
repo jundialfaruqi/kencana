@@ -74,7 +74,7 @@
                                     </p>
                                 </div>
                                 <span
-                                    class="badge {{ data_get($lapangan, 'status') === 'open' ? 'badge-success' : 'badge-warning' }}">
+                                    class="badge {{ data_get($lapangan, 'status') === 'open' ? 'badge-success' : 'badge-warning' }} text-[11px] md:text-xs px-2 md:px-3 py-0.5 md:py-1">
                                     {{ data_get($lapangan, 'status_label', ucfirst(data_get($lapangan, 'status', '-'))) }}
                                 </span>
                             </div>

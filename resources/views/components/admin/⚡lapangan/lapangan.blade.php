@@ -35,7 +35,7 @@
                                 <div class="flex items-start justify-between">
                                     <h2 class="card-title">{{ $lp['nama_lapangan'] ?? '-' }}</h2>
                                     <span
-                                        class="badge {{ ($lp['status'] ?? '') === 'open' ? 'badge-success' : 'badge-warning' }}">
+                                        class="badge {{ ($lp['status'] ?? '') === 'open' ? 'badge-success' : 'badge-warning' }} text-[11px] md:text-xs px-2 md:px-3 py-0.5 md:py-1">
                                         {{ $lp['status_label'] ?? ucfirst($lp['status'] ?? '-') }}
                                     </span>
                                 </div>
