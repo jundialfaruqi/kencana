@@ -78,7 +78,14 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
         }
 
         try {
-            $response = Http::post(config('services.api.base_url') . '/login', [
+            $base = rtrim(config('services.api.base_url'), '/');
+            if ($base === '') {
+                $this->addError('loginError', 'Konfigurasi API tidak ditemukan.');
+                return;
+            }
+            $url = $base . '/v1/auth/login';
+            /** @var \Illuminate\Http\Client\Response $response */
+            $response = Http::accept('application/json')->post($url, [
                 'email' => $this->email,
                 'password' => $this->password,
             ]);
