@@ -54,89 +54,88 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
     {
         $this->validate();
 
-        // Rate limiting implementation
+        // Rate limiting configuration
         $maxAttempts = 5;
         $lockoutMinutes = 1;
         $attemptsKey = 'login_failed_attempts_' . md5($this->email);
         $lockoutKey = 'login_lockout_until_' . md5($this->email);
 
-        // Check if user is locked out
+        // 1. Cek Lockout
         $lockoutUntil = Session::get($lockoutKey);
         if ($lockoutUntil) {
-            // Hitung detik tersisa dengan urutan parameter yang benar: now()->diffInSeconds(future_date, false)
             $remainingSeconds = Carbon::now()->diffInSeconds($lockoutUntil, false);
             if ($remainingSeconds > 0) {
-                // Konversi ke detik bulat untuk kemudahan user
                 $remainingSeconds = ceil($remainingSeconds);
                 $this->addError('loginError', "Terlalu banyak upaya gagal. Silakan coba lagi dalam {$remainingSeconds} detik.");
                 return;
             } else {
-                // Reset lockout jika waktu sudah habis
                 Session::forget($lockoutKey);
                 Session::forget($attemptsKey);
             }
         }
 
         try {
-            $response = Http::post(config('services.api.base_url') . '/login', [
-                'email' => $this->email,
-                'password' => $this->password,
-            ]);
+            // 2. Hit API dengan penanganan SSL (withoutVerifying)
+            // Pastikan config/services.php sudah benar memanggil env('API_BASE_URL')
+            $apiUrl = config('services.api.base_url') . '/login';
+
+            $response = Http::withoutVerifying() // Solusi masalah SSL di banyak hosting
+                ->timeout(10) // Mencegah request gantung terlalu lama
+                ->post($apiUrl, [
+                    'email' => $this->email,
+                    'password' => $this->password,
+                ]);
 
             $result = $response->json();
 
-            if ($response->successful() && $result['success']) {
-                // Reset failed attempts on success
+            // 3. Response Sukses
+            if ($response->successful() && isset($result['success']) && $result['success']) {
                 Session::forget($attemptsKey);
                 Session::forget($lockoutKey);
 
-                // Simpan data ke session
-                Session::put('auth_token', $result['data']['token']);
-                Session::put('user_data', $result['data']['user']);
+                // Simpan ke Session (Pastikan folder storage/framework/sessions writeable)
+                if (isset($result['data']['token']) && isset($result['data']['user'])) {
+                    Session::put('auth_token', $result['data']['token']);
+                    Session::put('user_data', $result['data']['user']);
 
-                // Redirect berdasarkan role
-                $role = $result['data']['user']['role'];
+                    $role = $result['data']['user']['role'] ?? 'user';
 
-                if (in_array($role, ['admin', 'superadmin'])) {
-                    return $this->redirect('/dashboard', navigate: true);
+                    if (in_array($role, ['admin', 'superadmin'])) {
+                        return $this->redirect('/dashboard', navigate: true);
+                    }
+                    return $this->redirect('/', navigate: true);
                 }
-
-                return $this->redirect('/', navigate: true);
             }
 
+            // 4. Handle Validasi API (Error 422)
             if ($response->status() === 422) {
                 $errors = $result['errors'] ?? [];
                 foreach ($errors as $key => $messages) {
-                    foreach ($messages as $message) {
+                    foreach ((array)$messages as $message) {
                         $this->addError($key, $message);
                     }
                 }
                 return;
             }
 
-            // Check if user is already locked out before incrementing attempts
-            $existingLockout = Session::get($lockoutKey);
-            $isLockedOut = $existingLockout && Carbon::now()->lessThan($existingLockout);
-            if (!$isLockedOut) {
-                // Handle failed login (increment attempts) only if not locked out
-                $failedAttempts = Session::get($attemptsKey, 0) + 1;
-                Session::put($attemptsKey, $failedAttempts);
+            // 5. Handle Gagal Login & Increment Rate Limit
+            $failedAttempts = Session::get($attemptsKey, 0) + 1;
+            Session::put($attemptsKey, $failedAttempts);
 
-                // Lockout if max attempts reached
-                if ($failedAttempts >= $maxAttempts) {
-                    Session::put($lockoutKey, Carbon::now()->addMinutes($lockoutMinutes));
-                    $this->addError('loginError', "Terlalu banyak upaya gagal. Silakan coba lagi dalam {$lockoutMinutes} menit.");
-                    return;
-                }
-
-                // Show remaining attempts
+            if ($failedAttempts >= $maxAttempts) {
+                Session::put($lockoutKey, Carbon::now()->addMinutes($lockoutMinutes));
+                $this->addError('loginError', "Terlalu banyak upaya gagal. Silakan coba lagi dalam {$lockoutMinutes} menit.");
+            } else {
                 $remainingAttempts = $maxAttempts - $failedAttempts;
-                $message = $result['message'] ?? 'Login gagal, silakan coba lagi.';
-                $this->addError('loginError', "{$message} (Upaya tersisa: {$remainingAttempts})");
+                $message = $result['message'] ?? 'Login gagal, silakan periksa kembali email dan password Anda.';
+                $this->addError('loginError', "{$message} (Sisa percobaan: {$remainingAttempts})");
             }
-            // If already locked out, do nothing - the error was already shown earlier
-        } catch (\Exception) {
-            $this->addError('loginError', 'Terjadi kesalahan sistem. Silakan coba beberapa saat lagi.');
+        } catch (\Exception $e) {
+            // Log error asli ke file log hosting
+            \Log::error('Login Error: ' . $e->getMessage());
+
+            // Tampilkan pesan detail sementara untuk debug di hosting
+            $this->addError('loginError', 'Koneksi gagal: ' . $e->getMessage() . ' (Cek koneksi server ke API)');
         }
     }
 };
