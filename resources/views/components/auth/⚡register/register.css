@@ -19,9 +19,9 @@ h2 {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
 }
 
-.card:hover {
+/* .card:hover {
     transform: translateY(-5px);
-}
+} */
 
 /* Scoped animation for input focus */
 input:focus {

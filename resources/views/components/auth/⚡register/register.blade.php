@@ -2,8 +2,7 @@
     class="min-h-screen flex items-center justify-center bg-base-300 p-4 font-sans transition-colors duration-500 overflow-hidden relative">
     <!-- Dynamic Mesh Gradient Background -->
     <div class="absolute inset-0 z-0 pointer-events-none opacity-50">
-        <div
-            class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-info blur-[120px] opacity-20 animate-pulse">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-info blur-[120px] opacity-20">
         </div>
         <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-warning blur-[120px] opacity-20">
         </div>
@@ -12,9 +11,9 @@
     <!-- Floating Sporty Elements -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
         <!-- Floating Circles/Shapes -->
-        <div class="absolute top-20 left-[10%] w-32 h-32 border-4 border-info/10 rounded-full animate-bounce"
+        <div class="absolute top-20 left-[10%] w-32 h-32 border-4 border-info/10 rounded-full"
             style="animation-duration: 4s"></div>
-        <div class="absolute bottom-20 right-[15%] w-48 h-48 border-4 border-warning/10 rounded-full animate-bounce"
+        <div class="absolute bottom-20 right-[15%] w-48 h-48 border-4 border-warning/10 rounded-full"
             style="animation-duration: 6s"></div>
 
         <!-- Large Background Text (Sporty Vibe) -->
@@ -29,7 +28,7 @@
     </div>
 
     <div wire:key="register-card"
-        class="card w-full max-w-md bg-base backdrop-blur-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10 my-8">
+        class="card w-full max-w-md bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10 my-8">
         <!-- Sporty Accent Line (Top Border with Glow) -->
         <div
             class="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
@@ -373,8 +372,7 @@
                             </div>
                     </form>
 
-                    <div
-                        class="flex items-center justify-center gap-4 sm:gap-5 mt-8 grayscale opacity-100 hover:grayscale-0 hover:opacity-200 transition-all duration-500">
+                    <div class="flex items-center justify-center gap-4 sm:gap-5 mt-8">
                         <img src="{{ asset('assets/images/logo/aman.webp') }}" alt="Aman"
                             class="h-4.5 sm:h-5.5 object-contain">
                         <img src="{{ asset('assets/images/logo/bangun-negeri.webp') }}" alt="Bangun Negeri"

@@ -25,7 +25,7 @@
 
         <div class="relative z-10 flex flex-col min-h-screen">
             <div id="navbar"
-                class="navbar bg-base-100/40 backdrop-blur-md fixed top-0 inset-x-0 z-50 px-4 sm:px-6 py-3 border-b border-info/5 transition-transform duration-300">
+                class="navbar bg-base-200 fixed top-0 inset-x-0 z-50 px-4 sm:px-6 py-3 border-b border-info/5 transition-transform duration-300">
                 <div class="navbar-start">
                     <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
@@ -60,7 +60,7 @@
             </main>
 
             <div
-                class="dock dock-md sm:dock-xl bg-base-100/40 backdrop-blur-xl border-t border-info/5 h-16 sm:h-20 pb-safe z-50 transition-all duration-1000">
+                class="dock dock-md sm:dock-xl bg-base-200 border-t border-info/5 h-16 sm:h-20 pb-safe z-50 transition-all duration-1000">
                 <a wire:navigate href="/" wire:current.exact="dock-active text-info"
                     class="hover:text-info opacity-70 hover:opacity-100 transition-all duration-700 group relative flex flex-col items-center justify-center">
                     @if (request()->is('/'))
