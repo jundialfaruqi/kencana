@@ -26,4 +26,6 @@ Route::middleware(['api.auth:admin'])->group(function () {
     // Manajemen Lapangan
     Route::livewire('/manajemen-lapangan', 'admin::lapangan');
     Route::livewire('/lapangan-detail', 'admin::lapangan-detail');
+    Route::livewire('/lapangan-create', 'admin::lapangan-create');
+    Route::livewire('/lapangan-update', 'admin::lapangan-update');
 });

@@ -23,6 +23,11 @@
                     <span>{{ $error }}</span>
                 </div>
             @else
+                <div class="flex items-center justify-start mb-3">
+                    <a wire:navigate href="/lapangan-create" class="btn btn-primary btn-sm">
+                        Tambah Lapangan
+                    </a>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @forelse ($lapangan as $lp)
                         <div class="card border-2 border-dashed border-base-300 bg-base-100">
@@ -52,10 +57,21 @@
                                 </div>
                             </div>
                             <div class="card-footer p-3 bg-base-200 border-t border-base-200 rounded-b-xl">
-                                <a wire:navigate href="/lapangan-detail?id={{ $lp['id'] ?? 0 }}"
-                                    class="btn btn-sm btn-primary">
-                                    Detail Lapangan
-                                </a>
+                                <div class="flex items-center justify-center gap-2">
+                                    <a wire:navigate href="/lapangan-detail?id={{ $lp['id'] ?? 0 }}"
+                                        class="btn btn-sm btn-primary">
+                                        Detail
+                                    </a>
+                                    <a wire:navigate href="/lapangan-update?id={{ $lp['id'] ?? 0 }}"
+                                        class="btn btn-sm btn-secondary">
+                                        Edit
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-error"
+                                        onclick="document.getElementById('delete_modal_lapangan').showModal()"
+                                        wire:click="confirmDelete({{ $lp['id'] ?? 0 }})">
+                                        Hapus
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     @empty
@@ -70,4 +86,26 @@
         </div>
 
     </div>
+
+    <dialog id="delete_modal_lapangan" class="modal modal-bottom sm:modal-middle backdrop-blur-sm" wire:ignore>
+        <div class="modal-box">
+            <h3 class="font-bold text-lg italic uppercase tracking-tight">Konfirmasi Hapus</h3>
+            <p class="py-4 text-base-content/70">Apakah Anda yakin ingin menghapus lapangan ini?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost -skew-x-12">Batal</button>
+                </form>
+                <button type="button" wire:click="deleteLapangan"
+                    onclick="document.getElementById('delete_modal_lapangan').close()"
+                    class="btn btn-error text-white -skew-x-12 font-black uppercase tracking-widest"
+                    wire:loading.attr="disabled" wire:target="deleteLapangan">
+                    <span wire:loading.remove wire:target="deleteLapangan">Hapus</span>
+                    <span class="loading loading-spinner loading-xs" wire:loading wire:target="deleteLapangan"></span>
+                </button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 </div>

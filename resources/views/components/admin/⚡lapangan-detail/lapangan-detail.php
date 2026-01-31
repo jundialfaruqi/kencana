@@ -28,8 +28,9 @@ new #[Title('Detail Lapangan')] #[Layout('layouts::admin.app')] class extends Co
     {
         try {
             $token = Session::get('auth_token');
-            $base = rtrim(config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan/' . $this->id;
+            $apiBase = rtrim(config('services.api.base_url'), '/');
+            $imageBase = rtrim(config('services.api.image_base_url'), '/');
+            $url = $apiBase . '/v1/master/lapangan/' . $this->id;
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
@@ -37,10 +38,23 @@ new #[Title('Detail Lapangan')] #[Layout('layouts::admin.app')] class extends Co
                 $this->lapangan = $result['data'] ?? null;
                 $this->error = null;
                 $cover = data_get($this->lapangan, 'image_cover');
-                $this->coverUrl = $cover ? $base . '/storage/' . ltrim($cover, '/') : null;
+                if (!empty($cover)) {
+                    $p = ltrim((string)$cover, '/');
+                    if (preg_match('/^https?:\/\//', $p)) {
+                        $this->coverUrl = $p;
+                    } else {
+                        $this->coverUrl = $imageBase . '/' . $p;
+                    }
+                } else {
+                    $this->coverUrl = null;
+                }
                 $images = (array) data_get($this->lapangan, 'images', []);
-                $this->galleryUrls = array_map(function ($img) use ($base) {
-                    return $base . '/storage/' . ltrim($img, '/');
+                $this->galleryUrls = array_map(function ($img) use ($imageBase) {
+                    $p = ltrim((string)$img, '/');
+                    if (preg_match('/^https?:\/\//', $p)) {
+                        return $p;
+                    }
+                    return $imageBase . '/' . $p;
                 }, $images);
                 return;
             }

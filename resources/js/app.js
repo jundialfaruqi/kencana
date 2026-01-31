@@ -9,3 +9,5 @@ window.gsap = gsap;
 window.TextPlugin = TextPlugin;
 
 import '../views/components/admin/⚡lapangan-detail/lapangan-detail.js';
+import '../views/components/admin/⚡lapangan-create/lapangan-create.js';
+import '../views/components/admin/⚡lapangan-update/lapangan-update.js';

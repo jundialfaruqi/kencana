@@ -45,7 +45,7 @@
                         </figure>
                         <div class="card-body">
                             <div>
-                                <h3 class="text-sm font-semibold mb-2">Galeri</h3>
+                                <h3 class="text-sm font-semibold mb-2">Galeri Lapangan</h3>
                                 @if (!empty($galleryUrls))
                                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                                         @foreach ($galleryUrls as $imgUrl)
