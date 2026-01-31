@@ -35,21 +35,22 @@
                                 <div class="flex items-start justify-between">
                                     <h2 class="card-title">{{ $lp['nama_lapangan'] ?? '-' }}</h2>
                                     <span
-                                        class="badge {{ ($lp['status'] ?? '') === 'open' ? 'badge-success' : 'badge-warning' }} text-[11px] md:text-xs px-2 md:px-3 py-0.5 md:py-1">
+                                        class="{{ ($lp['status'] ?? '') === 'open' ? 'bg-success text-success-content' : 'bg-warning text-warning-content' }} rounded-full text-center text-[11px] md:text-xs px-2 md:px-3 py-0.5 md:py-1">
                                         {{ $lp['status_label'] ?? ucfirst($lp['status'] ?? '-') }}
                                     </span>
                                 </div>
                                 <p class="text-sm text-base-content/70">{{ $lp['deskripsi'] ?? '-' }}</p>
                                 <div class="mt-2 text-sm">
-                                    <div class="flex items-center gap-2">
+                                    <div
+                                        class="flex items-center gap-2 bg-base-200 border border-base-300 border-dashed p-2 rounded-lg">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            class="w-4 h-4" stroke="currentColor" stroke-width="1.5">
+                                            class="w-4 h-4 shrink-0 flex-none" stroke="currentColor" stroke-width="1.5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M19.5 10.5c0 7.5-7.5 10.5-7.5 10.5S4.5 18 4.5 10.5a7.5 7.5 0 1115 0z" />
                                         </svg>
-                                        <span>{{ $lp['alamat'] ?? '-' }}</span>
+                                        <span class="flex-1 min-w-0 truncate">{{ $lp['alamat'] ?? '-' }}</span>
                                     </div>
                                 </div>
                                 <div class="mt-2 text-xs text-base-content/60">
