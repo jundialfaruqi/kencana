@@ -18,11 +18,11 @@
             <div class="px-2 flex justify-between items-end">
                 <div>
                     <h3 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
-                        Lokasi <span class="text-info">AMAN ARENA</span>
+                        Lokasi <span class="text-info">ARENA</span>
                     </h3>
                     <p
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                        Lihat Lokasi AMAN Arena disini
+                        Lihat Daftar Lokasi disini
                     </p>
                 </div>
                 <a href="https://www.google.com/maps/place/Kencana+Mini+Soccer/@0.5242589,101.4347965,965m/data=!3m1!1e3!4m14!1m7!3m6!1s0x31d5ad00091e7017:0x790745bee1b2b012!2sKencana+Mini+Soccer!8m2!3d0.5242589!4d101.4347965!16s%2Fg%2F11ywd6vjz7!3m5!1s0x31d5ad00091e7017:0x790745bee1b2b012!8m2!3d0.5242589!4d101.4347965!16s%2Fg%2F11ywd6vjz7?entry=ttu"

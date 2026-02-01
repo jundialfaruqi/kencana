@@ -1,0 +1,117 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 2,
+            "lapangan_id": 1,
+            "hari": 0,
+            "buka": "08:00:00",
+            "tutup": "22:00:00",
+            "is_active": true,
+            "created_at": "2026-01-28T16:26:18.000000Z",
+            "updated_at": "2026-01-28T16:26:18.000000Z",
+            "hari_label": "Minggu",
+            "lapangan": {
+                "id": 1,
+                "nama_lapangan": "Kencana Minisoccer",
+                "status_label": "-"
+            }
+        },
+        {
+            "id": 1,
+            "lapangan_id": 1,
+            "hari": 1,
+            "buka": "08:00:00",
+            "tutup": "22:00:00",
+            "is_active": true,
+            "created_at": "2026-01-28T16:26:16.000000Z",
+            "updated_at": "2026-01-28T16:26:16.000000Z",
+            "hari_label": "Senin",
+            "lapangan": {
+                "id": 1,
+                "nama_lapangan": "Kencana Minisoccer",
+                "status_label": "-"
+            }
+        },
+        {
+            "id": 3,
+            "lapangan_id": 1,
+            "hari": 2,
+            "buka": "08:00:00",
+            "tutup": "22:00:00",
+            "is_active": true,
+            "created_at": "2026-01-28T16:26:21.000000Z",
+            "updated_at": "2026-01-28T16:26:21.000000Z",
+            "hari_label": "Selasa",
+            "lapangan": {
+                "id": 1,
+                "nama_lapangan": "Kencana Minisoccer",
+                "status_label": "-"
+            }
+        },
+        {
+            "id": 4,
+            "lapangan_id": 1,
+            "hari": 3,
+            "buka": "08:00:00",
+            "tutup": "22:00:00",
+            "is_active": true,
+            "created_at": "2026-01-28T16:26:23.000000Z",
+            "updated_at": "2026-01-28T16:26:23.000000Z",
+            "hari_label": "Rabu",
+            "lapangan": {
+                "id": 1,
+                "nama_lapangan": "Kencana Minisoccer",
+                "status_label": "-"
+            }
+        },
+        {
+            "id": 5,
+            "lapangan_id": 1,
+            "hari": 4,
+            "buka": "08:00:00",
+            "tutup": "22:00:00",
+            "is_active": true,
+            "created_at": "2026-01-28T16:26:26.000000Z",
+            "updated_at": "2026-01-28T16:26:26.000000Z",
+            "hari_label": "Kamis",
+            "lapangan": {
+                "id": 1,
+                "nama_lapangan": "Kencana Minisoccer",
+                "status_label": "-"
+            }
+        },
+        {
+            "id": 6,
+            "lapangan_id": 1,
+            "hari": 5,
+            "buka": "08:00:00",
+            "tutup": "22:00:00",
+            "is_active": true,
+            "created_at": "2026-01-28T16:26:28.000000Z",
+            "updated_at": "2026-01-28T16:26:28.000000Z",
+            "hari_label": "Jumat",
+            "lapangan": {
+                "id": 1,
+                "nama_lapangan": "Kencana Minisoccer",
+                "status_label": "-"
+            }
+        },
+        {
+            "id": 7,
+            "lapangan_id": 1,
+            "hari": 6,
+            "buka": "08:00:00",
+            "tutup": "22:00:00",
+            "is_active": true,
+            "created_at": "2026-01-28T16:26:31.000000Z",
+            "updated_at": "2026-01-28T16:26:31.000000Z",
+            "hari_label": "Sabtu",
+            "lapangan": {
+                "id": 1,
+                "nama_lapangan": "Kencana Minisoccer",
+                "status_label": "-"
+            }
+        }
+    ]
+}

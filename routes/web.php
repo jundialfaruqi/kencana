@@ -28,4 +28,7 @@ Route::middleware(['api.auth:admin'])->group(function () {
     Route::livewire('/lapangan-detail', 'admin::lapangan-detail');
     Route::livewire('/lapangan-create', 'admin::lapangan-create');
     Route::livewire('/lapangan-update', 'admin::lapangan-update');
+
+    // Manajemen Jadwal Operasional
+    Route::livewire('/manajemen-jadwal-operasional', 'admin::jadwal-operasional');
 });
