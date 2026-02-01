@@ -8,7 +8,7 @@
             <ul>
                 <li><a href="#">Aman Arena</a></li>
                 <li>Settings</li>
-                <li>Lapangan</li>
+                <li>Master Lapangan</li>
             </ul>
         </div>
     </div>

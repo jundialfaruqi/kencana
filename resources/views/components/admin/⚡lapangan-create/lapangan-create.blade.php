@@ -78,38 +78,52 @@
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
                     </label>
-                    <label class="form-control w-full">
-                        <div class="label">
-                            <span class="label-text">Status</span>
-                        </div>
-                        <select class="select select-bordered w-full mt-1.5" wire:model.live="status">
-                            <option value="open">Open</option>
-                            <option value="coming_soon">Coming Soon</option>
-                        </select>
-                        @error('status')
-                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </label>
-                    <label class="form-control w-full">
-                        <div class="label">
-                            <span class="label-text">Latitude</span>
-                        </div>
-                        <input type="number" step="any" class="input input-bordered w-full mt-1.5"
-                            placeholder="-0.12345" wire:model.live="latitude" />
-                        @error('latitude')
-                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </label>
-                    <label class="form-control w-full">
-                        <div class="label">
-                            <span class="label-text">Longitude</span>
-                        </div>
-                        <input type="number" step="any" class="input input-bordered w-full mt-1.5"
-                            placeholder="101.12345" wire:model.live="longitude" />
-                        @error('longitude')
-                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:col-span-2">
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text">Status</span>
+                            </div>
+                            <select class="select select-bordered w-full mt-1.5" wire:model.live="status">
+                                <option value="open">Open</option>
+                                <option value="coming_soon">Coming Soon</option>
+                            </select>
+                            @error('status')
+                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                            @enderror
+                        </label>
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text">Latitude</span>
+                            </div>
+                            <input type="number" step="any" class="input input-bordered w-full mt-1.5"
+                                placeholder="-0.12345" wire:model.live="latitude" />
+                            @error('latitude')
+                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                            @enderror
+                        </label>
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text">Longitude</span>
+                            </div>
+                            <input type="number" step="any" class="input input-bordered w-full mt-1.5"
+                                placeholder="101.12345" wire:model.live="longitude" />
+                            @error('longitude')
+                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                            @enderror
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-4 rounded-b-xl">
+                <div class="flex items-center justify-end gap-2">
+                    <button class="btn btn-ghost" wire:click="cancel" wire:loading.attr="disabled"
+                        wire:loading.class="btn-disabled pointer-events-none opacity-50"
+                        wire:target="cancel">Batal</button>
+                    <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
+                        wire:target="submit">
+                        <span wire:loading.remove wire:target="submit">Simpan</span>
+                        <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
+                    </button>
                 </div>
             </div>
 
@@ -196,18 +210,6 @@
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
-            </div>
-            <div class="card-footer p-4 rounded-b-xl">
-                <div class="flex items-center justify-end gap-2">
-                    <button class="btn btn-ghost" wire:click="cancel" wire:loading.attr="disabled"
-                        wire:loading.class="btn-disabled pointer-events-none opacity-50"
-                        wire:target="cancel">Batal</button>
-                    <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
-                        wire:target="submit">
-                        <span wire:loading.remove wire:target="submit">Simpan</span>
-                        <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
-                    </button>
                 </div>
             </div>
         </div>

@@ -24,7 +24,8 @@
         </div>
         <div wire:loading.remove wire:target="load">
             @if ($error)
-                <div class="alert alert-error mb-4">
+                <div
+                    class="alert bg-warning/20 border border-warning text-white shadow-lg py-2 text-xs font-bold italic uppercase tracking-wider">
                     <span>{{ $error }}</span>
                 </div>
             @else
@@ -118,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer p-3 bg-base-200 border-t border-base-200 rounded-b-xl">
+                        <div class="card-footer p-3 bg-base-100 border-t border-base-200 rounded-b-xl">
                             <div class="flex items-center justify-end gap-2">
                                 <a wire:navigate href="/lapangan-update?id={{ $id }}"
                                     class="btn btn-sm btn-secondary text-white">
