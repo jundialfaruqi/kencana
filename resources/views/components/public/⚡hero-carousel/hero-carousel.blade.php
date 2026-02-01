@@ -52,7 +52,7 @@
                                 {{ $lp['deskripsi'] }}
                             </p>
                             @if (($lp['status'] ?? '') === 'open')
-                                <a href="/booking" wire:navigate
+                                <a href="/booking?lapangan_id={{ $lp['id'] }}" wire:navigate
                                     class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
                                     <span class="skew-x-12">Pesan Sekarang</span>
                                 </a>
