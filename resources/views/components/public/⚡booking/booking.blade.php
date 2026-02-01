@@ -41,7 +41,7 @@
                             <div class="relative" x-data="{ open: false, idx: 0 }" data-cal-selected="{{ $tanggal }}"
                                 data-cal-curr-month="{{ now()->startOfMonth()->format('Y-m') }}"
                                 data-cal-next-month="{{ now()->addMonthNoOverflow()->startOfMonth()->format('Y-m') }}">
-                                <button class="btn btn-ghost btn-sm" @click="open = !open" type="button"
+                                <button class="btn btn-base-300 btn-sm" @click="open = !open" type="button"
                                     data-cal-trigger>
                                     <span class="inline-flex items-center gap-2">
                                         <span class="w-4 h-4 inline-flex items-center justify-center">
@@ -240,7 +240,8 @@
                                             Pilih Arena
                                         </h4>
                                         <span class="text-[10px] font-bold uppercase text-base-content/50">
-                                            {{ count($arenas) }} tersedia
+                                            {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
+                                            tersedia
                                         </span>
                                     </div>
                                 </div>
@@ -592,97 +593,97 @@
                         </div>
                     </div>
                 @endif
-            @else
-                <!-- Skeleton Loading -->
-                <div class="w-full animate-pulse">
-                    <!-- Header Skeleton -->
-                    <div class="mb-8 px-2 flex items-center gap-4">
-                        <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
-                        <div>
-                            <div class="h-6 sm:h-8 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
-                            <div class="h-3 sm:h-4 bg-base-300 w-32 sm:w-48 mt-2 rounded-lg"></div>
-                        </div>
+            </div>
+        @else
+            <!-- Skeleton Loading -->
+            <div class="w-full animate-pulse">
+                <!-- Header Skeleton -->
+                <div class="mb-8 px-2 flex items-center gap-4">
+                    <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
+                    <div>
+                        <div class="h-6 sm:h-8 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
+                        <div class="h-3 sm:h-4 bg-base-300 w-32 sm:w-48 mt-2 rounded-lg"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Main Form Skeleton -->
+                    <div class="lg:col-span-2 space-y-10">
+                        <!-- Date Skeleton -->
+                        <section>
+                            <div class="flex items-center gap-3 mb-4 px-2">
+                                <div class="w-8 h-8 rounded-lg bg-base-300"></div>
+                                <div class="h-6 bg-base-300 w-32 rounded"></div>
+                            </div>
+                            <div class="carousel carousel-center w-full bg-base-200/30 rounded-2xl p-4 space-x-3">
+                                @for ($i = 0; $i < 7; $i++)
+                                    <div class="carousel-item">
+                                        <div class="w-16 h-20 bg-base-300 rounded-xl"></div>
+                                    </div>
+                                @endfor
+                            </div>
+                        </section>
+
+                        <!-- Arena & Time Skeleton -->
+                        <section>
+                            <div class="flex items-center gap-3 mb-4 px-2">
+                                <div class="w-8 h-8 rounded-lg bg-base-300"></div>
+                                <div class="h-6 bg-base-300 w-48 rounded"></div>
+                            </div>
+                            <div
+                                class="carousel carousel-start w-full gap-4 pb-6 px-2 lg:grid lg:grid-cols-2 lg:carousel-none">
+                                @for ($i = 0; $i < 2; $i++)
+                                    <div class="carousel-item w-[85%] sm:w-95 lg:w-full flex-col gap-3">
+                                        <!-- Header Card Skeleton -->
+                                        <div
+                                            class="w-full p-4 rounded-2xl bg-base-200 border-2 border-base-300/30 h-20">
+                                            <div class="flex justify-between items-start">
+                                                <div class="space-y-2">
+                                                    <div class="h-3 bg-base-300 w-16 rounded"></div>
+                                                    <div class="h-5 bg-base-300 w-32 rounded"></div>
+                                                </div>
+                                                <div class="h-4 bg-base-300 w-20 rounded"></div>
+                                            </div>
+                                        </div>
+                                        <!-- Time Grid Skeleton -->
+                                        <div class="bg-base-200/40 rounded-2xl p-4 border border-base-200/50">
+                                            <div class="grid grid-cols-4 gap-2">
+                                                @for ($j = 0; $j < 12; $j++)
+                                                    <div class="h-8 bg-base-300 rounded-lg"></div>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endfor
+                            </div>
+                        </section>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- Main Form Skeleton -->
-                        <div class="lg:col-span-2 space-y-10">
-                            <!-- Date Skeleton -->
-                            <section>
-                                <div class="flex items-center gap-3 mb-4 px-2">
-                                    <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                                    <div class="h-6 bg-base-300 w-32 rounded"></div>
-                                </div>
-                                <div class="carousel carousel-center w-full bg-base-200/30 rounded-2xl p-4 space-x-3">
-                                    @for ($i = 0; $i < 7; $i++)
-                                        <div class="carousel-item">
-                                            <div class="w-16 h-20 bg-base-300 rounded-xl"></div>
+                    <!-- Sidebar Skeleton -->
+                    <div class="lg:col-span-1">
+                        <div class="sticky top-6 space-y-6">
+                            <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
+                                <div class="h-16 bg-base-300"></div>
+                                <div class="p-6 space-y-6">
+                                    @for ($i = 0; $i < 3; $i++)
+                                        <div class="flex justify-between">
+                                            <div class="h-4 bg-base-300 w-16 rounded"></div>
+                                            <div class="h-4 bg-base-300 w-24 rounded"></div>
                                         </div>
                                     @endfor
-                                </div>
-                            </section>
-
-                            <!-- Arena & Time Skeleton -->
-                            <section>
-                                <div class="flex items-center gap-3 mb-4 px-2">
-                                    <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                                    <div class="h-6 bg-base-300 w-48 rounded"></div>
-                                </div>
-                                <div
-                                    class="carousel carousel-start w-full gap-4 pb-6 px-2 lg:grid lg:grid-cols-2 lg:carousel-none">
-                                    @for ($i = 0; $i < 2; $i++)
-                                        <div class="carousel-item w-[85%] sm:w-95 lg:w-full flex-col gap-3">
-                                            <!-- Header Card Skeleton -->
-                                            <div
-                                                class="w-full p-4 rounded-2xl bg-base-200 border-2 border-base-300/30 h-20">
-                                                <div class="flex justify-between items-start">
-                                                    <div class="space-y-2">
-                                                        <div class="h-3 bg-base-300 w-16 rounded"></div>
-                                                        <div class="h-5 bg-base-300 w-32 rounded"></div>
-                                                    </div>
-                                                    <div class="h-4 bg-base-300 w-20 rounded"></div>
-                                                </div>
-                                            </div>
-                                            <!-- Time Grid Skeleton -->
-                                            <div class="bg-base-200/40 rounded-2xl p-4 border border-base-200/50">
-                                                <div class="grid grid-cols-4 gap-2">
-                                                    @for ($j = 0; $j < 12; $j++)
-                                                        <div class="h-8 bg-base-300 rounded-lg"></div>
-                                                    @endfor
-                                                </div>
-                                            </div>
+                                    <div class="pt-4">
+                                        <div class="flex justify-between items-end">
+                                            <div class="h-3 bg-base-300 w-20 rounded"></div>
+                                            <div class="h-8 bg-base-300 w-24 rounded"></div>
                                         </div>
-                                    @endfor
-                                </div>
-                            </section>
-                        </div>
-
-                        <!-- Sidebar Skeleton -->
-                        <div class="lg:col-span-1">
-                            <div class="sticky top-6 space-y-6">
-                                <div
-                                    class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
-                                    <div class="h-16 bg-base-300"></div>
-                                    <div class="p-6 space-y-6">
-                                        @for ($i = 0; $i < 3; $i++)
-                                            <div class="flex justify-between">
-                                                <div class="h-4 bg-base-300 w-16 rounded"></div>
-                                                <div class="h-4 bg-base-300 w-24 rounded"></div>
-                                            </div>
-                                        @endfor
-                                        <div class="pt-4">
-                                            <div class="flex justify-between items-end">
-                                                <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                                <div class="h-8 bg-base-300 w-24 rounded"></div>
-                                            </div>
-                                        </div>
-                                        <div class="h-14 bg-base-300 rounded-xl mt-6"></div>
                                     </div>
+                                    <div class="h-14 bg-base-300 rounded-xl mt-6"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     @endif
 </div>
