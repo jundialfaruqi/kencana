@@ -16,7 +16,7 @@
                     </h2>
                     <p
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                        Pilih tanggal, arena dan waktu
+                        Pilih tanggal, arena dan jam
                     </p>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                                         d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-black italic uppercase tracking-tight">2. Pilih Arena & Waktu</h3>
+                            <h3 class="text-xl font-black italic uppercase tracking-tight">2. Pilih Arena & Jam</h3>
                         </div>
 
                         <div class="w-full pb-6 px-2">
@@ -183,6 +183,7 @@
                                             <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
                                                 data-time-slot
                                                 wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
+                                                wire:loading.attr="disabled" wire:target="selectTime"
                                                 class="py-2 rounded-lg font-black italic text-[16px] md:text-[17px] transition-all
                                                 {{ !$this->slotIsAvailable($slot)
                                                     ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
@@ -219,7 +220,7 @@
                                             <h4 class="text-base font-black italic uppercase leading-none">
                                                 Pilih Arena
                                             </h4>
-                                            <span class="text-[10px] font-bold uppercase text-base-content/50">
+                                            <span class="text-[10px] font-bold uppercase text-warning">
                                                 {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
                                                 tersedia
                                             </span>
@@ -268,7 +269,7 @@
                                                             </div>
                                                             <div class="text-right">
                                                                 <span
-                                                                    class="text-[10px] font-bold uppercase {{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-base-content/50' }}">
+                                                                    class="text-[10px] font-bold uppercase text-warning {{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-base-content/50' }}">
                                                                     {{ $arena['status_label'] ?? '' }}
                                                                 </span>
                                                             </div>
@@ -523,14 +524,15 @@
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Date</span>
+                                    <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
                                     <span class="font-black italic uppercase text-sm">
-                                        {{ \Carbon\Carbon::parse($tanggal)->format('d M Y') }}
+                                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Time
-                                        Slot</span>
+                                    <span class="text-xs font-bold uppercase text-base-content/50">
+                                        Waktu
+                                    </span>
                                     <span class="font-black italic uppercase text-sm">
                                         {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
                                     </span>

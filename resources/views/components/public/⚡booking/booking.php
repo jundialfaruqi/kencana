@@ -164,10 +164,34 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function selectTime(string $mulai, string $selesai): void
     {
-        $this->selectedSlot = [
+        $clicked = [
             'mulai' => $mulai,
             'selesai' => $selesai,
         ];
+        $this->selectedSlot = $clicked;
+        try {
+            $this->fetchJadwal();
+            $match = null;
+            foreach ((array) $this->timeSlots as $s) {
+                if (
+                    (string) ($s['mulai'] ?? '') === (string) $clicked['mulai']
+                    && (string) ($s['selesai'] ?? '') === (string) $clicked['selesai']
+                ) {
+                    $match = $s;
+                    break;
+                }
+            }
+            if (!$match || (string) ($match['status'] ?? '') !== 'tersedia') {
+                $this->selectedSlot = null;
+                $msg = (string) ($match['message'] ?? ($match['status_label'] ?? ($this->error ?? 'Jam sudah dibooking oleh pengguna lain')));
+                $this->dispatch('toast', [
+                    'title' => 'Tidak tersedia',
+                    'message' => $msg,
+                    'type' => 'error',
+                ]);
+            }
+        } catch (\Throwable) {
+        }
         sleep(1);
     }
 
@@ -311,6 +335,36 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->resetValidation();
         $validated = $this->validate();
         $jumlah = intval($validated['jumlahPemain']);
+
+        $clicked = [
+            'mulai' => (string) ($this->selectedSlot['mulai'] ?? ''),
+            'selesai' => (string) ($this->selectedSlot['selesai'] ?? ''),
+        ];
+        $this->selectedSlot = $clicked;
+        try {
+            $this->fetchJadwal();
+            $match = null;
+            foreach ((array) $this->timeSlots as $s) {
+                if (
+                    (string) ($s['mulai'] ?? '') === (string) $clicked['mulai']
+                    && (string) ($s['selesai'] ?? '') === (string) $clicked['selesai']
+                ) {
+                    $match = $s;
+                    break;
+                }
+            }
+            if (!$match || (string) ($match['status'] ?? '') !== 'tersedia') {
+                $this->selectedSlot = null;
+                $msg = (string) ($match['message'] ?? ($match['status_label'] ?? ($this->error ?? 'Jam sudah dibooking oleh pengguna lain')));
+                $this->dispatch('toast', [
+                    'title' => 'Tidak tersedia',
+                    'message' => $msg,
+                    'type' => 'error',
+                ]);
+                return;
+            }
+        } catch (\Throwable) {
+        }
 
         $base = config('services.api.base_url');
         $url = rtrim((string) $base, '/') . '/v1/lapangan/bookingLapangan';
