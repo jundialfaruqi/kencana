@@ -38,7 +38,7 @@
                                 AMAN
                             </span>
                             <span
-                                class="text-[11px] sm:text-[12px] font-bold uppercase text-base-content/50 tracking-[0.2em] -mt-0.2 sm:-mt-0.2 transform -skew-x-12">
+                                class="text-[11px] sm:text-[12px] font-black uppercase text-warning tracking-[0.2em] -mt-0.2 sm:-mt-0.2 transform -skew-x-12">
                                 Arena
                             </span>
                         </div>

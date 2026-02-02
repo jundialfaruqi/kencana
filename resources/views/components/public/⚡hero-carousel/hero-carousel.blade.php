@@ -29,7 +29,7 @@
                                 <div
                                     class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
                                     <span
-                                        class="text-white text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-white/30 px-4 py-1">
+                                        class="text-warning text-sm sm:text-2xl font-black italic uppercase tracking-widest -skew-x-12 border-2 border-warning px-4 py-1">
                                         {{ $lp['status_label'] ?: 'Segera Dibuka' }}
                                     </span>
                                 </div>

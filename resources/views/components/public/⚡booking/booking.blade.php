@@ -28,8 +28,8 @@
                     <!-- 1. Select Date -->
                     <section>
                         <div class="flex items-center justify-between mb-4 px-2">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-info/10 flex items-center justify-center">
+                            <div class="flex items-center gap-1">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2" stroke="currentColor" class="size-5 text-info">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,7 +83,7 @@
                                             @for ($d = 1; $d <= $calCurrDays; $d++)
                                                 <button @click="open=false"
                                                     wire:click="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"
-                                                    wire:target="selectDate"
+                                                    wire:loading.attr="disabled" wire:target="selectDate"
                                                     data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
                                                     class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
@@ -92,6 +92,10 @@
                                                     {{ $d }}
                                                 </button>
                                             @endfor
+                                        </div>
+                                        <div class="mt-2 flex justify-end">
+                                            <button type="button" class="btn btn-ghost btn-xs"
+                                                data-cal-close>Tutup</button>
                                         </div>
                                     </div>
                                     <div data-cal-panel class="hidden">
@@ -109,6 +113,10 @@
                                                     {{ $d }}
                                                 </button>
                                             @endfor
+                                        </div>
+                                        <div class="mt-2 flex justify-end">
+                                            <button type="button" class="btn btn-ghost btn-xs"
+                                                data-cal-close>Tutup</button>
                                         </div>
                                     </div>
                                 </div>
@@ -137,14 +145,12 @@
 
                     <!-- 2. Arena & Time -->
                     <section>
-                        <div class="flex items-center gap-3 mb-4 px-2">
-                            <div class="w-8 h-8 rounded-lg bg-info/10 flex items-center justify-center">
+                        <div class="flex items-center gap-1 mb-4 px-2">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2" stroke="currentColor" class="size-5 text-info">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-4.625 3.352A3.75 3.75 0 0 0 12 18Z" />
+                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                             </div>
                             <h3 class="text-xl font-black italic uppercase tracking-tight">2. Pilih Arena & Waktu</h3>
@@ -172,12 +178,12 @@
 
                                 <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4"
                                     wire:loading.class="opacity-50 pointer-events-none" wire:target="selectDate">
-                                    <div class="grid grid-cols-4 gap-2">
+                                    <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
                                         @foreach ($timeSlots as $slot)
                                             <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
                                                 data-time-slot
                                                 wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
-                                                class="py-2 rounded-lg font-black italic text-[15px] transition-all
+                                                class="py-2 rounded-lg font-black italic text-[16px] md:text-[17px] transition-all
                                                 {{ !$this->slotIsAvailable($slot)
                                                     ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
                                                     : ($this->slotIsSelected($slot)
@@ -185,7 +191,7 @@
                                                         : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
                                                 <span class="block">{{ $slot['mulai'] }}</span>
                                                 <span class="block">{{ $slot['selesai'] }}</span>
-                                                <span class="block text-[10px] font-bold uppercase">
+                                                <span class="block text-[10px] font-bold uppercase text-warning">
                                                     {{ $slot['status'] ?? '' }}
                                                 </span>
                                             </button>
@@ -319,16 +325,16 @@
                                 </div>
                                 <div
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Date</span>
+                                    <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
                                     <span class="font-black italic uppercase text-sm">
-                                        {{ \Carbon\Carbon::parse($tanggal)->format('d M Y') }}
+                                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
                                         <span wire:loading wire:target="selectDate"
                                             class="loading loading-dots loading-xs ml-2"></span>
                                     </span>
                                 </div>
                                 <div
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Time Slot</span>
+                                    <span class="text-xs font-bold uppercase text-base-content/50">Jam</span>
                                     <span class="font-black italic uppercase text-sm">
                                         {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
                                         <span wire:loading wire:target="selectTime"

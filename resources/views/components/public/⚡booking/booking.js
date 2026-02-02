@@ -50,6 +50,13 @@
               });
             } catch (_) {}
           }
+          if (old.closeBtns && old.onCloseClick) {
+            try {
+              old.closeBtns.forEach(function (btn) {
+                btn.removeEventListener('click', old.onCloseClick);
+              });
+            } catch (_) {}
+          }
         } catch (_) {}
       }
 
@@ -121,6 +128,12 @@
       if (next) next.addEventListener('click', onNextClick);
 
       var calDateButtons = popover ? popover.querySelectorAll('[data-cal-date]') : [];
+      var closeBtns = popover ? popover.querySelectorAll('[data-cal-close]') : [];
+      var onCloseClick = function (e) {
+        e.preventDefault();
+        state.open = false;
+        render();
+      };
       var container = trigger ? trigger.closest('.relative') : null;
       function updatePanelBySelected(date) {
         try {
@@ -170,6 +183,9 @@
       calDateButtons.forEach(function (btn) {
         btn.addEventListener('click', onCalDateClick);
       });
+      if (closeBtns && closeBtns.length > 0) {
+        closeBtns.forEach(function (btn) { btn.addEventListener('click', onCloseClick); });
+      }
 
       var timeSlotButtons = root.querySelectorAll('[data-time-slot]');
       var onTimeSlotClick = function () {
@@ -191,6 +207,9 @@
         var btn = e.currentTarget;
         var date = btn.getAttribute('data-date');
         if (!date) return;
+        // mark that a user-triggered date selection happened via carousel;
+        // this explicitly requests auto-centering on the next init cycle only
+        window.__bookingScrollDueToDate = true;
         if (!window.__bookingCal) window.__bookingCal = {};
         window.__bookingCal.selectedDate = date;
         updatePanelBySelected(date);
@@ -220,6 +239,8 @@
         onTimeSlotClick: onTimeSlotClick,
         dateButtons: dateButtons,
         onDateButtonClick: onDateButtonClick,
+        closeBtns: closeBtns,
+        onCloseClick: onCloseClick,
         selectedDate: containerSelected || ((window.__bookingCal && window.__bookingCal.selectedDate) || null),
         initialized: true
       };
@@ -231,7 +252,11 @@
         var suppress =
           (typeof window.__bookingNoScrollUntil === 'number' && Date.now() < window.__bookingNoScrollUntil) ||
           (window.__bookingSuppressScroll === true);
-        if (!suppress) {
+        // Only auto-center the date in carousel when it was explicitly requested
+        // by a user click on a carousel date (one-shot flag). Prevents unintended
+        // scrolling on Livewire re-renders caused by other interactions.
+        var requestedByDate = (window.__bookingScrollDueToDate === true);
+        if (!suppress && requestedByDate) {
           var el = root.querySelector('.carousel [data-date="' + sel + '"]');
           if (el) {
             try {
@@ -240,7 +265,12 @@
               el.scrollIntoView();
             }
           }
-        } else {
+        }
+        // clear one-shot flags to avoid future unintended scrolls
+        if (requestedByDate) {
+          window.__bookingScrollDueToDate = false;
+        }
+        if (suppress) {
           // allow future scrolls by clearing one-shot flag; time-based flag will expire on its own
           window.__bookingSuppressScroll = false;
         }

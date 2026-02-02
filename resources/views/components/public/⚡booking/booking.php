@@ -241,7 +241,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function isValidationErr(?string $error): bool
     {
-        return in_array((string) ($error ?? ''), ['Silakan pilih arena', 'Silakan pilih tanggal', 'Silakan pilih waktu'], true);
+        return in_array((string) ($error ?? ''), ['Arena belum dipilih, pilih arenanya dulu!', 'Tanggal belum dipilih, pilih tanggalnya dulu!', 'Waktu belum dipilih, pilih waktunya dulu'], true);
     }
 
     public function jenisLabel(): string
@@ -295,15 +295,15 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             return;
         }
         if (!$this->lapanganId) {
-            $this->error = 'Silakan pilih arena';
+            $this->error = 'Arena belum dipilih, pilih arenanya dulu!';
             return;
         }
         if (!$this->tanggal) {
-            $this->error = 'Silakan pilih tanggal';
+            $this->error = 'Tanggal belum dipilih, pilih tanggalnya dulu!';
             return;
         }
         if (!$this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
-            $this->error = 'Silakan pilih waktu';
+            $this->error = 'Waktu belum dipilih, pilih waktunya dulu!';
             return;
         }
         $this->error = null;

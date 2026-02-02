@@ -12,11 +12,11 @@
                 </a>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
-                        Account <span class="text-info">Profile</span>
+                        Profil <span class="text-info">Saya</span>
                     </h2>
                     <p
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                        Manage your personal information and activity
+                        Informasi dan aktivitas akun
                     </p>
                 </div>
             </div>
@@ -29,8 +29,7 @@
                         <div class="flex items-start justify-between">
                             <div class="flex items-center gap-4">
                                 <div class="avatar">
-                                    <div
-                                        class="w-20 h-20 rounded-2xl ring ring-info ring-offset-base-100 ring-offset-2 overflow-hidden bg-base-300">
+                                    <div class="w-20 h-20 rounded-2xl overflow-hidden">
                                         <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
                                             alt="Avatar" />
                                     </div>
@@ -41,22 +40,6 @@
                                     <div class="flex items-center gap-2 mt-1">
                                         <span
                                             class="text-xs font-medium text-base-content/50 italic">{{ $user['email'] ?? '-' }}</span>
-                                    </div>
-                                    <div class="flex items-center gap-2 mt-2">
-                                        <!-- Logout Button -->
-                                        <button type="button" onclick="logout_modal_profile.showModal()"
-                                            class="btn btn-xs border hover:border-info hover:text-info transition-all"
-                                            title="Logout">
-                                            <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                                class="size-4">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-                                            </svg>
-                                            Keluar
-                                            <span wire:loading class="loading loading-spinner loading-xs"></span>
-                                        </button>
-                                        <livewire:admin::logout />
                                     </div>
                                 </div>
                             </div>
@@ -124,12 +107,16 @@
 
                         <!-- Action Buttons -->
                         <div class="pt-6 border-t border-base-200 flex flex-row gap-4">
-                            <button class="btn btn-info -skew-x-12 font-black uppercase tracking-widest flex-1">
+                            <button
+                                class="btn btn-sm md:btn-md btn-info -skew-x-12 font-black uppercase tracking-widest flex-1">
                                 Edit Profil
                             </button>
-                            <button class="btn btn-warning -skew-x-12 font-black uppercase tracking-widest flex-1">
-                                History
+                            <button
+                                class="btn btn-sm md:btn-md btn-warning -skew-x-12 font-black uppercase tracking-widest flex-1"
+                                onclick="logout_modal_profile.showModal()" title="Logout">
+                                Logout
                             </button>
+                            <livewire:admin::logout />
                         </div>
                     </div>
                 </div>

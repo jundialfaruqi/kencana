@@ -24,10 +24,12 @@
     </style>
     <script>
         function initAmanAnimation() {
+            if (window.__amanAnimated === true) return;
             gsap.registerPlugin(TextPlugin);
             const amanText = document.getElementById('aman-text');
 
             if (amanText) {
+                window.__amanAnimated = true;
                 amanText.classList.add('typing-cursor');
                 gsap.set(amanText, {
                     text: ""
