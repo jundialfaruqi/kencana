@@ -132,11 +132,11 @@
                                         data-date="{{ $date->toDateString() }}"
                                         class="flex flex-col items-center justify-center w-16 h-20 rounded-xl transition-all {{ $isSelected ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
                                         <span wire:loading.remove wire:target="selectDate"
-                                            class="text-[10px] font-bold uppercase">{{ $date->translatedFormat('D') }}</span>
+                                            class="text-[10px] font-bold uppercase">{{ $date->locale('id')->translatedFormat('D') }}</span>
                                         <span wire:loading.remove wire:target="selectDate"
                                             class="text-xl font-black italic">{{ $date->format('d') }}</span>
                                         <span wire:loading.remove wire:target="selectDate"
-                                            class="text-[9px] font-bold uppercase">{{ $date->translatedFormat('M') }}</span>
+                                            class="text-[9px] font-bold uppercase">{{ $date->locale('id')->translatedFormat('M') }}</span>
                                         <span wire:loading wire:target="selectDate"
                                             class="loading loading-dots loading-xs"></span>
                                     </button>
