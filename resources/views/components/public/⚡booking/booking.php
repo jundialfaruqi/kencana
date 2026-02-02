@@ -36,6 +36,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public $calCurrMonth;
     public $calNextMonth;
     public $todayDate;
+    public array $carouselDates = [];
 
     public function load()
     {
@@ -58,6 +59,14 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->calCurrMonth = $curr->format('Y-m');
         $this->calNextMonth = $next->format('Y-m');
         $this->todayDate = $today->toDateString();
+        $start = $today->copy()->startOfDay();
+        $end = $start->copy()->addMonthNoOverflow()->endOfMonth()->startOfDay();
+        $days = $start->diffInDays($end) + 1;
+        $this->carouselDates = [];
+        for ($i = 0; $i < $days; $i++) {
+            $d = $start->copy()->addDays($i);
+            $this->carouselDates[] = $d->toDateString();
+        }
         if ($this->lapanganId) {
             if (!$this->isArenaOpen((string) $this->lapanganId)) {
                 $this->error = 'Arena belum dibuka';
@@ -206,6 +215,47 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         } catch (\Throwable) {
         }
         return false;
+    }
+
+    public function arenaIsComing(array $arena): bool
+    {
+        return (($arena['status'] ?? '') === 'coming_soon');
+    }
+
+    public function arenaIsSelected(array $arena): bool
+    {
+        return (string) ($arena['id'] ?? '') === (string) ($this->lapanganId ?? '');
+    }
+
+    public function slotIsAvailable(array $slot): bool
+    {
+        return (($slot['status'] ?? '') === 'tersedia');
+    }
+
+    public function slotIsSelected(array $slot): bool
+    {
+        return $this->selectedSlot
+            && (($this->selectedSlot['mulai'] ?? null) === ($slot['mulai'] ?? null))
+            && (($this->selectedSlot['selesai'] ?? null) === ($slot['selesai'] ?? null));
+    }
+
+    public function isValidationErr(?string $error): bool
+    {
+        return in_array((string) ($error ?? ''), ['Silakan pilih arena', 'Silakan pilih tanggal', 'Silakan pilih waktu'], true);
+    }
+
+    public function jenisLabel(): string
+    {
+        if ($this->jenisPermainan === 'fun_match') {
+            return 'FUN MATCH';
+        }
+        if ($this->jenisPermainan === 'latihan') {
+            return 'LATIHAN';
+        }
+        if ($this->jenisPermainan === 'turnamen_kecil') {
+            return 'TURNAMEN KECIL';
+        }
+        return 'Pilih jenis';
     }
 
     public function updatedJumlahPemain($value): void

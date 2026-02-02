@@ -12,11 +12,11 @@
                 </a>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
-                        Book Your <span class="text-info">Match</span>
+                        Pesan <span class="text-info">Arena</span>
                     </h2>
                     <p
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                        Choose your preferred date, time, and arena
+                        Pilih tanggal, arena dan waktu
                     </p>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                                             d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
                                     </svg>
                                 </div>
-                                <h3 class="text-xl font-black italic uppercase tracking-tight">1. Select Date</h3>
+                                <h3 class="text-xl font-black italic uppercase tracking-tight">1. Pilih Tanggal</h3>
                             </div>
                             <div class="relative" x-data="{ open: false, idx: 0 }" data-cal-selected="{{ $tanggal }}"
                                 data-cal-curr-month="{{ $calCurrMonth }}" data-cal-next-month="{{ $calNextMonth }}">
@@ -116,32 +116,22 @@
                         </div>
 
                         <div class="carousel carousel-center w-full bg-base-200/30 rounded-2xl p-4 space-x-3">
-                            @php
-                                $today = now()->startOfDay();
-                                $end = $today->copy()->addMonthNoOverflow()->endOfMonth()->startOfDay();
-                                $days = $today->diffInDays($end) + 1;
-                            @endphp
-                            @for ($i = 0; $i < $days; $i++)
-                                @php
-                                    $date = $today->copy()->addDays($i);
-                                    $isSelected = $date->toDateString() === $tanggal;
-                                @endphp
+                            @foreach ($carouselDates as $dateStr)
                                 <div class="carousel-item">
-                                    <button wire:click="selectDate('{{ $date->toDateString() }}')"
-                                        wire:loading.attr="disabled" wire:target="selectDate"
-                                        data-date="{{ $date->toDateString() }}"
-                                        class="flex flex-col items-center justify-center w-16 h-20 rounded-xl transition-all {{ $isSelected ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
+                                    <button wire:click="selectDate('{{ $dateStr }}')" wire:loading.attr="disabled"
+                                        wire:target="selectDate" data-date="{{ $dateStr }}"
+                                        class="flex flex-col items-center justify-center w-16 h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
                                         <span wire:loading.remove wire:target="selectDate"
-                                            class="text-[10px] font-bold uppercase">{{ $date->locale('id')->translatedFormat('D') }}</span>
+                                            class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
                                         <span wire:loading.remove wire:target="selectDate"
-                                            class="text-xl font-black italic">{{ $date->format('d') }}</span>
+                                            class="text-xl font-black italic">{{ \Carbon\Carbon::parse($dateStr)->format('d') }}</span>
                                         <span wire:loading.remove wire:target="selectDate"
-                                            class="text-[9px] font-bold uppercase">{{ $date->locale('id')->translatedFormat('M') }}</span>
+                                            class="text-[9px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('M') }}</span>
                                         <span wire:loading wire:target="selectDate"
                                             class="loading loading-dots loading-xs"></span>
                                     </button>
                                 </div>
-                            @endfor
+                            @endforeach
                         </div>
                     </section>
 
@@ -157,7 +147,7 @@
                                         d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-4.625 3.352A3.75 3.75 0 0 0 12 18Z" />
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-black italic uppercase tracking-tight">2. Arena & Time</h3>
+                            <h3 class="text-xl font-black italic uppercase tracking-tight">2. Pilih Arena & Waktu</h3>
                         </div>
 
                         <div class="w-full pb-6 px-2">
@@ -184,19 +174,13 @@
                                     wire:loading.class="opacity-50 pointer-events-none" wire:target="selectDate">
                                     <div class="grid grid-cols-4 gap-2">
                                         @foreach ($timeSlots as $slot)
-                                            @php
-                                                $available = ($slot['status'] ?? '') === 'tersedia';
-                                                $isSelected =
-                                                    $selectedSlot &&
-                                                    ($selectedSlot['mulai'] ?? null) === ($slot['mulai'] ?? null) &&
-                                                    ($selectedSlot['selesai'] ?? null) === ($slot['selesai'] ?? null);
-                                            @endphp
-                                            <button {{ $available ? '' : 'disabled' }} data-time-slot
+                                            <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
+                                                data-time-slot
                                                 wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
                                                 class="py-2 rounded-lg font-black italic text-[15px] transition-all
-                                                {{ !$available
+                                                {{ !$this->slotIsAvailable($slot)
                                                     ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
-                                                    : ($isSelected
+                                                    : ($this->slotIsSelected($slot)
                                                         ? 'bg-info text-info-content border border-info/50 shadow-lg shadow-info/20'
                                                         : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
                                                 <span class="block">{{ $slot['mulai'] }}</span>
@@ -235,13 +219,6 @@
                                             </span>
                                         </div>
                                     </div>
-                                    @php
-                                        $isValidationErr = in_array(
-                                            $error ?? '',
-                                            ['Silakan pilih arena', 'Silakan pilih tanggal', 'Silakan pilih waktu'],
-                                            true,
-                                        );
-                                    @endphp
                                     @if (count($arenas) === 0)
                                         <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
                                             <div class="text-sm font-bold uppercase text-base-content/60">
@@ -256,7 +233,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                    @elseif ($error && !$isValidationErr)
+                                    @elseif ($error && !$this->isValidationErr($error))
                                         <div class="alert alert-error mt-4">
                                             <span>{{ $error }}</span>
                                         </div>
@@ -264,17 +241,11 @@
                                         <div class="relative mt-4">
                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                 @foreach ($arenas as $arena)
-                                                    @php
-                                                        $isComing = ($arena['status'] ?? '') === 'coming_soon';
-                                                        $isSelectedArena =
-                                                            (string) ($arena['id'] ?? '') ===
-                                                            (string) ($lapanganId ?? '');
-                                                    @endphp
-                                                    <button {{ $isComing ? 'disabled' : '' }}
+                                                    <button {{ $this->arenaIsComing($arena) ? 'disabled' : '' }}
                                                         class="p-4 rounded-xl border transition-all text-left
-                                                {{ $isComing
+                                                {{ $this->arenaIsComing($arena)
                                                     ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through border-base-300'
-                                                    : ($isSelectedArena
+                                                    : ($this->arenaIsSelected($arena)
                                                         ? 'bg-info text-info-content border-info shadow-lg shadow-info/20'
                                                         : 'bg-base-100 border-base-300 hover:border-info/40 hover:bg-info/5') }}"
                                                         wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
@@ -282,7 +253,7 @@
                                                         <div class="flex items-center justify-between">
                                                             <div>
                                                                 <div
-                                                                    class="text-xs font-black uppercase italic {{ $isSelectedArena ? 'text-info-content' : 'text-info' }}">
+                                                                    class="text-xs font-black uppercase italic {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
                                                                     Arena
                                                                 </div>
                                                                 <div class="text-sm font-black italic uppercase">
@@ -291,7 +262,7 @@
                                                             </div>
                                                             <div class="text-right">
                                                                 <span
-                                                                    class="text-[10px] font-bold uppercase {{ $isSelectedArena ? 'text-info-content/70' : 'text-base-content/50' }}">
+                                                                    class="text-[10px] font-bold uppercase {{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-base-content/50' }}">
                                                                     {{ $arena['status_label'] ?? '' }}
                                                                 </span>
                                                             </div>
@@ -441,19 +412,8 @@
                                             <div x-data="{ open: false }" class="relative">
                                                 <button type="button" @click="open = !open"
                                                     class="input input-bordered input-sm w-full mt-1 text-left cursor-pointer">
-                                                    @php
-                                                        $jenisLabel = $jenisPermainan
-                                                            ? ($jenisPermainan === 'fun_match'
-                                                                ? 'FUN MATCH'
-                                                                : ($jenisPermainan === 'latihan'
-                                                                    ? 'LATIHAN'
-                                                                    : ($jenisPermainan === 'turnamen_kecil'
-                                                                        ? 'TURNAMEN KECIL'
-                                                                        : 'Pilih jenis')))
-                                                            : 'Pilih jenis';
-                                                    @endphp
                                                     <span class="font-bold uppercase text-[11px]">
-                                                        {{ $jenisLabel }}
+                                                        {{ $this->jenisLabel() }}
                                                     </span>
                                                 </button>
                                                 <div x-show="open" @click.outside="open = false"
