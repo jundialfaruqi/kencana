@@ -339,7 +339,7 @@
 
                 <!-- Sidebar / Summary -->
                 <div class="lg:col-span-1">
-                    <div class="sticky top-6 space-y-6">
+                    <div class="space-y-6">
                         <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
                             <div class="bg-info p-6">
                                 <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
