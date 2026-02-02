@@ -148,7 +148,7 @@
             </div>
         </div>
     </div>
-    <div id="global-toast" class="toast toast-top toast-center z-1000 rounded-2xl" wire:ignore>
+    <div id="global-toast" class="toast toast-top toast-center z-60 rounded-2xl" wire:ignore>
     </div>
     @livewireScripts
 
