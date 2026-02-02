@@ -27,6 +27,15 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public bool $showSuccessModal = false;
     public ?string $bookingMessage = null;
     public ?string $bookingCode = null;
+    public $calCurrLabel;
+    public $calNextLabel;
+    public $calCurrDays;
+    public $calNextDays;
+    public $calCurrStartDow;
+    public $calNextStartDow;
+    public $calCurrMonth;
+    public $calNextMonth;
+    public $todayDate;
 
     public function load()
     {
@@ -35,7 +44,20 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             return;
         }
 
+        Carbon::setLocale('id');
         $this->tanggal = Carbon::now()->toDateString();
+        $today = Carbon::now();
+        $curr = $today->copy()->startOfMonth();
+        $next = $today->copy()->addMonthNoOverflow()->startOfMonth();
+        $this->calCurrLabel = $curr->translatedFormat('F Y');
+        $this->calNextLabel = $next->translatedFormat('F Y');
+        $this->calCurrDays = $curr->daysInMonth;
+        $this->calNextDays = $next->daysInMonth;
+        $this->calCurrStartDow = $curr->dayOfWeek;
+        $this->calNextStartDow = $next->dayOfWeek;
+        $this->calCurrMonth = $curr->format('Y-m');
+        $this->calNextMonth = $next->format('Y-m');
+        $this->todayDate = $today->toDateString();
         if ($this->lapanganId) {
             if (!$this->isArenaOpen((string) $this->lapanganId)) {
                 $this->error = 'Arena belum dibuka';
@@ -137,6 +159,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             'mulai' => $mulai,
             'selesai' => $selesai,
         ];
+        sleep(1);
     }
 
     protected function fetchArenas(): void
@@ -286,24 +309,5 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 'type' => 'error',
             ]);
         }
-    }
-
-    public function closeSuccessModal(): void
-    {
-        $this->showSuccessModal = false;
-        $this->bookingMessage = null;
-        $this->bookingCode = null;
-        $this->error = null;
-        $this->lapanganId = null;
-        $this->namaLapangan = '';
-        $this->selectedSlot = null;
-        $this->namaKomunitas = null;
-        $this->jumlahPemain = null;
-        $this->kategoriPemain = '';
-        $this->jenisPermainan = '';
-        $this->keterangan = null;
-        $this->timeSlots = [];
-        $this->fetchArenas();
-        $this->dispatch('booking-loaded');
     }
 };

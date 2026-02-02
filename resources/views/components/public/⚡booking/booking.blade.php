@@ -39,8 +39,7 @@
                                 <h3 class="text-xl font-black italic uppercase tracking-tight">1. Select Date</h3>
                             </div>
                             <div class="relative" x-data="{ open: false, idx: 0 }" data-cal-selected="{{ $tanggal }}"
-                                data-cal-curr-month="{{ now()->startOfMonth()->format('Y-m') }}"
-                                data-cal-next-month="{{ now()->addMonthNoOverflow()->startOfMonth()->format('Y-m') }}">
+                                data-cal-curr-month="{{ $calCurrMonth }}" data-cal-next-month="{{ $calNextMonth }}">
                                 <button class="btn btn-base-300 btn-sm" @click="open = !open" type="button"
                                     data-cal-trigger>
                                     <span class="inline-flex items-center gap-2">
@@ -54,17 +53,6 @@
                                         <span>Kalender</span>
                                     </span>
                                 </button>
-                                @php
-                                    $calToday = now();
-                                    $calCurr = $calToday->copy()->startOfMonth();
-                                    $calNext = $calToday->copy()->addMonthNoOverflow()->startOfMonth();
-                                    $calCurrLabel = $calCurr->format('F Y');
-                                    $calNextLabel = $calNext->format('F Y');
-                                    $calCurrDays = $calCurr->daysInMonth;
-                                    $calNextDays = $calNext->daysInMonth;
-                                    $calCurrStartDow = $calCurr->dayOfWeek;
-                                    $calNextStartDow = $calNext->dayOfWeek;
-                                @endphp
                                 <div @click.outside="open=false" id="select-date-calendar" wire:ignore
                                     class="absolute right-0 mt-2 w-80 p-3 rounded-xl border border-base-300 bg-base-100 shadow-xl z-20 hidden">
                                     <div class="flex items-center justify-between mb-2">
@@ -79,13 +67,13 @@
                                     </div>
                                     <div
                                         class="grid grid-cols-7 gap-1 text-[10px] font-bold uppercase text-base-content/60 mb-1">
-                                        <div>Su</div>
-                                        <div>Mo</div>
-                                        <div>Tu</div>
-                                        <div>We</div>
-                                        <div>Th</div>
-                                        <div>Fr</div>
-                                        <div>Sa</div>
+                                        <div>Min</div>
+                                        <div>Sen</div>
+                                        <div>Sel</div>
+                                        <div>Rab</div>
+                                        <div>Kam</div>
+                                        <div>Jum</div>
+                                        <div>Sab</div>
                                     </div>
                                     <div data-cal-panel>
                                         <div class="grid grid-cols-7 gap-1">
@@ -93,20 +81,14 @@
                                                 <div class="h-8"></div>
                                             @endfor
                                             @for ($d = 1; $d <= $calCurrDays; $d++)
-                                                @php
-                                                    $dateObj = $calCurr->copy()->day($d);
-                                                    $dateStr = $dateObj->toDateString();
-                                                    $past = $dateObj->lt($calToday->copy()->startOfDay());
-                                                    $selected = $dateStr === $tanggal;
-                                                @endphp
                                                 <button @click="open=false"
-                                                    wire:click="selectDate('{{ $dateStr }}')"
-                                                    wire:loading.attr="disabled" wire:target="selectDate"
-                                                    data-cal-date="{{ $dateStr }}"
+                                                    wire:click="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"
+                                                    wire:target="selectDate"
+                                                    data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
                                                     class="h-8 rounded-md text-xs font-bold transition-all
-                                                    {{ $selected ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
-                                                    {{ $past ? 'opacity-40 cursor-not-allowed' : '' }}"
-                                                    {{ $past ? 'disabled' : '' }}>
+                                                    {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
+                                                    {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
+                                                    {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'disabled aria-disabled=true' : '' }}>
                                                     {{ $d }}
                                                 </button>
                                             @endfor
@@ -118,17 +100,12 @@
                                                 <div class="h-8"></div>
                                             @endfor
                                             @for ($d = 1; $d <= $calNextDays; $d++)
-                                                @php
-                                                    $dateObj = $calNext->copy()->day($d);
-                                                    $dateStr = $dateObj->toDateString();
-                                                    $selected = $dateStr === $tanggal;
-                                                @endphp
                                                 <button @click="open=false"
-                                                    wire:click="selectDate('{{ $dateStr }}')"
+                                                    wire:click="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
                                                     wire:loading.attr="disabled" wire:target="selectDate"
-                                                    data-cal-date="{{ $dateStr }}"
+                                                    data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
                                                     class="h-8 rounded-md text-xs font-bold transition-all
-                                                    {{ $selected ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}">
+                                                    {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}">
                                                     {{ $d }}
                                                 </button>
                                             @endfor
@@ -155,11 +132,11 @@
                                         data-date="{{ $date->toDateString() }}"
                                         class="flex flex-col items-center justify-center w-16 h-20 rounded-xl transition-all {{ $isSelected ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
                                         <span wire:loading.remove wire:target="selectDate"
-                                            class="text-[10px] font-bold uppercase">{{ $date->format('D') }}</span>
+                                            class="text-[10px] font-bold uppercase">{{ $date->translatedFormat('D') }}</span>
                                         <span wire:loading.remove wire:target="selectDate"
                                             class="text-xl font-black italic">{{ $date->format('d') }}</span>
                                         <span wire:loading.remove wire:target="selectDate"
-                                            class="text-[9px] font-bold uppercase">{{ $date->format('M') }}</span>
+                                            class="text-[9px] font-bold uppercase">{{ $date->translatedFormat('M') }}</span>
                                         <span wire:loading wire:target="selectDate"
                                             class="loading loading-dots loading-xs"></span>
                                     </button>
@@ -232,95 +209,108 @@
                                     </div>
                                     <div wire:loading wire:target="selectDate"
                                         class="absolute inset-0 z-10 bg-base-100/40"></div>
-                                </div>
-                            @else
-                                <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="text-base font-black italic uppercase leading-none">
-                                            Pilih Arena
-                                        </h4>
-                                        <span class="text-[10px] font-bold uppercase text-base-content/50">
-                                            {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
-                                            tersedia
-                                        </span>
-                                    </div>
-                                </div>
-                                @php
-                                    $isValidationErr = in_array(
-                                        $error ?? '',
-                                        ['Silakan pilih arena', 'Silakan pilih tanggal', 'Silakan pilih waktu'],
-                                        true,
-                                    );
-                                @endphp
-                                @if (count($arenas) === 0)
-                                    <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
-                                        <div class="text-sm font-bold uppercase text-base-content/60">
-                                            Belum ada arena tersedia
+                                    <div wire:loading wire:target="selectTime"
+                                        class="absolute inset-0 rounded-2xl z-30 bg-base-100/80 backdrop-blur-sm">
+                                        <div
+                                            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                            <div
+                                                class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
+                                                <span class="loading loading-dots loading-lg text-info"></span>
+                                            </div>
+                                            <div
+                                                class="mt-2 text-[10px] sm:text-xs font-black uppercase italic tracking-widest text-base-content/70">
+                                                Memilih Waktu...
+                                            </div>
                                         </div>
-                                        <div class="text-xs font-medium text-base-content/50 mt-1">
-                                            Silakan kembali ke beranda untuk melihat informasi terbaru.
-                                        </div>
-                                        <div class="mt-3">
-                                            <a href="/" wire:navigate class="btn btn-sm btn-ghost">
-                                                Kembali ke Beranda
-                                            </a>
-                                        </div>
-                                    </div>
-                                @elseif ($error && !$isValidationErr)
-                                    <div class="alert alert-error mt-4">
-                                        <span>{{ $error }}</span>
                                     </div>
                                 @else
-                                    <div class="relative mt-4">
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                            @foreach ($arenas as $arena)
-                                                @php
-                                                    $isComing = ($arena['status'] ?? '') === 'coming_soon';
-                                                    $isSelectedArena =
-                                                        (string) ($arena['id'] ?? '') === (string) ($lapanganId ?? '');
-                                                @endphp
-                                                <button {{ $isComing ? 'disabled' : '' }}
-                                                    class="p-4 rounded-xl border transition-all text-left
+                                    <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-base font-black italic uppercase leading-none">
+                                                Pilih Arena
+                                            </h4>
+                                            <span class="text-[10px] font-bold uppercase text-base-content/50">
+                                                {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
+                                                tersedia
+                                            </span>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $isValidationErr = in_array(
+                                            $error ?? '',
+                                            ['Silakan pilih arena', 'Silakan pilih tanggal', 'Silakan pilih waktu'],
+                                            true,
+                                        );
+                                    @endphp
+                                    @if (count($arenas) === 0)
+                                        <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
+                                            <div class="text-sm font-bold uppercase text-base-content/60">
+                                                Belum ada arena tersedia
+                                            </div>
+                                            <div class="text-xs font-medium text-base-content/50 mt-1">
+                                                Silakan kembali ke beranda untuk melihat informasi terbaru.
+                                            </div>
+                                            <div class="mt-3">
+                                                <a href="/" wire:navigate class="btn btn-sm btn-ghost">
+                                                    Kembali ke Beranda
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @elseif ($error && !$isValidationErr)
+                                        <div class="alert alert-error mt-4">
+                                            <span>{{ $error }}</span>
+                                        </div>
+                                    @else
+                                        <div class="relative mt-4">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                @foreach ($arenas as $arena)
+                                                    @php
+                                                        $isComing = ($arena['status'] ?? '') === 'coming_soon';
+                                                        $isSelectedArena =
+                                                            (string) ($arena['id'] ?? '') ===
+                                                            (string) ($lapanganId ?? '');
+                                                    @endphp
+                                                    <button {{ $isComing ? 'disabled' : '' }}
+                                                        class="p-4 rounded-xl border transition-all text-left
                                                 {{ $isComing
                                                     ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through border-base-300'
                                                     : ($isSelectedArena
                                                         ? 'bg-info text-info-content border-info shadow-lg shadow-info/20'
                                                         : 'bg-base-100 border-base-300 hover:border-info/40 hover:bg-info/5') }}"
-                                                    wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
-                                                    wire:loading.attr="disabled" wire:target="selectArena">
-                                                    <div class="flex items-center justify-between">
-                                                        <div>
-                                                            <div
-                                                                class="text-xs font-black uppercase italic {{ $isSelectedArena ? 'text-info-content' : 'text-info' }}">
-                                                                Arena
+                                                        wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
+                                                        wire:loading.attr="disabled" wire:target="selectArena">
+                                                        <div class="flex items-center justify-between">
+                                                            <div>
+                                                                <div
+                                                                    class="text-xs font-black uppercase italic {{ $isSelectedArena ? 'text-info-content' : 'text-info' }}">
+                                                                    Arena
+                                                                </div>
+                                                                <div class="text-sm font-black italic uppercase">
+                                                                    {{ $arena['nama_lapangan'] ?? 'Arena' }}
+                                                                </div>
                                                             </div>
-                                                            <div class="text-sm font-black italic uppercase">
-                                                                {{ $arena['nama_lapangan'] ?? 'Arena' }}
+                                                            <div class="text-right">
+                                                                <span
+                                                                    class="text-[10px] font-bold uppercase {{ $isSelectedArena ? 'text-info-content/70' : 'text-base-content/50' }}">
+                                                                    {{ $arena['status_label'] ?? '' }}
+                                                                </span>
                                                             </div>
                                                         </div>
-                                                        <div class="text-right">
-                                                            <span
-                                                                class="text-[10px] font-bold uppercase {{ $isSelectedArena ? 'text-info-content/70' : 'text-base-content/50' }}">
-                                                                {{ $arena['status_label'] ?? '' }}
-                                                            </span>
+                                                        <div wire:loading wire:target="selectArena" class="mt-2">
+                                                            <span class="loading loading-dots loading-xs"></span>
                                                         </div>
-                                                    </div>
-                                                    <div wire:loading wire:target="selectArena" class="mt-2">
-                                                        <span class="loading loading-dots loading-xs"></span>
-                                                    </div>
-                                                </button>
-                                            @endforeach
+                                                    </button>
+                                                @endforeach
+                                            </div>
+                                            <div wire:loading wire:target="selectArena"
+                                                class="absolute inset-0 z-10 bg-base-100/40"></div>
                                         </div>
-                                        <div wire:loading wire:target="selectArena"
-                                            class="absolute inset-0 z-10 bg-base-100/40"></div>
-                                    </div>
-                                @endif
+                                    @endif
                             @endif
                         </div>
-
                         <!-- Legend -->
                         <div
-                            class="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-[9px] font-bold uppercase tracking-widest text-base-content/50 px-4">
+                            class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[9px] font-bold uppercase tracking-widest text-base-content/50 px-4">
                             <div class="flex items-center gap-1.5">
                                 <div class="w-2.5 h-2.5 rounded bg-base-100 border border-base-300"></div>
                                 Tersedia
@@ -527,13 +517,13 @@
                     <div class="fixed inset-0 z-50 grid place-items-center p-4">
                         <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm"></div>
                         <div
-                            class="relative w-full max-w-md rounded-3xl border-2 border-info bg-base-100 shadow-2xl overflow-hidden">
-                            <div class="bg-info p-6">
-                                <div class="flex items-center gap-3">
+                            class="relative w-full max-w-sm sm:max-w-md mx-4 sm:mx-0 rounded-2xl sm:rounded-3xl border-2 border-info bg-base-100 shadow-2xl overflow-hidden">
+                            <div class="bg-info p-4 sm:p-6">
+                                <div class="flex items-center gap-2 sm:gap-3">
                                     <div
-                                        class="w-10 h-10 rounded-xl bg-info-content/20 flex items-center justify-center">
+                                        class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-info-content/20 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            fill="currentColor" class="size-6 text-info-content">
+                                            fill="currentColor" class="size-5 sm:size-6 text-info-content">
                                             <path fill-rule="evenodd"
                                                 d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.94a.75.75 0 1 0-1.22-.86l-3.864 5.497-2.064-2.064a.75.75 0 1 0-1.06 1.06l2.667 2.667a.75.75 0 0 0 1.177-.127l4.427-6.173Z"
                                                 clip-rule="evenodd" />
@@ -541,16 +531,17 @@
                                     </div>
                                     <div>
                                         <h4
-                                            class="text-info-content font-black italic uppercase tracking-tighter text-xl">
+                                            class="text-info-content font-black italic uppercase tracking-tighter text-lg sm:text-xl">
                                             Booking Berhasil
                                         </h4>
-                                        <div class="text-[10px] font-bold uppercase text-info-content/70">
+                                        <div
+                                            class="text-[9px] sm:text-[10px] font-bold uppercase text-info-content/70">
                                             Keep the code for your match
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-6 space-y-4">
+                            <div class="p-4 sm:p-6 space-y-3 sm:space-y-4 overflow-y-auto max-h-[70vh]">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold uppercase text-base-content/50">Kode
                                         Booking</span>
@@ -583,9 +574,9 @@
                                         {{ $bookingMessage }}
                                     </div>
                                 </div>
-                                <div class="mt-4 grid grid-cols-2 gap-2">
-                                    <button class="btn btn-ghost" wire:click="closeSuccessModal">Tutup</button>
-                                    <a href="/" wire:navigate class="btn btn-info">
+                                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <a href="/booking" wire:navigate class="btn btn-ghost w-full">Tutup</a>
+                                    <a href="/" wire:navigate class="btn btn-info w-full">
                                         <span>Kembali ke Beranda</span>
                                     </a>
                                 </div>
