@@ -180,7 +180,16 @@
                                     <div class="flex flex-col">
                                         <span class="text-[10px] font-bold uppercase text-base-content/50">Jenis</span>
                                         <span class="font-black italic uppercase text-sm">
-                                            {{ $it['jenis'] ?? '-' }}
+                                            @php
+                                                $jenisRaw = (string) ($it['jenis'] ?? '');
+                                                $jenisAlias = match ($jenisRaw) {
+                                                    'fun_match' => 'FUN MATCH',
+                                                    'latihan' => 'LATIHAN',
+                                                    'turnamen_kecil' => 'TURNAMEN KECIL',
+                                                    default => strtoupper(str_replace('_', ' ', $jenisRaw)),
+                                                };
+                                            @endphp
+                                            {{ $jenisAlias ?: '-' }}
                                         </span>
                                     </div>
                                 </div>

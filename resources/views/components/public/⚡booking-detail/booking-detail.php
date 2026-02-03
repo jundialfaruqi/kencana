@@ -6,7 +6,9 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
-new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Component
+new #[Title('Booking Detail')]
+#[Layout('layouts::public.app')]
+class extends Component
 {
     public bool $ready = false;
     public ?string $kode_booking = null;
@@ -14,6 +16,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
     public ?string $error = null;
     public ?string $cancelMessage = null;
     public ?string $cancelError = null;
+    public bool $showCancelConfirm = false;
 
     public function mount(string $kode_booking): void
     {
@@ -40,25 +43,20 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
             ->accept('application/json')
             ->post($url, []);
 
-        $status = (int) $response->status();
-        $data = json_decode((string) $response->body(), true) ?? [];
-        if ($status >= 200 && $status < 300) {
-            if (($data['success'] ?? false) && is_array($data['data'] ?? null)) {
-                $this->detail = $data['data'];
-                $this->error = null;
-            } else {
-                $this->detail = [];
-                $this->error = $data['message'] ?? 'Gagal memuat detail booking';
-            }
-        } else {
-            $this->detail = [];
-            $this->error = 'Gagal terhubung ke server';
+        $data = json_decode((string) $response, true);
+        if (is_array($data) && ($data['success'] ?? false) && is_array($data['data'] ?? null)) {
+            $this->detail = (array) $data['data'];
+            $this->error = null;
+            return;
         }
+        $this->detail = [];
+        $this->error = is_array($data) ? (string) ($data['message'] ?? 'Gagal memuat detail booking') : 'Gagal terhubung ke server';
     }
 
     public function cancelBooking(): void
     {
-        if (!Session::has('auth_token')) {
+        $this->showCancelConfirm = false;
+        if (! Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
             return;
         }
@@ -76,20 +74,19 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
                 ->asForm()
                 ->accept('application/json')
                 ->post($url, []);
-            $status = (int) $response->status();
-            $json = json_decode((string) $response->body(), true) ?? [];
-            if ($status >= 200 && $status < 300 && ($json['success'] ?? false)) {
+            $json = json_decode((string) $response, true);
+            if (is_array($json) && ($json['success'] ?? false)) {
                 $this->cancelMessage = (string) ($json['message'] ?? 'Booking berhasil dibatalkan');
                 $this->cancelError = null;
                 $this->fetchDetail();
                 $this->dispatch('toast', [
                     'title' => 'Berhasil',
-                    'message' => $this->cancelMessage,
+                    'message' => (string) $this->cancelMessage,
                     'type' => 'success',
                 ]);
                 return;
             }
-            $this->cancelError = (string) ($json['message'] ?? 'Gagal membatalkan booking');
+            $this->cancelError = is_array($json) ? (string) ($json['message'] ?? 'Gagal membatalkan booking') : 'Gagal membatalkan booking';
             $this->cancelMessage = null;
             $this->dispatch('toast', [
                 'title' => 'Gagal',
@@ -105,5 +102,12 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
                 'type' => 'error',
             ]);
         }
+    }
+
+    public function openCancelConfirm(): void
+    {
+        $this->cancelMessage = null;
+        $this->cancelError = null;
+        $this->showCancelConfirm = true;
     }
 };

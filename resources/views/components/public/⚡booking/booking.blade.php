@@ -630,7 +630,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                    <a href="/booking" wire:navigate class="btn btn-ghost w-full">Tutup</a>
+                                    <a href="/booking-history" wire:navigate class="btn btn-ghost w-full">Tutup</a>
                                     <a href="/" wire:navigate class="btn btn-info w-full">
                                         <span>Kembali ke Beranda</span>
                                     </a>
