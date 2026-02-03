@@ -187,6 +187,36 @@
                         Minisoccer</div>
                 </div>
             </div>
+            <div class="mt-4 px-2">
+                <div class="flex items-center gap-3">
+                    <button class="btn btn-error" wire:click="cancelBooking" wire:loading.attr="disabled"
+                        @disabled((data_get($detail, 'status') ?? '') !== 'dipesan')>
+                        <span>Batalkan Booking</span>
+                        <span class="loading loading-dots loading-xs ml-2" wire:loading
+                            wire:target="cancelBooking"></span>
+                    </button>
+                </div>
+                @if ($cancelMessage)
+                    <div class="alert alert-success mt-3">
+                        <span>{{ $cancelMessage }}</span>
+                    </div>
+                @endif
+                @if ($cancelError)
+                    <div class="alert alert-error mt-3">
+                        <span>{{ $cancelError }}</span>
+                    </div>
+                @endif
+            </div>
+            <div wire:loading wire:target="cancelBooking" class="fixed inset-0 z-50 bg-base-100/80 backdrop-blur-sm">
+                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
+                        <span class="loading loading-dots loading-lg text-info"></span>
+                    </div>
+                    <div class="mt-4 text-sm font-black uppercase italic tracking-widest text-base-content/70">
+                        Membatalkan Booking...
+                    </div>
+                </div>
+            </div>
         </div>
     @else
         <div class="space-y-4 p-4">
