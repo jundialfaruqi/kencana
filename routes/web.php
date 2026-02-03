@@ -10,8 +10,12 @@ Route::livewire('/', 'public::landing-page');
 
 // Protected Public Route
 Route::middleware(['api.auth'])->group(function () {
-    Route::livewire('/booking', 'public::public.booking');
+    // Profile
     Route::livewire('/profile', 'public::public.profile');
+
+    // Manajemen booking
+    Route::livewire('/booking', 'public::public.booking');
+    Route::livewire('/booking-history', 'public::public.booking-history');
 });
 
 // Admin Route
@@ -23,7 +27,7 @@ Route::middleware(['api.auth:admin'])->group(function () {
     Route::livewire('/user-detail', 'admin::user-detail');
     Route::livewire('/user-update', 'admin::user-update');
 
-    // Manajemen Lapangan
+    // Manajemen Lapangan atau booking lapangan
     Route::livewire('/manajemen-lapangan', 'admin::lapangan');
     Route::livewire('/lapangan-detail', 'admin::lapangan-detail');
     Route::livewire('/lapangan-create', 'admin::lapangan-create');
