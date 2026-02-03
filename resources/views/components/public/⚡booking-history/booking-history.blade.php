@@ -137,7 +137,11 @@
                                             {{ $it['status'] ?? '-' }}
                                         </span>
                                         <div class="text-[10px] text-base-content/50 mt-1">
-                                            {{ $it['dibuat_pada'] ?? '-' }}
+                                            @php
+                                                $dp = (string) ($it['dibuat_pada'] ?? '');
+                                                $dibuatFmt = $dp ? date('d-m-Y H:i', strtotime($dp)) : null;
+                                            @endphp
+                                            {{ $dibuatFmt ?? ($it['dibuat_pada'] ?? '-') }}
                                         </div>
                                         @php
                                             $jr = explode(' - ', (string) ($it['jam'] ?? ''));
@@ -148,8 +152,8 @@
                                             }
                                             $jamMenit = implode(' - ', $jm);
                                         @endphp
-                                        <p class="text-xs text-warning">
-                                            <span class="font-bold uppercase text-base-content">
+                                        <p class="text-xs font-bold text-warning">
+                                            <span class="uppercase text-base-content">
                                                 jam
                                             </span>
                                             {{ $jamMenit ?: '-' }}
