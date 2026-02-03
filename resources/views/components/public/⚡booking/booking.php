@@ -27,6 +27,9 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public bool $showSuccessModal = false;
     public ?string $bookingMessage = null;
     public ?string $bookingCode = null;
+    public bool $showTermsModal = false;
+    public bool $termsAgreed = false;
+    public array $catatan = [];
     public $calCurrLabel;
     public $calNextLabel;
     public $calCurrDays;
@@ -333,9 +336,55 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->error = null;
 
         $this->resetValidation();
+        $this->validate();
+
+        $this->termsAgreed = false;
+        $this->catatan = [];
+        try {
+            $base = config('services.api.base_url');
+            $url = rtrim((string) $base, '/') . '/v1/catatan/' . (string) $this->lapanganId;
+            $token = Session::get('auth_token');
+            /** @var \Illuminate\Http\Client\Response $response */
+            $response = Http::withToken($token)
+                ->accept('application/json')
+                ->get($url);
+            $json = $response->json();
+            if ($response->successful() && ($json['success'] ?? false)) {
+                $this->catatan = (array) ($json['data'] ?? []);
+            } else {
+                $this->catatan = [];
+            }
+        } catch (\Throwable) {
+            $this->catatan = [];
+        }
+        $this->showTermsModal = true;
+    }
+
+    public function finalizeBooking(): void
+    {
+        if (!$this->termsAgreed) {
+            $this->dispatch('toast', [
+                'title' => 'Perlu persetujuan',
+                'message' => 'Ceklist setuju syarat dan ketentuan terlebih dahulu',
+                'type' => 'error',
+            ]);
+            return;
+        }
+        $this->showTermsModal = false;
+        if (!Session::has('auth_token')) {
+            $this->redirect('/login', navigate: true);
+            return;
+        }
+        if (!$this->lapanganId || !$this->tanggal || !$this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
+            $this->error = 'Data booking tidak lengkap';
+            return;
+        }
+
+        sleep(1);
+
+        $this->resetValidation();
         $validated = $this->validate();
         $jumlah = intval($validated['jumlahPemain']);
-
         $clicked = [
             'mulai' => (string) ($this->selectedSlot['mulai'] ?? ''),
             'selesai' => (string) ($this->selectedSlot['selesai'] ?? ''),
@@ -365,10 +414,8 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             }
         } catch (\Throwable) {
         }
-
         $base = config('services.api.base_url');
         $url = rtrim((string) $base, '/') . '/v1/lapangan/bookingLapangan';
-
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
