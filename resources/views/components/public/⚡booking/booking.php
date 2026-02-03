@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -14,6 +15,8 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public $lapanganId;
     #[Url(as: 'lapangan_id')]
     public ?string $lapanganParam = null;
+    #[Url(as: 'lapangan')]
+    public ?string $lapanganSlug = null;
     public bool $ready = false;
     public string $tanggal = '';
     public string $namaLapangan = '';
@@ -58,6 +61,27 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 $decoded = $this->lapanganParam;
             }
             $this->lapanganId = (string) $decoded;
+        }
+
+        if (!$this->lapanganId && $this->lapanganSlug) {
+            $this->fetchArenas();
+            $match = null;
+            foreach ((array) $this->arenas as $item) {
+                $slug = Str::slug((string) ($item['nama_lapangan'] ?? ''));
+                if ((string) $slug === (string) $this->lapanganSlug) {
+                    $match = $item;
+                    break;
+                }
+            }
+            if ($match) {
+                $this->lapanganId = (string) ($match['id'] ?? '');
+                $this->namaLapangan = (string) ($match['nama_lapangan'] ?? '');
+                try {
+                    $this->lapanganParam = Crypt::encryptString((string) $this->lapanganId);
+                } catch (\Throwable) {
+                    $this->lapanganParam = (string) $this->lapanganId;
+                }
+            }
         }
 
         Carbon::setLocale('id');

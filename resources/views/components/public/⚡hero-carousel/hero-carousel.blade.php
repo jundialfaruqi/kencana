@@ -52,14 +52,15 @@
                                 {{ $lp['deskripsi'] }}
                             </p>
                             @if (($lp['status'] ?? '') === 'open')
-                                <a href="/booking?lapangan_id={{ $lp['id'] }}" wire:navigate
+                                <a href="/booking?lapangan={{ \Illuminate\Support\Str::slug($lp['nama_lapangan'] ?? '') }}"
+                                    wire:navigate wire:navigate
                                     class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
                                     <span class="skew-x-12">Pesan Sekarang</span>
                                 </a>
                             @else
                                 <button disabled
-                                    class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
-                                    <span class="skew-x-12">{{ $lp['status_label'] ?: 'Segera Dibuka' }}</span>
+                                class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                                <span class="skew-x-12">{{ $lp['status_label'] ?: 'Segera Dibuka' }}</span>
                                 </button>
                             @endif
                         </div>
