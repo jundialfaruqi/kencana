@@ -56,7 +56,7 @@
                         '</div>' +
                         '<div class="mt-2 pt-2 border-t border-base-300 flex justify-between items-center">' +
                         '<span class="text-[8px] font-black uppercase italic ' + (item.status === 'open' ? 'text-success' : 'text-warning') + '">' + statusText + '</span>' +
-                        '<span class="text-[8px] font-bold opacity-50">' + lat.toFixed(6) + ', ' + lng.toFixed(6) + '</span>' +
+                        '<a href="' + (item.gmap || 'https://maps.app.goo.gl/xmVpF14sPhjzm5EW9') + '" target="_blank" rel="noopener noreferrer" class="text-[8px] font-black uppercase opacity-70 underline">Google Maps</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>';

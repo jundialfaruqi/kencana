@@ -25,8 +25,7 @@
                         Lihat Daftar Lokasi disini
                     </p>
                 </div>
-                <a href="https://www.google.com/maps/place/Kencana+Mini+Soccer/@0.5242589,101.4347965,965m/data=!3m1!1e3!4m14!1m7!3m6!1s0x31d5ad00091e7017:0x790745bee1b2b012!2sKencana+Mini+Soccer!8m2!3d0.5242589!4d101.4347965!16s%2Fg%2F11ywd6vjz7!3m5!1s0x31d5ad00091e7017:0x790745bee1b2b012!8m2!3d0.5242589!4d101.4347965!16s%2Fg%2F11ywd6vjz7?entry=ttu"
-                    target="_blank"
+                <a
                     class="btn btn-info -skew-x-12 btn-sm text-[10px] sm:text-xs font-black uppercase tracking-widest shadow-lg group">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-4 mr-1 transition-transform group-hover:scale-110">
