@@ -16,6 +16,7 @@ Route::middleware(['api.auth'])->group(function () {
     // Manajemen booking
     Route::livewire('/booking', 'public::public.booking');
     Route::livewire('/booking-history', 'public::public.booking-history');
+    Route::livewire('/booking-detail/{kode_booking}', 'public::public.booking-detail');
 });
 
 // Admin Route

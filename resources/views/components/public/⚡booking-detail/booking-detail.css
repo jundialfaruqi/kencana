@@ -1,0 +1,72 @@
+ .ticket {
+   display: flex;
+   flex-direction: column;
+ }
+ @media (min-width: 640px) {
+   .ticket {
+     flex-direction: row;
+   }
+ }
+ .ticket-body {
+   flex: 1;
+ }
+ .ticket-stub {
+   width: 100%;
+   background: #1d232a;
+   color: #a6adbb;
+   position: relative;
+ }
+ @media (min-width: 640px) {
+   .ticket-stub {
+     width: 240px;
+   }
+ }
+ .ticket-stub::before,
+ .ticket-stub::after {
+   content: "";
+   position: absolute;
+   left: -10px;
+   width: 20px;
+   height: 20px;
+   border-radius: 50%;
+   background: #1d232a;
+   box-shadow: 0 0 0 2px #e5e7eb;
+ }
+ .ticket-stub::before {
+   top: 16px;
+ }
+ .ticket-stub::after {
+   bottom: 16px;
+ }
+ .ticket-barcode {
+   background-image: repeating-linear-gradient(
+     to right,
+     rgba(0, 0, 0, 0.85),
+     rgba(0, 0, 0, 0.85) 2px,
+     transparent 2px,
+     transparent 4px
+   );
+   border-radius: 6px;
+ }
+ .boarding-pass {}
+ .bp-header {}
+ .bp-body {}
+ .bp-footer {}
+ .bp-divider {
+   height: 1px;
+   background-image: repeating-linear-gradient(
+     to right,
+     rgba(0,0,0,0.2),
+     rgba(0,0,0,0.2) 6px,
+     transparent 6px,
+     transparent 12px
+   );
+ }
+ .bp-qrcode {
+   background:
+     linear-gradient(90deg, rgba(0,0,0,0.12) 50%, transparent 50%) center/10px 10px,
+     linear-gradient(0deg, rgba(0,0,0,0.12) 50%, transparent 50%) center/10px 10px,
+     #fff;
+   border: 2px dashed rgba(0,0,0,0.15);
+   border-radius: 8px;
+ }

@@ -117,7 +117,8 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4"
                         wire:loading.class="opacity-0 pointer-events-none" wire:target="applyFilter,goToPage">
                         @forelse ($items as $it)
-                            <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-200 shadow-lg">
+                            <a wire:navigate href="/booking-detail/{{ $it['kode_booking'] ?? '' }}"
+                                class="block w-full p-4 rounded-2xl bg-base-100 border-2 border-base-200 shadow-lg hover:border-info hover:shadow-info/20 transition-all">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <div
@@ -136,7 +137,7 @@
                                             class="text-xs font-black italic {{ ($it['status'] ?? '') === 'dipesan' ? 'text-info' : 'text-warning' }}">
                                             {{ $it['status'] ?? '-' }}
                                         </span>
-                                        <div class="text-[10px] text-base-content/50 mt-1">
+                                        <div class="text-[10px] text-base-content/50 mt-2">
                                             @php
                                                 $dp = (string) ($it['dibuat_pada'] ?? '');
                                                 $dibuatFmt = $dp ? date('d-m-Y H:i', strtotime($dp)) : null;
@@ -183,7 +184,7 @@
                                         </span>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @empty
                             <div
                                 class="w-full p-6 rounded-2xl bg-base-100 border-2 border-base-200 text-center lg:col-span-2">
