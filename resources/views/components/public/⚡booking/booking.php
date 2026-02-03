@@ -366,6 +366,11 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         }
         if (!$this->lapanganId) {
             $this->error = 'Arena belum dipilih, pilih arenanya dulu!';
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->error,
+                'type' => 'error',
+            ]);
             return;
         }
         if (!$this->tanggal) {
@@ -374,6 +379,11 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         }
         if (!$this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
             $this->error = 'Jam belum dipilih, pilih jamnya dulu!';
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->error,
+                'type' => 'error',
+            ]);
             return;
         }
         $this->error = null;

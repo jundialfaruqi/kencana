@@ -676,32 +676,50 @@
                                 <div class="w-8 h-8 rounded-lg bg-base-300"></div>
                                 <div class="h-6 bg-base-300 w-48 rounded"></div>
                             </div>
-                            <div
-                                class="carousel carousel-start w-full gap-4 pb-6 px-2 lg:grid lg:grid-cols-2 lg:carousel-none">
-                                @for ($i = 0; $i < 2; $i++)
-                                    <div class="carousel-item w-[85%] sm:w-95 lg:w-full flex-col gap-3">
-                                        <!-- Header Card Skeleton -->
-                                        <div
-                                            class="w-full p-4 rounded-2xl bg-base-200 border-2 border-base-300/30 h-20">
-                                            <div class="flex justify-between items-start">
-                                                <div class="space-y-2">
-                                                    <div class="h-3 bg-base-300 w-16 rounded"></div>
-                                                    <div class="h-5 bg-base-300 w-32 rounded"></div>
-                                                </div>
-                                                <div class="h-4 bg-base-300 w-20 rounded"></div>
+                            @if ($lapanganParam || $lapanganSlug)
+                                <div class="w-full pb-6 px-2">
+                                    <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
+                                        <div class="flex justify-between items-start">
+                                            <div class="space-y-2">
+                                                <div class="h-3 bg-base-300 w-12 rounded"></div>
+                                                <div class="h-5 bg-base-300 w-40 rounded"></div>
                                             </div>
-                                        </div>
-                                        <!-- Time Grid Skeleton -->
-                                        <div class="bg-base-200/40 rounded-2xl p-4 border border-base-200/50">
-                                            <div class="grid grid-cols-4 gap-2">
-                                                @for ($j = 0; $j < 12; $j++)
-                                                    <div class="h-8 bg-base-300 rounded-lg"></div>
-                                                @endfor
-                                            </div>
+                                            <div class="h-4 bg-base-300 w-16 rounded"></div>
                                         </div>
                                     </div>
-                                @endfor
-                            </div>
+                                    <div class="bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4">
+                                        <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
+                                            @for ($j = 0; $j < 9; $j++)
+                                                <div class="py-2 h-16 bg-base-300 rounded-lg"></div>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="w-full pb-6 px-2">
+                                    <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
+                                        <div class="flex items-center justify-between">
+                                            <div class="h-5 bg-base-300 w-24 rounded"></div>
+                                            <div class="h-3 bg-base-300 w-16 rounded"></div>
+                                        </div>
+                                    </div>
+                                    <div class="relative mt-4">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            @for ($i = 0; $i < 6; $i++)
+                                                <div class="p-4 rounded-xl border bg-base-100 border-base-300/30">
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="space-y-2">
+                                                            <div class="h-3 bg-base-300 w-10 rounded"></div>
+                                                            <div class="h-5 bg-base-300 w-32 rounded"></div>
+                                                        </div>
+                                                        <div class="h-3 bg-base-300 w-20 rounded"></div>
+                                                    </div>
+                                                </div>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </section>
                     </div>
 

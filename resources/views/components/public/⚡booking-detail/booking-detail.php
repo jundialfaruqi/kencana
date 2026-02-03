@@ -17,6 +17,12 @@ class extends Component
     public ?string $cancelMessage = null;
     public ?string $cancelError = null;
     public bool $showCancelConfirm = false;
+    public ?string $tgl = null;
+    public ?string $tglFmt = null;
+    public ?string $mulai = null;
+    public ?string $selesai = null;
+    public ?string $jenisAlias = null;
+    public ?string $dpFmt = null;
 
     public function mount(string $kode_booking): void
     {
@@ -27,6 +33,9 @@ class extends Component
     {
         $this->ready = false;
         $this->fetchDetail();
+        $this->computeTanggalJam();
+        $this->computeJenisAlias();
+        $this->computeDibuatPada();
         sleep(1);
         $this->ready = true;
         $this->dispatch('detail-loaded');
@@ -109,5 +118,87 @@ class extends Component
         $this->cancelMessage = null;
         $this->cancelError = null;
         $this->showCancelConfirm = true;
+    }
+
+    private function computeTanggalJam(): void
+    {
+        $this->tgl = (string) ($this->detail['tanggal'] ?? '');
+        $this->tglFmt = null;
+        if (preg_match('/^\d{4}-\d{2}-\d{2}/', (string) $this->tgl)) {
+            $this->tglFmt = date('d/m/Y', strtotime((string) $this->tgl));
+        } else {
+            $parts = explode(',', (string) $this->tgl);
+            $rest = trim((string) end($parts));
+            $tok = preg_split('/\s+/', $rest);
+            $bulanMap = [
+                'januari' => 1,
+                'februari' => 2,
+                'maret' => 3,
+                'april' => 4,
+                'mei' => 5,
+                'juni' => 6,
+                'juli' => 7,
+                'agustus' => 8,
+                'september' => 9,
+                'oktober' => 10,
+                'november' => 11,
+                'desember' => 12,
+            ];
+            if (is_array($tok) && count($tok) >= 3) {
+                $d = (int) preg_replace('/\D/', '', (string) $tok[0]);
+                $b = $bulanMap[strtolower((string) $tok[1])] ?? null;
+                $y = (int) preg_replace('/\D/', '', (string) $tok[2]);
+                if ($d && $b && $y) {
+                    $this->tglFmt = sprintf('%02d/%02d/%04d', $d, (int) $b, $y);
+                }
+            }
+        }
+        $this->mulai = (string) data_get($this->detail, 'jam.mulai');
+        $this->selesai = (string) data_get($this->detail, 'jam.selesai');
+    }
+
+    private function computeJenisAlias(): void
+    {
+        $raw = (string) (data_get($this->detail, 'pemesan.jenis_permainan') ?? '');
+        $this->jenisAlias = match ($raw) {
+            'fun_match' => 'FUN MATCH',
+            'latihan' => 'LATIHAN',
+            'turnamen_kecil' => 'TURNAMEN KECIL',
+            default => strtoupper(str_replace('_', ' ', $raw)),
+        };
+    }
+
+    private function computeDibuatPada(): void
+    {
+        $dp = (string) (data_get($this->detail, 'dibuat_pada') ?? '');
+        $this->dpFmt = null;
+        if (preg_match('/^\d{4}-\d{2}-\d{2}/', $dp)) {
+            $this->dpFmt = date('d-m-Y H:i', strtotime($dp));
+            return;
+        }
+        $tok = preg_split('/\s+/', trim($dp));
+        $bulanMap = [
+            'januari' => 1,
+            'februari' => 2,
+            'maret' => 3,
+            'april' => 4,
+            'mei' => 5,
+            'juni' => 6,
+            'juli' => 7,
+            'agustus' => 8,
+            'september' => 9,
+            'oktober' => 10,
+            'november' => 11,
+            'desember' => 12,
+        ];
+        if (is_array($tok) && count($tok) >= 4) {
+            $d = (int) preg_replace('/\D/', '', (string) $tok[0]);
+            $b = $bulanMap[strtolower((string) $tok[1])] ?? null;
+            $y = (int) preg_replace('/\D/', '', (string) $tok[2]);
+            $time = (string) $tok[3];
+            if ($d && $b && $y && preg_match('/^\d{2}:\d{2}/', $time)) {
+                $this->dpFmt = sprintf('%02d-%02d-%04d %s', $d, (int) $b, $y, $time);
+            }
+        }
     }
 };

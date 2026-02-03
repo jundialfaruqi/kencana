@@ -22,7 +22,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <div class="boarding-pass border-2 border-base-200 bg-base-100 rounded-2xl overflow-hidden shadow-lg"
+                    <div class="boarding-pass border-2 border-base-200 border-dashed bg-base-100 rounded-2xl overflow-hidden shadow-lg"
                         id="detail-card">
                         <div class="bp-header bg-info text-warning-content px-4 py-3 sm:px-6 sm:py-4">
                             <div class="flex items-center justify-between">
@@ -35,41 +35,6 @@
                             </div>
                         </div>
                         <div class="bp-body p-4 sm:p-6">
-                            @php
-                                $tgl = (string) ($detail['tanggal'] ?? '');
-                                $tglFmt = null;
-                                if (preg_match('/^\d{4}-\d{2}-\d{2}/', $tgl)) {
-                                    $tglFmt = date('d/m/Y', strtotime($tgl));
-                                } else {
-                                    $parts = explode(',', $tgl);
-                                    $rest = trim(end($parts));
-                                    $tok = preg_split('/\s+/', $rest);
-                                    $bulanMap = [
-                                        'januari' => 1,
-                                        'februari' => 2,
-                                        'maret' => 3,
-                                        'april' => 4,
-                                        'mei' => 5,
-                                        'juni' => 6,
-                                        'juli' => 7,
-                                        'agustus' => 8,
-                                        'september' => 9,
-                                        'oktober' => 10,
-                                        'november' => 11,
-                                        'desember' => 12,
-                                    ];
-                                    if (count($tok) >= 3) {
-                                        $d = (int) preg_replace('/\D/', '', $tok[0]);
-                                        $b = $bulanMap[strtolower($tok[1])] ?? null;
-                                        $y = (int) preg_replace('/\D/', '', $tok[2]);
-                                        if ($d && $b && $y) {
-                                            $tglFmt = sprintf('%02d/%02d/%04d', $d, $b, $y);
-                                        }
-                                    }
-                                }
-                                $mulai = data_get($detail, 'jam.mulai');
-                                $selesai = data_get($detail, 'jam.selesai');
-                            @endphp
                             <div class="flex items-center justify-between">
                                 <h4 class="text-base sm:text-lg font-black italic uppercase">
                                     {{ data_get($detail, 'lapangan.nama') ?? '-' }}</h4>
@@ -114,16 +79,6 @@
                                             <div class="text-[10px] font-bold uppercase text-base-content/50">Jenis
                                             </div>
                                             <div class="mt-1 font-black italic uppercase text-sm">
-                                                @php
-                                                    $jenisRaw =
-                                                        (string) (data_get($detail, 'pemesan.jenis_permainan') ?? '');
-                                                    $jenisAlias = match ($jenisRaw) {
-                                                        'fun_match' => 'FUN MATCH',
-                                                        'latihan' => 'LATIHAN',
-                                                        'turnamen_kecil' => 'TURNAMEN KECIL',
-                                                        default => strtoupper(str_replace('_', ' ', $jenisRaw)),
-                                                    };
-                                                @endphp
                                                 {{ $jenisAlias ?: '-' }}</div>
                                         </div>
                                     </div>
@@ -141,38 +96,6 @@
                                 <div>
                                     <div class="text-[10px] font-bold uppercase text-base-content/50">Dibuat</div>
                                     <div class="mt-1 text-xs">
-                                        @php
-                                            $dp = (string) (data_get($detail, 'dibuat_pada') ?? '');
-                                            $dpFmt = null;
-                                            if (preg_match('/^\d{4}-\d{2}-\d{2}/', $dp)) {
-                                                $dpFmt = date('d-m-Y H:i', strtotime($dp));
-                                            } else {
-                                                $tok = preg_split('/\s+/', trim($dp));
-                                                $bulanMap = [
-                                                    'januari' => 1,
-                                                    'februari' => 2,
-                                                    'maret' => 3,
-                                                    'april' => 4,
-                                                    'mei' => 5,
-                                                    'juni' => 6,
-                                                    'juli' => 7,
-                                                    'agustus' => 8,
-                                                    'september' => 9,
-                                                    'oktober' => 10,
-                                                    'november' => 11,
-                                                    'desember' => 12,
-                                                ];
-                                                if (count($tok) >= 4) {
-                                                    $d = (int) preg_replace('/\D/', '', $tok[0]);
-                                                    $b = $bulanMap[strtolower($tok[1])] ?? null;
-                                                    $y = (int) preg_replace('/\D/', '', $tok[2]);
-                                                    $time = $tok[3];
-                                                    if ($d && $b && $y && preg_match('/^\d{2}:\d{2}/', $time)) {
-                                                        $dpFmt = sprintf('%02d-%02d-%04d %s', $d, $b, $y, $time);
-                                                    }
-                                                }
-                                            }
-                                        @endphp
                                         {{ $dpFmt ?? (data_get($detail, 'dibuat_pada') ?? '-') }}
                                     </div>
                                 </div>
@@ -203,10 +126,9 @@
                 <div>
                     <div class="rounded-2xl border-2 border-base-200 bg-base-100 shadow-lg p-4 sm:p-6">
                         <div class="flex items-center gap-2 sm:gap-3">
-                            <div
-                                class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-error/10 flex items-center justify-center">
+                            <div class="flex-none shrink-0 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="size-5 sm:size-6 text-error">
+                                    class="size-6 sm:size-8 text-error">
                                     <path fill-rule="evenodd"
                                         d="M12 2.25c5.385 0 9.75 4.365 9.75 9.75s-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12 6.615 2.25 12 2.25ZM12 8.25a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
                                         clip-rule="evenodd" />
@@ -221,31 +143,31 @@
                         </div>
                         <div class="mt-4 space-y-2">
                             <ul class="space-y-2">
-                                <li class="flex items-center gap-3"><span
+                                <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">1.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Durasi permainan maksimal 1
                                         jam.</span></li>
-                                <li class="flex items-center gap-3"><span
+                                <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">2.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Keterlambatan lebih dari 15 menit
                                         dari jadwal booking dianggap pembatalan.</span></li>
-                                <li class="flex items-center gap-3"><span
+                                <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">3.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Dilarang membawa minuman keras dan
                                         zat adiktif lainnya.</span></li>
-                                <li class="flex items-center gap-3"><span
+                                <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">4.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Dilarang merokok, meludah, makan
                                         permen karet, dan membuang sampah sembarangan di area lapangan.</span></li>
-                                <li class="flex items-center gap-3"><span
+                                <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">5.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Dilarang merusak fasilitas lapangan
                                         dan wajib menjaga ketertiban selama penggunaan lapangan.</span></li>
-                                <li class="flex items-center gap-3"><span
+                                <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">6.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Menghentikan aktivitas permainan saat
                                         tiba waktu shalat lima waktu.</span></li>
-                                <li class="flex items-center gap-3"><span
+                                <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">7.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Menjaga kebersihan dan ketertiban
                                         selama berada di lokasi lapangan.</span></li>
@@ -341,7 +263,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
                         <div
-                            class="boarding-pass border-2 border-base-200 bg-base-100 rounded-2xl overflow-hidden shadow-lg">
+                            class="boarding-pass border-2 border-base-200 border-dashed bg-base-100 rounded-2xl overflow-hidden shadow-lg">
                             <div class="bp-header px-4 py-3 sm:px-6 sm:py-4">
                                 <div class="flex items-center justify-between">
                                     <div class="h-3 w-24 bg-base-300 rounded"></div>
@@ -417,7 +339,7 @@
                     <div>
                         <div class="rounded-2xl border-2 border-base-200 bg-base-100 shadow-lg p-4 sm:p-6">
                             <div class="flex items-center gap-2 sm:gap-3">
-                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-base-300"></div>
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-3xl bg-base-300"></div>
                                 <div>
                                     <div class="h-5 sm:h-6 w-40 sm:w-52 bg-base-300 rounded"></div>
                                     <div class="h-3 w-32 bg-base-300 rounded mt-1"></div>
