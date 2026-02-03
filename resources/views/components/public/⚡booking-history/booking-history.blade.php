@@ -121,10 +121,10 @@
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <div
-                                            class="w-fit text-[10px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
+                                            class="w-fit text-[10px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content -skew-x-12">
                                             {{ $it['kode_booking'] ?? '-' }}
                                         </div>
-                                        <h4 class="text-base font-black italic uppercase mt-1 leading-none">
+                                        <h4 class="text-base font-black italic uppercase mt-2 leading-none">
                                             {{ $it['lapangan'] ?? '-' }}
                                         </h4>
                                         <p class="text-xs text-warning mt-1">
@@ -156,9 +156,10 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="flex justify-between gap-3 mt-4">
+                                <div
+                                    class="flex justify-between gap-3 mt-4 bg-base-200 border border-dashed border-base-300 p-2 rounded-xl">
                                     <div class="flex flex-col">
-                                        <span class="text-[10px] font-bold uppercase text-base-content/50">Jumlah
+                                        <span class="text-[10px] font-bold uppercase text-base-content/50">
                                             Pemain</span>
                                         <span class="font-black italic uppercase text-sm">
                                             {{ $it['jumlah_pemain'] ?? '-' }}
