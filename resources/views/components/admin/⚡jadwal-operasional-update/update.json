@@ -1,0 +1,15 @@
+{
+    "success": true,
+    "message": "Jam operasional berhasil diperbarui",
+    "data": {
+        "id": 2,
+        "lapangan_id": 1,
+        "hari": "0",
+        "buka": "10:00",
+        "tutup": "23:00",
+        "is_active": true,
+        "created_at": "2026-01-28T16:26:18.000000Z",
+        "updated_at": "2026-02-03T19:42:52.000000Z",
+        "hari_label": "Minggu"
+    }
+}

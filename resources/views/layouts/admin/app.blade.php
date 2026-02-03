@@ -311,20 +311,36 @@
                         </li>
                         {{-- @endcan --}}
 
-                        {{-- @can('view-dokumentasi') --}}
                         <li>
-                            <a wire:navigate href="#"
-                                class="{{ request()->routeIs('dokumentasi.*') ? 'active bg-base-200 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                            <a wire:navigate href="/manajemen-lapangan"
+                                class="{{ request()->is('manajemen-lapangan*') || request()->is('lapangan-detail*') || request()->is('lapangan-update*') || request()->is('lapangan-create*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                 <div class="flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                            d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
                                     </svg>
-                                    <span>Dokumentasi</span>
+                                    <span>Master Lapangan</span>
                                 </div>
-                                <span class="text-[8px] text-base-content opacity-50 ml-7">Manajemen dokumentasi
-                                    Rapat</span>
+                                <span class="text-[8px] text-base-content opacity-50 ml-7">Manajemen data
+                                    lapangan</span>
+                            </a>
+                        </li>
+
+                        {{-- @can('view-dokumentasi') --}}
+                        <li>
+                            <a wire:navigate href="/manajemen-jadwal-operasional"
+                                class="{{ request()->is('manajemen-jadwal-operasional*') || request()->is('jadwal-operasional-create*') || request()->is('jadwal-operasional-update*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+                                    </svg>
+                                    <span>Jadwal Operasional</span>
+                                </div>
+                                <span class="text-[8px] text-base-content opacity-50 ml-7">Manajemen Jadwal
+                                    Operasional</span>
                             </a>
                         </li>
                         {{-- @endcan --}}
@@ -333,8 +349,7 @@
 
                         {{-- @role(['super-admin', 'admin']) --}}
                         <li>
-                            <details
-                                {{ request()->is('manajemen-user*') || request()->is('user-detail*') || request()->is('user-update*') ? 'open' : '' }}>
+                            <details open>
                                 <summary class="group">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -355,50 +370,6 @@
                         </li>
                         {{-- @endrole --}}
 
-                        {{-- @can('view-master-opd') --}}
-                        <li>
-                            <a wire:navigate href="/manajemen-lapangan"
-                                class="{{ request()->is('manajemen-lapangan*') || request()->is('lapangan-detail*') || request()->is('lapangan-update*') || request()->is('lapangan-create*') ? 'active bg-base-300 text-base-content font-medium' : '' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
-                                </svg>
-
-                                Master Lapangan
-                            </a>
-                        </li>
-                        {{-- @endcan --}}
-
-                        {{-- @can('view-master-pakaian') --}}
-                        <li>
-                            <details
-                                {{ request()->routeIs('kategori-pakaian.*') || request()->routeIs('pakaian.*') ? 'open' : '' }}>
-                                <summary class="group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                                    </svg>
-                                    Master Pakaian
-                                </summary>
-                                <ul>
-                                    <li>
-                                        <a wire:navigate href="#"
-                                            class="{{ request()->routeIs('kategori-pakaian.*') ? 'active bg-base-200 text-base-content font-medium' : '' }}">
-                                            Kategori Pakaian
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a wire:navigate href="#"
-                                            class="{{ request()->routeIs('pakaian.*') ? 'active bg-base-200 text-base-content font-medium' : '' }}">
-                                            Pakaian
-                                        </a>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                        {{-- @endcan --}}
                         <li class="mt-4">
                             <a wire:navigate href="/" class="text-primary font-medium">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

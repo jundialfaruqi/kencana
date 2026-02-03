@@ -36,4 +36,7 @@ Route::middleware(['api.auth:admin'])->group(function () {
 
     // Manajemen Jadwal Operasional
     Route::livewire('/manajemen-jadwal-operasional', 'admin::jadwal-operasional');
+    Route::livewire('/jadwal-operasional-create', 'admin::jadwal-operasional-create');
+    Route::livewire('/jadwal-operasional-update/{id}', 'admin::jadwal-operasional-update');
+    Route::livewire('/jadwal-operasional-update', 'admin::jadwal-operasional-update');
 });

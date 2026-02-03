@@ -6,11 +6,16 @@
         </div>
         <div class="text-sm breadcrumbs text-base-content/60">
             <ul>
-                <li><a href="#">Aman Arena</a></li>
-                <li>Settings</li>
+                <li><a wire:navigate href="/dashboard">Aman Arena</a></li>
+                <li>Apps</li>
                 <li>Master Lapangan</li>
             </ul>
         </div>
+    </div>
+    <div class="flex items-center justify-start mb-3">
+        <a wire:navigate href="/lapangan-create" class="btn btn-primary btn-sm">
+            Tambah Lapangan
+        </a>
     </div>
     <div class="card" wire:init="load">
 
@@ -23,11 +28,6 @@
                     <span>{{ $error }}</span>
                 </div>
             @else
-                <div class="flex items-center justify-start mb-3">
-                    <a wire:navigate href="/lapangan-create" class="btn btn-primary btn-sm">
-                        Tambah Lapangan
-                    </a>
-                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @forelse ($lapangan as $lp)
                         <div class="card border-2 border-dashed border-base-300 bg-base-100">

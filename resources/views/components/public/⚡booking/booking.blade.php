@@ -322,35 +322,42 @@
                         <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
                             <div class="bg-info p-6">
                                 <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
-                                    Booking
-                                    Summary</h4>
+                                    Booking Summary
+                                </h4>
                             </div>
                             <div class="p-6 space-y-4">
                                 <div
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                     <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
                                     <span class="font-black italic uppercase text-sm">
-                                        {{ $namaLapangan ?: '-' }}
+                                        <span wire:loading.remove wire:target="selectArena">
+                                            {{ $namaLapangan ?: '-' }}
+                                        </span>
                                         <span wire:loading wire:target="selectArena"
-                                            class="loading loading-dots loading-xs ml-2"></span>
+                                            class="loading loading-dots loading-xs"></span>
                                     </span>
                                 </div>
                                 <div
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                     <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
                                     <span class="font-black italic uppercase text-sm">
-                                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                                        <span wire:loading wire:target="selectDate"
-                                            class="loading loading-dots loading-xs ml-2"></span>
+                                        <span wire:loading.remove wire:target="selectDate">
+                                            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                                        </span>
+                                        <span class="loading loading-dots loading-xs" wire:loading
+                                            wire:target="selectDate">
+                                        </span>
                                     </span>
                                 </div>
                                 <div
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                     <span class="text-xs font-bold uppercase text-base-content/50">Jam</span>
                                     <span class="font-black italic uppercase text-sm">
-                                        {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
-                                        <span wire:loading wire:target="selectTime"
-                                            class="loading loading-dots loading-xs ml-2"></span>
+                                        <span wire:loading.remove wire:target="selectTime">
+                                            {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
+                                        </span>
+                                        <span class="loading loading-dots loading-xs" wire:loading
+                                            wire:target="selectTime"></span>
                                     </span>
                                 </div>
 
@@ -678,7 +685,8 @@
                             </div>
                             @if ($lapanganParam || $lapanganSlug)
                                 <div class="w-full pb-6 px-2">
-                                    <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
+                                    <div
+                                        class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
                                         <div class="flex justify-between items-start">
                                             <div class="space-y-2">
                                                 <div class="h-3 bg-base-300 w-12 rounded"></div>
@@ -697,7 +705,8 @@
                                 </div>
                             @else
                                 <div class="w-full pb-6 px-2">
-                                    <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
+                                    <div
+                                        class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
                                         <div class="flex items-center justify-between">
                                             <div class="h-5 bg-base-300 w-24 rounded"></div>
                                             <div class="h-3 bg-base-300 w-16 rounded"></div>
