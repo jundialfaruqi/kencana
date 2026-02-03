@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Crypt;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -10,8 +11,9 @@ use Livewire\Component;
 
 new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Component
 {
-    #[Url(as: 'lapangan_id')]
     public $lapanganId;
+    #[Url(as: 'lapangan_id')]
+    public ?string $lapanganParam = null;
     public bool $ready = false;
     public string $tanggal = '';
     public string $namaLapangan = '';
@@ -48,6 +50,16 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             return;
         }
 
+        if ($this->lapanganParam && !$this->lapanganId) {
+            $decoded = null;
+            try {
+                $decoded = Crypt::decryptString((string) $this->lapanganParam);
+            } catch (\Throwable) {
+                $decoded = $this->lapanganParam;
+            }
+            $this->lapanganId = (string) $decoded;
+        }
+
         Carbon::setLocale('id');
         $this->tanggal = Carbon::now()->toDateString();
         $today = Carbon::now();
@@ -74,6 +86,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             if (!$this->isArenaOpen((string) $this->lapanganId)) {
                 $this->error = 'Arena belum dibuka';
                 $this->lapanganId = null;
+                $this->lapanganParam = null;
                 $this->namaLapangan = '';
                 $this->timeSlots = [];
                 $this->fetchArenas();
@@ -154,6 +167,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         if (!$this->isArenaOpen($id)) {
             $this->error = 'Arena belum dibuka';
             $this->lapanganId = null;
+            $this->lapanganParam = null;
             $this->namaLapangan = '';
             $this->timeSlots = [];
             $this->fetchArenas();
@@ -161,6 +175,11 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             return;
         }
         $this->lapanganId = $id;
+        try {
+            $this->lapanganParam = Crypt::encryptString((string) $id);
+        } catch (\Throwable) {
+            $this->lapanganParam = (string) $id;
+        }
         $this->namaLapangan = $nama;
         $this->fetchJadwal();
     }
