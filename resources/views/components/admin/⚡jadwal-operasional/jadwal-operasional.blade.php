@@ -49,17 +49,18 @@
                             <tbody>
                                 @forelse ($jadwal as $it)
                                     <tr>
-                                        <td>{{ $it['hari_label'] ?? '-' }}</td>
+                                        <td class="font-bold">{{ $it['hari_label'] ?? '-' }}</td>
                                         <td>{{ $it['buka'] ?? '-' }}</td>
                                         <td>{{ $it['tutup'] ?? '-' }}</td>
-                                        <td>
+                                        <td class="font-bold">
                                             @if (($it['is_active'] ?? false) === true)
                                                 <span class="badge badge-success">Aktif</span>
                                             @else
                                                 <span class="badge badge-neutral">Nonaktif</span>
                                             @endif
                                         </td>
-                                        <td>{{ data_get($it, 'lapangan.nama_lapangan') ?? '-' }}</td>
+                                        <td class="uppercase italic font-bold">
+                                            {{ data_get($it, 'lapangan.nama_lapangan') ?? '-' }}</td>
                                         <td>
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate href="/jadwal-operasional-update/{{ $it['id'] ?? '' }}"
