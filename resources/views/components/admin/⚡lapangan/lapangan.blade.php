@@ -57,14 +57,14 @@
                                     <span>Admin: {{ data_get($lp, 'admin.name', '-') }}</span>
                                 </div>
                             </div>
-                            <div class="card-footer p-3 bg-base-200 border-t border-base-200 rounded-b-xl">
+                            <div class="card-footer p-3">
                                 <div class="flex items-center justify-center gap-2">
                                     <a wire:navigate href="/lapangan-detail?id={{ $lp['id'] ?? 0 }}"
                                         class="btn btn-sm btn-primary">
                                         Detail
                                     </a>
                                     <a wire:navigate href="/lapangan-update?id={{ $lp['id'] ?? 0 }}"
-                                        class="btn btn-sm btn-secondary">
+                                        class="btn btn-sm btn-warning">
                                         Edit
                                     </a>
                                     <button type="button" class="btn btn-sm btn-error"
