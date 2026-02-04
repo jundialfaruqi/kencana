@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                             <div class="bp-divider my-4"></div>
-                            <div class="grid grid-cols-3 gap-4">
+                            <div class="grid grid-cols-3 gap-2">
                                 <div class="col-span-2">
                                     <div class="text-[10px] font-bold uppercase text-base-content/50">Pemesan</div>
                                     <div class="mt-1 font-black italic uppercase">
@@ -83,11 +83,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-span-1 flex items-center justify-end">
+                                <div class="col-span-1 flex items-center justify-center">
                                     <div
-                                        class="w-20 h-20 sm:w-28 sm:h-28 rounded-md overflow-hidden flex items-center justify-end bg-base-100">
-                                        <img src="{{ asset('assets/images/logo/logo-pemko-persegi.png') }}"
-                                            alt="Logo Pemko" class="w-full h-full object-cover" />
+                                        class="w-13 h-13 sm:w-28 sm:h-28 rounded-full flex items-center justify-center bg-info/10">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                                            </svg>
+                                        </div>
+                                        <div
+                                            class="text-info font-black italic uppercase tracking-widest text-[10px] sm:text-xs text-center">
+                                            Booked
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +174,8 @@
                                         dan wajib menjaga ketertiban selama penggunaan lapangan.</span></li>
                                 <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">6.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Menghentikan aktivitas permainan saat
+                                        class="text-xs sm:text-sm leading-relaxed">Menghentikan aktivitas permainan
+                                        saat
                                         tiba waktu shalat lima waktu.</span></li>
                                 <li class="flex items-center gap-1"><span
                                         class="flex-none w-6 text-xs font-bold">7.</span><span
