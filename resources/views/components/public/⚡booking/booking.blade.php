@@ -374,7 +374,8 @@
                                         <div>
                                             <label class="text-[10px] font-bold uppercase text-base-content/50">Nama
                                                 Komunitas</label>
-                                            <input type="text" class="input input-bordered input-sm w-full mt-1"
+                                            <input type="text"
+                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                                                 placeholder="Nama tim (opsional)" wire:model="namaKomunitas">
                                             @error('namaKomunitas')
                                                 <p class="text-[10px] text-error mt-1 font-bold uppercase">
@@ -385,7 +386,7 @@
                                             <label class="text-[10px] font-bold uppercase text-base-content/50">Jumlah
                                                 Pemain</label>
                                             <input type="number" min="1"
-                                                class="input input-bordered input-sm w-full mt-1"
+                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                                                 placeholder="Masukkan jumlah" wire:model="jumlahPemain">
                                             @error('jumlahPemain')
                                                 <p class="text-[10px] text-error mt-1 font-bold uppercase">
@@ -400,7 +401,7 @@
                                                 Pemain</label>
                                             <div x-data="{ open: false }" class="relative">
                                                 <button type="button" @click="open = !open"
-                                                    class="input input-bordered input-sm w-full mt-1 text-left cursor-pointer">
+                                                    class="input input-bordered input-sm w-full mt-1 text-left cursor-pointer text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200">
                                                     <span class="font-bold uppercase text-[11px]">
                                                         {{ $kategoriPemain ?: 'Pilih kategori' }}
                                                     </span>
@@ -436,7 +437,7 @@
                                                 Permainan</label>
                                             <div x-data="{ open: false }" class="relative">
                                                 <button type="button" @click="open = !open"
-                                                    class="input input-bordered input-sm w-full mt-1 text-left cursor-pointer">
+                                                    class="input input-bordered input-sm w-full mt-1 text-left cursor-pointer text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200">
                                                     <span class="font-bold uppercase text-[11px]">
                                                         {{ $this->jenisLabel() }}
                                                     </span>
