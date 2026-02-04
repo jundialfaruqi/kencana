@@ -202,29 +202,27 @@
                             </div>
                         @endforelse
                     </div>
-                    <div class="flex items-center gap-2 mt-2" wire:loading.class="opacity-0 pointer-events-none"
+                    <div class="flex items-center gap-2 mt-4" wire:loading.class="opacity-0 pointer-events-none"
                         wire:target="applyFilter,goToPage">
-                        <button class="btn btn-sm btn-outline" wire:click="goToPage({{ max(1, $currentPage - 1) }})"
+                        <button class="btn btn-sm" wire:click="goToPage({{ max(1, $currentPage - 1) }})"
                             wire:loading.attr="disabled" @disabled($currentPage <= 1)>
                             « Prev
                         </button>
                         <div class="join">
                             @for ($i = 1; $i <= $lastPage; $i++)
                                 <button
-                                    class="join-item btn btn-sm {{ $i === $currentPage ? 'btn-info text-info-content' : 'btn-outline' }}"
+                                    class="join-item btn btn-sm {{ $i === $currentPage ? 'btn-info text-info-content' : 'btn-ghost' }}"
                                     wire:click="goToPage({{ $i }})" wire:loading.attr="disabled">
                                     {{ $i }}
                                 </button>
                             @endfor
                         </div>
-                        <button class="btn btn-sm btn-outline"
-                            wire:click="goToPage({{ min($lastPage, $currentPage + 1) }})"
+                        <button class="btn btn-sm" wire:click="goToPage({{ min($lastPage, $currentPage + 1) }})"
                             wire:loading.attr="disabled" @disabled($currentPage >= $lastPage)>
                             Next »
                         </button>
                     </div>
-                    <div wire:loading wire:target="goToPage,applyFilter"
-                        class="absolute inset-0 z-10 bg-base-100/60 rounded-xl">
+                    <div wire:loading wire:target="goToPage,applyFilter" class="absolute inset-0 z-10 rounded-xl">
                         <div class="space-y-4">
                             <!-- Filter Bar Skeleton (matches current layout) -->
                             <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-200 shadow">
@@ -294,7 +292,7 @@
                                 @endfor
                             </div>
                             <!-- Pagination Skeleton -->
-                            <div class="join mt-2 gap-2">
+                            <div class="join mt-4 gap-2">
                                 <div class="join-item h-8 bg-base-300 w-16 rounded-xl"></div>
                                 <div class="join-item h-8 bg-base-300 w-10 rounded-xl"></div>
                                 <div class="join-item h-8 bg-base-300 w-16 rounded-xl"></div>
@@ -405,7 +403,7 @@
                             @endfor
                         </div>
                         <!-- Pagination Skeleton -->
-                        <div class="join mt-2 gap-2">
+                        <div class="join mt-4 gap-2">
                             <div class="join-item h-8 bg-base-300 w-16 rounded-xl"></div>
                             <div class="join-item h-8 bg-base-300 w-10 rounded-xl"></div>
                             <div class="join-item h-8 bg-base-300 w-16 rounded-xl"></div>
