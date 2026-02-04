@@ -27,6 +27,12 @@ new class extends Component
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
+    public bool $showCancelModal = false;
+    public ?int $cancelBookingId = null;
+    public ?string $cancelReason = null;
+    public ?string $cancelError = null;
+    public ?string $cancelMessage = null;
+
     #[Title('Booking Master')]
     #[Layout('layouts::admin.app')]
 
@@ -135,6 +141,97 @@ new class extends Component
         $this->ready = false;
         $this->fetchBookings();
         $this->ready = true;
+    }
+
+    public function openCancelModal(?int $id)
+    {
+        $this->cancelBookingId = $id ?: null;
+        $payload = ['id' => $this->cancelBookingId];
+        if ($this->cancelBookingId) {
+            try {
+                $token = Session::get('auth_token');
+                $base = rtrim((string) config('services.api.base_url'), '/');
+                $url = $base . '/v1/master/bookings/' . urlencode((string) $this->cancelBookingId);
+                /** @var \Illuminate\Http\Client\Response $response */
+                $response = Http::withToken($token)->accept('application/json')->get($url);
+                $result = $response->json();
+                if ($response->successful() && ($result['success'] ?? false)) {
+                    $data = (array) ($result['data'] ?? []);
+                    $payload['kode'] = (string) ($data['kode_booking'] ?? '-');
+                    $payload['tanggal'] = (string) ($data['tanggal'] ?? '-');
+                    $payload['jam'] = (string) ($data['jam'] ?? '');
+                    $payload['jam_mulai'] = (string) ($data['jam_mulai'] ?? '');
+                    $payload['jam_selesai'] = (string) ($data['jam_selesai'] ?? '');
+                    $payload['user'] = (string) ((data_get($data, 'user.name') ?: data_get($data, 'pemesan.nama')) ?? '-');
+                    $payload['lapangan'] = (string) ((data_get($data, 'lapangan.nama_lapangan') ?: data_get($data, 'lapangan.nama')) ?? '-');
+                }
+            } catch (\Throwable) {
+            }
+        }
+        $this->dispatch('modal-cancel-open', $payload);
+        return $this->skipRender();
+    }
+
+    public function closeCancelModal()
+    {
+        $this->dispatch('modal-cancel-close');
+        return $this->skipRender();
+    }
+
+    public function executeCancelBooking(): void
+    {
+        if (!$this->cancelBookingId) {
+            $this->cancelError = 'ID booking tidak valid';
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->cancelError,
+                'type' => 'error',
+            ]);
+            return;
+        }
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/bookings/' . urlencode((string) $this->cancelBookingId) . '/cancel';
+            $ket = trim((string) ($this->cancelReason ?? ''));
+            $payload = [];
+            if ($ket !== '') {
+                $payload['keterangan'] = $ket;
+            }
+            /** @var \Illuminate\Http\Client\Response $response */
+            $response = Http::withToken($token)
+                ->asForm()
+                ->accept('application/json')
+                ->post($url, $payload);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                $this->cancelMessage = (string) ($result['message'] ?? 'Booking berhasil dibatalkan');
+                $this->showCancelModal = false;
+                $this->dispatch('modal-cancel-close');
+                $this->ready = false;
+                $this->fetchBookings();
+                $this->ready = true;
+                $this->dispatch('toast', [
+                    'title' => 'Berhasil',
+                    'message' => $this->cancelMessage,
+                    'type' => 'success',
+                ]);
+                return;
+            }
+            $this->cancelError = (string) ($result['message'] ?? 'Gagal membatalkan booking');
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->cancelError,
+                'type' => 'error',
+            ]);
+        } catch (\Throwable) {
+            $this->cancelError = 'Terjadi kesalahan saat membatalkan booking';
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->cancelError,
+                'type' => 'error',
+            ]);
+        }
     }
 
     protected function fetchByUrl(string $url): void

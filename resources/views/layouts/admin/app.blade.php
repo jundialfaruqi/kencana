@@ -363,9 +363,9 @@
                 <div class="p-4 border-t border-base-200 shrink-0">
                     <div class="flex items-center gap-3">
                         <div class="avatar">
-                            <div class="w-10 rounded-full">
-                                <img
-                                    src="{{ auth()->user()->photo_url ?? 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp' }}" />
+                            <div class="w-10 rounded-md">
+                                <img src="{{ asset('assets/images/logo/logo-pemko-persegi.png') }}"
+                                    alt="Logo Pemko" />
                             </div>
                         </div>
                         <div class="flex-1 min-w-0">
@@ -423,9 +423,6 @@
     <div id="global-toast" class="toast toast-top toast-center" wire:ignore></div>
 
     <livewire:admin::logout />
-    {{-- <script src="{{ asset('js/global-loading.js') }}"></script>
-    <script src="{{ asset('js/theme-toggle.js') }}"></script>
-    @stack('scripts') --}}
 </body>
 
 </html>

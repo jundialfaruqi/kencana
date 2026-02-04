@@ -43,7 +43,7 @@
                                     <th>Tutup</th>
                                     <th>Status</th>
                                     <th>Arena</th>
-                                    <th>Aksi</th>
+                                    <th class="sticky right-0 bg-base-100 z-10">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,16 +52,16 @@
                                         <td class="font-bold">{{ $it['hari_label'] ?? '-' }}</td>
                                         <td>{{ $it['buka'] ?? '-' }}</td>
                                         <td>{{ $it['tutup'] ?? '-' }}</td>
-                                        <td class="font-bold">
+                                        <td class="font-bold italic">
                                             @if (($it['is_active'] ?? false) === true)
                                                 <span class="badge badge-success">Aktif</span>
                                             @else
                                                 <span class="badge badge-neutral">Nonaktif</span>
                                             @endif
                                         </td>
-                                        <td class="uppercase italic font-bold">
+                                        <td class="font-bold">
                                             {{ data_get($it, 'lapangan.nama_lapangan') ?? '-' }}</td>
-                                        <td>
+                                        <td class="sticky right-0 bg-base-100 z-10 border-l border-base-300">
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate href="/jadwal-operasional-update/{{ $it['id'] ?? '' }}"
                                                     class="text-xs text-secondary">

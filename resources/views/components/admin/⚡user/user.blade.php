@@ -49,26 +49,27 @@
                                     <th>NIK</th>
                                     <th>No. WA</th>
                                     <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th class="sticky right-0 bg-base-100 z-10">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($this->filteredUsers as $u)
                                     <tr>
                                         {{-- <td>{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td> --}}
-                                        <td>{{ $u['name'] ?? '-' }}</td>
+                                        <td class="font-bold">{{ $u['name'] ?? '-' }}</td>
                                         <td>{{ $u['email'] ?? '-' }}</td>
                                         <td>{{ $u['role'] ?? '-' }}</td>
                                         <td>{{ $u['nik'] ?? '-' }}</td>
                                         <td>{{ $u['no_wa'] ?? '-' }}</td>
-                                        <td>
+                                        <td class="italic font-bold">
                                             @if (($u['is_active'] ?? false) === true)
                                                 <span class="badge badge-success">Aktif</span>
                                             @else
                                                 <span class="badge badge-neutral">Nonaktif</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td
+                                            class="sticky right-0 bg-base-100 z-10 border-l border-base-300 shadow-l-sm">
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate href="/user-detail?id={{ $u['id'] ?? 0 }}"
                                                     class="text-xs text-secondary" aria-label="Detail">
