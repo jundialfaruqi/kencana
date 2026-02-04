@@ -22,6 +22,7 @@
             </div>
 
             {{-- Section konten booking history --}}
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2 relative">
                     @if ($error)
@@ -29,28 +30,31 @@
                             <span>{{ $error }}</span>
                         </div>
                     @endif
+
                     <div class="w-full p-4 rounded-2xl bg-base-100/50 border-2 border-base-200 shadow mb-4"
                         wire:loading.class="opacity-0 pointer-events-none" wire:target="applyFilter,goToPage">
-                        <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center justify-start mb-1">
                             <span
-                                class="text-[10px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">Filter</span>
+                                class="text-[10px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
+                                Filter
+                            </span>
                         </div>
                         <!-- Mobile Enhanced Filters -->
                         <div class="sm:hidden space-y-3">
                             <div>
                                 <label class="text-[10px] font-bold uppercase text-base-content/50">Status</label>
-                                <div class="join w-full mt-1">
+                                <div class="join w-full">
                                     <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === '' ? 'btn-info text-info-content' : 'btn-outline' }}"
+                                        class="join-item btn btn-xs {{ ($status ?? '') === '' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
                                         wire:click="$set('status','')">Semua</button>
                                     <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === 'dipesan' ? 'btn-info text-info-content' : 'btn-outline' }}"
+                                        class="join-item btn btn-xs {{ ($status ?? '') === 'dipesan' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
                                         wire:click="$set('status','dipesan')">Dipesan</button>
                                     <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === 'dibatalkan' ? 'btn-info text-info-content' : 'btn-outline' }}"
+                                        class="join-item btn btn-xs {{ ($status ?? '') === 'dibatalkan' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
                                         wire:click="$set('status','dibatalkan')">Dibatalkan</button>
                                     <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === 'selesai' ? 'btn-info text-info-content' : 'btn-outline' }}"
+                                        class="join-item btn btn-xs {{ ($status ?? '') === 'selesai' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
                                         wire:click="$set('status','selesai')">Selesai</button>
                                 </div>
                             </div>
@@ -58,25 +62,17 @@
                                 <div>
                                     <label class="text-[10px] font-bold uppercase text-base-content/50">Dari</label>
                                     <div class="relative mt-1">
-                                        <input type="date" class="input input-sm input-bordered w-full pl-8"
+                                        <input type="date"
+                                            class="input input-sm input-bordered w-full text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                                             wire:model.defer="from" />
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            class="absolute left-2 top-1.5 size-4 text-base-content/50">
-                                            <path fill="currentColor"
-                                                d="M7 2a1 1 0 0 0-1 1v1H5a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3h-1V3a1 1 0 1 0-2 0v1H8V3a1 1 0 0 0-1-1m12 7H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9Z" />
-                                        </svg>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="text-[10px] font-bold uppercase text-base-content/50">Sampai</label>
                                     <div class="relative mt-1">
-                                        <input type="date" class="input input-sm input-bordered w-full pl-8"
+                                        <input type="date"
+                                            class="input input-sm input-bordered w-full text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                                             wire:model.defer="to" />
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            class="absolute left-2 top-1.5 size-4 text-base-content/50">
-                                            <path fill="currentColor"
-                                                d="M7 2a1 1 0 0 0-1 1v1H5a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3h-1V3a1 1 0 1 0-2 0v1H8V3a1 1 0 0 0-1-1m12 7H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9Z" />
-                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +85,9 @@
                         <div class="hidden sm:grid grid-cols-4 gap-3">
                             <div>
                                 <label class="text-[10px] font-bold uppercase text-base-content/50">Status</label>
-                                <select class="select select-sm w-full mt-1" wire:model.defer="status">
+                                <select
+                                    class="select select-sm w-full mt-1 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
+                                    wire:model.defer="status">
                                     <option value="">Semua</option>
                                     <option value="dipesan">Dipesan</option>
                                     <option value="dibatalkan">Dibatalkan</option>
@@ -98,12 +96,14 @@
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold uppercase text-base-content/50">Dari</label>
-                                <input type="date" class="input input-sm input-bordered w-full mt-1"
+                                <input type="date"
+                                    class="input input-sm input-bordered w-full mt-1 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 text-base-content"
                                     wire:model.defer="from" />
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold uppercase text-base-content/50">Sampai</label>
-                                <input type="date" class="input input-sm input-bordered w-full mt-1"
+                                <input type="date"
+                                    class="input input-sm input-bordered w-full mt-1 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 text-base-content"
                                     wire:model.defer="to" />
                             </div>
                             <div class="flex items-end">

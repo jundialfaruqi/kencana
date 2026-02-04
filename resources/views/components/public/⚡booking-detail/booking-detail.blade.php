@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="col-span-1 flex items-center justify-center">
                                     <div
-                                        class="w-13 h-13 sm:w-24 sm:h-24 rounded-full flex items-center justify-center bg-info/10 gap-1">
+                                        class="w-13 h-13 sm:w-24 sm:h-24 rounded-full flex items-center justify-center bg-info/10">
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="2" stroke="currentColor" class="size-4 sm:size-6">
@@ -94,8 +94,8 @@
                                             </svg>
                                         </div>
                                         <div
-                                            class="text-info font-black italic uppercase tracking-widest text-[10px] sm:text-[20px] text-center">
-                                            Booked
+                                            class="text-info font-black uppercase italic tracking-widest text-[10px] sm:text-[20px] text-center">
+                                            Verified
                                         </div>
                                     </div>
                                 </div>
@@ -135,14 +135,6 @@
                 <div>
                     <div class="rounded-2xl border-2 border-base-200 bg-base-100 shadow-lg p-4 sm:p-6">
                         <div class="flex items-center gap-2 sm:gap-3">
-                            <div class="flex-none shrink-0 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="size-6 sm:size-8 text-error">
-                                    <path fill-rule="evenodd"
-                                        d="M12 2.25c5.385 0 9.75 4.365 9.75 9.75s-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12 6.615 2.25 12 2.25ZM12 8.25a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
                             <div>
                                 <h4 class="text-error font-black italic uppercase tracking-tighter text-lg sm:text-xl">
                                     Syarat dan ketentuan sewa lapangan AMAN Arena</h4>
@@ -152,32 +144,32 @@
                         </div>
                         <div class="mt-4 space-y-2">
                             <ul class="space-y-2">
-                                <li class="flex items-center gap-1"><span
+                                <li class="flex items-center"><span
                                         class="flex-none w-6 text-xs font-bold">1.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Durasi permainan maksimal 1
                                         jam.</span></li>
-                                <li class="flex items-center gap-1"><span
+                                <li class="flex items-center"><span
                                         class="flex-none w-6 text-xs font-bold">2.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Keterlambatan lebih dari 15 menit
                                         dari jadwal booking dianggap pembatalan.</span></li>
-                                <li class="flex items-center gap-1"><span
+                                <li class="flex items-center"><span
                                         class="flex-none w-6 text-xs font-bold">3.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Dilarang membawa minuman keras dan
                                         zat adiktif lainnya.</span></li>
-                                <li class="flex items-center gap-1"><span
+                                <li class="flex items-center"><span
                                         class="flex-none w-6 text-xs font-bold">4.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Dilarang merokok, meludah, makan
                                         permen karet, dan membuang sampah sembarangan di area lapangan.</span></li>
-                                <li class="flex items-center gap-1"><span
+                                <li class="flex items-center"><span
                                         class="flex-none w-6 text-xs font-bold">5.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Dilarang merusak fasilitas lapangan
                                         dan wajib menjaga ketertiban selama penggunaan lapangan.</span></li>
-                                <li class="flex items-center gap-1"><span
+                                <li class="flex items-center"><span
                                         class="flex-none w-6 text-xs font-bold">6.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Menghentikan aktivitas permainan
                                         saat
                                         tiba waktu shalat lima waktu.</span></li>
-                                <li class="flex items-center gap-1"><span
+                                <li class="flex items-center"><span
                                         class="flex-none w-6 text-xs font-bold">7.</span><span
                                         class="text-xs sm:text-sm leading-relaxed">Menjaga kebersihan dan ketertiban
                                         selama berada di lokasi lapangan.</span></li>
@@ -315,9 +307,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-span-1 flex items-center justify-end">
+                                    <div class="col-span-1 flex items-center justify-center">
                                         <div
-                                            class="w-24 h-24 sm:w-28 sm:h-28 rounded-md border-2 border-base-300 overflow-hidden flex items-center justify-end bg-base-100">
+                                            class="w-15 h-15 sm:w-28 sm:h-28 rounded-full border-2 border-base-300 overflow-hidden flex items-center justify-end bg-base-100">
                                             <div class="w-full h-full bg-base-300"></div>
                                         </div>
                                     </div>
