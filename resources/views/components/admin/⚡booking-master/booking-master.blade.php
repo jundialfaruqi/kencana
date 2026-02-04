@@ -102,7 +102,8 @@
                                     <tr>
                                         <td class="whitespace-nowrap font-mono font-bold">
                                             {{ $b['kode_booking'] ?? '-' }}</td>
-                                        <td>{{ \Illuminate\Support\Str::of($b['tanggal'] ?? '')->substr(0, 10)->explode('-')->reverse()->implode('-') }}
+                                        <td class="whitespace-nowrap">
+                                            {{ \Illuminate\Support\Str::of($b['tanggal'] ?? '')->substr(0, 10)->explode('-')->reverse()->implode('-') }}
                                         </td>
                                         <td class="whitespace-nowrap font-mono">
                                             {{ $b['jam_mulai'] ?? '-' ? substr((string) $b['jam_mulai'], 0, 5) : '-' }}
