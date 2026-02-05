@@ -66,7 +66,7 @@
                                         </td>
                                         <td class="sticky right-0 bg-base-100 z-10 border-l border-base-300">
                                             <div class="flex items-center gap-3">
-                                                <a wire:navigate href="/jadwal-operasional-update/{{ $it['id'] ?? '' }}"
+                                                <a wire:navigate href="/jadwal-khusus-update/{{ $it['id'] ?? '' }}"
                                                     class="text-xs text-secondary">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

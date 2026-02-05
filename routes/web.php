@@ -43,6 +43,7 @@ Route::middleware(['api.auth:admin'])->group(function () {
     // Jadwal Khusus
     Route::livewire('/jadwal-khusus', 'admin::jadwal-khusus');
     Route::livewire('/jadwal-khusus-create', 'admin::jadwal-khusus-create');
+    Route::livewire('/jadwal-khusus-update/{id}', 'admin::jadwal-khusus-update');
 
     // Manajemen Master Booking
     Route::livewire('/booking-master', 'admin::booking-master');
