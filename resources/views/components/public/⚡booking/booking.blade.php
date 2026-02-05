@@ -479,7 +479,8 @@
                                         class="btn btn-info w-full mt-6 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
                                         x-on:click="window.__bookingSuppressScroll = true; window.__bookingNoScrollUntil = Date.now() + 3000;"
                                         wire:click="confirmBooking" wire:loading.attr="disabled"
-                                        wire:target="confirmBooking">
+                                        wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
+                                        aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
                                         <span class="sm:skew-x-12">Konfirmasi Booking</span>
                                         <span class="loading loading-dots loading-xs ml-2" wire:loading
                                             wire:target="confirmBooking"></span>

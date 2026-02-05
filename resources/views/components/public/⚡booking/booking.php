@@ -45,6 +45,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public $calNextMonth;
     public $todayDate;
     public array $carouselDates = [];
+    public ?string $listJadwalStatus = null;
 
     public function load()
     {
@@ -136,6 +137,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         if (!$this->lapanganId) {
             $this->timeSlots = [];
             $this->namaLapangan = '';
+            $this->listJadwalStatus = null;
             $this->error = null;
             $this->dispatch('booking-loaded');
             return;
@@ -144,6 +146,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             $this->error = 'Arena belum dibuka';
             $this->timeSlots = [];
             $this->namaLapangan = '';
+            $this->listJadwalStatus = 'libur';
             $this->lapanganId = null;
             $this->dispatch('booking-loaded');
             return;
@@ -168,6 +171,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 $data = $json['data'] ?? [];
                 $first = $data[0] ?? null;
                 $this->namaLapangan = $first['nama_lapangan'] ?? '';
+                $this->listJadwalStatus = (string) ($first['status'] ?? ($first['tipe'] ?? ''));
                 $slots = (array) ($first['slots'] ?? []);
                 $this->timeSlots = array_map(function ($s) {
                     $mulai = (string) ($s['mulai'] ?? ($s['jam_mulai'] ?? ''));
@@ -175,12 +179,18 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     $status = (string) ($s['status'] ?? '');
                     return ['mulai' => $mulai, 'selesai' => $selesai, 'status' => $status] + (array) $s;
                 }, $slots);
+                if (!$this->listJadwalStatus) {
+                    $allUnavailable = count($this->timeSlots) > 0 && count(array_filter($this->timeSlots, fn($s) => ($s['status'] ?? '') === 'tersedia')) === 0;
+                    $this->listJadwalStatus = $allUnavailable ? 'libur' : 'open';
+                }
                 $this->error = null;
             } else {
                 $this->error = $json['message'] ?? 'Gagal memuat jadwal';
+                $this->listJadwalStatus = null;
             }
         } catch (\Throwable) {
             $this->error = 'Terjadi kesalahan saat memuat jadwal';
+            $this->listJadwalStatus = null;
         }
 
         $this->dispatch('booking-loaded');
