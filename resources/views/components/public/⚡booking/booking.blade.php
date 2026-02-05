@@ -64,7 +64,7 @@
                                         <span>Kalender</span>
                                     </span>
                                 </button>
-                                <div @click.outside="open=false" id="select-date-calendar" wire:ignore
+                                <div @click.outside="open=false" id="select-date-calendar" wire:ignore.self
                                     class="absolute right-0 mt-2 w-80 p-3 rounded-xl border border-base-300 bg-base-100 shadow-xl z-20 hidden">
                                     <div class="flex items-center justify-between mb-2">
                                         <button type="button" class="btn btn-ghost btn-xs"
@@ -92,7 +92,7 @@
                                                 <div class="h-8"></div>
                                             @endfor
                                             @for ($d = 1; $d <= $calCurrDays; $d++)
-                                                <button @click="open=false"
+                                                <button
                                                     wire:click="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"
                                                     wire:loading.attr="disabled" wire:target="selectDate"
                                                     data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
@@ -100,7 +100,10 @@
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'disabled aria-disabled=true' : '' }}>
-                                                    {{ $d }}
+                                                    <span wire:loading.remove
+                                                        wire:target="selectDate">{{ $d }}</span>
+                                                    <span class="loading loading-dots loading-xs" wire:loading
+                                                        wire:target="selectDate"></span>
                                                 </button>
                                             @endfor
                                         </div>
@@ -115,13 +118,16 @@
                                                 <div class="h-8"></div>
                                             @endfor
                                             @for ($d = 1; $d <= $calNextDays; $d++)
-                                                <button @click="open=false"
+                                                <button
                                                     wire:click="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
                                                     wire:loading.attr="disabled" wire:target="selectDate"
                                                     data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
                                                     class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}">
-                                                    {{ $d }}
+                                                    <span wire:loading.remove
+                                                        wire:target="selectDate">{{ $d }}</span>
+                                                    <span class="loading loading-dots loading-xs" wire:loading
+                                                        wire:target="selectDate"></span>
                                                 </button>
                                             @endfor
                                         </div>
