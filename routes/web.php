@@ -40,6 +40,10 @@ Route::middleware(['api.auth:admin'])->group(function () {
     Route::livewire('/jadwal-operasional-update/{id}', 'admin::jadwal-operasional-update');
     Route::livewire('/jadwal-operasional-update', 'admin::jadwal-operasional-update');
 
+    // Jadwal Khusus
+    Route::livewire('/jadwal-khusus', 'admin::jadwal-khusus');
+    Route::livewire('/jadwal-khusus-create', 'admin::jadwal-khusus-create');
+
     // Manajemen Master Booking
     Route::livewire('/booking-master', 'admin::booking-master');
     Route::livewire('/booking-detail', 'admin::booking-detail');

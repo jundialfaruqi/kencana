@@ -288,6 +288,22 @@
                         </li>
 
                         <li>
+                            <a wire:navigate href="/jadwal-khusus"
+                                class="{{ request()->is('jadwal-khusus*') || request()->is('jadwal-khusus-create*') || request()->is('jadwal-khusus-update*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                                    </svg>
+                                    <span>Jadwal Khusus</span>
+                                </div>
+                                <span class="text-[8px] text-base-content opacity-50 ml-7">Buat, Edit dan Hapus
+                                    Jadwal Khusus</span>
+                            </a>
+                        </li>
+
+                        <li>
                             <a wire:navigate href="/booking-master"
                                 class="{{ request()->is('booking-master*') || request()->is('booking-detail*') || request()->is('booking-cancel*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                 <div class="flex items-center gap-2">
@@ -324,7 +340,7 @@
 
                         <li>
                             <details open>
-                                <summary class="group">
+                                <summary class="group font-medium">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -388,7 +404,7 @@
                                 class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40 border border-base-200">
                                 <li class="{{ request()->routeIs('profile') ? 'bg-primary/10 rounded-lg' : '' }}">
                                     <a href="#"
-                                        class="{{ request()->routeIs('profile') ? 'text-primary font-medium' : '' }}">
+                                        class="text-primary-content font-medium opacity-40 pointer-events-none cursor-not-allowed">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -400,7 +416,7 @@
                                 <li>
                                     @csrf
                                     <button type="button" onclick="logout_modal_profile.showModal()"
-                                        class="flex items-center gap-2 cursor-pointer w-full text-left">
+                                        class="flex items-center gap-2 cursor-pointer w-full text-left font-medium">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
