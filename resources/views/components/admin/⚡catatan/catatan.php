@@ -106,4 +106,50 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
         $this->fetchCatatan();
         $this->ready = true;
     }
+
+    public function deleteCatatan(?int $id): void
+    {
+        if (!$id) {
+            $this->error = 'ID catatan tidak valid';
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->error,
+                'type' => 'error',
+            ]);
+            return;
+        }
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/catatan/' . urlencode((string) $id);
+            /** @var \Illuminate\Http\Client\Response $response */
+            $response = Http::withToken($token)->accept('application/json')->delete($url);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                $this->error = null;
+                $this->dispatch('toast', [
+                    'title' => 'Berhasil',
+                    'message' => (string) ($result['message'] ?? 'Catatan berhasil dihapus'),
+                    'type' => 'success',
+                ]);
+                $this->ready = false;
+                $this->fetchCatatan();
+                $this->ready = true;
+                return;
+            }
+            $this->error = (string) ($result['message'] ?? 'Gagal menghapus catatan');
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->error,
+                'type' => 'error',
+            ]);
+        } catch (\Throwable) {
+            $this->error = 'Terjadi kesalahan saat menghapus catatan';
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $this->error,
+                'type' => 'error',
+            ]);
+        }
+    }
 };

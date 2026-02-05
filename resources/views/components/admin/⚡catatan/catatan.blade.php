@@ -68,7 +68,7 @@
                                         </td>
                                         <td class="sticky right-0 bg-base-100 z-10 border-l border-base-300">
                                             <div class="flex items-center gap-3">
-                                                <a wire:navigate href="/jadwal-operasional-update/{{ $it['id'] ?? '' }}"
+                                                <a wire:navigate href="/catatan-update/{{ $it['id'] ?? '' }}"
                                                     class="text-xs text-secondary">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -78,7 +78,7 @@
                                                     </svg>
                                                 </a>
                                                 <button type="button" class="text-xs text-red-500"
-                                                    onclick="document.getElementById('delete_modal_jadwal_{{ $it['id'] ?? '' }}').showModal()">
+                                                    onclick="document.getElementById('delete_modal_catatan_{{ $c['id'] ?? '' }}').showModal()">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -87,26 +87,26 @@
                                                     </svg>
                                                 </button>
                                             </div>
-                                            <dialog id="delete_modal_jadwal_{{ $it['id'] ?? '' }}"
+                                            <dialog id="delete_modal_catatan_{{ $c['id'] ?? '' }}"
                                                 class="modal modal-bottom sm:modal-middle backdrop-blur-sm" wire:ignore>
                                                 <div class="modal-box">
                                                     <h3 class="font-bold text-lg italic uppercase tracking-tight">
                                                         Konfirmasi Hapus</h3>
                                                     <p class="py-4 text-base-content/70">Apakah Anda yakin ingin
-                                                        menghapus jadwal ini?</p>
+                                                        menghapus catatan ini?</p>
                                                     <div class="modal-action">
                                                         <form method="dialog">
                                                             <button class="btn btn-ghost -skew-x-12">Batal</button>
                                                         </form>
                                                         <button type="button"
-                                                            wire:click="deleteJadwal({{ $it['id'] ?? '' }})"
-                                                            onclick="document.getElementById('delete_modal_jadwal_{{ $it['id'] ?? '' }}').close()"
+                                                            wire:click="deleteCatatan({{ $c['id'] ?? '' }})"
+                                                            onclick="document.getElementById('delete_modal_catatan_{{ $c['id'] ?? '' }}').close()"
                                                             class="btn btn-error text-white -skew-x-12 font-black uppercase tracking-widest"
-                                                            wire:loading.attr="disabled" wire:target="deleteJadwal">
+                                                            wire:loading.attr="disabled" wire:target="deleteCatatan">
                                                             <span wire:loading.remove
-                                                                wire:target="deleteJadwal">Hapus</span>
+                                                                wire:target="deleteCatatan">Hapus</span>
                                                             <span class="loading loading-spinner loading-xs"
-                                                                wire:loading wire:target="deleteJadwal"></span>
+                                                                wire:loading wire:target="deleteCatatan"></span>
                                                         </button>
                                                     </div>
                                                 </div>
