@@ -63,9 +63,9 @@
                                         <td>{{ $u['no_wa'] ?? '-' }}</td>
                                         <td class="italic font-bold">
                                             @if (($u['is_active'] ?? false) === true)
-                                                <span class="badge badge-success">Aktif</span>
+                                                <span class="badge badge-xs badge-success">Aktif</span>
                                             @else
-                                                <span class="badge badge-neutral">Nonaktif</span>
+                                                <span class="badge badge-xs badge-neutral">Nonaktif</span>
                                             @endif
                                         </td>
                                         <td

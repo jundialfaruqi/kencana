@@ -46,4 +46,5 @@ Route::middleware(['api.auth:admin'])->group(function () {
 
     // Catatan
     Route::livewire('/catatan', 'admin::catatan');
+    Route::livewire('/catatan-create', 'admin::catatan-create');
 });
