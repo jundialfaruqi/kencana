@@ -120,11 +120,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex items-center justify-between mt-4">
-                        <div class="text-xs text-base-content/60">
+                    <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="join justify-center sm:justify-end">
                             Halaman {{ $currentPage }} dari {{ $lastPage }} • Total {{ $total }}
                         </div>
-                        <div class="join">
+                        <div class="join justify-center sm:justify-end">
                             @foreach ($links as $link)
                                 <button
                                     class="join-item btn btn-sm

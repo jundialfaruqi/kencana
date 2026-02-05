@@ -32,7 +32,7 @@
                                     d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg>
                             <input type="text" class="grow focus:outline-none focus-within:ring-0 bg-base-200"
-                                placeholder="Cari Pemesan/Kode Booking" wire:model.live.debounce.300ms="search">
+                                placeholder="Cari Pemesan / Kode Booking" wire:model.live.debounce.300ms="search">
                         </label>
                         <button type="button"
                             class="btn join-item btn-base-200 rounded-r-lg disabled:bg-base-200 hover:bg-base-200 border-0"
@@ -173,11 +173,12 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex items-center justify-between mt-4">
-                        <div class="text-xs text-base-content/60">
+                    <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="text-xs text-base-content/60 text-center sm:text-left">
                             Halaman {{ $currentPage }} dari {{ $lastPage }} • Total {{ $total }}
                         </div>
-                        <div class="join">
+
+                        <div class="join justify-center sm:justify-end">
                             @foreach ($links as $link)
                                 <button
                                     class="join-item btn btn-sm @if ($link['active']) btn-primary @endif"

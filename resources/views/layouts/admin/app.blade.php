@@ -304,7 +304,7 @@
                         </li>
 
                         <li>
-                            <a wire:navigate href="#"
+                            <a wire:navigate href="/catatan"
                                 class="{{ request()->is('catatan*') || request()->is('catatan-detail*') || request()->is('catatan-cancel*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                 <div class="flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

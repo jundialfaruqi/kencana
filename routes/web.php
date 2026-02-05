@@ -43,4 +43,7 @@ Route::middleware(['api.auth:admin'])->group(function () {
     // Manajemen Master Booking
     Route::livewire('/booking-master', 'admin::booking-master');
     Route::livewire('/booking-detail', 'admin::booking-detail');
+
+    // Catatan
+    Route::livewire('/catatan', 'admin::catatan');
 });
