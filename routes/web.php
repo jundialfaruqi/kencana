@@ -52,4 +52,10 @@ Route::middleware(['api.auth:admin'])->group(function () {
     // Catatan
     Route::livewire('/catatan', 'admin::catatan');
     Route::livewire('/catatan-create', 'admin::catatan-create');
+
+    // Banner Carousel
+    Route::livewire('/banner-carousel', 'admin::banner-carousel');
+    Route::livewire('/banner-carousel-create', 'admin::banner-carousel-create');
+    Route::livewire('/banner-carousel-update/{id}', 'admin::banner-carousel-update');
+    Route::livewire('/banner-carousel-detail/{id}', 'admin::banner-carousel-detail');
 });

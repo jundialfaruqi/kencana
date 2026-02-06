@@ -37,12 +37,14 @@
             <div class="relative w-full group">
                 <div
                     class="carousel w-full rounded-2xl sm:rounded-3xl shadow-2xl aspect-video sm:aspect-21/9 scroll-smooth">
-                    @foreach (($banners ?? []) as $banner)
+                    @foreach ($banners ?? [] as $banner)
                         <div class="carousel-item relative w-full overflow-hidden">
-                            <img src="{{ $banner['image'] ?? '' }}"
-                                class="w-full h-full object-cover" alt="{{ $banner['judul'] ?? 'Banner' }}" />
-                            <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"></div>
-                            <div class="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 gap-1 sm:gap-2">
+                            <img src="{{ $banner['image'] ?? '' }}" class="w-full h-full object-cover"
+                                alt="{{ $banner['judul'] ?? 'Banner' }}" />
+                            <div class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent">
+                            </div>
+                            <div
+                                class="absolute inset-0 flex flex-col justify-end px-6 sm:px-12 py-6 sm:py-12 gap-1 sm:gap-2">
                                 <span
                                     class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit">{{ $banner['kategori'] ?? '' }}</span>
                                 <h2 class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none">
@@ -57,7 +59,7 @@
 
                 <!-- Indicators -->
                 <div class="flex justify-center w-full py-3 gap-2 absolute bottom-2 sm:bottom-4 z-10">
-                    @foreach (($banners ?? []) as $_)
+                    @foreach ($banners ?? [] as $_)
                         <button
                             class="indicator-dot w-2 sm:w-8 h-1 sm:h-1.5 rounded-full bg-white/30 hover:bg-info transition-all"></button>
                     @endforeach
