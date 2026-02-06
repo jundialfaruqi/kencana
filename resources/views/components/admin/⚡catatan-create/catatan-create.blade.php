@@ -5,7 +5,7 @@
             <p class="text-sm text-base-content/60 mt-1">Tambah catatan aturan</p>
         </div>
         <div>
-            <a wire:navigate href="/catatan" class="text-sm text-base-content/60">
+            <a wire:navigate href="{{ route('catatan') }}" class="text-sm text-base-content/60">
                 <span class="inline-flex items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" class="size-4">
@@ -58,7 +58,11 @@
                             @enderror
                         </label>
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-6 flex items-center justify-end gap-2">
+                        <a wire:navigate href="{{ route('catatan') }}" class="btn btn-ghost"
+                            wire:loading.attr="disabled" wire:target="submit">
+                            Kembali
+                        </a>
                         <button type="button" class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
                             wire:target="submit">
                             <span wire:loading.remove wire:target="submit">Simpan Catatan</span>

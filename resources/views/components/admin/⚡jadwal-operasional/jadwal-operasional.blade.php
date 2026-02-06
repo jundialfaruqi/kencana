@@ -119,6 +119,37 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="join justify-center sm:justify-end text-xs text-base-content/60">
+                            Halaman {{ $currentPage }} dari {{ $lastPage }} • Total {{ $total }}
+                        </div>
+                        <div class="join justify-center sm:justify-end">
+                            @foreach ($links as $link)
+                                <button
+                                    class="join-item btn btn-sm
+                                @if ($link['active']) btn-primary @endif"
+                                    @if (!$link['url']) disabled @endif
+                                    wire:click="goToUrl('{{ $link['url'] }}')">
+                                    @php $lbl = $link['label'] ?? ''; @endphp
+                                    @if ($lbl === 'Prev')
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="3" stroke="currentColor" class="size-2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                                        </svg>
+                                    @endif
+                                    {!! $link['label'] !!}
+                                    @if ($lbl === 'Next')
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="3" stroke="currentColor" class="size-2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                                        </svg>
+                                    @endif
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>

@@ -9,7 +9,7 @@
                 <li><a href="#">Aman Arena</a></li>
                 <li>Apps</li>
                 <li>
-                    <a wire:navigate href="/catatan">
+                    <a wire:navigate href="{{ route('catatan') }}">
                         <span class="text-base-content">Catatan</span>
                     </a>
                 </li>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="flex items-center justify-start mb-3">
-        <a wire:navigate href="/catatan-create" class="btn btn-primary btn-sm shadow">
+        <a wire:navigate href="{{ route('catatan-create') }}" class="btn btn-primary btn-sm shadow">
             Buat Catatan
         </a>
     </div>
@@ -48,7 +48,7 @@
                                 @forelse ($catatans as $c)
                                     <tr>
                                         <td class="whitespace-nowrap">
-                                            [ID: {{ $c['id'] ?? '-' }}]
+                                            {{-- [ID: {{ $c['id'] ?? '-' }}] --}}
                                             {{ $c['kategori_catatan'] ?? '-' }}
                                         </td>
                                         <td>{{ $c['catatan'] ?? '-' }}</td>
@@ -69,7 +69,8 @@
                                         <td class="sticky right-0 bg-base-100 z-10 border-l border-base-300">
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate href="/catatan-update/{{ $it['id'] ?? '' }}"
-                                                    class="text-xs text-secondary">
+                                                    class="text-xs text-secondary pointer-events-none opacity-50 cursor-not-allowed"
+                                                    aria-disabled="true" tabindex="-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5 text-warning">

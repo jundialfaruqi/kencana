@@ -107,7 +107,9 @@
         <div class="card-footer p-4 rounded-b-xl">
             <div class="flex items-center justify-end gap-2 rounded-b-xl">
                 <a wire:navigate href="/manajemen-user" class="btn btn-ghost" wire:loading.attr="disabled"
-                    wire:loading.class="btn-disabled pointer-events-none opacity-50" wire:target="submit">Batal</a>
+                    wire:loading.class="btn-disabled pointer-events-none opacity-50" wire:target="submit">
+                    Kembali
+                </a>
                 <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled" wire:target="submit">
                     <span wire:loading.remove wire:target="submit">Update</span>
                     <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>

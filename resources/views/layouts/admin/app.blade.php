@@ -304,8 +304,8 @@
                         </li>
 
                         <li>
-                            <a wire:navigate href="/booking-master"
-                                class="{{ request()->is('booking-master*') || request()->is('booking-detail*') || request()->is('booking-cancel*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                            <a wire:navigate href="{{ route('booking-master') }}"
+                                class="{{ request()->routeIs('booking*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                 <div class="flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -320,8 +320,8 @@
                         </li>
 
                         <li>
-                            <a wire:navigate href="/catatan"
-                                class="{{ request()->is('catatan*') || request()->is('catatan-detail*') || request()->is('catatan-cancel*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                            <a wire:navigate href="{{ route('catatan') }}"
+                                class="{{ request()->routeIs('catatan*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                 <div class="flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -337,8 +337,8 @@
                         </li>
 
                         <li>
-                            <a wire:navigate href="/banner-carousel"
-                                class="{{ request()->is('banner-carousel*') || request()->is('banner-carousel-detail*') || request()->is('banner-carousel-create*') || request()->is('banner-carousel-detail*') || request()->is('banner-carousel-update*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                            <a wire:navigate href="{{ route('banner-carousel') }}"
+                                class="{{ request()->routeIs('banner-carousel*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                 <div class="flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -359,7 +359,7 @@
 
                         <li>
                             <details open>
-                                <summary class="group font-medium">
+                                <summary class="group font-medium mb-1 hover:bg-base-100">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -369,11 +369,11 @@
                                 </summary>
                                 <ul>
                                     <li>
-                                        <a wire:navigate href="/manajemen-user"
-                                            class="{{ request()->is('manajemen-user*') || request()->is('user-detail*') || request()->is('user-update*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
+                                        <a wire:navigate href="{{ route('manajemen-user') }}"
+                                            class="{{ request()->routeIs('manajemen-user*') || request()->routeIs('user*') ? 'active bg-base-300 text-base-content font-medium' : '' }} flex flex-col items-start gap-0.5">
                                             Manajemen User
                                             <span class="text-[8px] text-base-content opacity-50">
-                                                Lihat, buat, ubah dan hapus catatan
+                                                Lihat, Ubah dan Aktivasi User
                                             </span>
                                         </a>
                                     </li>

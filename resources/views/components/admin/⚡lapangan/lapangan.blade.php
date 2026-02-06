@@ -29,7 +29,7 @@
                 </div>
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    @forelse ($lapangan as $lp)
+                    @forelse ($slice as $lp)
                         <div class="card border-2 border-dashed border-base-300 bg-base-100">
                             <div class="card-body">
                                 <div class="flex items-start justify-between">
@@ -82,6 +82,54 @@
                             </div>
                         </div>
                     @endforelse
+                </div>
+                <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="join justify-center sm:justify-end text-xs text-base-content/60">
+                        Halaman {{ $curr }} dari {{ $lastPage }} • Total {{ $total }}
+                    </div>
+                    <div class="join justify-center sm:justify-end">
+                        @foreach ($links as $link)
+                            @php $lbl = $link['label'] ?? ''; @endphp
+                            @if ($link['url'])
+                                <a wire:navigate href="{{ $link['url'] }}"
+                                    class="join-item btn btn-sm @if ($link['active']) btn-primary @endif">
+                                    @if ($lbl === 'Prev')
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="3" stroke="currentColor" class="size-2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                                        </svg>
+                                    @endif
+                                    {!! $link['label'] !!}
+                                    @if ($lbl === 'Next')
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="3" stroke="currentColor" class="size-2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                                        </svg>
+                                    @endif
+                                </a>
+                            @else
+                                <span class="join-item btn btn-sm btn-disabled">
+                                    @if ($lbl === 'Prev')
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="3" stroke="currentColor" class="size-2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                                        </svg>
+                                    @endif
+                                    {!! $link['label'] !!}
+                                    @if ($lbl === 'Next')
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="3" stroke="currentColor" class="size-2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                                        </svg>
+                                    @endif
+                                </span>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             @endif
         </div>

@@ -162,4 +162,94 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
             ]);
         }
     }
+
+    public function toggleBannerStatus(int $id): void
+    {
+        if ($id <= 0) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'ID banner tidak valid',
+                'type' => 'error',
+            ]);
+            return;
+        }
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/slider/' . $id . '/status';
+            /** @var Response $response */
+            $response = Http::withToken($token)->accept('application/json')->post($url);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                foreach ($this->banners as &$b) {
+                    if (($b['id'] ?? null) === $id) {
+                        $b['is_active'] = !((bool) ($b['is_active'] ?? false));
+                        break;
+                    }
+                }
+                unset($b);
+                $this->dispatch('toast', [
+                    'title' => 'Berhasil',
+                    'message' => (string) ($result['message'] ?? 'Status banner berhasil diubah'),
+                    'type' => 'success',
+                ]);
+                return;
+            }
+            $msg = (string) ((is_array($result) ? ($result['message'] ?? null) : null) ?: 'Gagal mengubah status banner');
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $msg,
+                'type' => 'error',
+            ]);
+        } catch (\Throwable) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Terjadi kesalahan saat mengubah status banner',
+                'type' => 'error',
+            ]);
+        }
+    }
+
+    public function updateOrder(int $id, string $direction): void
+    {
+        if ($id <= 0 || !in_array($direction, ['up', 'down'], true)) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Parameter urutan tidak valid',
+                'type' => 'error',
+            ]);
+            return;
+        }
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/slider/' . $id . '/urutan';
+            /** @var Response $response */
+            $response = Http::asForm()->withToken($token)->accept('application/json')->post($url, [
+                'direction' => $direction,
+            ]);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                $this->dispatch('toast', [
+                    'title' => 'Berhasil',
+                    'message' => (string) ($result['message'] ?? 'Urutan banner diperbarui'),
+                    'type' => 'success',
+                ]);
+                $this->fetchBanners();
+                return;
+            }
+            $msg = (string) ((is_array($result) ? ($result['message'] ?? null) : null) ?: 'Gagal memperbarui urutan banner');
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $msg,
+                'type' => 'error',
+            ]);
+        } catch (\Throwable) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Terjadi kesalahan saat memperbarui urutan banner',
+                'type' => 'error',
+            ]);
+        }
+    }
 };

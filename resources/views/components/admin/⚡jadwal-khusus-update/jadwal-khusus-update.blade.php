@@ -94,7 +94,11 @@
                             @enderror
                         </label>
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-6 flex items-center justify-end gap-2">
+                        <a wire:navigate href="/jadwal-khusus" class="btn btn-ghost" wire:loading.attr="disabled"
+                            wire:target="submit">
+                            Kembali
+                        </a>
                         <button type="button" class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
                             wire:target="submit">
                             <span wire:loading.remove wire:target="submit">Simpan Jadwal Khusus</span>

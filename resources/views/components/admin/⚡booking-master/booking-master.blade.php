@@ -9,7 +9,7 @@
                 <li><a href="#">Aman Arena</a></li>
                 <li>Apps</li>
                 <li>
-                    <a wire:navigate href="/booking-master">
+                    <a wire:navigate href="{{ route('booking-master') }}">
                         <span class="text-base-content">
                             Booking Master
                         </span>
@@ -131,7 +131,8 @@
                                         <td
                                             class="sticky right-0 bg-base-100 z-10 border-l border-base-300 shadow-l-sm">
                                             <div class="flex items-center gap-3">
-                                                <a wire:navigate href="/booking-detail?id={{ $b['id'] ?? 0 }}"
+                                                <a wire:navigate
+                                                    href="{{ route('booking-detail', ['id' => $b['id'] ?? 0]) }}"
                                                     class="text-xs text-secondary" aria-label="Detail">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

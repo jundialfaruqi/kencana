@@ -9,7 +9,7 @@
                 <li><a href="#">Aman Arena</a></li>
                 <li>Apps</li>
                 <li>
-                    <a wire:navigate href="/banner-carousel">
+                    <a wire:navigate href="{{ route('banner-carousel') }}">
                         <span class="text-base-content">Banner Carousel</span>
                     </a>
                 </li>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="flex items-center justify-start mb-3">
-        <a wire:navigate href="/banner-carousel-create" class="btn btn-primary btn-sm shadow">
+        <a wire:navigate href="{{ route('banner-carousel-create') }}" class="btn btn-primary btn-sm shadow">
             Tambah Banner
         </a>
     </div>
@@ -54,19 +54,84 @@
                                         </td>
                                         <td>{{ $b['deskripsi'] ?? '-' }}</td>
                                         <td class="whitespace-nowrap text-center font-mono">
-                                            [{{ $b['urutan'] ?? '-' }}]
+                                            <div class="join justify-center gap-1">
+                                                <button type="button"
+                                                    class="join-item btn btn-ghost btn-xs rounded-full disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none disabled:[&_svg]:text-red-400"
+                                                    wire:click="updateOrder({{ $b['id'] ?? 0 }}, 'up')"
+                                                    wire:loading.attr="disabled" wire:target="updateOrder"
+                                                    @if (($b['urutan'] ?? 0) <= 1) disabled @endif
+                                                    aria-label="Naikkan urutan">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                        class="size-3 text-blue-600">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 4.5v15m0-15L6 10.5m6-6 6 6" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button"
+                                                    class="join-item btn btn-xs rounded-full btn-outline-base-300 disabled:bg-secondary disabled:text-white"
+                                                    disabled>{{ $b['urutan'] ?? '-' }}</button>
+                                                <button type="button"
+                                                    class="join-item btn btn-ghost btn-xs rounded-full
+                                                    disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none disabled:[&_svg]:text-red-400"
+                                                    wire:click="updateOrder({{ $b['id'] ?? 0 }}, 'down')"
+                                                    wire:loading.attr="disabled" wire:target="updateOrder"
+                                                    @if (($b['urutan'] ?? 0) >= $total) disabled @endif
+                                                    aria-label="Turunkan urutan">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                        class="size-3 text-red-600">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 19.5v-15m0 15L6 13.5m6 6 6-6" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </td>
                                         <td class="uppercase font-bold italic">
-                                            @if ((bool) ($b['is_active'] ?? false))
-                                                <span class="badge badge-xs badge-success">Aktif</span>
-                                            @else
-                                                <span class="badge badge-xs badge-neutral">Tidak Aktif</span>
-                                            @endif
+                                            <div class="inline-flex items-center gap-2">
+                                                <label class="swap swap-flip">
+                                                    <input type="checkbox" @checked(($b['is_active'] ?? false) === true)
+                                                        wire:change="toggleBannerStatus({{ $b['id'] ?? 0 }})"
+                                                        wire:loading.attr="disabled" wire:target="toggleBannerStatus"
+                                                        aria-label="Toggle Status" />
+                                                    <div class="swap-on" wire:loading.remove
+                                                        wire:target="toggleBannerStatus">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                            class="size-4 text-success">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M20 6 9 17l-5-5" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="swap-off" wire:loading.remove
+                                                        wire:target="toggleBannerStatus">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                            class="size-4 text-neutral">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M18 6 6 18" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m6 6 12 12" />
+                                                        </svg>
+                                                    </div>
+                                                    <span class="loading loading-spinner loading-xs" wire:loading
+                                                        wire:target="toggleBannerStatus">
+                                                    </span>
+                                                </label>
+                                                @if ((bool) ($b['is_active'] ?? false))
+                                                    <span
+                                                        class="badge badge-xs badge-success whitespace-nowrap">Aktif</span>
+                                                @else
+                                                    <span class="badge badge-xs badge-neutral whitespace-nowrap">Tidak
+                                                        Aktif</span>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td
                                             class="sticky right-0 bg-base-100 z-10 border-l border-base-300 shadow-l-sm">
                                             <div class="flex items-center gap-3">
-                                                <a wire:navigate href="/banner-carousel-detail/{{ $b['id'] ?? 0 }}"
+                                                <a wire:navigate
+                                                    href="{{ route('banner-carousel-detail', ['id' => $b['id'] ?? 0]) }}"
                                                     class="text-xs text-secondary" aria-label="Detail">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -75,7 +140,8 @@
                                                             d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                                     </svg>
                                                 </a>
-                                                <a wire:navigate href="/banner-carousel-update/{{ $b['id'] ?? 0 }}"
+                                                <a wire:navigate
+                                                    href="{{ route('banner-carousel-update', ['id' => $b['id'] ?? 0]) }}"
                                                     class="text-xs text-warning" aria-label="Edit">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -84,26 +150,6 @@
                                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                     </svg>
                                                 </a>
-                                                <label class="toggle toggle-xs text-blue" aria-label="Toggle Status">
-                                                    <input type="checkbox" @checked(($u['is_active'] ?? false) === true)
-                                                        wire:change="toggleUserStatus({{ $u['id'] ?? 0 }})"
-                                                        wire:loading.attr="disabled" wire:target="toggleUserStatus">
-                                                    <svg aria-label="disabled" xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="text-accent">
-                                                        <path d="M18 6 6 18" />
-                                                        <path d="m6 6 12 12" />
-                                                    </svg>
-                                                    <svg aria-label="enabled" xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24">
-                                                        <g stroke-linejoin="round" stroke-linecap="round"
-                                                            stroke-width="4" fill="none" stroke="currentColor"
-                                                            class="text-success">
-                                                            <path d="M20 6 9 17l-5-5"></path>
-                                                        </g>
-                                                    </svg>
-                                                </label>
                                                 <button type="button" class="text-xs text-red-500"
                                                     onclick="document.getElementById('delete_modal_banner_{{ $b['id'] ?? '' }}').showModal()">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"

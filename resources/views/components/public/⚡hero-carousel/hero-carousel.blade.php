@@ -11,9 +11,8 @@
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
                         Siap untuk bertanding?</p>
                 </div>
-                <a href="#"
-                    class="text-[10px] sm:text-xs font-bold uppercase italic text-info hover:underline transition-all">View
-                    All</a>
+                <span class="text-[10px] sm:text-xs font-bold uppercase italic text-info transition-all">Daftar
+                    Arena</span>
             </div>
 
             <div wire:ignore
@@ -59,8 +58,8 @@
                                 </a>
                             @else
                                 <button disabled
-                                class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
-                                <span class="skew-x-12">{{ $lp['status_label'] ?: 'Segera Dibuka' }}</span>
+                                    class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                                    <span class="skew-x-12">{{ $lp['status_label'] ?: 'Segera Dibuka' }}</span>
                                 </button>
                             @endif
                         </div>
