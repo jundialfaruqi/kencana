@@ -248,7 +248,6 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             }
         } catch (\Throwable) {
         }
-        sleep(1);
     }
 
     protected function fetchArenas(): void
@@ -442,8 +441,6 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             $this->error = 'Data booking tidak lengkap';
             return;
         }
-
-        sleep(1);
 
         $this->resetValidation();
         $validated = $this->validate();

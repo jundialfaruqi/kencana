@@ -27,7 +27,6 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
             return;
         }
         $this->fetchHistory(1);
-        sleep(1);
         $this->ready = true;
     }
 
@@ -81,7 +80,6 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
         if (!$page) return;
         $this->ready = false;
         $this->fetchHistory(intval($page));
-        sleep(1);
         $this->ready = true;
     }
 
@@ -89,7 +87,6 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
     {
         $this->ready = false;
         $this->fetchHistory(1);
-        sleep(1);
         $this->ready = true;
     }
 };

@@ -11,7 +11,6 @@ new #[Layout('layouts::public.app')] #[Title('Store')] class extends Component
     public function loadStore()
     {
         // Simulasi loading data produk nanti
-        sleep(1);
         $this->isLoading = false;
     }
 };

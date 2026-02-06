@@ -14,7 +14,6 @@ new class extends Component
 
     public function load()
     {
-        // sleep(1);
         $this->readyToLoad = true;
         $this->dispatch('map-ready');
     }

@@ -36,7 +36,6 @@ class extends Component
         $this->computeTanggalJam();
         $this->computeJenisAlias();
         $this->computeDibuatPada();
-        sleep(1);
         $this->ready = true;
         $this->dispatch('detail-loaded');
     }

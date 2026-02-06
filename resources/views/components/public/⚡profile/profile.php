@@ -12,7 +12,6 @@ new #[Layout('layouts::public.app')] #[Title('Profil Saya')] class extends Compo
 
     public function load()
     {
-        sleep(1); // Memberikan efek loading sejenak
         $this->ready = true;
     }
 
