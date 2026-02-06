@@ -1,0 +1,35 @@
+{
+    "success": true,
+    "data": [
+        {
+            "kategori": "test kategori",
+            "judul": "test judul",
+            "deskripsi": "test des",
+            "image": "https://amanarena-api.pekanbaru.go.id/storage/sliders/GNYM6M32ktp6sDiihc8is3u1xWjDgJaZedmYJndk.jpg"
+        },
+        {
+            "kategori": "slider 4",
+            "judul": "asdasd",
+            "deskripsi": "asdasdsad",
+            "image": "https://amanarena-api.pekanbaru.go.id/storage/sliders/mSvqUtPbjrG8OD5Ts1XuorpLxoYMUjNRFNDbTUvp.jpg"
+        },
+        {
+            "kategori": "test kategori",
+            "judul": "test judul",
+            "deskripsi": "test des",
+            "image": "https://amanarena-api.pekanbaru.go.id/storage/sliders/ztAtDVHwWBg1h0YNLbh98YiUtYwSASXIiUWKksCD.jpg"
+        },
+        {
+            "kategori": "test kategori",
+            "judul": "test judul",
+            "deskripsi": "test des",
+            "image": "https://amanarena-api.pekanbaru.go.id/storage/sliders/Ox3f9fXNGXrRWV2eROcCoqpTHks5ijU0VhRmJrWv.jpg"
+        },
+        {
+            "kategori": "test kategori",
+            "judul": "test judul",
+            "deskripsi": "test des",
+            "image": "https://amanarena-api.pekanbaru.go.id/storage/sliders/kcz0RNV9yvGBRmCD6SonEL5qDYB5zdBxDbsldS3F.jpg"
+        }
+    ]
+}
