@@ -121,4 +121,45 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
         $this->fetchBanners();
         $this->readyToLoad = true;
     }
+
+    public function deleteBanner(int $id): void
+    {
+        if ($id <= 0) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'ID banner tidak valid',
+                'type' => 'error',
+            ]);
+            return;
+        }
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/slider/' . $id;
+            /** @var Response $response */
+            $response = Http::withToken($token)->accept('application/json')->delete($url);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                $this->dispatch('toast', [
+                    'title' => 'Berhasil',
+                    'message' => (string) ($result['message'] ?? 'Banner berhasil dihapus'),
+                    'type' => 'success',
+                ]);
+                $this->fetchBanners();
+                return;
+            }
+            $msg = (string) ((is_array($result) ? ($result['message'] ?? null) : null) ?: 'Gagal menghapus banner');
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => $msg,
+                'type' => 'error',
+            ]);
+        } catch (\Throwable) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Terjadi kesalahan saat menghapus banner',
+                'type' => 'error',
+            ]);
+        }
+    }
 };

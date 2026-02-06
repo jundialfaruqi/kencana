@@ -172,6 +172,10 @@
                 window.__toastLWBound = true;
             }
             window.__toastBound = true;
+            checkPendingToast();
+        }
+
+        function checkPendingToast() {
             try {
                 var pending = localStorage.getItem('pendingToast');
                 if (pending) {
@@ -187,7 +191,9 @@
             } catch (_) {}
         }
         document.addEventListener('DOMContentLoaded', bindToast);
-        document.addEventListener('livewire:navigated', bindToast);
+        document.addEventListener('livewire:navigated', function() {
+            checkPendingToast();
+        });
         if (document.readyState !== 'loading') {
             bindToast();
         }
