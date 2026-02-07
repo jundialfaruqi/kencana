@@ -313,7 +313,7 @@
                                     class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                     <span class="text-xs font-bold uppercase text-base-content/50">Total</span>
                                     <span class="font-black italic uppercase text-sm">
-                                        {{ count($items) }}
+                                        {{ $total }}
                                     </span>
                                 </div>
                             </div>

@@ -145,7 +145,7 @@
                                             <a wire:navigate
                                                 href="/detail-lapangan/{{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
                                                 class="btn btn-sm btn-warning text-white -skew-x-12">
-                                                Detail Lapangan
+                                                Selengkapnya
                                             </a>
                                         </div>
                                     @endif
