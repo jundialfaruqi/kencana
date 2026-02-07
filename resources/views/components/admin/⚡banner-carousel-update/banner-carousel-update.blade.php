@@ -66,7 +66,7 @@
                 <div class="flex items-center justify-end gap-2">
                     <button class="btn btn-ghost" wire:click="cancel" wire:loading.attr="disabled"
                         wire:loading.class="btn-disabled pointer-events-none opacity-50"
-                        wire:target="cancel">Batal</button>
+                        wire:target="cancel">Kembali</button>
                     <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
                         wire:target="submit">
                         <span wire:loading.remove wire:target="submit">Simpan</span>

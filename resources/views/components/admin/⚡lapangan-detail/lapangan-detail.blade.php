@@ -31,41 +31,6 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                     <div class="card border-2 border-dashed border-base-300 bg-base-100">
-                        <figure>
-                            @if ($coverUrl)
-                                <div class="w-full overflow-hidden aspect-video bg-base-200">
-                                    <img src="{{ $coverUrl }}" class="w-full h-full object-cover"
-                                        alt="Cover Lapangan" />
-                                </div>
-                            @else
-                                <div
-                                    class="w-full overflow-hidden aspect-video bg-base-200 flex items-center justify-center">
-                                    <span class="text-base-content/60 text-sm">no-image</span>
-                                </div>
-                            @endif
-                        </figure>
-                        <div class="card-body">
-                            <div>
-                                <h3 class="text-sm font-semibold mb-2">Galeri Lapangan</h3>
-                                @if (!empty($galleryUrls))
-                                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                        @foreach ($galleryUrls as $imgUrl)
-                                            <div class="rounded-xl overflow-hidden bg-base-200 aspect-square">
-                                                <img src="{{ $imgUrl }}" class="w-full h-full object-cover"
-                                                    alt="Foto Lapangan" />
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <div class="rounded-xl bg-base-200 flex items-center justify-center h-24">
-                                        <span class="text-base-content/60 text-sm">no-image</span>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card border-2 border-dashed border-base-300 bg-base-100">
                         <div class="card-body">
                             <div class="flex items-start justify-between gap-4">
                                 <div>
@@ -123,13 +88,43 @@
                             <div class="flex items-center justify-end gap-2">
                                 <a wire:navigate href="/lapangan-update?id={{ $id }}"
                                     class="btn btn-sm btn-secondary text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="1.5" class="w-4 h-4 mr-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                    </svg>
-                                    <span>Edit Lapangan</span>
+                                    Edit Lapangan
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-base-100 shadow">
+                        <figure>
+                            @if ($coverUrl)
+                                <div class="w-full overflow-hidden aspect-video bg-base-200">
+                                    <img src="{{ $coverUrl }}" class="w-full h-full object-cover"
+                                        alt="Cover Lapangan" />
+                                </div>
+                            @else
+                                <div
+                                    class="w-full overflow-hidden aspect-video bg-base-200 flex items-center justify-center">
+                                    <span class="text-base-content/60 text-sm">no-image</span>
+                                </div>
+                            @endif
+                        </figure>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="text-sm font-semibold mb-2">Galeri Lapangan</h3>
+                                @if (!empty($galleryUrls))
+                                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                        @foreach ($galleryUrls as $imgUrl)
+                                            <div class="rounded-xl overflow-hidden bg-base-200 aspect-square">
+                                                <img src="{{ $imgUrl }}" class="w-full h-full object-cover"
+                                                    alt="Foto Lapangan" />
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="rounded-xl bg-base-200 flex items-center justify-center h-24">
+                                        <span class="text-base-content/60 text-sm">no-image</span>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

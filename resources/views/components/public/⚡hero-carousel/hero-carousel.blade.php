@@ -11,8 +11,9 @@
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
                         Siap untuk bertanding?</p>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold uppercase italic text-info transition-all">Daftar
-                    Arena</span>
+                <a wire:navigate href="{{ route('lapangan') }}"
+                    class="text-[10px] sm:text-xs font-bold uppercase italic text-info hover:underline transition-all">Lihat
+                    Semua</a>
             </div>
 
             <div wire:ignore
@@ -82,7 +83,7 @@
                         <div class="px-1 sm:px-2 space-y-2">
                             <div class="h-3 bg-base-300 w-full rounded"></div>
                             <div class="h-3 bg-base-300 w-2/3 rounded"></div>
-                            <div class="h-6 sm:h-8 bg-base-300 w-full mt-2 rounded-lg"></div>
+                            <div class="h-6 sm:h-8 bg-base-300 w-full mt-2 rounded-lg -skew-x-12"></div>
                         </div>
                     </div>
                 @endfor

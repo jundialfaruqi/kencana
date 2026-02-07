@@ -7,6 +7,13 @@ Route::livewire('/login', 'auth::login');
 Route::livewire('/register', 'auth::register');
 Route::livewire('/store', 'public::public.store');
 Route::livewire('/', 'public::landing-page');
+Route::livewire('/lapangan', 'public::public.lapangan')
+    ->name('lapangan');
+
+Route::livewire('/detail-lapangan', 'public::public.detail-lapangan')
+    ->name('detail-lapangan');
+Route::livewire('/detail-lapangan/{slug}', 'public::public.detail-lapangan')
+    ->name('detail-lapangan.slug');
 
 // Protected Public Route
 Route::middleware(['api.auth'])->group(function () {

@@ -26,7 +26,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2 relative">
                     @if ($error)
-                        <div class="alert alert-error">
+                        <div class="alert alert-error mb-4">
                             <span>{{ $error }}</span>
                         </div>
                     @endif
