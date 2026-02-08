@@ -29,7 +29,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
             'judul' => ['required', 'string', 'min:1'],
             'kategori' => ['required', 'string', 'min:1'],
             'deskripsi' => ['required', 'string', 'min:1'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
         ];
     }
 

@@ -153,7 +153,7 @@
                                 </div>
                             @endif
                         </div>
-                        <p class="text-[11px] text-base-content/60 mt-1">Format: PNG, JPG, JPEG • Maks. 5MB</p>
+                        <p class="text-[11px] text-base-content/60 mt-1">Format: PNG, JPG, JPEG • Maks. 2MB</p>
                     </div>
                     <div class="form-control w-full">
                         <div class="label mb-2">
@@ -215,7 +215,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <p class="text-[11px] text-base-content/60 mt-1">Format: PNG, JPG, JPEG • Maks. 5MB</p>
+                        <p class="text-[11px] text-base-content/60 mt-1">Format: PNG, JPG, JPEG • Maks. 2MB</p>
                         @error('images')
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror

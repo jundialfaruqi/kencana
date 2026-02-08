@@ -25,7 +25,7 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
             'judul' => ['required', 'string', 'min:1'],
             'kategori' => ['required', 'string', 'min:1'],
             'deskripsi' => ['required', 'string', 'min:1'],
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
         ];
     }
 

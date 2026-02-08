@@ -200,9 +200,10 @@
                                     NIK (16 Digit)
                                 </span>
                             </label>
-                            <input type="number" placeholder="1234567890123456"
+                            <input type="tel" placeholder="1234567890123456"
                                 class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic h-10 @error('nik') input-warning @enderror"
-                                wire:model="nik" />
+                                wire:model="nik" inputmode="numeric" pattern="[0-9]*" maxlength="16"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);" />
                             @error('nik')
                                 <label class="label p-0 mt-1">
                                     <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>

@@ -99,7 +99,7 @@
                                 </div>
                             @endif
                         </div>
-                        <p class="text-[11px] text-base-content/60 mt-1">Format: PNG, JPG, JPEG • Maks. 5MB</p>
+                        <p class="text-[11px] text-base-content/60 mt-1">Format: PNG, JPG, JPEG • Maks. 2MB</p>
                     </div>
                 </div>
             </div>
