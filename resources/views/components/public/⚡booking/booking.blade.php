@@ -526,7 +526,7 @@
                                     <div>
                                         <h4
                                             class="text-warning-content font-black italic uppercase tracking-tighter text-lg sm:text-xl">
-                                            Baca syarat dan ketentuan
+                                            syarat dan ketentuan
                                         </h4>
                                         <div
                                             class="text-[9px] sm:text-[10px] font-bold uppercase text-warning-content/70">
