@@ -75,7 +75,18 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
             $response = Http::withToken($token)->accept('application/json')->get($url);
             $json = json_decode((string) $response, true);
             if (is_array($json) && ($json['success'] ?? false)) {
-                $this->catatan = (array) ($json['data'] ?? []);
+                $data = (array) ($json['data'] ?? []);
+                if (!empty($data)) {
+                    $first = $data[0] ?? [];
+                    if (is_array($first) && array_key_exists('items', $first)) {
+                        foreach ($data as $idx => $grp) {
+                            $items = (array) ($grp['items'] ?? []);
+                            usort($items, fn($a, $b) => intval($a['urutan'] ?? 0) <=> intval($b['urutan'] ?? 0));
+                            $data[$idx]['items'] = $items;
+                        }
+                    }
+                }
+                $this->catatan = $data;
             } else {
                 $this->catatan = [];
             }

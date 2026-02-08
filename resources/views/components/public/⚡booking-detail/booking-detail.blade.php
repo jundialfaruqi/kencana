@@ -59,7 +59,7 @@
                             <div class="bp-divider my-4"></div>
                             <div class="grid grid-cols-3 gap-2">
                                 <div class="col-span-2">
-                                    <div class="text-[10px] font-bold uppercase text-base-content/50">Pemesan</div>
+                                    <div class="text-[10px] font-bold uppercase text-base-content/50">Tim / Nama</div>
                                     <div class="mt-1 font-black italic uppercase">
                                         {{ data_get($detail, 'pemesan.nama') ?? '-' }}</div>
                                     <div class="mt-3 grid grid-cols-3 gap-3">
@@ -137,44 +137,45 @@
                         <div class="flex items-center gap-2 sm:gap-3">
                             <div>
                                 <h4 class="text-error font-black italic uppercase tracking-tighter text-lg sm:text-xl">
-                                    {{ data_get($catatan, '0.kategori_catatan', 'Syarat dan ketentuan sewa lapangan AMAN Arena') }}
+                                    Syarat dan Ketentuan
                                 </h4>
-                                <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/60">Baca
-                                    {{ data_get($catatan, '0.kategori_catatan', 'Syarat dan ketentuan sewa lapangan AMAN Arena') }}
+                                <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/60">
+                                    Mohon Dibaca dan Dipahami Bersama
                                 </div>
                             </div>
                         </div>
                         <div class="mt-4 space-y-2">
                             @if (!empty($catatan))
-                                <ul class="space-y-2">
-                                    @foreach ($catatan as $cat)
-                                        @php
-                                            $items = (array) ($cat['items'] ?? []);
-                                            usort(
-                                                $items,
-                                                fn($a, $b) => intval($a['urutan'] ?? 0) <=> intval($b['urutan'] ?? 0),
-                                            );
-                                        @endphp
-                                        @foreach ($items as $ci)
+                                @foreach ($catatan as $cat)
+                                    <div class="text-[13px] font-bold uppercase text-base-content/60">
+                                        {{ $cat['kategori_catatan'] ?? '-' }}
+                                    </div>
+                                    <ul class="space-y-2 mt-2">
+                                        @foreach ((array) ($cat['items'] ?? []) as $ci)
                                             <li class="flex items-center">
-                                                <span
-                                                    class="flex-none w-6 text-xs font-bold">{{ intval($ci['urutan'] ?? 0) }}.</span>
-                                                <span
-                                                    class="text-xs sm:text-sm leading-relaxed">{{ $ci['catatan'] ?? '-' }}</span>
+                                                <span class="flex-none w-6 text-xs font-bold">
+                                                    {{ intval($ci['urutan'] ?? 0) }}.
+                                                </span>
+                                                <span class="text-xs sm:text-sm leading-relaxed">
+                                                    {{ $ci['catatan'] ?? '-' }}
+                                                </span>
                                             </li>
                                         @endforeach
-                                    @endforeach
-                                </ul>
+                                    </ul>
+                                @endforeach
                             @else
-                                <ul class="space-y-2"></ul>
+                                <div class="text-xs text-base-content/60">Catatan belum tersedia.</div>
                             @endif
+                        </div>
+                        <div class="mt-4">
                         </div>
                         <div class="mt-4">
                             <button class="btn btn-error w-full" wire:click="openCancelConfirm"
                                 wire:loading.attr="disabled" @disabled((data_get($detail, 'status') ?? '') !== 'dipesan')>
                                 <span>Batalkan Booking</span>
                                 <span class="loading loading-dots loading-xs ml-2" wire:loading
-                                    wire:target="cancelBooking"></span>
+                                    wire:target="cancelBooking">
+                                </span>
                             </button>
                             @if ($cancelMessage)
                                 <div class="alert alert-success mt-3"><span>{{ $cancelMessage }}</span></div>
@@ -186,6 +187,7 @@
                     </div>
                 </div>
             </div>
+
             @if ($showCancelConfirm)
                 <div class="fixed inset-0 z-50 grid place-items-center p-4">
                     <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm"></div>
@@ -231,11 +233,6 @@
                     </div>
                 </div>
             @endif
-            <div class="mt-4 px-2">
-                <div class="flex items-center gap-3">
-                    <div class="hidden"></div>
-                </div>
-            </div>
             <div wire:loading wire:target="cancelBooking" class="fixed inset-0 z-50 bg-base-100/80 backdrop-blur-sm">
                 <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                     <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
@@ -246,131 +243,132 @@
                     </div>
                 </div>
             </div>
-        @else
-            <div class="w-full animate-pulse">
-                <div class="mb-8 px-2 flex items-center gap-4">
-                    <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
-                    <div>
-                        <div class="h-6 sm:h-8 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
-                        <div class="h-3 sm:h-4 bg-base-300 w-32 sm:w-48 mt-2 rounded-lg"></div>
+        </div>
+    @else
+        <div class="w-full animate-pulse">
+            <div class="mb-8 px-2 flex items-center gap-4">
+                <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
+                <div>
+                    <div class="h-6 sm:h-8 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
+                    <div class="h-3 sm:h-4 bg-base-300 w-32 sm:w-48 mt-2 rounded-lg"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <div
+                        class="boarding-pass border-2 border-base-200 border-dashed bg-base-100 rounded-2xl overflow-hidden shadow-lg">
+                        <div class="bp-header px-4 py-3 sm:px-6 sm:py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="h-3 w-24 bg-base-300 rounded"></div>
+                                <div class="h-3 w-20 bg-base-300 rounded"></div>
+                            </div>
+                            <div class="h-7 sm:h-9 w-44 sm:w-60 bg-base-300 rounded mt-2"></div>
+                        </div>
+                        <div class="bp-body p-4 sm:p-6">
+                            <div class="h-4 w-40 bg-base-300 rounded"></div>
+                            <div class="mt-4 grid grid-cols-3 gap-4 items-start">
+                                <div>
+                                    <div class="h-8 sm:h-10 w-24 sm:w-32 bg-base-300 rounded"></div>
+                                    <div class="h-3 w-28 bg-base-300 rounded mt-2"></div>
+                                </div>
+                                <div class="flex items-center justify-center">
+                                    <div class="h-8 sm:h-10 border-l-2 border-dashed border-base-300"></div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="h-8 sm:h-10 w-24 sm:w-32 bg-base-300 rounded ml-auto"></div>
+                                    <div class="h-3 w-28 bg-base-300 rounded mt-2 ml-auto"></div>
+                                </div>
+                            </div>
+                            <div class="bp-divider my-4"></div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="col-span-2">
+                                    <div class="h-3 w-20 bg-base-300 rounded"></div>
+                                    <div class="h-4 w-36 bg-base-300 rounded mt-1"></div>
+                                    <div class="mt-3 grid grid-cols-3 gap-3">
+                                        <div>
+                                            <div class="h-3 w-16 bg-base-300 rounded"></div>
+                                            <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
+                                        </div>
+                                        <div>
+                                            <div class="h-3 w-16 bg-base-300 rounded"></div>
+                                            <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
+                                        </div>
+                                        <div>
+                                            <div class="h-3 w-12 bg-base-300 rounded"></div>
+                                            <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-span-1 flex items-center justify-center">
+                                    <div
+                                        class="w-15 h-15 sm:w-28 sm:h-28 rounded-full border-2 border-base-300 overflow-hidden flex items-center justify-end bg-base-100">
+                                        <div class="w-full h-full bg-base-300"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bp-divider my-4"></div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <div class="h-3 w-16 bg-base-300 rounded"></div>
+                                    <div class="h-3 w-24 bg-base-300 rounded mt-1"></div>
+                                </div>
+                                <div>
+                                    <div class="h-3 w-16 bg-base-300 rounded"></div>
+                                    <div class="h-3 w-20 bg-base-300 rounded mt-1"></div>
+                                </div>
+                                <div>
+                                    <div class="h-3 w-16 bg-base-300 rounded"></div>
+                                    <div class="h-3 w-20 bg-base-300 rounded mt-1"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 rounded-xl border border-dashed border-base-300 p-3">
+                                <div class="h-3 w-20 bg-base-300 rounded"></div>
+                                <div class="h-4 w-full bg-base-300 rounded mt-2"></div>
+                            </div>
+                        </div>
+                        <div class="bp-footer px-4 py-3 sm:px-6"></div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                        <div
-                            class="boarding-pass border-2 border-base-200 border-dashed bg-base-100 rounded-2xl overflow-hidden shadow-lg">
-                            <div class="bp-header px-4 py-3 sm:px-6 sm:py-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="h-3 w-24 bg-base-300 rounded"></div>
-                                    <div class="h-3 w-20 bg-base-300 rounded"></div>
-                                </div>
-                                <div class="h-7 sm:h-9 w-44 sm:w-60 bg-base-300 rounded mt-2"></div>
+                <div>
+                    <div class="rounded-2xl border-2 border-base-200 bg-base-100 shadow-lg p-4 sm:p-6">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-3xl bg-base-300"></div>
+                            <div>
+                                <div class="h-5 sm:h-6 w-40 sm:w-52 bg-base-300 rounded"></div>
+                                <div class="h-3 w-32 bg-base-300 rounded mt-1"></div>
                             </div>
-                            <div class="bp-body p-4 sm:p-6">
-                                <div class="h-4 w-40 bg-base-300 rounded"></div>
-                                <div class="mt-4 grid grid-cols-3 gap-4 items-start">
-                                    <div>
-                                        <div class="h-8 sm:h-10 w-24 sm:w-32 bg-base-300 rounded"></div>
-                                        <div class="h-3 w-28 bg-base-300 rounded mt-2"></div>
-                                    </div>
-                                    <div class="flex items-center justify-center">
-                                        <div class="h-8 sm:h-10 border-l-2 border-dashed border-base-300"></div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="h-8 sm:h-10 w-24 sm:w-32 bg-base-300 rounded ml-auto"></div>
-                                        <div class="h-3 w-28 bg-base-300 rounded mt-2 ml-auto"></div>
-                                    </div>
-                                </div>
-                                <div class="bp-divider my-4"></div>
-                                <div class="grid grid-cols-3 gap-4">
-                                    <div class="col-span-2">
-                                        <div class="h-3 w-20 bg-base-300 rounded"></div>
-                                        <div class="h-4 w-36 bg-base-300 rounded mt-1"></div>
-                                        <div class="mt-3 grid grid-cols-3 gap-3">
-                                            <div>
-                                                <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                                <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
-                                            </div>
-                                            <div>
-                                                <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                                <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
-                                            </div>
-                                            <div>
-                                                <div class="h-3 w-12 bg-base-300 rounded"></div>
-                                                <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-span-1 flex items-center justify-center">
-                                        <div
-                                            class="w-15 h-15 sm:w-28 sm:h-28 rounded-full border-2 border-base-300 overflow-hidden flex items-center justify-end bg-base-100">
-                                            <div class="w-full h-full bg-base-300"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="bp-divider my-4"></div>
-                                <div class="grid grid-cols-3 gap-3">
-                                    <div>
-                                        <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                        <div class="h-3 w-24 bg-base-300 rounded mt-1"></div>
-                                    </div>
-                                    <div>
-                                        <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                        <div class="h-3 w-20 bg-base-300 rounded mt-1"></div>
-                                    </div>
-                                    <div>
-                                        <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                        <div class="h-3 w-20 bg-base-300 rounded mt-1"></div>
-                                    </div>
-                                </div>
-                                <div class="mt-4 rounded-xl border border-dashed border-base-300 p-3">
-                                    <div class="h-3 w-20 bg-base-300 rounded"></div>
-                                    <div class="h-4 w-full bg-base-300 rounded mt-2"></div>
-                                </div>
-                            </div>
-                            <div class="bp-footer px-4 py-3 sm:px-6"></div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="rounded-2xl border-2 border-base-200 bg-base-100 shadow-lg p-4 sm:p-6">
-                            <div class="flex items-center gap-2 sm:gap-3">
-                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-3xl bg-base-300"></div>
-                                <div>
-                                    <div class="h-5 sm:h-6 w-40 sm:w-52 bg-base-300 rounded"></div>
-                                    <div class="h-3 w-32 bg-base-300 rounded mt-1"></div>
-                                </div>
-                            </div>
-                            <div class="mt-4 space-y-2">
-                                <ul class="space-y-2">
-                                    <li>
-                                        <div class="h-4 w-full bg-base-300 rounded"></div>
-                                    </li>
-                                    <li>
-                                        <div class="h-4 w-full bg-base-300 rounded"></div>
-                                    </li>
-                                    <li>
-                                        <div class="h-4 w-full bg-base-300 rounded"></div>
-                                    </li>
-                                    <li>
-                                        <div class="h-4 w-full bg-base-300 rounded"></div>
-                                    </li>
-                                    <li>
-                                        <div class="h-4 w-full bg-base-300 rounded"></div>
-                                    </li>
-                                    <li>
-                                        <div class="h-4 w-full bg-base-300 rounded"></div>
-                                    </li>
-                                    <li>
-                                        <div class="h-4 w-full bg-base-300 rounded"></div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="mt-4">
-                                <div class="h-10 w-full bg-base-300 rounded"></div>
-                            </div>
+                        <div class="mt-4 space-y-2">
+                            <ul class="space-y-2">
+                                <li>
+                                    <div class="h-4 w-full bg-base-300 rounded"></div>
+                                </li>
+                                <li>
+                                    <div class="h-4 w-full bg-base-300 rounded"></div>
+                                </li>
+                                <li>
+                                    <div class="h-4 w-full bg-base-300 rounded"></div>
+                                </li>
+                                <li>
+                                    <div class="h-4 w-full bg-base-300 rounded"></div>
+                                </li>
+                                <li>
+                                    <div class="h-4 w-full bg-base-300 rounded"></div>
+                                </li>
+                                <li>
+                                    <div class="h-4 w-full bg-base-300 rounded"></div>
+                                </li>
+                                <li>
+                                    <div class="h-4 w-full bg-base-300 rounded"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-4">
+                            <div class="h-10 w-full bg-base-300 rounded"></div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     @endif
 </div>

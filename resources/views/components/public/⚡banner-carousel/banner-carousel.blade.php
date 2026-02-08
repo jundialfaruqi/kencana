@@ -29,7 +29,7 @@
                 </h3>
                 <p
                     class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                    Informasi seputar fasilitas & kegiatan AMAN Arena
+                    Informasi seputar fasilitas & kegiatan
                 </p>
             </div>
 
