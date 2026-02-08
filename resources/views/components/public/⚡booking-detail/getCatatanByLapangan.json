@@ -1,0 +1,39 @@
+{
+    "success": true,
+    "message": "Daftar catatan lapangan",
+    "data": [
+        {
+            "kategori_catatan": "Aturan Pemakaian",
+            "items": [
+                {
+                    "catatan": "Durasi permainan maksimal 1 jam.",
+                    "urutan": 1
+                },
+                {
+                    "catatan": "Keterlambatan lebih dari 15 menit dari jadwal booking dianggap pembatalan.",
+                    "urutan": 2
+                },
+                {
+                    "catatan": "Dilarang membawa minuman keras dan zat adiktif lainnya.",
+                    "urutan": 3
+                },
+                {
+                    "catatan": "Dilarang merokok, meludah, makan permen karet, dan membuang sampah sembarangan di area lapangan.",
+                    "urutan": 4
+                },
+                {
+                    "catatan": "Dilarang merusak fasilitas lapangan dan wajib menjaga ketertiban selama penggunaan lapangan.",
+                    "urutan": 5
+                },
+                {
+                    "catatan": "Menghentikan aktivitas permainan saat tiba waktu shalat lima waktu.",
+                    "urutan": 6
+                },
+                {
+                    "catatan": "Menjaga kebersihan dan ketertiban selama berada di lokasi lapangan.",
+                    "urutan": 7
+                }
+            ]
+        }
+    ]
+}

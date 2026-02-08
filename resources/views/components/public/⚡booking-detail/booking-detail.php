@@ -5,14 +5,14 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
-new #[Title('Booking Detail')]
-#[Layout('layouts::public.app')]
-class extends Component
+new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Component
 {
     public bool $ready = false;
     public ?string $kode_booking = null;
     public array $detail = [];
+    public array $catatan = [];
     public ?string $error = null;
     public ?string $cancelMessage = null;
     public ?string $cancelError = null;
@@ -36,6 +36,7 @@ class extends Component
         $this->computeTanggalJam();
         $this->computeJenisAlias();
         $this->computeDibuatPada();
+        $this->fetchCatatan();
         $this->ready = true;
         $this->dispatch('detail-loaded');
     }
@@ -59,6 +60,55 @@ class extends Component
         }
         $this->detail = [];
         $this->error = is_array($data) ? (string) ($data['message'] ?? 'Gagal memuat detail booking') : 'Gagal terhubung ke server';
+    }
+
+
+    private function fetchCatatan(): void
+    {
+        $this->catatan = [];
+        $lapId = $this->resolveLapanganIdFromCatalog();
+        if (!$lapId) return;
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/catatan/' . urlencode((string) $lapId);
+            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $json = json_decode((string) $response, true);
+            if (is_array($json) && ($json['success'] ?? false)) {
+                $this->catatan = (array) ($json['data'] ?? []);
+            } else {
+                $this->catatan = [];
+            }
+        } catch (\Throwable) {
+            $this->catatan = [];
+        }
+    }
+
+    private function resolveLapanganIdFromCatalog(): ?string
+    {
+        try {
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/lapangan';
+            $response = Http::accept('application/json')->get($url);
+            $result = json_decode((string) $response, true);
+            if (!is_array($result) || !($result['success'] ?? false)) {
+                return null;
+            }
+            $list = (array) ($result['data'] ?? []);
+            $target = (string) (data_get($this->detail, 'lapangan.nama') ?? data_get($this->detail, 'lapangan') ?? '');
+            if ($target === '') return null;
+            $targetSlug = Str::slug($target);
+            foreach ($list as $row) {
+                $name = (string) ($row['nama_lapangan'] ?? '');
+                if ($name === '') continue;
+                if (Str::slug($name) === $targetSlug) {
+                    $id = $row['id'] ?? null;
+                    return $id !== null ? (string) $id : null;
+                }
+            }
+        } catch (\Throwable) {
+        }
+        return null;
     }
 
     public function cancelBooking(): void

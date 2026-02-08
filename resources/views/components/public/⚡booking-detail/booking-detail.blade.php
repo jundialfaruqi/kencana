@@ -137,43 +137,37 @@
                         <div class="flex items-center gap-2 sm:gap-3">
                             <div>
                                 <h4 class="text-error font-black italic uppercase tracking-tighter text-lg sm:text-xl">
-                                    Syarat dan ketentuan sewa lapangan AMAN Arena</h4>
+                                    {{ data_get($catatan, '0.kategori_catatan', 'Syarat dan ketentuan sewa lapangan AMAN Arena') }}
+                                </h4>
                                 <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/60">Baca
-                                    syarat dan ketentuan</div>
+                                    {{ data_get($catatan, '0.kategori_catatan', 'Syarat dan ketentuan sewa lapangan AMAN Arena') }}
+                                </div>
                             </div>
                         </div>
                         <div class="mt-4 space-y-2">
-                            <ul class="space-y-2">
-                                <li class="flex items-center"><span
-                                        class="flex-none w-6 text-xs font-bold">1.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Durasi permainan maksimal 1
-                                        jam.</span></li>
-                                <li class="flex items-center"><span
-                                        class="flex-none w-6 text-xs font-bold">2.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Keterlambatan lebih dari 15 menit
-                                        dari jadwal booking dianggap pembatalan.</span></li>
-                                <li class="flex items-center"><span
-                                        class="flex-none w-6 text-xs font-bold">3.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Dilarang membawa minuman keras dan
-                                        zat adiktif lainnya.</span></li>
-                                <li class="flex items-center"><span
-                                        class="flex-none w-6 text-xs font-bold">4.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Dilarang merokok, meludah, makan
-                                        permen karet, dan membuang sampah sembarangan di area lapangan.</span></li>
-                                <li class="flex items-center"><span
-                                        class="flex-none w-6 text-xs font-bold">5.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Dilarang merusak fasilitas lapangan
-                                        dan wajib menjaga ketertiban selama penggunaan lapangan.</span></li>
-                                <li class="flex items-center"><span
-                                        class="flex-none w-6 text-xs font-bold">6.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Menghentikan aktivitas permainan
-                                        saat
-                                        tiba waktu shalat lima waktu.</span></li>
-                                <li class="flex items-center"><span
-                                        class="flex-none w-6 text-xs font-bold">7.</span><span
-                                        class="text-xs sm:text-sm leading-relaxed">Menjaga kebersihan dan ketertiban
-                                        selama berada di lokasi lapangan.</span></li>
-                            </ul>
+                            @if (!empty($catatan))
+                                <ul class="space-y-2">
+                                    @foreach ($catatan as $cat)
+                                        @php
+                                            $items = (array) ($cat['items'] ?? []);
+                                            usort(
+                                                $items,
+                                                fn($a, $b) => intval($a['urutan'] ?? 0) <=> intval($b['urutan'] ?? 0),
+                                            );
+                                        @endphp
+                                        @foreach ($items as $ci)
+                                            <li class="flex items-center">
+                                                <span
+                                                    class="flex-none w-6 text-xs font-bold">{{ intval($ci['urutan'] ?? 0) }}.</span>
+                                                <span
+                                                    class="text-xs sm:text-sm leading-relaxed">{{ $ci['catatan'] ?? '-' }}</span>
+                                            </li>
+                                        @endforeach
+                                    @endforeach
+                                </ul>
+                            @else
+                                <ul class="space-y-2"></ul>
+                            @endif
                         </div>
                         <div class="mt-4">
                             <button class="btn btn-error w-full" wire:click="openCancelConfirm"
