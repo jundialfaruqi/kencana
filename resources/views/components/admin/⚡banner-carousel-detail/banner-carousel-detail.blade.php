@@ -47,7 +47,7 @@
                                 </span>
                             </div>
                             <div class="mt-4 space-y-2 text-sm">
-                                <div class="flex items-start gap-3 p-3 rounded-xl bg-base-200 border border-base-200">
+                                <div class="flex items-start gap-3 p-3 rounded-xl bg-base-200 border border-base-300">
                                     <div class="bg-secondary p-2 rounded-3xl">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5 text-white">

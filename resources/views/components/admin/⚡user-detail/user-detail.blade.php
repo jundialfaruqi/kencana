@@ -30,7 +30,7 @@
                     </div>
                 @elseif ($user)
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-                        <div class="card bg-base-100 shadow md:col-span-2">
+                        <div class="card bg-base-100 border-2 border-dashed border-base-300 md:col-span-2">
                             <div class="card-body">
                                 <div class="px-2 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
                                     <div>
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
                                 <div class="py-2"></div>
-                                <div class="p-5 bg-base-200 border-2 border-base-300 border-dashed rounded-xl">
+                                <div class="p-5 bg-base-200 border border-base-300 rounded-xl">
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                         <div>
                                             <div class="flex items-center gap-2">
@@ -186,7 +186,7 @@
                             </div>
                         </div>
 
-                        <div class="card bg-base-100 shadow">
+                        <div class="card bg-base-100 border-2 border-dashed border-base-300">
                             <div class="card-body">
                                 <div class="text-sm font-semibold mb-2">Foto KTP</div>
                                 <div

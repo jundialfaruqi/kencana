@@ -1,7 +1,7 @@
 <div>
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
         <div>
-            <h1 class="text-xl font-bold">Banner Carousel</h1>
+            <h1 class="text-xl font-bold">Banner Berita</h1>
             <p class="text-sm text-base-content/60 mt-1">Kelola data banner</p>
         </div>
         <div class="text-sm breadcrumbs text-base-content/60">
@@ -10,7 +10,7 @@
                 <li>Apps</li>
                 <li>
                     <a wire:navigate href="{{ route('banner-carousel') }}">
-                        <span class="text-base-content">Banner Carousel</span>
+                        <span class="text-base-content">Banner Berita</span>
                     </a>
                 </li>
             </ul>
@@ -21,8 +21,8 @@
             Tambah Banner
         </a>
     </div>
-    <div class="card bg-base-100 shadow" wire:init="load">
-        <div class="card-body">
+    <div class="card bg-base-100 border border-base-300" wire:init="load">
+        <div class="card-body p-0">
             <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
                 <span class="loading loading-spinner loading-md"></span>
             </div>
@@ -36,23 +36,26 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    <th>Judul</th>
-                                    <th>Kategori</th>
-                                    <th>Deskripsi</th>
+                                    <th>Banner Berita</th>
                                     <th class="text-center">Urutan</th>
                                     <th>Status</th>
-                                    <th class="sticky right-0 bg-base-100 z-10">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($banners as $b)
                                     <tr>
-                                        <td class="whitespace-nowrap">{{ $b['judul'] ?? '-' }}</td>
                                         <td class="whitespace-nowrap">
-                                            {{-- [ID: {{ $b['id'] ?? '-' }}] --}}
-                                            {{ $b['kategori'] ?? '-' }}
+                                            <div class="text-xs font-bold italic text-blue-600">
+                                                #{{ $b['kategori'] ?? '-' }}
+                                            </div>
+                                            <div class="font-bold text-xl">
+                                                {{ $b['judul'] ?? '-' }}
+                                            </div>
+                                            <div class="text-xs text-gray-500 mt-1 line-clamp-2">
+                                                {{ $b['deskripsi'] ?? '-' }}
+                                            </div>
                                         </td>
-                                        <td>{{ $b['deskripsi'] ?? '-' }}</td>
                                         <td class="whitespace-nowrap text-center font-mono">
                                             <div class="join justify-center gap-1">
                                                 <button type="button"
@@ -127,8 +130,7 @@
                                                 @endif
                                             </div>
                                         </td>
-                                        <td
-                                            class="sticky right-0 bg-base-100 z-10 border-l border-base-300 shadow-l-sm">
+                                        <td>
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate
                                                     href="{{ route('banner-carousel-detail', ['id' => $b['id'] ?? 0]) }}"
@@ -199,7 +201,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex flex-col gap-2 my-4 px-4 sm:flex-row sm:items-center sm:justify-between">
                         <div class="join justify-center sm:justify-end text-xs text-base-content/60">
                             Halaman {{ $currentPage }} dari {{ $lastPage }} • Total {{ $total }}
                         </div>

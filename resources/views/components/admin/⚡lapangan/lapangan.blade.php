@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="flex items-center justify-start mb-3">
-        <a wire:navigate href="/lapangan-create" class="btn btn-primary btn-sm">
+        <a wire:navigate href="/lapangan-create" class="btn btn-primary btn-sm shadow">
             Tambah Lapangan
         </a>
     </div>

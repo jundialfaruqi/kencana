@@ -30,7 +30,7 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                     <!-- Card 1: Pemesan & Lapangan -->
-                    <div class="card bg-base-100 shadow">
+                    <div class="card bg-base-100 border-2 border-dashed border-base-300">
                         <div class="card-body">
                             <div class="flex items-start justify-between gap-4">
                                 <div>
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <div class="mt-4 space-y-3 text-sm">
-                                <div class="flex items-start gap-3 p-3 rounded-xl bg-base-200 border border-base-200">
+                                <div class="flex items-start gap-3 p-3 rounded-xl bg-base-200 border border-base-300">
                                     <div class="bg-secondary p-2 rounded-3xl">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5 text-white">
@@ -50,7 +50,7 @@
                                         </svg>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-semibold text-base-content/60">Pemesan</p>
+                                        <p class="text-xs font-semibold text-base-content/60">Nama / Tim</p>
                                         <p class="text-sm font-medium text-base-content truncate">
                                             {{ data_get($detail, 'pemesan.nama', '-') }}
                                         </p>

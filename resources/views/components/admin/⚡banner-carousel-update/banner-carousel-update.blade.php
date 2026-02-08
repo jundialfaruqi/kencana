@@ -1,7 +1,7 @@
 <div wire:init="load">
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h1 class="text-xl font-bold">Update Banner Carousel</h1>
+            <h1 class="text-xl font-bold">Update Banner Berita</h1>
             <p class="text-sm text-base-content/60 mt-1">Perbarui data banner</p>
         </div>
         <div>

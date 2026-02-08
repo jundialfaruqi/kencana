@@ -13,7 +13,7 @@
             </ul>
         </div>
     </div>
-    <div class="card bg-base-100 shadow" wire:init="load">
+    <div class="card bg-base-100 border border-base-300" wire:init="load">
         <div class="card-body">
             <div class="flex items-center gap-2 mb-4">
                 <label class="input input-bordered flex items-center gap-2 w-full max-w-xs">
@@ -49,7 +49,7 @@
                                     <th>NIK</th>
                                     <th>No. WA</th>
                                     <th>Status</th>
-                                    <th class="sticky right-0 bg-base-100 z-10">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,8 +68,7 @@
                                                 <span class="badge badge-xs badge-neutral">Nonaktif</span>
                                             @endif
                                         </td>
-                                        <td
-                                            class="sticky right-0 bg-base-100 z-10 border-l border-base-300 shadow-l-sm">
+                                        <td>
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate
                                                     href="{{ route('user-detail', ['id' => $u['id'] ?? 0]) }}"

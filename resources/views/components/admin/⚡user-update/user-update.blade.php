@@ -25,7 +25,7 @@
                 </div>
             @endif
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                <div class="card bg-base-100 shadow">
+                <div class="card bg-base-100 border-2 border-dashed border-base-300">
                     <div class="card-body">
                         <label class="form-control w-full">
                             <div class="label">
@@ -59,7 +59,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="card bg-base-100 shadow">
+                <div class="card bg-base-100 border-2 border-dashed border-base-300">
                     <div class="card-body">
                         <label class="form-control w-full">
                             <div class="label">

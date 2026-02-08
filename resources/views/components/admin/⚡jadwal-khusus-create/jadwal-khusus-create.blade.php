@@ -20,7 +20,7 @@
 
     <div wire:init="load">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start" wire:loading.remove wire:target="load">
-            <div class="card bg-base-100 md:col-span-3 shadow">
+            <div class="card bg-base-100 md:col-span-3 border-2 border-dashed border-base-300">
                 <div class="card-body">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <label class="form-control w-full">

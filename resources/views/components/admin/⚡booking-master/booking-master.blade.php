@@ -18,7 +18,7 @@
             </ul>
         </div>
     </div>
-    <div class="card bg-base-100 shadow" wire:init="load">
+    <div class="card bg-base-100 border border-base-300" wire:init="load">
         <div class="card-body">
             <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
                 <div class="w-full sm:w-xs">
@@ -92,9 +92,7 @@
                                     <th>Jenis</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
-                                    <th class="sticky right-0 bg-base-100 z-10">
-                                        Aksi
-                                    </th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,8 +126,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $b['keterangan'] ?? '-' }}</td>
-                                        <td
-                                            class="sticky right-0 bg-base-100 z-10 border-l border-base-300 shadow-l-sm">
+                                        <td>
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate
                                                     href="{{ route('booking-detail', ['id' => $b['id'] ?? 0]) }}"

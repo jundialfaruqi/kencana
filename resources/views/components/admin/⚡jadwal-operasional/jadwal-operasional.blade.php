@@ -23,7 +23,7 @@
             Buat Jadwal
         </a>
     </div>
-    <div class="card bg-base-100 shadow" wire:init="load">
+    <div class="card bg-base-100 border border-base-300" wire:init="load">
         <div class="card-body">
             <div wire:loading.flex class="items-center justify-center p-10">
                 <span class="loading loading-spinner loading-md"></span>
@@ -43,7 +43,7 @@
                                     <th>Tutup</th>
                                     <th>Status</th>
                                     <th>Arena</th>
-                                    <th class="sticky right-0 bg-base-100 z-10">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,7 +61,7 @@
                                         </td>
                                         <td class="font-bold">
                                             {{ data_get($it, 'lapangan.nama_lapangan') ?? '-' }}</td>
-                                        <td class="sticky right-0 bg-base-100 z-10 border-l border-base-300">
+                                        <td>
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate href="/jadwal-operasional-update/{{ $it['id'] ?? '' }}"
                                                     class="text-xs text-secondary">

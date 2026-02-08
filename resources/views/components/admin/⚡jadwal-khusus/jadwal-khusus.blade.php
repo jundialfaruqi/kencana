@@ -21,7 +21,7 @@
             Buat Jadwal Khusus
         </a>
     </div>
-    <div class="card bg-base-100 shadow" wire:init="load">
+    <div class="card bg-base-100 border border-base-300" wire:init="load">
         <div class="card-body">
             <div wire:loading.flex class="items-center justify-center p-10" wire:target="load">
                 <span class="loading loading-spinner loading-md"></span>
@@ -42,7 +42,7 @@
                                     <th>Tipe</th>
                                     <th>Keterangan</th>
                                     <th>Arena</th>
-                                    <th class="sticky right-0 bg-base-100 z-10">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,7 +64,7 @@
                                         <td class="text-xs font-bold">
                                             {{ data_get($it, 'lapangan.nama_lapangan') ?? '-' }}
                                         </td>
-                                        <td class="sticky right-0 bg-base-100 z-10 border-l border-base-300">
+                                        <td>
                                             <div class="flex items-center gap-3">
                                                 <a wire:navigate href="/jadwal-khusus-update/{{ $it['id'] ?? '' }}"
                                                     class="text-xs text-secondary">
