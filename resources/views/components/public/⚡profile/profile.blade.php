@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
 
                 <!-- Card 1: Ringkasan Profil dan aksi -->
                 <div class="bg-base-100 rounded-3xl shadow-xl overflow-hidden self-start">
@@ -50,13 +50,13 @@
                         </div>
                     </div>
                     <div class="p-6 border-t border-base-200">
-                        <div class="flex flex-row sm:flex-row gap-4">
+                        <div class="flex flex-row justify-center sm:flex-row gap-2">
                             <button
-                                class="btn btn-sm md:btn-md btn-info -skew-x-12 font-black uppercase tracking-widest flex-1 btn-disabled">
+                                class="btn btn-sm md:btn-md btn-info -skew-x-12 font-black uppercase tracking-widest btn-disabled">
                                 Edit Profil
                             </button>
                             <button
-                                class="btn btn-sm md:btn-md btn-warning -skew-x-12 font-black uppercase tracking-widest flex-1"
+                                class="btn btn-sm md:btn-md btn-warning -skew-x-12 font-black uppercase tracking-widest"
                                 onclick="logout_modal_profile.showModal()" title="Logout">
                                 Logout
                             </button>

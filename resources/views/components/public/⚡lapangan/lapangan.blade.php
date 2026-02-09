@@ -25,7 +25,7 @@
 
     <div class="mt-6">
         @if ($isLoading)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 @for ($i = 0; $i < 6; $i++)
                     <div class="card bg-base-100 animate-pulse">
                         <figure>
@@ -64,9 +64,9 @@
                     <span>{{ $error }}</span>
                 </div>
             @else
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     @foreach ($lapangan as $lp)
-                        <div class="card bg-base-100 opacity-0 translate-y-2 transition-all duration-300 will-change-transform"
+                        <div class="card rounded-xl bg-base-100 opacity-0 translate-y-2 transition-all duration-300 will-change-transform shadow-2xl"
                             data-animate-card>
                             <figure>
                                 @php $cover = data_get($lp, 'coverUrl'); @endphp

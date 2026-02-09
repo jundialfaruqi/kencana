@@ -36,6 +36,9 @@
     @if ($isLoading)
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <div class="card bg-base-100 animate-pulse">
+                <figure>
+                    <div class="w-full overflow-hidden aspect-video bg-base-300"></div>
+                </figure>
                 <div class="card-body">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
@@ -44,36 +47,33 @@
                         </div>
                         <div class="h-5 bg-base-300 w-20 rounded"></div>
                     </div>
-                    <div class="mt-4 space-y-3">
+                    <div class="mt-4 space-y-2 text-sm">
                         <div class="flex items-center gap-2 p-3 rounded-xl bg-base-200 border border-base-200">
                             <div class="w-6 h-6 rounded-md bg-base-300"></div>
                             <div class="flex-1 min-w-0">
                                 <div class="h-3 bg-base-300 w-24 rounded"></div>
                                 <div class="h-3 bg-base-300 w-2/3 rounded mt-2"></div>
-                                <div class="flex gap-4 mt-2">
-                                    <div class="h-3 bg-base-300 w-16 rounded"></div>
-                                    <div class="h-3 bg-base-300 w-16 rounded"></div>
-                                </div>
                             </div>
                         </div>
-                        <div class="w-full rounded-2xl overflow-hidden aspect-video bg-base-300"></div>
-                        <div class="flex items-center gap-2">
-                            <div class="h-8 bg-base-300 w-40 rounded-xl"></div>
-                            <div class="h-8 bg-base-300 w-32 rounded-xl"></div>
+                    </div>
+                    <div class="mt-4 mb-1">
+                        <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-3 justify-center">
+                            @for ($i = 0; $i < 6; $i++)
+                                <div class="aspect-square bg-base-300 rounded-xl"></div>
+                            @endfor
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="card bg-base-100 animate-pulse">
-                <figure>
+                <figure class="rounded-b-2xl">
                     <div class="w-full overflow-hidden aspect-video bg-base-300"></div>
                 </figure>
-                <div class="card-body">
-                    <div class="h-4 bg-base-300 w-32 rounded mb-3"></div>
-                    <div class="grid grid-cols-3 gap-3">
-                        @for ($i = 0; $i < 6; $i++)
-                            <div class="aspect-square bg-base-300 rounded-xl"></div>
-                        @endfor
+                <div class="card-body p-4">
+                    <div class="flex items-center gap-2 justify-start">
+                        <div class="h-8 bg-base-300 w-40 rounded-xl"></div>
+                        <div class="h-8 bg-base-300 w-32 rounded-xl"></div>
                     </div>
                 </div>
             </div>
@@ -86,6 +86,19 @@
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                 <div class="card bg-base-100">
+                    <figure>
+                        @if ($coverUrl)
+                            <div class="w-full overflow-hidden aspect-video bg-base-200">
+                                <img src="{{ $coverUrl }}" class="w-full h-full object-cover"
+                                    alt="Cover Lapangan" />
+                            </div>
+                        @else
+                            <div
+                                class="w-full overflow-hidden aspect-video bg-base-200 flex items-center justify-center">
+                                <span class="text-base-content/60 text-sm">no-image</span>
+                            </div>
+                        @endif
+                    </figure>
                     <div class="card-body">
                         <div class="flex items-start justify-between gap-4">
                             <div>
@@ -126,56 +139,10 @@
                                     </p>
                                 </div>
                             </div>
-                            @php $gmap = data_get($lapangan, 'gmap'); @endphp
-                            <div class="mt-4">
-                                {{-- <h3 class="text-sm text-center font-semibold mb-2">Maps</h3> --}}
-                                <div class="w-full rounded-2xl overflow-hidden aspect-video bg-base-200"
-                                    data-lat="{{ data_get($lapangan, 'latitude', '') }}"
-                                    data-lng="{{ data_get($lapangan, 'longitude', '') }}"
-                                    data-name="{{ data_get($lapangan, 'nama_lapangan', '-') }}"
-                                    data-alamat="{{ data_get($lapangan, 'alamat', '-') }}"
-                                    data-status="{{ data_get($lapangan, 'status_label', ucfirst(data_get($lapangan, 'status', '-'))) }}">
-                                    <div id="lapangan-map" class="w-full h-full z-0" wire:ignore></div>
-                                </div>
-                            </div>
-                            @if ((data_get($lapangan, 'status') ?? '') === 'open')
-                                <div class="flex items-center gap-2">
-                                    @if (!empty($gmap))
-                                        <a href="{{ $gmap }}" target="_blank" rel="noopener"
-                                            class="btn btn-sm btn-warning border-base-300 -skew-x-12">
-                                            Lihat di Google Maps
-                                        </a>
-                                    @endif
-                                    @if ((data_get($lapangan, 'status') ?? '') === 'open')
-                                        <a href="/booking?lapangan={{ \Illuminate\Support\Str::slug(data_get($lapangan, 'nama_lapangan', '')) }}"
-                                            wire:navigate class="btn btn-sm btn-info border-base-300 -skew-x-12">
-                                            <span>Pesan Sekarang</span>
-                                        </a>
-                                    @endif
-                                </div>
-                            @endif
                         </div>
-                    </div>
-                </div>
-                <div class="card bg-base-100 shadow" data-animate-detail>
-                    <figure>
-                        @if ($coverUrl)
-                            <div class="w-full overflow-hidden aspect-video bg-base-200">
-                                <img src="{{ $coverUrl }}" class="w-full h-full object-cover"
-                                    alt="Cover Lapangan" />
-                            </div>
-                        @else
-                            <div
-                                class="w-full overflow-hidden aspect-video bg-base-200 flex items-center justify-center">
-                                <span class="text-base-content/60 text-sm">no-image</span>
-                            </div>
-                        @endif
-                    </figure>
-                    <div class="card-body">
-                        <div>
-                            <h3 class="text-sm font-semibold mb-2">Galeri Lapangan</h3>
+                        <div class="mt-4 mb-1">
                             @if (!empty($galleryUrls))
-                                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-3 justify-center">
                                     @foreach ($galleryUrls as $imgUrl)
                                         <div class="rounded-xl overflow-hidden bg-base-200 aspect-square">
                                             <img src="{{ $imgUrl }}" class="w-full h-full object-cover"
@@ -189,6 +156,38 @@
                                 </div>
                             @endif
                         </div>
+                    </div>
+                </div>
+
+                <div class="card bg-base-200 shadow" data-animate-detail>
+                    <figure class="rounded-b-2xl">
+                        @php $gmap = data_get($lapangan, 'gmap'); @endphp
+                        <div class="w-full overflow-hidden aspect-video bg-base-200"
+                            data-lat="{{ data_get($lapangan, 'latitude', '') }}"
+                            data-lng="{{ data_get($lapangan, 'longitude', '') }}"
+                            data-name="{{ data_get($lapangan, 'nama_lapangan', '-') }}"
+                            data-alamat="{{ data_get($lapangan, 'alamat', '-') }}"
+                            data-status="{{ data_get($lapangan, 'status_label', ucfirst(data_get($lapangan, 'status', '-'))) }}">
+                            <div id="lapangan-map" class="w-full h-full z-0" wire:ignore></div>
+                        </div>
+                    </figure>
+                    <div class="card-body p-4">
+                        @if ((data_get($lapangan, 'status') ?? '') === 'open')
+                            <div class="flex items-center gap-2 justify-start">
+                                @if (!empty($gmap))
+                                    <a href="{{ $gmap }}" target="_blank" rel="noopener"
+                                        class="btn btn-sm btn-warning border-base-300 -skew-x-12">
+                                        Buka Google Maps
+                                    </a>
+                                @endif
+                                @if ((data_get($lapangan, 'status') ?? '') === 'open')
+                                    <a href="/booking?lapangan={{ \Illuminate\Support\Str::slug(data_get($lapangan, 'nama_lapangan', '')) }}"
+                                        wire:navigate class="btn btn-sm btn-info border-base-300 -skew-x-12">
+                                        <span>Pesan Sekarang</span>
+                                    </a>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
