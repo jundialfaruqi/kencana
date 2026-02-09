@@ -95,7 +95,7 @@
                                         </h3>
                                         <p class="text-xs text-base-content/70 mt-1">
                                             @if ((data_get($lp, 'status') ?? '') === 'open')
-                                                <p class="text-xs font-medium text-base-content">
+                                                <p class="text-xs font-medium text-base-content line-clamp-2">
                                                     {{ data_get($lp, 'deskripsi', '-') }}
                                                 </p>
                                             @else
@@ -111,58 +111,31 @@
                                     </span>
                                 </div>
                                 <div class="mt-3 space-y-2 text-xs">
-                                    <div
-                                        class="flex items-center gap-2 p-3 rounded-xl bg-base-200 border border-base-200">
-                                        <div class="bg-success p-1.5 rounded-md">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-4 text-white">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                            </svg>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-[10px] font-semibold text-base-content/60">Alamat</p>
-                                            @if ((data_get($lp, 'status') ?? '') === 'open')
-                                                <p class="text-xs font-medium text-base-content">
-                                                    {{ data_get($lp, 'alamat', '-') }}
-                                                </p>
-                                            @else
-                                                <p class="text-xs font-medium text-base-content">
-                                                    {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
-                                                </p>
-                                            @endif
-                                        </div>
-                                    </div>
                                     @php $gmap = data_get($lp, 'gmap'); @endphp
-                                    @if (!empty($gmap))
-                                        <div class="flex items-center gap-2 justify-center sm:justify-start">
-                                            <a href="{{ $gmap }}" target="_blank" rel="noopener"
-                                                class="btn btn-sm btn-info border-base-300 -skew-x-12">
-                                                Lihat di Google Maps
-                                            </a>
+                                    <div class="flex items-center gap-2 justify-start sm:justify-start">
+                                        @if (!empty($gmap))
                                             <a wire:navigate
                                                 href="/detail-lapangan/{{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
-                                                class="btn btn-sm btn-warning text-white -skew-x-12">
+                                                class="btn btn-sm btn-warning text-white -skew-x-12 flex-1 text-[10px]">
                                                 Selengkapnya
                                             </a>
-                                        </div>
-                                    @endif
+                                            <a href="{{ $gmap }}" target="_blank" rel="noopener"
+                                                class="btn btn-sm btn-success border-base-300 -skew-x-12 flex-1 text-[10px]">
+                                                Google Maps
+                                            </a>
+                                        @endif
+                                        <a wire:navigate
+                                            href="/booking?lapangan={{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
+                                            class="btn btn-sm btn-info text-white -skew-x-12 flex-1 text-[10px] {{ data_get($lp, 'status') !== 'open' ? 'btn-disabled pointer-events-none opacity-50' : '' }}"
+                                            aria-disabled="{{ data_get($lp, 'status') !== 'open' ? 'true' : 'false' }}">
+                                            @if ((data_get($lp, 'status') ?? '') === 'open')
+                                                Pesan Arena
+                                            @else
+                                                {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
+                                            @endif
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-footer text-center rounded-b-xl">
-                                <a wire:navigate
-                                    href="/booking?lapangan={{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
-                                    class="btn btn-info w-full italic uppercase font-black rounded-b-xl rounded-t-none {{ data_get($lp, 'status') !== 'open' ? 'btn-disabled pointer-events-none opacity-50' : '' }}"
-                                    aria-disabled="{{ data_get($lp, 'status') !== 'open' ? 'true' : 'false' }}">
-                                    @if ((data_get($lp, 'status') ?? '') === 'open')
-                                        Pesan Sekarang
-                                    @else
-                                        {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
-                                    @endif
-
-                                </a>
                             </div>
                         </div>
                     @endforeach
