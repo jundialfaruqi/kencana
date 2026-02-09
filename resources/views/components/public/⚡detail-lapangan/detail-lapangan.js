@@ -9,6 +9,75 @@
       i++;
     });
     scheduleInit();
+    initGalleryLightbox();
+  }
+
+  function initGalleryLightbox() {
+    const lightbox = document.getElementById('gallery-lightbox');
+    const mainImage = document.getElementById('lightbox-main-image');
+    const thumbnailsContainer = document.getElementById('lightbox-thumbnails');
+    const closeButton = document.getElementById('lightbox-close');
+    const prevButton = document.getElementById('lightbox-prev');
+    const nextButton = document.getElementById('lightbox-next');
+    const galleryImages = Array.from(document.querySelectorAll('[data-gallery-image]'));
+
+    let currentImageIndex = 0;
+
+    if (!lightbox || galleryImages.length === 0) return;
+
+    function openLightbox(index) {
+      currentImageIndex = index;
+      updateLightboxContent();
+      lightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightboxContent() {
+      if (galleryImages.length === 0) return;
+      mainImage.src = galleryImages[currentImageIndex].src;
+
+      // Update thumbnails
+      thumbnailsContainer.innerHTML = '';
+      galleryImages.forEach((img, index) => {
+        const thumbnail = document.createElement('img');
+        thumbnail.src = img.src;
+        thumbnail.classList.add('w-16', 'h-16', 'object-cover', 'cursor-pointer', 'rounded-md');
+        if (index === currentImageIndex) {
+          thumbnail.classList.add('border-2', 'border-info');
+        } else {
+          thumbnail.classList.add('opacity-70');
+        }
+        thumbnail.addEventListener('click', () => openLightbox(index));
+        thumbnailsContainer.appendChild(thumbnail);
+      });
+    }
+
+    galleryImages.forEach((img, index) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', () => openLightbox(index));
+    });
+
+    closeButton.addEventListener('click', closeLightbox);
+    prevButton.addEventListener('click', () => {
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      updateLightboxContent();
+    });
+    nextButton.addEventListener('click', () => {
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      updateLightboxContent();
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+        closeLightbox();
+      }
+    });
   }
   function scheduleInit(retry) {
     if (retry === void 0) retry = 0;

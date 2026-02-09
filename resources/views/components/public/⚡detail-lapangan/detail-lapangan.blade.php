@@ -41,11 +41,12 @@
                 </figure>
                 <div class="card-body">
                     <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="h-6 bg-base-300 w-1/2 rounded"></div>
-                            <div class="h-4 bg-base-300 w-3/4 rounded mt-2"></div>
+                        <div>
+                            <div class="h-3 bg-base-300 w-24 rounded"></div>
+                            <div class="h-6 bg-base-300 w-48 rounded mt-1"></div>
+                            <div class="h-4 bg-base-300 w-64 rounded mt-1"></div>
                         </div>
-                        <div class="h-5 bg-base-300 w-20 rounded"></div>
+                        <div class="h-5 bg-base-300 w-20 rounded-md -skew-x-12"></div>
                     </div>
                     <div class="mt-4 space-y-2 text-sm">
                         <div class="flex items-center gap-2 p-3 rounded-xl bg-base-200 border border-base-200">
@@ -146,7 +147,7 @@
                                     @foreach ($galleryUrls as $imgUrl)
                                         <div class="rounded-xl overflow-hidden bg-base-200 aspect-square">
                                             <img src="{{ $imgUrl }}" class="w-full h-full object-cover"
-                                                alt="Foto Lapangan" />
+                                                alt="Foto Lapangan" data-gallery-image="{{ $imgUrl }}" />
                                         </div>
                                     @endforeach
                                 </div>
@@ -193,4 +194,31 @@
             </div>
         @endif
     @endif
+
+    <div id="gallery-lightbox"
+        class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-9999 hidden">
+        <div class="relative w-11/12 max-w-5xl p-4">
+            <button id="lightbox-close"
+                class="btn btn-sm btn-circle bg-gray-600/50 border-0 absolute right-5 top-5 sm:right-2 sm:top-2 z-10 text-white">✕</button>
+            <!-- WRAPPER KHUSUS GAMBAR -->
+            <div class="relative flex justify-center">
+                <img id="lightbox-main-image" src="" class="max-h-[80vh] w-auto object-contain rounded-xl"
+                    alt="Lightbox Image" />
+                <!-- PREV -->
+                <button id="lightbox-prev"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 btn btn-circle btn-ghost text-white/50 text-2xl">
+                    ❮
+                </button>
+
+                <!-- NEXT -->
+                <button id="lightbox-next"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 btn btn-circle btn-ghost text-white/50 text-2xl">
+                    ❯
+                </button>
+            </div>
+            <div id="lightbox-thumbnails" class="py-4 flex justify-center gap-2 overflow-x-auto">
+                <!-- Thumbnails will be injected here by JS -->
+            </div>
+        </div>
+    </div>
 </div>
