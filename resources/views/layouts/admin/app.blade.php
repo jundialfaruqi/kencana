@@ -243,7 +243,7 @@
                 <!-- Logo -->
                 <div class="h-16 flex items-center px-6 border-b border-base-200 shrink-0">
                     <div class="flex items-center gap-2 text-secondary font-bold text-2xl group">
-                        <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
+                        <img src="{{ asset('assets/images/logo/amanarena-logo.webp') }}" alt="Logo"
                             class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         <div class="flex flex-col">
                             <span

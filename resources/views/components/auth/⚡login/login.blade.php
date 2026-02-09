@@ -39,8 +39,8 @@
                 <div class="flex flex-col items-center mb-8">
                     <div>
                         <!-- Logo AMAN Arena -->
-                        <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
-                            alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
+                        <img src="{{ asset('assets/images/logo/amanarena-logo.webp') }}" alt="Logo Kencana Mini Soccer"
+                            class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
                     </div>
                     <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-info">
                         AMAN <span

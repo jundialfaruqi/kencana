@@ -47,7 +47,7 @@
                 <div class="navbar-start">
                     <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
-                            <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
+                            <img src="{{ asset('assets/images/logo/amanarena-logo.webp') }}" alt="Logo"
                                 class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         </div>
                         <div class="flex flex-col leading-none">
