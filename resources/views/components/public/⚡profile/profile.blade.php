@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start mb-6">
 
                 <!-- Card 1: Ringkasan Profil dan aksi -->
                 <div class="bg-base-100 rounded-3xl shadow-xl overflow-hidden self-start">
@@ -52,11 +52,11 @@
                     <div class="p-6 border-t border-base-200">
                         <div class="flex flex-row justify-center sm:flex-row gap-2">
                             <button
-                                class="btn btn-sm md:btn-md btn-info -skew-x-12 font-black uppercase tracking-widest btn-disabled">
+                                class="btn btn-sm md:btn-sm btn-info -skew-x-12 font-black uppercase tracking-widest btn-disabled">
                                 Edit Profil
                             </button>
                             <button
-                                class="btn btn-sm md:btn-md btn-warning -skew-x-12 font-black uppercase tracking-widest"
+                                class="btn btn-sm md:btn-sm btn-warning -skew-x-12 font-black uppercase tracking-widest"
                                 onclick="logout_modal_profile.showModal()" title="Logout">
                                 Logout
                             </button>
@@ -65,6 +65,34 @@
                     </div>
                 </div>
 
+                <!-- Card 3: Statistik Akun -->
+                {{-- <div class="bg-base-100 rounded-3xl shadow-xl overflow-hidden self-start">
+                    <div class="p-6 bg-base-200/30">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" class="size-5 text-info">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-black italic uppercase tracking-tight">Statistik Akun</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="bg-base-200/50 p-4 rounded-2xl text-center">
+                                <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-widest mb-1">
+                                    Total Booking</p>
+                                <p class="text-2xl font-black italic text-info">0</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> --}}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
                 <!-- Card 2: Info Pengguna -->
                 <div class="bg-base-100 rounded-3xl shadow-xl overflow-hidden self-start">
                     <div class="p-6 bg-base-200/30">
@@ -95,33 +123,8 @@
 
                     </div>
                 </div>
-
-                <!-- Card 2: Statistik Akun -->
-                <div class="bg-base-100 rounded-3xl shadow-xl overflow-hidden self-start">
-                    <div class="p-6 bg-base-200/30">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2" stroke="currentColor" class="size-5 text-info">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-black italic uppercase tracking-tight">Statistik Akun</h3>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="grid grid-cols-1 gap-4">
-                            <div class="bg-base-200/50 p-4 rounded-2xl text-center">
-                                <p class="text-[10px] font-bold text-base-content/40 uppercase tracking-widest mb-1">
-                                    Total Booking</p>
-                                <p class="text-2xl font-black italic text-info">0</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
             </div>
+
         </div>
     @else
         <!-- Loading Skeleton -->
