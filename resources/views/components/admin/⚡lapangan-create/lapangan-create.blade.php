@@ -28,7 +28,7 @@
         <div class="card bg-base-100 border-2 border-dashed border-base-300 md:col-span-3">
             <div class="card-body">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <label class="form-control w-full">
+                    <label class="form-control w-full md:col-span-2">
                         <div class="label">
                             <span class="label-text">Nama Lapangan</span>
                         </div>

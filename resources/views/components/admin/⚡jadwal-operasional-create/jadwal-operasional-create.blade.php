@@ -95,17 +95,14 @@
                         <h3 class="text-sm font-semibold mb-2">Informasi</h3>
                         <div class="space-y-3">
                             <div>
-                                <h4 class="text-xs font-semibold mb-1">Tentang Jam</h4>
+                                <h4 class="text-xs font-semibold mb-1">Lapangan</h4>
                                 <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
-                                    <li class="pl-2">Format jam: HH:MM (contoh 08:00)</li>
-                                    <li class="pl-2">Jam menggunakan format 24 jam, tanpa detik</li>
-                                    <li class="pl-2">Gunakan 00:00 untuk tengah malam; 24:00 tidak valid</li>
-                                    <li class="pl-2">Disarankan jam tutup lebih besar dari jam buka di hari yang sama
-                                    </li>
+                                    <li class="pl-2">Pastikan lapangan sudah terdaftar di Master Lapangan</li>
+                                    <li class="pl-2">Dropdown lapangan mengisi data lapangan dari Master Lapangan</li>
                                 </ol>
                             </div>
                             <div>
-                                <h4 class="text-xs font-semibold mb-1">Tentang Hari</h4>
+                                <h4 class="text-xs font-semibold mb-1">Hari</h4>
                                 <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
                                     <li class="pl-2">Hari: berisi dropdown menu dalam 7 hari di mulai dari Minggu,
                                         Senin, Selasa, Rabu, Kamis, Jumat, dan Sabtu</li>
@@ -114,10 +111,13 @@
                                 </ol>
                             </div>
                             <div>
-                                <h4 class="text-xs font-semibold mb-1">Tentang Lapangan</h4>
+                                <h4 class="text-xs font-semibold mb-1">Jam</h4>
                                 <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
-                                    <li class="pl-2">Pastikan lapangan sudah terdaftar di Master Lapangan</li>
-                                    <li class="pl-2">Dropdown lapangan mengisi data lapangan dari Master Lapangan</li>
+                                    <li class="pl-2">Format jam: HH:MM (contoh 08:00)</li>
+                                    <li class="pl-2">Jam menggunakan format 24 jam, tanpa detik</li>
+                                    <li class="pl-2">Gunakan 00:00 untuk tengah malam; 24:00 tidak valid</li>
+                                    <li class="pl-2">Disarankan jam tutup lebih besar dari jam buka di hari yang sama
+                                    </li>
                                 </ol>
                             </div>
                             <div>

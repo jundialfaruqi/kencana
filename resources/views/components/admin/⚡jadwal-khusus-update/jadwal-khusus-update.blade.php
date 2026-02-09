@@ -113,18 +113,28 @@
                         <h3 class="text-sm font-semibold mb-2">Informasi</h3>
                         <div class="space-y-3">
                             <div>
-                                <h4 class="text-xs font-semibold mb-1">Format Input</h4>
+                                <h4 class="text-xs font-semibold mb-1">Tanggal dan Jam</h4>
                                 <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
                                     <li class="pl-2">Tanggal: format YYYY-MM-DD</li>
-                                    <li class="pl-2">Jam: format HH:MM (24 jam)</li>
+                                    <li class="pl-2">Format jam: HH:MM (contoh 08:00)</li>
+                                    <li class="pl-2">Jam menggunakan format 24 jam, tanpa detik</li>
+                                    <li class="pl-2">Gunakan 00:00 untuk tengah malam; 24:00 tidak valid</li>
+                                    <li class="pl-2">Disarankan jam tutup lebih besar dari jam buka di hari yang sama
+                                    </li>
                                 </ol>
                             </div>
                             <div>
-                                <h4 class="text-xs font-semibold mb-1">Tentang Tipe</h4>
+                                <h4 class="text-xs font-semibold mb-1">Tipe</h4>
                                 <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
                                     <li class="pl-2">Libur: input Jam Buka/Tutup akan nonaktif</li>
                                     <li class="pl-2">Event / Block: isi jam jika perlu</li>
                                     <li class="pl-2">Jam Tambahan: isi jam tambahan</li>
+                                </ol>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-semibold mb-1">Keterangan</h4>
+                                <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
+                                    <li class="pl-2">Isi keterangan jadwal tersebut</li>
                                 </ol>
                             </div>
                             @if ($error)

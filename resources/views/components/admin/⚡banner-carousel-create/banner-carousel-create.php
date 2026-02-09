@@ -18,6 +18,13 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
     public string $kategori = '';
     public string $deskripsi = '';
     public $image = null;
+    public array $availableKategoriBanner = [];
+    public ?string $selectedKategoriBanner = null;
+
+    public function mount(): void
+    {
+        $this->fetchKategoriBanner();
+    }
 
     protected function rules(): array
     {
@@ -27,6 +34,38 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
             'deskripsi' => ['required', 'string', 'min:1'],
             'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
         ];
+    }
+
+    public function fetchKategoriBanner(): void
+    {
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/slider';
+
+            /** @var Response $response */
+            $response = Http::withToken($token)->get($url);
+            $json = $response->json();
+
+            if ($response->successful() && ($json['success'] ?? false)) {
+                $this->availableKategoriBanner = collect($json['data'] ?? [])->pluck('kategori')->unique()->toArray();
+            } else {
+                $this->availableKategoriBanner = [];
+            }
+        } catch (\Throwable) {
+            $this->availableKategoriBanner = [];
+        }
+    }
+
+    public function selectKategoriBanner(string $value): void
+    {
+        if ($this->selectedKategoriBanner === $value) {
+            $this->selectedKategoriBanner = null;
+            $this->kategori = '';
+        } else {
+            $this->selectedKategoriBanner = $value;
+            $this->kategori = $value;
+        }
     }
 
     public function cancel(): void
@@ -68,6 +107,7 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
                 ];
                 $this->dispatch('set-pending-toast', $payload);
                 $this->redirect('/banner-carousel', navigate: true);
+                $this->fetchKategoriBanner(); // Panggil setelah berhasil menyimpan
                 return;
             }
             $this->error = (string) ($json['message'] ?? 'Gagal membuat banner');

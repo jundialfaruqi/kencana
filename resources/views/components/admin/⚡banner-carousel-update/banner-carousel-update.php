@@ -22,6 +22,8 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
     public string $deskripsi = '';
     public $image = null;
     public ?string $imageUrl = null;
+    public array $availableKategoriBanner = [];
+    public ?string $selectedKategoriBanner = null;
 
     protected function rules(): array
     {
@@ -33,9 +35,42 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
         ];
     }
 
+    public function fetchKategoriBanner(): void
+    {
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/slider';
+
+            /** @var Response $response */
+            $response = Http::withToken($token)->get($url);
+            $json = $response->json();
+
+            if ($response->successful() && ($json['success'] ?? false)) {
+                $this->availableKategoriBanner = collect($json['data'] ?? [])->pluck('kategori')->unique()->toArray();
+            } else {
+                $this->availableKategoriBanner = [];
+            }
+        } catch (\Throwable) {
+            $this->availableKategoriBanner = [];
+        }
+    }
+
+    public function selectKategoriBanner(string $value): void
+    {
+        if ($this->selectedKategoriBanner === $value) {
+            $this->selectedKategoriBanner = null;
+            $this->kategori = '';
+        } else {
+            $this->selectedKategoriBanner = $value;
+            $this->kategori = $value;
+        }
+    }
+
     public function load(): void
     {
         $this->ready = false;
+        $this->fetchKategoriBanner(); // Panggil fetchKategoriBanner di awal load
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
@@ -51,6 +86,10 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
                 $img = (string) ($data['image'] ?? '');
                 $img = ltrim($img, '/');
                 $this->imageUrl = $img ? rtrim((string) config('services.api.image_base_url'), '/') . '/' . $img : null;
+                // Set selectedKategoriBanner jika kategori sudah ada
+                if (!empty($this->kategori) && in_array($this->kategori, $this->availableKategoriBanner)) {
+                    $this->selectedKategoriBanner = $this->kategori;
+                }
                 $this->error = null;
                 $this->ready = true;
                 return;
@@ -98,6 +137,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
                 ];
                 $this->dispatch('set-pending-toast', $payload);
                 $this->redirect('/banner-carousel', navigate: true);
+                $this->fetchKategoriBanner(); // Panggil setelah berhasil menyimpan
                 return;
             }
             $errors = (array) ($json['errors'] ?? []);

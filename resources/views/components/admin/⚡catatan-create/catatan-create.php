@@ -16,11 +16,37 @@ new #[Title('Buat Catatan')] #[Layout('layouts::admin.app')] class extends Compo
     public ?string $kategori_catatan = null;
     public ?string $catatan = null;
     public ?int $httpStatus = null;
+    public array $availableKategoriCatatan = [];
+    public ?string $selectedKategoriCatatan = null;
 
     public function load(): void
     {
         $this->fetchArenas();
+        $this->fetchKategoriCatatan();
         $this->ready = true;
+    }
+
+    protected function fetchKategoriCatatan(): void
+    {
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/catatan';
+            /** @var \Illuminate\Http\Client\Response $response */
+            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                $categories = collect($result['data'] ?? [])->pluck('kategori_catatan')->unique()->sort()->values()->all();
+                $this->availableKategoriCatatan = $categories;
+                $this->error = null;
+                return;
+            }
+            $this->availableKategoriCatatan = [];
+            $this->error = (string) ($result['message'] ?? 'Gagal memuat daftar kategori catatan');
+        } catch (\Throwable) {
+            $this->availableKategoriCatatan = [];
+            $this->error = 'Terjadi kesalahan saat mengambil daftar kategori catatan';
+        }
     }
 
     protected function fetchArenas(): void
@@ -42,6 +68,17 @@ new #[Title('Buat Catatan')] #[Layout('layouts::admin.app')] class extends Compo
         } catch (\Throwable) {
             $this->arenas = [];
             $this->error = 'Terjadi kesalahan saat mengambil daftar lapangan';
+        }
+    }
+
+    public function selectKategoriCatatan(?string $value): void
+    {
+        if ($this->selectedKategoriCatatan === $value) {
+            $this->selectedKategoriCatatan = null;
+            $this->kategori_catatan = null;
+        } else {
+            $this->selectedKategoriCatatan = $value;
+            $this->kategori_catatan = $value;
         }
     }
 
@@ -93,6 +130,7 @@ new #[Title('Buat Catatan')] #[Layout('layouts::admin.app')] class extends Compo
                 $this->lapangan_id = null;
                 $this->kategori_catatan = null;
                 $this->catatan = null;
+                $this->fetchKategoriCatatan(); // Panggil ulang untuk memperbarui daftar kategori
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
