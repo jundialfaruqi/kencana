@@ -13,35 +13,71 @@
         </div>
     </div> --}}
     <div class="mx-auto rounded-2xl">
-        <div class="card card-md items-center py-10">
+        <div class="card items-center py-10 flex flex-col">
             <h2 class="text-lg font-bold text-center mb-2 text-base-content">
                 Cek Kode Booking
             </h2>
-            <label class="form-control w-full max-w-xl">
+            <label class="form-control">
                 <div class="join w-full">
-                    <input type="text"
-                        class="input input-md join-item w-full focus-within:outline-none focus-within:ring-0 rounded-l-full border-2 border-base-300"
-                        placeholder="Ketik kode booking dan tekan Enter..." wire:model.live.debounce.250ms="searchQuery"
-                        wire:keydown.enter="searchBooking" />
-                    <button
-                        class="btn btn-gray bg-base-300 border-0 btn-md join-item text-base-content rounded-r-full hover:bg-base-300"
-                        wire:click="searchBooking" wire:loading.attr="disabled" wire:target="searchBooking">
-                        <span wire:loading.remove wire:target="searchBooking">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2.5" stroke="currentColor" class="size-[1.2em]">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                            </svg>
-                        </span>
-                        <span class="loading loading-spinner loading-md" wire:loading
-                            wire:target="searchBooking"></span>
-                    </button>
+                    <div id="booking-code-input-segments"
+                        class="flex flex-col sm:flex-row items-center join-item grow gap-1">
+                        <div class="flex items-center gap-1 sm:contents">
+                            <input type="text" id="input-bk-b" value="B" maxlength="1" readonly
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-bk-k" value="K" maxlength="1" readonly
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <span class="font-bold text-lg">-</span>
+                        </div>
+                        <div class="flex items-center gap-1 sm:contents">
+                            <input type="text" id="input-year-1" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-year-2" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-year-3" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-year-4" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-month-1" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-month-2" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-day-1" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-day-2" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <span class="font-bold text-lg">-</span>
+                        </div>
+                        <div class="flex items-center gap-1 sm:contents">
+                            <input type="text" id="input-code-1" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-code-2" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-code-3" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                            <input type="text" id="input-code-4" maxlength="1"
+                                class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                        </div>
+                    </div>
+                    <input type="hidden" id="livewire-search-query-input" wire:model.live="searchQuery">
                 </div>
 
                 @error('searchQuery')
-                    <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                    <p class="text-warning italic text-xs mt-1 text-center">*{{ $message }}</p>
                 @enderror
             </label>
+            <button id="search-button"
+                class="btn btn-gray bg-base-300 border-0 btn-md join-item text-base-content rounded-xl hover:bg-base-300 mt-4"
+                wire:click="searchBooking" wire:loading.attr="disabled" wire:target="searchBooking">
+                <span class="flex items-center justify-center gap-1" wire:loading.remove wire:target="searchBooking">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="currentColor" class="size-[1.2em]">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                    Cek
+                </span>
+                <span class="loading loading-spinner loading-md" wire:loading wire:target="searchBooking"></span>
+            </button>
         </div>
     </div>
 
@@ -212,6 +248,5 @@
             @endif
         </div>
     </div>
-
 
 </div>

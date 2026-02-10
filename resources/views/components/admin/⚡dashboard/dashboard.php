@@ -19,6 +19,7 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
     {
         // Inisialisasi error saat komponen dimuat
         $this->error = null;
+        $this->dispatch('inputs-ready'); // Dispatch event when inputs are ready
     }
 
     protected function rules(): array
