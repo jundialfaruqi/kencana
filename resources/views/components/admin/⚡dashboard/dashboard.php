@@ -28,6 +28,16 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
         ];
     }
 
+    public function getJenisPermainanAlias(string $jenis): string
+    {
+        return match ($jenis) {
+            'fun_match' => 'Fun Match',
+            'latihan' => 'Latihan',
+            'turnamen_kecil' => 'Turnamen Kecil',
+            default => ucfirst(str_replace('_', ' ', $jenis)),
+        };
+    }
+
     public function searchBooking(): void
     {
         $this->resetValidation();

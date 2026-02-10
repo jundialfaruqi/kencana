@@ -1,6 +1,6 @@
 <div>
     <!-- Page Title & Breadcrumbs -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+    {{-- <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
         <div>
             <h1 class="text-xl font-bold">Dashboard</h1>
             <p class="text-sm text-base-content/60 mt-1">Admin Dashboard</p>
@@ -11,31 +11,39 @@
                 <li>Dashboard</li>
             </ul>
         </div>
-    </div>
-    <div class="mb-4 max-w-xl mx-auto">
-        <h1 class="font-black text-center mb-2 text-primary/80">
-            Cek Kode Booking...
-        </h1>
-        <label class="form-control w-full">
-            <div class="join w-full">
-                <input type="text"
-                    class="input input-md join-item w-full focus-within:outline-none focus-within:ring-0 rounded-l-full"
-                    placeholder="Masukkan kode booking" wire:model.live="searchQuery" />
-                <button class="btn btn-primary btn-md join-item text-white rounded-r-full" wire:click="searchBooking"
-                    wire:loading.attr="disabled" wire:target="searchBooking">
-                    <span wire:loading.remove wire:target="searchBooking">Search</span>
-                    <span class="loading loading-spinner loading-md" wire:loading wire:target="searchBooking"></span>
-                </button>
-            </div>
+    </div> --}}
+    <div class="mx-auto bg-linear-to-b from-blue-600 to-base rounded-2xl">
+        <div class="card card-md items-center py-14">
+            <h2 class="text-lg font-bold text-center mb-2 text-black/80">
+                Cek Kode Booking...
+            </h2>
+            <label class="form-control w-full max-w-xl px-4">
+                <div class="join w-full">
+                    <input type="text"
+                        class="input input-md join-item w-full focus-within:outline-none focus-within:ring-0 rounded-l-full border-2 border-base-100"
+                        placeholder="Ketik kode booking dan tekan Enter..." wire:model.live.debounce.250ms="searchQuery"
+                        wire:keydown.enter="searchBooking" />
+                    <button
+                        class="btn btn-gray bg-base-100 border-0 btn-md join-item text-base-content rounded-r-full hover:bg-base-100"
+                        wire:click="searchBooking" wire:loading.attr="disabled" wire:target="searchBooking">
+                        <span wire:loading.remove wire:target="searchBooking">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2.5" stroke="currentColor" class="size-[1.2em]">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </span>
+                        <span class="loading loading-spinner loading-md" wire:loading
+                            wire:target="searchBooking"></span>
+                    </button>
+                </div>
 
-            @error('searchQuery')
-                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-            @enderror
-        </label>
-    </div>
-
-    <div class="card" wire:init="load">
-        <div class="card-body p-0">
+                @error('searchQuery')
+                    <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                @enderror
+            </label>
+        </div>
+        <div class="card items-center px-4 pb-4" wire:init="load">
             <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
                 <span class="loading loading-spinner loading-md"></span>
             </div>
@@ -55,15 +63,20 @@
                                 <span>{{ $searchError }}</span>
                             </div>
                         @elseif ($bookingDetail)
-                            {{-- Booking Detail Card --}}
-                            <div class="card bg-black border-2 border-base-200 rounded-2xl overflow-hidden">
-                                <div class="bp-header bg-blue-500 text-white px-4 py-3 sm:px-6 sm:py-4">
+                            <h2 class="text-center mb-2 font-bold"> Hasil Pencarian Kode Booking:
+                                <span class="underline">
+                                    {{ data_get($bookingDetail, 'kode_booking') }}
+                                </span>
+                            </h2>
+                            <div class="card max-w-xl bg-black rounded-2xl overflow-hidden">
+                                <div class="bp-header bg-blue-600 text-white px-4 py-3 sm:px-6 sm:py-4">
                                     <div class="flex items-center justify-between">
-                                        <div class="text-[10px] font-bold uppercase opacity-80">Kode Booking</div>
+                                        <div class="text-[10px] font-bold uppercase opacity-80">Kode
+                                            Booking</div>
                                         <div class="text-[10px] font-bold uppercase opacity-80">
                                             {{ data_get($bookingDetail, 'status') ?? '-' }}</div>
                                     </div>
-                                    <div class="text-2xl sm:text-3xl font-black italic uppercase tracking-widest">
+                                    <div class="text-1xl sm:text-3xl font-black italic uppercase tracking-widest">
                                         {{ data_get($bookingDetail, 'kode_booking') ?? '-' }}
                                     </div>
                                 </div>
@@ -105,22 +118,28 @@
                                                     <div class="text-[10px] font-bold uppercase text-gray-400">
                                                         Pemain
                                                     </div>
-                                                    <div class="mt-1 font-black italic uppercase text-sm text-white">
-                                                        {{ data_get($bookingDetail, 'jumlah_pemain') ?? '-' }}</div>
+                                                    <div
+                                                        class="mt-1 font-black italic uppercase text-xs md:text-sm text-white">
+                                                        {{ data_get($bookingDetail, 'jumlah_pemain') ?? '-' }}
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <div class="text-[10px] font-bold uppercase text-gray-400">
                                                         Kategori
                                                     </div>
-                                                    <div class="mt-1 font-black italic uppercase text-sm text-white">
-                                                        {{ data_get($bookingDetail, 'kategori_pemain') ?? '-' }}</div>
+                                                    <div
+                                                        class="mt-1 font-black italic uppercase text-xs md:text-sm text-white">
+                                                        {{ data_get($bookingDetail, 'kategori_pemain') ?? '-' }}
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <div class="text-[10px] font-bold uppercase text-gray-400">
                                                         Jenis
                                                     </div>
-                                                    <div class="mt-1 font-black italic uppercase text-sm text-white">
-                                                        {{ data_get($bookingDetail, 'jenis_permainan') ?? '-' }}</div>
+                                                    <div
+                                                        class="mt-1 font-black italic uppercase text-xs md:text-sm text-white">
+                                                        {{ $this->getJenisPermainanAlias(data_get($bookingDetail, 'jenis_permainan')) ?? '-' }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -180,7 +199,7 @@
                                             {{ data_get($bookingDetail, 'keterangan') ?? '-' }}</div>
                                     </div>
                                 </div>
-                                <div class="bp-footer bg-blue-500 text-info-content px-4 py-3 sm:px-6">
+                                <div class="bp-footer bg-blue-600 text-info-content px-4 py-3 sm:px-6">
                                     <div
                                         class="text-center text-[10px] sm:text-xs font-black italic uppercase tracking-widest">
                                         {{ data_get($bookingDetail, 'lapangan.nama_lapangan') ?? '-' }}</div>
@@ -192,4 +211,6 @@
             </div>
         </div>
     </div>
+
+
 </div>
