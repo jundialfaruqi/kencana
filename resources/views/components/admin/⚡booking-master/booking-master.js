@@ -111,9 +111,27 @@
     });
   }
 
+  function bindCopyBookingCode() {
+    document.querySelectorAll('.copy-booking-code').forEach(function(element) {
+      element.addEventListener('click', function() {
+        const bookingCode = this.dataset.bookingCode;
+        navigator.clipboard.writeText(bookingCode).then(function() {
+          window.Livewire.dispatch('toast', {
+            title: 'Berhasil',
+            message: 'Kode booking berhasil disalin!',
+            type: 'success',
+          });
+        }).catch(function(err) {
+          console.error('Gagal menyalin teks: ', err);
+        });
+      });
+    });
+  }
+
   function init() {
     bindLW();
     bindButtons();
+    bindCopyBookingCode();
   }
 
   document.addEventListener('DOMContentLoaded', init);

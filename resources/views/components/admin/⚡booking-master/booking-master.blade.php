@@ -99,7 +99,11 @@
                                 @forelse ($bookings as $b)
                                     <tr>
                                         <td class="whitespace-nowrap font-mono font-bold">
-                                            {{ $b['kode_booking'] ?? '-' }}</td>
+                                            <span class="copy-booking-code cursor-pointer"
+                                                data-booking-code="{{ $b['kode_booking'] ?? '' }}">
+                                                {{ $b['kode_booking'] ?? '-' }}
+                                            </span>
+                                        </td>
                                         <td class="whitespace-nowrap">
                                             {{ \Illuminate\Support\Str::of($b['tanggal'] ?? '')->substr(0, 10)->explode('-')->reverse()->implode('-') }}
                                         </td>
