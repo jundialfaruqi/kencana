@@ -140,15 +140,6 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 mt-4">
-                        <a href="{{ route('register') }}" wire:navigate
-                            class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
-                            Buat Akun
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor" class="size-4 ml-1">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-                            </svg>
-                        </a>
                         <button type="submit" wire:loading.attr="disabled"
                             class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
                             <span wire:loading.remove>Masuk</span>
@@ -160,6 +151,15 @@
                                     d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </button>
+                        <a href="{{ route('register') }}" wire:navigate
+                            class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
+                            Buat Akun
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="size-4 ml-1">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                            </svg>
+                        </a>
                     </div>
 
                     <a href="/" wire:navigate

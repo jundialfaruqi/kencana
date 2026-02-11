@@ -308,7 +308,43 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function slotIsAvailable(array $slot): bool
     {
-        return (($slot['status'] ?? '') === 'tersedia');
+        // Periksa apakah status slot adalah 'tersedia'
+        $isAvailableByStatus = (($slot['status'] ?? '') === 'tersedia');
+
+        // Jika slot tidak tersedia berdasarkan status, langsung kembalikan false
+        if (!$isAvailableByStatus) {
+            return false;
+        }
+
+        // Dapatkan tanggal yang dipilih dari komponen
+        $selectedDate = $this->tanggal; // Ini adalah tanggal dalam format YYYY-MM-DD
+
+        // Dapatkan waktu mulai dari slot
+        $startTime = $slot['mulai'] ?? ''; // Ini adalah waktu dalam format HH:MM
+
+        // Jika tanggal atau waktu mulai kosong, anggap tidak tersedia (atau tangani sesuai kebutuhan)
+        if (empty($selectedDate) || empty($startTime)) {
+            return false;
+        }
+
+        try {
+            // Buat objek Carbon untuk waktu mulai slot dengan zona waktu Asia/Jakarta
+            $slotDateTime = Carbon::parse("{$selectedDate} {$startTime}", 'Asia/Jakarta');
+
+            // Dapatkan waktu saat ini di Asia/Jakarta
+            $now = Carbon::now('Asia/Jakarta');
+
+            // Periksa apakah waktu mulai slot sudah lewat dari waktu sekarang
+            // Jika slotDateTime kurang dari atau sama dengan now, berarti sudah lewat
+            $isPast = $slotDateTime->lessThanOrEqualTo($now);
+
+            // Slot tersedia hanya jika statusnya 'tersedia' DAN waktu mulainya belum lewat
+            return !$isPast;
+        } catch (\Exception $e) {
+            // Tangani kesalahan parsing tanggal/waktu jika terjadi
+            // Untuk keamanan, anggap slot tidak tersedia jika ada kesalahan
+            return false;
+        }
     }
 
     public function slotIsSelected(array $slot): bool
@@ -316,6 +352,37 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         return $this->selectedSlot
             && (($this->selectedSlot['mulai'] ?? null) === ($slot['mulai'] ?? null))
             && (($this->selectedSlot['selesai'] ?? null) === ($slot['selesai'] ?? null));
+    }
+
+    public function getSlotDisplayStatus(array $slot): string
+    {
+        // Dapatkan tanggal yang dipilih dari komponen
+        $selectedDate = $this->tanggal;
+
+        // Dapatkan waktu mulai dari slot
+        $startTime = $slot['mulai'] ?? '';
+
+        // Jika tanggal atau waktu mulai kosong, kembalikan status asli
+        if (empty($selectedDate) || empty($startTime)) {
+            return $slot['status'] ?? '';
+        }
+
+        try {
+            $slotDateTime = Carbon::parse("{$selectedDate} {$startTime}", 'Asia/Jakarta');
+            $now = Carbon::now('Asia/Jakarta');
+
+            // Jika waktu slot sudah lewat, tampilkan "Lewat"
+            if ($slotDateTime->lessThanOrEqualTo($now)) {
+                return 'Lewat';
+            }
+        } catch (\Exception $e) {
+            // Tangani kesalahan parsing tanggal/waktu jika terjadi
+            // Untuk keamanan, kembalikan status asli jika ada kesalahan
+            return $slot['status'] ?? '';
+        }
+
+        // Jika tidak lewat, kembalikan status asli dari API
+        return $slot['status'] ?? '';
     }
 
     public function isValidationErr(?string $error): bool

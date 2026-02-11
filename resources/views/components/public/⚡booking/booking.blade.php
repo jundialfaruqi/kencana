@@ -210,7 +210,7 @@
                                                 <span class="block">{{ $slot['mulai'] }}</span>
                                                 <span class="block">{{ $slot['selesai'] }}</span>
                                                 <span class="block text-[10px] font-bold uppercase text-warning">
-                                                    {{ $slot['status'] ?? '' }}
+                                                    {{ $this->getSlotDisplayStatus($slot) }}
                                                 </span>
                                             </button>
                                         @endforeach
