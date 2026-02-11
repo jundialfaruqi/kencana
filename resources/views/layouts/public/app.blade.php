@@ -145,6 +145,7 @@
             </div>
         </div>
     </div>
+    <livewire:public::public.auth-status-popup />
     <div id="global-toast" class="toast toast-top toast-center z-60 rounded-2xl" wire:ignore>
     </div>
     @livewireScripts

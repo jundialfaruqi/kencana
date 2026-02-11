@@ -3,10 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 // Public Route
-Route::livewire('/login', 'auth::login');
-Route::livewire('/register', 'auth::register');
+Route::livewire('/login', 'auth::login')
+    ->name('login');
+Route::livewire('/register', 'auth::register')
+    ->name('register');
 Route::livewire('/store', 'public::public.store');
-Route::livewire('/', 'public::landing-page');
+Route::livewire('/', 'public::landing-page')
+    ->name('home');
 Route::livewire('/lapangan', 'public::public.lapangan')
     ->name('lapangan');
 

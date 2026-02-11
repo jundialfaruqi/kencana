@@ -360,6 +360,10 @@
                             </div>
 
                             <div class="grid grid-cols-2 gap-3 mt-6">
+                                <a href="{{ route('home') }}" wire:navigate
+                                    class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg h-12 flex items-center justify-center">
+                                    Batal
+                                </a>
                                 <button type="submit" wire:loading.attr="disabled" wire:target="register"
                                     class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12">
                                     <span wire:loading.remove wire:target="register">Daftar Sekarang</span>
@@ -371,15 +375,11 @@
                                             d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </button>
-                                <a href="/" wire:navigate
-                                    class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg h-12 flex items-center justify-center">
-                                    Batal
-                                </a>
                             </div>
 
                             <div class="text-center mt-4">
                                 <span class="text-xs font-bold opacity-70">Sudah punya akun? </span>
-                                <a href="/login" wire:navigate
+                                <a href="{{ route('login') }}" wire:navigate
                                     class="text-xs font-black italic uppercase tracking-wider text-info hover:link">Masuk
                                     Disini</a>
                             </div>
