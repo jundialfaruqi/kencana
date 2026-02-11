@@ -150,7 +150,8 @@
                                         <div class="text-[10px] font-bold uppercase text-gray-400">Tim /
                                             Nama</div>
                                         <div class="mt-1 font-black text-white italic uppercase">
-                                            {{ data_get($bookingDetail, 'nama_komunitas') ?? '-' }}</div>
+                                            {{ data_get($bookingDetail, 'nama_komunitas') ?? (data_get($bookingDetail, 'user.name') ?? '-') }}
+                                        </div>
                                         <div class="mt-3 grid grid-cols-3 gap-3">
                                             <div>
                                                 <div class="text-[10px] font-bold uppercase text-gray-400">

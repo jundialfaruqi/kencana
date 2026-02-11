@@ -61,7 +61,8 @@
                                 <div class="col-span-2">
                                     <div class="text-[10px] font-bold uppercase text-base-content/50">Tim / Nama</div>
                                     <div class="mt-1 font-black italic uppercase">
-                                        {{ data_get($detail, 'pemesan.nama') ?? '-' }}</div>
+                                        {{ data_get($detail, 'pemesan.nama') ?? '-' }}
+                                    </div>
                                     <div class="mt-3 grid grid-cols-3 gap-3">
                                         <div>
                                             <div class="text-[10px] font-bold uppercase text-base-content/50">Pemain
@@ -136,7 +137,8 @@
                         </div>
                         <div class="bp-footer bg-info text-info-content px-4 py-3 sm:px-6">
                             <div class="text-center text-[10px] sm:text-xs font-black italic uppercase tracking-widest">
-                                Kencana Minisoccer</div>
+                                {{ data_get($detail, 'lapangan.nama') ?? '-' }}
+                            </div>
                         </div>
                     </div>
                 </div>
