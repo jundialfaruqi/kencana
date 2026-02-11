@@ -21,9 +21,14 @@ new class extends Component
         $this->showPopup = !Session::has('auth_token');
     }
 
-    public function refreshAuthStatus() // Tambahkan metode ini
+    public function refreshAuthStatus()
     {
         $this->checkAuthStatus();
+    }
+
+    public function hidePopup()
+    {
+        $this->showPopup = false;
     }
 
     public function render()
