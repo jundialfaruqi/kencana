@@ -86,7 +86,7 @@
                     <div class="form-control hidden sm:block">
                         <div class="input-group">
                             <div class="relative">
-                                <input type="text" placeholder="Search"
+                                <input type="text" placeholder="Search" disabled
                                     class="input input-bordered w-full max-w-xs pl-10 h-10 bg-base-100 rounded-full" />
                                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                     <svg class="w-5 h-5 text-base-content/50" fill="none" stroke="currentColor"
