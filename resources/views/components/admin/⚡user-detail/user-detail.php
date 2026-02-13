@@ -16,6 +16,8 @@ new #[Title('Detail User')] #[Layout('layouts::admin.app')] class extends Compon
     public $error = null;
     public $blurKtp = true;
     public $showNik = false;
+    public $showEmail = false;
+    public $showNoWa = false;
     public $createdAtFormatted = null;
 
     public function load()
@@ -58,5 +60,13 @@ new #[Title('Detail User')] #[Layout('layouts::admin.app')] class extends Compon
     public function toggleShowNik(): void
     {
         $this->showNik = !$this->showNik;
+    }
+    public function toggleShowEmail(): void
+    {
+        $this->showEmail = !$this->showEmail;
+    }
+    public function toggleShowNoWa(): void
+    {
+        $this->showNoWa = !$this->showNoWa;
     }
 };

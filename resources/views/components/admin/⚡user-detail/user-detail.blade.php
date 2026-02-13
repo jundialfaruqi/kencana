@@ -54,8 +54,39 @@
                                             </svg>
 
                                             <span class="text-base-content/70">Email</span>
+                                            <button class="btn btn-primary btn-xs ml-auto" wire:click="toggleShowEmail"
+                                                wire:loading.attr="disabled" wire:target="toggleShowEmail"
+                                                aria-label="Toggle Email">
+                                                <span class="inline-flex items-center justify-center gap-1">
+                                                    @if ($showEmail)
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M3.98 8.223A10.477 10.477 0 001.653 12c1.66 3.525 5.583 6 10.347 6 1.582 0 3.087-.262 4.454-.744M6.228 6.228A10.478 10.478 0 0112 6c4.764 0 8.687 2.475 10.347 6a10.467 10.467 0 01-4.523 4.774M6.228 6.228L3 3m3.228 3.228l13.544 13.544M17.772 17.772L21 21" />
+                                                        </svg>
+                                                        <span>Sembunyikan</span>
+                                                    @else
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 8.517 7.36 6 12 6c4.64 0 8.577 2.517 9.964 5.678.09.196.09.448 0 .644C20.577 15.483 16.64 18 12 18c-4.64 0-8.577-2.517-9.964-5.678z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        </svg>
+                                                        <span>Lihat</span>
+                                                    @endif
+                                                </span>
+                                            </button>
                                         </div>
-                                        <div class="mt-1">{{ $user['email'] ?? '-' }}</div>
+                                        <div class="mt-1">
+                                            @if ($showEmail)
+                                                {{ $user['email'] ?? '-' }}
+                                            @else
+                                                {{ $user['email'] ? substr($user['email'], 0, 4) . '••••••••' : '-' }}
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <div>
@@ -103,14 +134,46 @@
 
                                     <div>
                                         <div class="flex items-center gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 opacity-70">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="w-5 h-5 opacity-70">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.1-2.1a1 1 0 011.08-.2l3.2 1.28a1 1 0 01.66.94V21a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h2.7a1 1 0 01.94.66l1.28 3.2a1 1 0 01-.2 1.08l-2.1 2.1z" />
                                             </svg>
                                             <span class="text-base-content/70">No. WA</span>
+                                            <button class="btn btn-primary btn-xs ml-auto" wire:click="toggleShowNoWa"
+                                                wire:loading.attr="disabled" wire:target="toggleShowNoWa"
+                                                aria-label="Toggle No. WA">
+                                                <span class="inline-flex items-center justify-center gap-1">
+                                                    @if ($showNoWa)
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor" class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M3.98 8.223A10.477 10.477 0 001.653 12c1.66 3.525 5.583 6 10.347 6 1.582 0 3.087-.262 4.454-.744M6.228 6.228A10.478 10.478 0 0112 6c4.764 0 8.687 2.475 10.347 6a10.467 10.467 0 01-4.523 4.774M6.228 6.228L3 3m3.228 3.228l13.544 13.544M17.772 17.772L21 21" />
+                                                        </svg>
+                                                        <span>Sembunyikan</span>
+                                                    @else
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor" class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 8.517 7.36 6 12 6c4.64 0 8.577 2.517 9.964 5.678.09.196.09.448 0 .644C20.577 15.483 16.64 18 12 18c-4.64 0-8.577-2.517-9.964-5.678z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        </svg>
+                                                        <span>Lihat</span>
+                                                    @endif
+                                                </span>
+                                            </button>
                                         </div>
-                                        <div class="mt-1">{{ $user['no_wa'] ?? '-' }}</div>
+                                        <div class="mt-1">
+                                            @if ($showNoWa)
+                                                {{ $user['no_wa'] ?? '-' }}
+                                            @else
+                                                {{ $user['no_wa'] ? substr($user['no_wa'], 0, 4) . '••••••••' : '-' }}
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="py-2"></div>
@@ -126,7 +189,7 @@
                                                 </svg>
                                                 <span class="text-base-content/70">Role</span>
                                             </div>
-                                            <div class="mt-1">
+                                            <div class="mt-1 font-bold">
                                                 @php
                                                     $role = strtolower($user['role'] ?? '');
                                                     $roleClass = 'badge-neutral';
@@ -139,7 +202,8 @@
                                                     }
                                                 @endphp
                                                 @if (!empty($user['role']))
-                                                    <span class="badge {{ $roleClass }}">{{ $user['role'] }}</span>
+                                                    <span
+                                                        class="badge badge-sm italic {{ $roleClass }}">{{ $user['role'] }}</span>
                                                 @else
                                                     <span class="badge badge-neutral">-</span>
                                                 @endif
@@ -157,11 +221,11 @@
                                                 </svg>
                                                 <span class="text-base-content/70">Status</span>
                                             </div>
-                                            <div class="mt-1">
+                                            <div class="mt-1 font-bold italic">
                                                 @if (($user['is_active'] ?? false) === true)
-                                                    <span class="badge badge-success">Aktif</span>
+                                                    <span class="badge badge-sm badge-success">Aktif</span>
                                                 @else
-                                                    <span class="badge badge-neutral">Nonaktif</span>
+                                                    <span class="badge badge-sm badge-neutral">Nonaktif</span>
                                                 @endif
                                             </div>
                                         </div>
