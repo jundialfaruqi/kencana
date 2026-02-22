@@ -37,8 +37,8 @@
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
-                                    <th>Buka</th>
-                                    <th>Tutup</th>
+                                    <th>Mulai</th>
+                                    <th>Selesai</th>
                                     <th>Tipe</th>
                                     <th>Keterangan</th>
                                     <th>Arena</th>
