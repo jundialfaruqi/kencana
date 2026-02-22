@@ -62,7 +62,7 @@
                             </label>
                             <label class="form-control w-full">
                                 <div class="label">
-                                    <span class="label-text">Jam Buka</span>
+                                    <span class="label-text">Jam Mulai</span>
                                 </div>
                                 <input type="time" class="input input-bordered w-full mt-1.5" placeholder="08:00"
                                     wire:model="buka" @disabled($tipe === 'libur')>
@@ -73,7 +73,7 @@
                             </label>
                             <label class="form-control w-full">
                                 <div class="label">
-                                    <span class="label-text">Jam Tutup</span>
+                                    <span class="label-text">Jam Selesai</span>
                                 </div>
                                 <input type="time" class="input input-bordered w-full mt-1.5" placeholder="21:00"
                                     wire:model="tutup" @disabled($tipe === 'libur')>
@@ -119,14 +119,15 @@
                                     <li class="pl-2">Format jam: HH:MM (contoh 08:00)</li>
                                     <li class="pl-2">Jam menggunakan format 24 jam, tanpa detik</li>
                                     <li class="pl-2">Gunakan 00:00 untuk tengah malam; 24:00 tidak valid</li>
-                                    <li class="pl-2">Disarankan jam tutup lebih besar dari jam buka di hari yang sama
+                                    <li class="pl-2">Disarankan jam selesai lebih besar dari jam mulai di hari yang
+                                        sama
                                     </li>
                                 </ol>
                             </div>
                             <div>
                                 <h4 class="text-xs font-semibold mb-1">Tipe</h4>
                                 <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
-                                    <li class="pl-2">Libur: input Jam Buka/Tutup akan nonaktif</li>
+                                    <li class="pl-2">Libur: input Jam Mulai/Selesai akan nonaktif</li>
                                     <li class="pl-2">Event / Block: isi jam jika perlu</li>
                                     <li class="pl-2">Jam Tambahan: isi jam tambahan</li>
                                 </ol>
