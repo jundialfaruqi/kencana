@@ -70,6 +70,8 @@ Route::middleware(['api.auth:admin'])->group(function () {
         ->name('catatan');
     Route::livewire('/catatan-create', 'admin::catatan-create')
         ->name('catatan-create');
+    Route::livewire('/catatan-update/{id}', 'admin::catatan-update')
+        ->name('catatan-update');
 
     // Banner Carousel
     Route::livewire('/banner-carousel', 'admin::banner-carousel')

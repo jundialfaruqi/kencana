@@ -85,8 +85,7 @@
                     </div>
 
                     <!-- Card 2: Informasi Booking -->
-                    <div
-                        class="card bg-base-100 rounded-2xl overflow-hidden border-2 border-base-300 border-dashed shadow-lg">
+                    <div class="card bg-base-100 rounded-2xl overflow-hidden border-2 border-base-300 border-dashed ">
                         <!-- Ticket Header -->
                         <div class="px-4 py-3 sm:px-6 sm:py-4 bg-info text-info-content">
                             <div class="flex items-center justify-between">

@@ -38,7 +38,7 @@
                                 <tr>
                                     <th>Kategori</th>
                                     <th>Catatan</th>
-                                    <th class="text-center">Urutan</th>
+                                    {{-- <th class="text-center">Urutan</th> --}}
                                     <th>Status</th>
                                     <th>Lapangan</th>
                                     <th>Aksi</th>
@@ -52,9 +52,9 @@
                                             {{ $c['kategori_catatan'] ?? '-' }}
                                         </td>
                                         <td>{{ $c['catatan'] ?? '-' }}</td>
-                                        <td class="whitespace-nowrap text-center font-mono">
+                                        {{-- <td class="whitespace-nowrap text-center font-mono">
                                             [{{ $c['urutan'] ?? '-' }}]
-                                        </td>
+                                        </td> --}}
                                         <td class="uppercase font-bold italic">
                                             @php $act = (bool) ($c['is_active'] ?? false); @endphp
                                             @if ($act)
@@ -68,9 +68,8 @@
                                         </td>
                                         <td>
                                             <div class="flex items-center gap-3">
-                                                <a wire:navigate href="/catatan-update/{{ $it['id'] ?? '' }}"
-                                                    class="text-xs text-secondary pointer-events-none opacity-50 cursor-not-allowed"
-                                                    aria-disabled="true" tabindex="-1">
+                                                <a wire:navigate href="/catatan-update/{{ $c['id'] ?? '' }}"
+                                                    class="text-xs text-secondary" aria-disabled="true" tabindex="-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5 text-warning">
