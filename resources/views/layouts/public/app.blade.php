@@ -47,13 +47,13 @@
                 <div class="navbar-start">
                     <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
-                            <img src="{{ asset('assets/images/logo/amanarena-logo.webp') }}" alt="Logo"
+                            <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
                                 class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         </div>
                         <div class="flex flex-col leading-none">
                             <span id="aman-text" wire:ignore
                                 class="text-[21.4px] sm:text-[24.3px] font-black italic tracking-tighter uppercase text-info group-hover:text-base-content transition-colors min-w-25">
-                                AMAN
+                                Kencana
                             </span>
                             <span
                                 class="text-[11px] sm:text-[12px] font-black uppercase text-warning tracking-[0.2em] -mt-0.2 sm:-mt-0.2 transform -skew-x-12">

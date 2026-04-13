@@ -3,10 +3,10 @@
 
 <!--
 
-  Name              : AMAN Arena
+  Name              : KENCANA Arena
   Version           : 1.0
   Date              : Februari 01, 2026
-  Url               : amanarena.pekanbaru.go.id
+  Url               : kencana.pekanbaru.go.id
   Type              : Web APP
   Project Analyst   : Deni Hidayat
   Frontend          : M. Jundi Al faruqi
@@ -242,12 +242,12 @@
             <aside class="menu p-0 w-64 h-full bg-base-100 border-r border-base-300 flex flex-col overflow-hidden">
                 <!-- Logo -->
                 <div class="h-16 flex items-center px-6 border-b border-base-200 shrink-0">
-                    <div class="flex items-center gap-2 text-secondary font-bold text-2xl group">
-                        <img src="{{ asset('assets/images/logo/amanarena-logo.webp') }}" alt="Logo"
+                    <div class="flex items-center gap-1 text-secondary font-bold text-2xl group">
+                        <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
                             class="h-10 w-10 sm:h-10 sm:w-10 object-contain">
                         <div class="flex flex-col">
                             <span
-                                class="font-black italic tracking-tighter uppercase text-base-content group-hover:text-base-content transition-colors leading-none">AMAN</span>
+                                class="font-black italic tracking-tighter uppercase text-base-content group-hover:text-base-content transition-colors leading-none">Kencana</span>
                             <span
                                 class="text-[10px] font-bold italic tracking-widest uppercase text-base-content/50 group-hover:text-base-content/70 transition-colors leading-none">Arena</span>
                         </div>
@@ -406,7 +406,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
                                 </svg>
-                                AMAN Arena
+                                KENCANA Arena
                             </a>
                         </li>
                     </ul>

@@ -2,7 +2,7 @@
     <dialog id="logout_modal_profile" class="modal modal-bottom sm:modal-middle backdrop-blur-sm">
         <div class="modal-box">
             <h3 class="font-bold text-lg italic uppercase tracking-tight">Konfirmasi Logout</h3>
-            <p class="py-4 text-base-content/70">Apakah Anda yakin ingin keluar dari AMAN Arena?</p>
+            <p class="py-4 text-base-content/70">Apakah Anda yakin ingin keluar dari {{ config('app.name') }}?</p>
             <div class="modal-action">
                 <form method="dialog">
                     <button class="btn btn-ghost -skew-x-12">Batal</button>

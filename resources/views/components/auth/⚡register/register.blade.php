@@ -19,7 +19,7 @@
         <!-- Large Background Text (Sporty Vibe) -->
         <div
             class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/4 rotate-90 text-[15rem] font-black opacity-[0.02] select-none uppercase italic leading-none">
-            AMAN
+            KENCANA
         </div>
         <div
             class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 -rotate-90 text-[15rem] font-black opacity-[0.02] select-none uppercase italic leading-none text-right">
@@ -80,12 +80,12 @@
                 <div class="card-body p-8" wire:key="register-form-container" x-transition>
                     <div class="flex flex-col items-center mb-8">
                         <div>
-                            <!-- Logo AMAN Arena Soccer -->
-                            <img src="{{ asset('assets/images/logo/amanarena-logo.webp') }}"
+                            <!-- Logo Kencana Arena -->
+                            <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
                                 alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
                         </div>
                         <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-warning">
-                            DAFTAR <span class="text-info">AMAN Arena</span>
+                            DAFTAR <span class="text-info">Kencana</span>
                         </h3>
                         {{-- <div class="text-xs text-base-content/50 text-center font-bold italic tracking-tighter uppercase">
                             MINI

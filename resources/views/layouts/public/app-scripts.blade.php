@@ -48,7 +48,7 @@
                 tl.to(amanText, {
                     duration: 1.2,
                     text: {
-                        value: "AMAN"
+                        value: "KENCANA"
                     },
                     ease: "none"
                 });

@@ -60,10 +60,10 @@
                             </div>
                             <div>
                                 <h4 class="font-black italic uppercase tracking-wider text-xs text-info">
-                                    <span>Lokasi AMAN ARENA</span>
+                                    <span>Lokasi KENCANA ARENA</span>
                                 </h4>
                                 <div>
-                                    <span class="text-[10px] font-bold text-base-content/70">Cek lokasi AMAN Arena
+                                    <span class="text-[10px] font-bold text-base-content/70">Cek lokasi KENCANA Arena
                                         disini</span>
                                 </div>
                             </div>
