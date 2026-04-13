@@ -89,8 +89,8 @@
                                         class="relative w-12 h-12 sm:w-23 sm:h-23 rounded-full bg-info/10 flex items-center justify-center">
 
                                         <!-- LOGO -->
-                                        <img src="{{ asset('assets/images/logo/amanarena-logo.webp') }}"
-                                            alt="Logo Aman Arena"
+                                        <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
+                                            alt="Logo Kencana Arena"
                                             class="w-full h-full object-contain p-1.5 sm:p-3 opacity-20 grayscale" />
 
                                         <!-- OVERLAY VERIFIED (1 BARIS) -->

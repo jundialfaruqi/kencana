@@ -6,7 +6,7 @@
         </div>
         <div class="text-sm breadcrumbs text-base-content/60">
             <ul>
-                <li><a href="#">Aman Arena</a></li>
+                <li><a href="#">{{ config('app.name') }}</a></li>
                 <li>Apps</li>
                 <li>
                     <a wire:navigate href="{{ route('banner-carousel') }}">

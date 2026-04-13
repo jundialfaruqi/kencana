@@ -6,7 +6,7 @@
         </div>
         <div class="text-sm breadcrumbs text-base-content/60">
             <ul>
-                <li><a href="#">Aman Arena</a></li>
+                <li><a href="/dashboard">{{ config('app.name') }}</a></li>
                 <li>Setting</li>
                 <li>User</li>
                 <li><a wire:navigate href="/manajemen-user"><span class="text-base-content">Manajemen User</span></a></li>

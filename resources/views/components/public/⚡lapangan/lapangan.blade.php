@@ -16,7 +16,7 @@
                     </h2>
                     <p
                         class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                        Daftar sarana olahraga Aman Arena
+                        Daftar sarana olahraga Kencana Arena
                     </p>
                 </div>
             </div>

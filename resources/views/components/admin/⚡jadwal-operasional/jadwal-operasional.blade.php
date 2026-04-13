@@ -6,7 +6,7 @@
         </div>
         <div class="text-sm breadcrumbs text-base-content/60">
             <ul>
-                <li><a wire:navigate href="/dashboard">Aman Arena</a></li>
+                <li><a wire:navigate href="/dashboard">{{ config('app.name') }}</a></li>
                 <li>Apps</li>
                 <li>
                     <a wire:navigate href="/manajemen-jadwal-operasional">
