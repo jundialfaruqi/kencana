@@ -23,7 +23,7 @@
         </div>
         <div
             class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 -rotate-90 text-[15rem] font-black opacity-[0.02] select-none uppercase italic leading-none text-right">
-            SPORT
+            ARENA
         </div>
     </div>
 
