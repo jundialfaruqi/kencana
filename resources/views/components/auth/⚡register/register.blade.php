@@ -63,8 +63,8 @@
                         </div>
 
                         <!-- Action Button -->
-                        <button wire:click="goToLogin"
-                            class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12 px-8">
+                        <a href="{{ route('login') }}" wire:navigate
+                            class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12 px-8 flex items-center justify-center">
                             <span>Login Sekarang</span>
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
@@ -72,7 +72,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
-                        </button>
+                        </a>
                     </div>
                 </div>
             @else
@@ -265,9 +265,10 @@
                                     <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
                                 </label>
                             @enderror
+                        </div>
 
-                            <!-- Password -->
-                            <div class="form-control my-5">
+                        <!-- Password -->
+                        <div class="form-control my-5">
                                 <label class="label">
                                     <span
                                         class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
