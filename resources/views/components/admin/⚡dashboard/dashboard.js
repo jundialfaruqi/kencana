@@ -228,8 +228,6 @@ function initializeInputLogic() {
                 if (!html5QrCode) {
                     const formats = [];
                     if (window.Html5QrcodeSupportedFormats) {
-                        formats.push(window.Html5QrcodeSupportedFormats.CODE_128);
-                        formats.push(window.Html5QrcodeSupportedFormats.CODE_39);
                         formats.push(window.Html5QrcodeSupportedFormats.QR_CODE);
                     }
                     html5QrCode = new Html5Qrcode("reader", {

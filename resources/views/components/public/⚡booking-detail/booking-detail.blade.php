@@ -136,18 +136,13 @@
                             </div>
 
                             @if($detail['kode_booking'] ?? $kode_booking)
-                                <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6 p-6 bg-white rounded-xl shadow-inner border border-base-300">
+                                <div class="mt-6 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
                                     <!-- QR Code -->
-                                    <div class="flex-none p-1.5 bg-white border border-base-200 rounded-lg">
-                                        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}" alt="QR Code" class="w-24 h-24" style="image-rendering: pixelated;" />
+                                    <div class="p-1.5 bg-white border border-base-200 rounded-xl">
+                                        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}" alt="QR Code" class="w-28 h-28" style="image-rendering: pixelated;" />
                                     </div>
-                                    
-                                    <!-- Barcode & Text -->
-                                    <div class="flex flex-col items-center sm:items-start grow w-full">
-                                        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'C128', 2, 50) }}" alt="barcode" class="max-w-full" style="image-rendering: pixelated;" />
-                                        <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
-                                            {{ $detail['kode_booking'] ?? $kode_booking }}
-                                        </div>
+                                    <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
+                                        {{ $detail['kode_booking'] ?? $kode_booking }}
                                     </div>
                                 </div>
                             @endif
@@ -353,12 +348,9 @@
                                 <div class="h-4 w-full bg-base-300 rounded mt-2"></div>
                             </div>
 
-                            <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6 p-6 bg-base-200/50 rounded-xl border border-dashed border-base-300">
-                                <div class="w-24 h-24 bg-base-300 rounded-lg animate-pulse flex-none"></div>
-                                <div class="grow flex flex-col items-center sm:items-start w-full gap-2">
-                                    <div class="h-10 w-full bg-base-300 rounded animate-pulse"></div>
-                                    <div class="h-3 w-24 bg-base-300 rounded animate-pulse"></div>
-                                </div>
+                            <div class="mt-6 flex flex-col items-center justify-center p-4 bg-base-200/50 rounded-xl border border-dashed border-base-300">
+                                <div class="w-28 h-28 bg-base-300 rounded-xl animate-pulse"></div>
+                                <div class="h-3 w-24 bg-base-300 rounded mt-2 animate-pulse"></div>
                             </div>
                         </div>
                         <div class="bp-footer px-4 py-3 sm:px-6"></div>
