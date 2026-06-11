@@ -168,8 +168,12 @@
                                         <div class="mt-1 flex flex-col">
                                             @php
                                                 $sessionName = data_get(Session::get('user_data'), 'name');
-                                                $apiTeam = data_get($bookingDetail, 'nama_komunitas') ?? data_get($bookingDetail, 'pemesan.nama_komunitas');
-                                                $apiName = data_get($bookingDetail, 'user.name') ?? data_get($bookingDetail, 'pemesan.user.name');
+                                                $apiTeam =
+                                                    data_get($bookingDetail, 'nama_komunitas') ??
+                                                    data_get($bookingDetail, 'pemesan.nama_komunitas');
+                                                $apiName =
+                                                    data_get($bookingDetail, 'user.name') ??
+                                                    data_get($bookingDetail, 'pemesan.user.name');
                                                 $pemesanNama = data_get($bookingDetail, 'pemesan.nama');
 
                                                 $team = null;
@@ -188,7 +192,13 @@
                                                             $team = $pemesanNama;
                                                         }
                                                     } else {
-                                                        if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
+                                                        if (
+                                                            filled($sessionName) &&
+                                                            strcasecmp(
+                                                                trim((string) $pemesanNama),
+                                                                trim((string) $sessionName),
+                                                            ) !== 0
+                                                        ) {
                                                             $team = $pemesanNama;
                                                             $name = $sessionName;
                                                         } else {
@@ -204,7 +214,8 @@
                                             <span class="font-black text-white italic uppercase text-xs sm:text-sm">
                                                 {{ $team ?: '-' }}
                                             </span>
-                                            <span class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase mt-0.5">
+                                            <span
+                                                class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase mt-0.5">
                                                 {{ $name ?: '-' }}
                                             </span>
                                         </div>
