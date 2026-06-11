@@ -226,19 +226,25 @@ function initializeInputLogic() {
                 scannerStatus.textContent = 'Mencari kamera belakang...';
                 
                 if (!html5QrCode) {
-                    html5QrCode = new Html5Qrcode("reader");
+                    const formats = [];
+                    if (window.Html5QrcodeSupportedFormats) {
+                        formats.push(window.Html5QrcodeSupportedFormats.CODE_128);
+                        formats.push(window.Html5QrcodeSupportedFormats.CODE_39);
+                        formats.push(window.Html5QrcodeSupportedFormats.QR_CODE);
+                    }
+                    html5QrCode = new Html5Qrcode("reader", {
+                        formatsToSupport: formats.length > 0 ? formats : undefined
+                    });
                 }
                 
                 html5QrCode.start(
                     { facingMode: "environment" },
                     {
                         fps: 15,
-                        qrbox: (width, height) => {
-                            const boxWidth = Math.min(width * 0.8, 300);
-                            const boxHeight = Math.min(height * 0.4, 120);
-                            return { width: boxWidth, height: boxHeight };
-                        },
-                        aspectRatio: 1.777778
+                        aspectRatio: 1.777778,
+                        experimentalFeatures: {
+                            useBarCodeDetectorIfSupported: true
+                        }
                     },
                     (decodedText, decodedResult) => {
                         playBeepSound();

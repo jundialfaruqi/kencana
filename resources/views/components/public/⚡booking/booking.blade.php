@@ -642,7 +642,7 @@
 
                                 @if ($bookingCode)
                                     <div class="mt-4 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
-                                        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($bookingCode, 'C128', 1.5, 45) }}" alt="barcode" class="max-w-full" />
+                                        <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($bookingCode, 'C128', 2, 50) }}" alt="barcode" class="max-w-full" style="image-rendering: pixelated;" />
                                         <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
                                             {{ $bookingCode }}
                                         </div>

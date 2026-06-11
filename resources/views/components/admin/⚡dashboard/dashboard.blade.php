@@ -300,6 +300,14 @@
                 
                 <div class="relative overflow-hidden rounded-xl bg-black aspect-video flex items-center justify-center border border-base-300">
                     <div id="reader" class="w-full h-full"></div>
+                    <!-- CSS Target Box (Visual only, no cropping) -->
+                    <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+                        <div class="w-4/5 h-1/3 border-2 border-dashed border-info rounded-lg flex items-center justify-center bg-info/5">
+                            <span class="text-[9px] uppercase tracking-widest text-info font-black bg-base-100/90 px-2.5 py-1 rounded shadow-md">
+                                Sejajarkan Barcode
+                            </span>
+                        </div>
+                    </div>
                     <!-- Scanning indicator overlay line -->
                     <div id="scanner-laser" class="absolute left-0 right-0 h-0.5 bg-red-500 shadow-[0_0_8px_#ef4444] animate-[scan_2s_linear_infinite] hidden"></div>
                 </div>
