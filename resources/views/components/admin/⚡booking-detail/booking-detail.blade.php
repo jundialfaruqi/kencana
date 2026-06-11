@@ -51,17 +51,49 @@
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-semibold text-base-content/60">Tim / Nama</p>
-                                        <p class="text-sm font-medium text-base-content truncate">
+                                        <div class="mt-1 flex flex-col">
                                             @php
-                                                $team = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
-                                                $name = data_get($detail, 'user.name') ?? (data_get($detail, 'pemesan.nama') ?? data_get($detail, 'pemesan.user.name'));
+                                                $sessionName = data_get(Session::get('user_data'), 'name');
+                                                $apiTeam = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
+                                                $apiName = data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name');
+                                                $pemesanNama = data_get($detail, 'pemesan.nama');
+
+                                                $team = null;
+                                                $name = null;
+
+                                                if (filled($apiTeam)) {
+                                                    $team = $apiTeam;
+                                                }
+                                                if (filled($apiName)) {
+                                                    $name = $apiName;
+                                                }
+
+                                                if (filled($pemesanNama)) {
+                                                    if (filled($name)) {
+                                                        if (blank($team)) {
+                                                            $team = $pemesanNama;
+                                                        }
+                                                    } else {
+                                                        if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
+                                                            $team = $pemesanNama;
+                                                            $name = $sessionName;
+                                                        } else {
+                                                            $name = $pemesanNama;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (blank($name)) {
+                                                    $name = $sessionName;
+                                                }
                                             @endphp
-                                            @if($team && $name)
-                                                {{ $team }} / {{ $name }}
-                                            @else
-                                                {{ $team ?? ($name ?? '-') }}
-                                            @endif
-                                        </p>
+                                            <span class="font-black italic uppercase text-xs sm:text-sm text-warning">
+                                                {{ $team ?: '-' }}
+                                            </span>
+                                            <span class="text-[10px] sm:text-xs text-base-content/60 font-semibold uppercase mt-0.5">
+                                                {{ $name ?: '-' }}
+                                            </span>
+                                        </div>
                                         <div class="mt-1">
                                             <span class="font-mono text-xs">Email:
                                                 {{ data_get($detail, 'pemesan.email', '-') }}</span>

@@ -641,10 +641,13 @@
                                 </div>
 
                                 @if ($bookingCode)
-                                    <div class="mt-4 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
+                                    <div
+                                        class="mt-4 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
                                         <!-- QR Code -->
-                                        <div class="p-1 bg-white border border-base-200 rounded-xl">
-                                            <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($bookingCode, 'QRCODE', 4, 4) }}" alt="QR Code" class="w-24 h-24" style="image-rendering: pixelated;" />
+                                        <div class="p-1 bg-white rounded-xl">
+                                            <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($bookingCode, 'QRCODE', 4, 4) }}"
+                                                alt="QR Code" class="w-24 h-24"
+                                                style="image-rendering: pixelated;" />
                                         </div>
                                         <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
                                             {{ $bookingCode }}

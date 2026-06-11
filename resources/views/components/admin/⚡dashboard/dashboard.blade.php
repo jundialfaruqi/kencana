@@ -165,21 +165,48 @@
                                 <div class="grid grid-cols-3 gap-2">
                                     <div class="col-span-2">
                                         <div class="text-[10px] font-bold uppercase text-gray-400">Tim / Nama</div>
-                                        <div class="mt-1 font-black text-white italic uppercase text-xs sm:text-sm">
+                                        <div class="mt-1 flex flex-col">
                                             @php
-                                                $team =
-                                                    data_get($bookingDetail, 'nama_komunitas') ??
-                                                    data_get($bookingDetail, 'pemesan.nama_komunitas');
-                                                $name =
-                                                    data_get($bookingDetail, 'user.name') ??
-                                                    (data_get($bookingDetail, 'pemesan.nama') ??
-                                                        data_get($bookingDetail, 'pemesan.user.name'));
+                                                $sessionName = data_get(Session::get('user_data'), 'name');
+                                                $apiTeam = data_get($bookingDetail, 'nama_komunitas') ?? data_get($bookingDetail, 'pemesan.nama_komunitas');
+                                                $apiName = data_get($bookingDetail, 'user.name') ?? data_get($bookingDetail, 'pemesan.user.name');
+                                                $pemesanNama = data_get($bookingDetail, 'pemesan.nama');
+
+                                                $team = null;
+                                                $name = null;
+
+                                                if (filled($apiTeam)) {
+                                                    $team = $apiTeam;
+                                                }
+                                                if (filled($apiName)) {
+                                                    $name = $apiName;
+                                                }
+
+                                                if (filled($pemesanNama)) {
+                                                    if (filled($name)) {
+                                                        if (blank($team)) {
+                                                            $team = $pemesanNama;
+                                                        }
+                                                    } else {
+                                                        if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
+                                                            $team = $pemesanNama;
+                                                            $name = $sessionName;
+                                                        } else {
+                                                            $name = $pemesanNama;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (blank($name)) {
+                                                    $name = $sessionName;
+                                                }
                                             @endphp
-                                            @if ($team && $name)
-                                                {{ $team }} / {{ $name }}
-                                            @else
-                                                {{ $team ?? ($name ?? '-') }}
-                                            @endif
+                                            <span class="font-black text-white italic uppercase text-xs sm:text-sm">
+                                                {{ $team ?: '-' }}
+                                            </span>
+                                            <span class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase mt-0.5">
+                                                {{ $name ?: '-' }}
+                                            </span>
                                         </div>
                                         <div class="mt-3 grid grid-cols-3 gap-3">
                                             <div>

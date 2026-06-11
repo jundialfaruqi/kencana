@@ -60,16 +60,48 @@
                             <div class="grid grid-cols-3 gap-2">
                                 <div class="col-span-2">
                                     <div class="text-[10px] font-bold uppercase text-base-content/50">Tim / Nama</div>
-                                    <div class="mt-1 font-black italic uppercase text-xs sm:text-sm">
+                                    <div class="mt-1 flex flex-col">
                                         @php
-                                            $team = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
-                                            $name = data_get($detail, 'user.name') ?? (data_get($detail, 'pemesan.nama') ?? data_get($detail, 'pemesan.user.name'));
+                                            $sessionName = data_get(Session::get('user_data'), 'name');
+                                            $apiTeam = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
+                                            $apiName = data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name');
+                                            $pemesanNama = data_get($detail, 'pemesan.nama');
+
+                                            $team = null;
+                                            $name = null;
+
+                                            if (filled($apiTeam)) {
+                                                $team = $apiTeam;
+                                            }
+                                            if (filled($apiName)) {
+                                                $name = $apiName;
+                                            }
+
+                                            if (filled($pemesanNama)) {
+                                                if (filled($name)) {
+                                                    if (blank($team)) {
+                                                        $team = $pemesanNama;
+                                                    }
+                                                } else {
+                                                    if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
+                                                        $team = $pemesanNama;
+                                                        $name = $sessionName;
+                                                    } else {
+                                                        $name = $pemesanNama;
+                                                    }
+                                                }
+                                            }
+
+                                            if (blank($name)) {
+                                                $name = $sessionName;
+                                            }
                                         @endphp
-                                        @if($team && $name)
-                                            {{ $team }} / {{ $name }}
-                                        @else
-                                            {{ $team ?? ($name ?? '-') }}
-                                        @endif
+                                        <span class="font-black italic uppercase text-xs sm:text-sm text-warning">
+                                            {{ $team ?: '-' }}
+                                        </span>
+                                        <span class="text-[10px] sm:text-xs text-base-content/60 font-semibold uppercase mt-0.5">
+                                            {{ $name ?: '-' }}
+                                        </span>
                                     </div>
                                     <div class="mt-3 grid grid-cols-3 gap-3">
                                         <div>
@@ -143,11 +175,13 @@
                                 <div class="mt-1 text-sm italic">{{ data_get($detail, 'keterangan') ?? '-' }}</div>
                             </div>
 
-                            @if($detail['kode_booking'] ?? $kode_booking)
-                                <div class="mt-6 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
+                            @if ($detail['kode_booking'] ?? $kode_booking)
+                                <div
+                                    class="mt-6 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
                                     <!-- QR Code -->
-                                    <div class="p-1.5 bg-white border border-base-200 rounded-xl">
-                                        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}" alt="QR Code" class="w-28 h-28" style="image-rendering: pixelated;" />
+                                    <div class="p-1.5 bg-white">
+                                        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}"
+                                            alt="QR Code" class="w-28 h-28" style="image-rendering: pixelated;" />
                                     </div>
                                     <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
                                         {{ $detail['kode_booking'] ?? $kode_booking }}
@@ -356,7 +390,8 @@
                                 <div class="h-4 w-full bg-base-300 rounded mt-2"></div>
                             </div>
 
-                            <div class="mt-6 flex flex-col items-center justify-center p-4 bg-base-200/50 rounded-xl border border-dashed border-base-300">
+                            <div
+                                class="mt-6 flex flex-col items-center justify-center p-4 bg-base-200/50 rounded-xl border border-dashed border-base-300">
                                 <div class="w-28 h-28 bg-base-300 rounded-xl animate-pulse"></div>
                                 <div class="h-3 w-24 bg-base-300 rounded mt-2 animate-pulse"></div>
                             </div>
