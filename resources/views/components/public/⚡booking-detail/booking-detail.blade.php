@@ -134,6 +134,15 @@
                                 <div class="text-[10px] font-bold uppercase text-base-content/50">Keterangan</div>
                                 <div class="mt-1 text-sm italic">{{ data_get($detail, 'keterangan') ?? '-' }}</div>
                             </div>
+
+                            @if($detail['kode_booking'] ?? $kode_booking)
+                                <div class="mt-6 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
+                                    <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'C128', 1.5, 45) }}" alt="barcode" class="max-w-full" />
+                                    <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
+                                        {{ $detail['kode_booking'] ?? $kode_booking }}
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <div class="bp-footer bg-info text-info-content px-4 py-3 sm:px-6">
                             <div class="text-center text-[10px] sm:text-xs font-black italic uppercase tracking-widest">
@@ -334,6 +343,11 @@
                             <div class="mt-4 rounded-xl border border-dashed border-base-300 p-3">
                                 <div class="h-3 w-20 bg-base-300 rounded"></div>
                                 <div class="h-4 w-full bg-base-300 rounded mt-2"></div>
+                            </div>
+
+                            <div class="mt-6 flex flex-col items-center justify-center p-4 bg-base-200/50 rounded-xl border border-dashed border-base-300">
+                                <div class="h-10 w-48 bg-base-300 rounded animate-pulse"></div>
+                                <div class="h-3 w-24 bg-base-300 rounded mt-2 animate-pulse"></div>
                             </div>
                         </div>
                         <div class="bp-footer px-4 py-3 sm:px-6"></div>
