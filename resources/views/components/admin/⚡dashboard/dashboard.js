@@ -92,11 +92,17 @@ function fillBookingCode(fullCode) {
         inputSegments[10].value = code[2];
         inputSegments[11].value = code[3];
 
-        // Update Livewire search input
+        // Update Livewire search input directly
         const livewireInput = document.getElementById('livewire-search-query-input');
-        if (livewireInput) {
-            livewireInput.value = fullCode.toUpperCase();
-            livewireInput.dispatchEvent(new Event('input'));
+        if (livewireInput && window.Livewire) {
+            const component = window.Livewire.find(livewireInput);
+            if (component) {
+                // Set value on Livewire model and run the search method directly
+                component.set('searchQuery', fullCode.toUpperCase());
+                setTimeout(() => {
+                    component.call('searchBooking');
+                }, 50);
+            }
         }
         return true;
     }
