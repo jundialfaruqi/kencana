@@ -65,11 +65,12 @@
                     <p class="text-warning italic text-xs mt-1 text-center">*{{ $message }}</p>
                 @enderror
             </label>
-            <div class="flex flex-col sm:flex-row gap-3 mt-4 w-full max-w-xs justify-center">
+            <div class="flex flex-row sm:flex-row gap-3 mt-4 w-full max-w-xs justify-center">
                 <button id="search-button"
                     class="btn btn-gray bg-base-300 border-0 btn-md text-base-content rounded-xl hover:bg-base-300 flex-1"
                     wire:click="searchBooking" wire:loading.attr="disabled" wire:target="searchBooking">
-                    <span class="flex items-center justify-center gap-1" wire:loading.remove wire:target="searchBooking">
+                    <span class="flex items-center justify-center gap-1" wire:loading.remove
+                        wire:target="searchBooking">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                             stroke="currentColor" class="size-[1.2em]">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,9 +84,12 @@
                 <button id="scan-button" type="button"
                     class="btn btn-info border-0 btn-md text-info-content rounded-xl hover:opacity-90 flex-1">
                     <span class="flex items-center justify-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-[1.2em]">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="size-[1.2em]">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                         </svg>
                         Scan Barcode
                     </span>
@@ -163,10 +167,15 @@
                                         <div class="text-[10px] font-bold uppercase text-gray-400">Tim / Nama</div>
                                         <div class="mt-1 font-black text-white italic uppercase text-xs sm:text-sm">
                                             @php
-                                                $team = data_get($bookingDetail, 'nama_komunitas') ?? data_get($bookingDetail, 'pemesan.nama_komunitas');
-                                                $name = data_get($bookingDetail, 'user.name') ?? (data_get($bookingDetail, 'pemesan.nama') ?? data_get($bookingDetail, 'pemesan.user.name'));
+                                                $team =
+                                                    data_get($bookingDetail, 'nama_komunitas') ??
+                                                    data_get($bookingDetail, 'pemesan.nama_komunitas');
+                                                $name =
+                                                    data_get($bookingDetail, 'user.name') ??
+                                                    (data_get($bookingDetail, 'pemesan.nama') ??
+                                                        data_get($bookingDetail, 'pemesan.user.name'));
                                             @endphp
-                                            @if($team && $name)
+                                            @if ($team && $name)
                                                 {{ $team }} / {{ $name }}
                                             @else
                                                 {{ $team ?? ($name ?? '-') }}
@@ -274,16 +283,20 @@
     <div id="scanner-modal" class="fixed inset-0 z-50 hidden grid place-items-center p-4">
         <!-- Backdrop -->
         <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" id="close-scanner-backdrop"></div>
-        
+
         <!-- Modal Box -->
-        <div class="relative w-full max-w-sm sm:max-w-md mx-4 sm:mx-0 rounded-2xl border-2 border-primary bg-base-100 shadow-2xl overflow-hidden">
+        <div
+            class="relative w-full max-w-sm sm:max-w-md mx-4 sm:mx-0 rounded-2xl border-2 border-primary bg-base-100 shadow-2xl overflow-hidden">
             <!-- Header -->
             <div class="bg-primary text-primary-content p-4 flex justify-between items-center">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-5 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="2.5" stroke="currentColor" class="size-5 text-white">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                         </svg>
                     </div>
                     <div>
@@ -292,33 +305,40 @@
                         </h4>
                     </div>
                 </div>
-                <button type="button" class="btn btn-ghost btn-circle btn-sm text-white hover:bg-white/20" id="close-scanner-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-5">
+                <button type="button" class="btn btn-ghost btn-circle btn-sm text-white hover:bg-white/20"
+                    id="close-scanner-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
-            
+
             <!-- Body -->
             <div class="p-4 sm:p-6 space-y-4">
                 <div id="scanner-status" class="text-xs text-center font-bold text-base-content/60 uppercase">
                     Menginisialisasi Kamera...
                 </div>
-                
-                <div class="relative overflow-hidden rounded-xl bg-black aspect-video flex items-center justify-center border border-base-300">
+
+                <div
+                    class="relative overflow-hidden rounded-xl bg-black aspect-video flex items-center justify-center border border-base-300">
                     <div id="reader" class="w-full h-full"></div>
                     <!-- CSS Target Box (Visual only, no cropping) -->
                     <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
-                        <div class="w-40 h-40 border-2 border-dashed border-info rounded-xl flex items-center justify-center bg-info/5">
-                            <span class="text-[9px] uppercase tracking-widest text-info font-black bg-base-100/90 px-2.5 py-1 rounded shadow-md">
+                        <div
+                            class="w-40 h-40 border-2 border-dashed border-info rounded-xl flex items-center justify-center bg-info/5">
+                            <span
+                                class="text-[9px] uppercase tracking-widest text-info font-black bg-base-100/90 px-2.5 py-1 rounded shadow-md">
                                 Sejajarkan QR
                             </span>
                         </div>
                     </div>
                     <!-- Scanning indicator overlay line -->
-                    <div id="scanner-laser" class="absolute left-0 right-0 h-0.5 bg-red-500 shadow-[0_0_8px_#ef4444] animate-[scan_2s_linear_infinite] hidden"></div>
+                    <div id="scanner-laser"
+                        class="absolute left-0 right-0 h-0.5 bg-red-500 shadow-[0_0_8px_#ef4444] animate-[scan_2s_linear_infinite] hidden">
+                    </div>
                 </div>
-                
+
                 <div class="text-xs text-center text-base-content/50">
                     Arahkan QR Code booking ke area kamera untuk memindai secara otomatis.
                 </div>
@@ -327,10 +347,18 @@
     </div>
 
     <style>
-    @keyframes scan {
-        0% { top: 0%; }
-        50% { top: 100%; }
-        100% { top: 0%; }
-    }
+        @keyframes scan {
+            0% {
+                top: 0%;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0%;
+            }
+        }
     </style>
 </div>
