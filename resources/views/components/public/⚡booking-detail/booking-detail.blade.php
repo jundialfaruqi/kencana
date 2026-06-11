@@ -60,8 +60,16 @@
                             <div class="grid grid-cols-3 gap-2">
                                 <div class="col-span-2">
                                     <div class="text-[10px] font-bold uppercase text-base-content/50">Tim / Nama</div>
-                                    <div class="mt-1 font-black italic uppercase">
-                                        {{ data_get($detail, 'pemesan.nama') ?? '-' }}
+                                    <div class="mt-1 font-black italic uppercase text-xs sm:text-sm">
+                                        @php
+                                            $team = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
+                                            $name = data_get($detail, 'user.name') ?? (data_get($detail, 'pemesan.nama') ?? data_get($detail, 'pemesan.user.name'));
+                                        @endphp
+                                        @if($team && $name)
+                                            {{ $team }} / {{ $name }}
+                                        @else
+                                            {{ $team ?? ($name ?? '-') }}
+                                        @endif
                                     </div>
                                     <div class="mt-3 grid grid-cols-3 gap-3">
                                         <div>

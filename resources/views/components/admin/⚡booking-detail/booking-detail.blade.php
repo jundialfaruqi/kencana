@@ -50,9 +50,17 @@
                                         </svg>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-semibold text-base-content/60">Nama / Tim</p>
+                                        <p class="text-xs font-semibold text-base-content/60">Tim / Nama</p>
                                         <p class="text-sm font-medium text-base-content truncate">
-                                            {{ data_get($detail, 'pemesan.nama', '-') }}
+                                            @php
+                                                $team = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
+                                                $name = data_get($detail, 'user.name') ?? (data_get($detail, 'pemesan.nama') ?? data_get($detail, 'pemesan.user.name'));
+                                            @endphp
+                                            @if($team && $name)
+                                                {{ $team }} / {{ $name }}
+                                            @else
+                                                {{ $team ?? ($name ?? '-') }}
+                                            @endif
                                         </p>
                                         <div class="mt-1">
                                             <span class="font-mono text-xs">Email:
