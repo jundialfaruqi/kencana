@@ -31,7 +31,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg>
-                            <input type="text" class="grow focus:outline-none focus-within:ring-0 bg-base-200"
+                            <input type="text"
+                                class="grow focus:outline-none focus-within:ring-0 bg-base-200 placeholder:text-base-content/50"
                                 placeholder="Cari Pemesan / Kode Booking" wire:model.live.debounce.300ms="search">
                         </label>
                         <button type="button"
@@ -47,12 +48,12 @@
                 </div>
                 <div class="sm:flex items-center gap-2 w-full sm:w-auto justify-end">
                     {{-- filter date from to --}}
-                    <div class="flex flex-row sm:flex-row w-full sm:w-auto gap-2 mt-2 sm:mt-0">
+                    <div class="flex flex-row sm:flex-row w-full sm:w-auto gap-2 mt-2 sm:mt-0 text-base-content">
                         <input type="date"
-                            class="input input-bordered w-full sm:w-36 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
+                            class="input text-base-content placeholder:text-base-content/50 input-bordered w-full sm:w-36 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                             wire:model.live="from">
                         <input type="date"
-                            class="input input-bordered w-full sm:w-36 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
+                            class="input text-base-content placeholder:text-base-content/50 input-bordered w-full sm:w-36 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                             wire:model.live="to">
                     </div>
                     {{-- filter status --}}
