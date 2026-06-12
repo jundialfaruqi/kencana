@@ -69,7 +69,7 @@
                     <div class="form-control">
                         <label class="label">
                             <span
-                                class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2 text-base-content">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -79,7 +79,7 @@
                             </span>
                         </label>
                         <input type="text" wire:model="email" placeholder="contoh@email.com"
-                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic @error('email') input-warning @enderror"
+                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic placeholder:text-base-content/50 @error('email') input-warning @enderror"
                             autofocus />
                         @error('email')
                             <label class="label p-0 mt-1">
@@ -91,7 +91,7 @@
                     <div class="form-control">
                         <label class="label">
                             <span
-                                class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2 text-base-content">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -103,7 +103,7 @@
                         <div class="relative group/input">
                             <input :type="showPassword ? 'text' : 'password'" wire:model="password"
                                 placeholder="••••••••"
-                                class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic @error('password') input-warning @enderror" />
+                                class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 @error('password') input-warning @enderror" />
                             <div class="absolute right-4 top-2">
                                 <label class="swap text-base-content/30 hover:text-info transition-colors">
                                     <input type="checkbox" x-model="showPassword" />
@@ -132,7 +132,7 @@
                         <div class="flex items-center justify-between mt-4">
                             <label class="label text-xs cursor-pointer justify-start gap-3 p-0">
                                 <input type="checkbox" class="checkbox checkbox-sm checkbox-info" />
-                                <span class="label-text font-medium">Keep me in the game</span>
+                                <span class="label-text font-medium text-base-content/50">Keep me in the game</span>
                             </label>
                             <a href="#"
                                 class="label-text-alt text-xs link link-hover text-info italic font-semibold">Forgot

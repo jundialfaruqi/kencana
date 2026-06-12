@@ -3,7 +3,7 @@
 
 <!--
 
-  Name              : KENCANA Arena
+  Name              : Kencana Arena
   Version           : 1.0
   Date              : Februari 01, 2026
   Url               : kencana.pekanbaru.go.id

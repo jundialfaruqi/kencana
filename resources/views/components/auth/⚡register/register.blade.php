@@ -108,7 +108,7 @@
                         <div class="form-control">
                             <label class="label">
                                 <span
-                                    class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    class="label-text font-bold uppercase tracking-wider text-xs text-base-content flex items-center gap-2 mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -118,7 +118,7 @@
                                 </span>
                             </label>
                             <input type="text" placeholder="Masukkan nama lengkap"
-                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic h-10 @error('name') input-warning @enderror"
+                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic placeholder:text-base-content/50 h-10 @error('name') input-warning @enderror"
                                 wire:model="name" />
                             @error('name')
                                 <label class="label p-0 mt-1">
@@ -131,7 +131,7 @@
                         <div class="form-control">
                             <label class="label">
                                 <span
-                                    class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -141,7 +141,7 @@
                                 </span>
                             </label>
                             <input type="text" placeholder="contoh@email.com"
-                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic h-10 @error('email') input-warning @enderror"
+                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic h-10 placeholder:text-base-content/50 @error('email') input-warning @enderror"
                                 wire:model="email" />
                             @error('email')
                                 <label class="label p-0 mt-1">
@@ -154,7 +154,7 @@
                         <div class="form-control">
                             <label class="label">
                                 <span
-                                    class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -172,7 +172,7 @@
                                 </div>
                                 <!-- Phone Number Input -->
                                 <input type="tel" placeholder="8123456789"
-                                    class="input input-ghost border-0 bg-transparent focus:outline-none focus:ring-0 font-medium w-full italic h-10"
+                                    class="input input-ghost border-0 bg-transparent focus:outline-none focus:ring-0 font-medium w-full italic placeholder:text-base-content/50 h-10"
                                     wire:model.live.debounce.300ms="phone_number" id="no_wa_input"
                                     inputmode="numeric" inputmode="numeric" pattern="[0-9]*"
                                     oninput="
@@ -191,7 +191,7 @@
                         <div class="form-control">
                             <label class="label">
                                 <span
-                                    class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -201,7 +201,7 @@
                                 </span>
                             </label>
                             <input type="tel" placeholder="1234567890123456"
-                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic h-10 @error('nik') input-warning @enderror"
+                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic placeholder:text-base-content/50 h-10 @error('nik') input-warning @enderror"
                                 wire:model="nik" inputmode="numeric" pattern="[0-9]*" maxlength="16"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);" />
                             @error('nik')
@@ -215,7 +215,7 @@
                         <div class="form-control">
                             <label class="label">
                                 <span
-                                    class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -269,121 +269,116 @@
 
                         <!-- Password -->
                         <div class="form-control my-5">
-                                <label class="label">
-                                    <span
-                                        class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                        </svg>
-                                        Password
-                                    </span>
-                                </label>
-                                <div class="relative group/input">
-                                    <input :type="showPassword ? 'text' : 'password'" placeholder="••••••••"
-                                        class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic h-10 @error('password') input-warning @enderror"
-                                        wire:model="password" />
-                                    <div class="absolute right-4 top-2">
-                                        <label class="swap text-base-content/30 hover:text-info transition-colors">
-                                            <input type="checkbox" x-model="showPassword" />
-                                            <!-- eye icon -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="swap-on size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                            </svg>
-                                            <!-- eye-slash icon -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="swap-off size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                                            </svg>
-                                        </label>
-                                    </div>
-                                </div>
-                                @error('password')
-                                    <label class="label p-0 mt-1">
-                                        <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
-                                    </label>
-                                @enderror
-                            </div>
-
-                            <!-- Confirm Password -->
-                            <div class="form-control">
-                                <label class="label">
-                                    <span
-                                        class="label-text font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                        </svg>
-                                        Konfirmasi Password
-                                    </span>
-                                </label>
-                                <div class="relative group/input">
-                                    <input :type="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••"
-                                        class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic h-10 @error('password_confirmation') input-warning @enderror"
-                                        wire:model="password_confirmation" />
-                                    <div class="absolute right-4 top-2">
-                                        <label class="swap text-base-content/30 hover:text-info transition-colors">
-                                            <input type="checkbox" x-model="showConfirmPassword" />
-                                            <!-- eye icon -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="swap-on size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                            </svg>
-                                            <!-- eye-slash icon -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="swap-off size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                                            </svg>
-                                        </label>
-                                    </div>
-                                </div>
-                                @error('password_confirmation')
-                                    <label class="label p-0 mt-1">
-                                        <span
-                                            class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
-                                    </label>
-                                @enderror
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3 mt-6">
-                                <button type="submit" wire:loading.attr="disabled" wire:target="register"
-                                    class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12">
-                                    <span wire:loading.remove wire:target="register">Daftar Sekarang</span>
-                                    <span wire:loading wire:target="register">Registering...</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            <label class="label">
+                                <span
+                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                                     </svg>
-                                </button>
-                                <a href="{{ route('home') }}" wire:navigate
-                                    class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg h-12 flex items-center justify-center">
-                                    Batal
-                                </a>
+                                    Password
+                                </span>
+                            </label>
+                            <div class="relative group/input">
+                                <input :type="showPassword ? 'text' : 'password'" placeholder="••••••••"
+                                    class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 h-10 @error('password') input-warning @enderror"
+                                    wire:model="password" />
+                                <div class="absolute right-4 top-2">
+                                    <label class="swap text-base-content/30 hover:text-info transition-colors">
+                                        <input type="checkbox" x-model="showPassword" />
+                                        <!-- eye icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="swap-on size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        </svg>
+                                        <!-- eye-slash icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="swap-off size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                        </svg>
+                                    </label>
+                                </div>
                             </div>
+                            @error('password')
+                                <label class="label p-0 mt-1">
+                                    <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
+                                </label>
+                            @enderror
+                        </div>
 
-                            <div class="text-center mt-4">
-                                <span class="text-xs font-bold opacity-70">Sudah punya akun? </span>
-                                <a href="{{ route('login') }}" wire:navigate
-                                    class="text-xs font-black italic uppercase tracking-wider text-info hover:link">Masuk
-                                    Disini</a>
+                        <!-- Confirm Password -->
+                        <div class="form-control">
+                            <label class="label">
+                                <span
+                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                                    </svg>
+                                    Konfirmasi Password
+                                </span>
+                            </label>
+                            <div class="relative group/input">
+                                <input :type="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••"
+                                    class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 h-10 @error('password_confirmation') input-warning @enderror"
+                                    wire:model="password_confirmation" />
+                                <div class="absolute right-4 top-2">
+                                    <label class="swap text-base-content/30 hover:text-info transition-colors">
+                                        <input type="checkbox" x-model="showConfirmPassword" />
+                                        <!-- eye icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="swap-on size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        </svg>
+                                        <!-- eye-slash icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="swap-off size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                        </svg>
+                                    </label>
+                                </div>
                             </div>
+                            @error('password_confirmation')
+                                <label class="label p-0 mt-1">
+                                    <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
+                                </label>
+                            @enderror
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mt-6">
+                            <button type="submit" wire:loading.attr="disabled" wire:target="register"
+                                class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12">
+                                <span wire:loading.remove wire:target="register">Daftar Sekarang</span>
+                                <span wire:loading wire:target="register">Registering...</span>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </button>
+                            <a href="{{ route('home') }}" wire:navigate
+                                class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg h-12 flex items-center justify-center">
+                                Batal
+                            </a>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <span class="text-xs font-bold opacity-70">Sudah punya akun? </span>
+                            <a href="{{ route('login') }}" wire:navigate
+                                class="text-xs font-black italic uppercase tracking-wider text-info hover:link">Masuk
+                                Disini</a>
+                        </div>
                     </form>
 
                     <div class="flex items-center justify-center gap-4 sm:gap-5 mt-8">
