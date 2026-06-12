@@ -33,7 +33,7 @@
     @stack('styles')
 </head>
 
-<body class="bg-base-200 font-sans text-base-content">
+<body class="bg-base-200 font-inter text-base-content">
 
     <div class="drawer lg:drawer-open">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
