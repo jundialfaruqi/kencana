@@ -85,7 +85,7 @@
                                 alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
                         </div>
                         <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-warning">
-                            DAFTAR <span class="text-info">Kencana</span>
+                            DAFTAR <span class="text-info">AKUN</span>
                         </h3>
                         {{-- <div class="text-xs text-base-content/50 text-center font-bold italic tracking-tighter uppercase">
                             MINI
@@ -174,10 +174,10 @@
                                 <input type="tel" placeholder="8123456789"
                                     class="input input-ghost border-0 bg-transparent focus:outline-none focus:ring-0 font-medium w-full italic placeholder:text-base-content/50 h-10"
                                     wire:model.live.debounce.300ms="phone_number" id="no_wa_input"
-                                    inputmode="numeric" inputmode="numeric" pattern="[0-9]*"
+                                    inputmode="numeric" pattern="[0-9]*" maxlength="12"
                                     oninput="
-                                        // Remove all non-numeric characters
-                                        this.value = this.value.replace(/[^0-9]/g, '');
+                                        // Remove all non-numeric characters and limit to 12 digits
+                                        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);
                                     " />
                             </div>
                             @error('no_wa')
@@ -211,61 +211,7 @@
                             @enderror
                         </div>
 
-                        <!-- Foto KTP -->
-                        <div class="form-control">
-                            <label class="label">
-                                <span
-                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                                    </svg>
-                                    Foto KTP
-                                </span>
-                            </label>
-                            <input type="file" accept="image/png,image/jpeg,image/jpg"
-                                class="file-input file-input-bordered file-input-info bg-base-200/50 font-medium w-full italic h-10 @error('foto_ktp') @enderror"
-                                wire:model.live="foto_ktp" />
-                            <p class="text-xs text-base-content/50 italic mt-1">Max 2MB, format PNG/JPEG/JPG</p>
 
-                            <!-- Image Preview with Video Aspect Ratio - Only shows when file is selected -->
-                            @if ($foto_ktp)
-                                <div class="mt-4">
-                                    <!-- Container for preview and loading -->
-                                    <div
-                                        class="aspect-video bg-base-200 rounded-lg border border-base-300 overflow-hidden relative">
-                                        <!-- Loading skeleton that shows when foto_ktp is loading -->
-                                        <div wire:loading wire:target="foto_ktp"
-                                            class="absolute inset-0 bg-linear-to-r from-base-200 via-base-300 to-base-200 animate-pulse z-10 flex items-center justify-center">
-                                            <div class="text-base-content/50">Loading...</div>
-                                        </div>
-
-                                        <!-- Image preview -->
-                                        <img src="{{ $foto_ktp->temporaryUrl() }}" alt="Preview Foto KTP"
-                                            class="w-full h-full object-cover" />
-                                    </div>
-                                </div>
-                            @else
-                                <div
-                                    class="w-full h-full flex items-center justify-center bg-base-200 mt-4 aspect-video rounded-lg border-2 border-base-300 border-dashed">
-                                    <span class="text-base-content/60 text-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1" stroke="currentColor"
-                                            class="w-40 sm:w-50 object-contain opacity-50">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            @endif
-
-                            @error('foto_ktp')
-                                <label class="label p-0 mt-1">
-                                    <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
-                                </label>
-                            @enderror
-                        </div>
 
                         <!-- Password -->
                         <div class="form-control my-5">

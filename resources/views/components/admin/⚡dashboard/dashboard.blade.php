@@ -218,6 +218,15 @@
                                                 class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase mt-0.5">
                                                 {{ $name ?: '-' }}
                                             </span>
+                                            @php
+                                                $nik = data_get($bookingDetail, 'user.nik') ?? data_get($bookingDetail, 'pemesan.user.nik') ?? data_get($bookingDetail, 'pemesan.nik');
+                                            @endphp
+                                            @if(filled($nik))
+                                            <span
+                                                class="text-[10px] sm:text-xs text-info font-bold uppercase mt-0.5">
+                                                NIK: {{ $nik }}
+                                            </span>
+                                            @endif
                                         </div>
                                         <div class="mt-3 grid grid-cols-3 gap-3">
                                             <div>

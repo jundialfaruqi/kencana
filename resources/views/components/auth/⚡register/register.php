@@ -60,7 +60,6 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
     #[Validate]
     public $password_confirmation = '';
 
-    public $foto_ktp = null;
 
     protected function rules()
     {
@@ -132,10 +131,6 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
                 'no_wa' => $this->no_wa,
             ];
 
-            // Tambahkan file foto_ktp jika ada
-            if ($this->foto_ktp) {
-                $formData['foto_ktp'] = fopen($this->foto_ktp->getRealPath(), 'r');
-            }
 
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::asMultipart()
