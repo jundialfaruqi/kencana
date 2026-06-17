@@ -15,19 +15,27 @@
     </div>
     <div class="card bg-base-100 border border-base-300" wire:init="load">
         <div class="card-body">
-            <div class="flex items-center gap-2 mb-4">
-                <label class="input input-bordered flex items-center gap-2 w-full max-w-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-5 h-5 opacity-70">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                    <input type="text" class="grow" placeholder="Cari nama, NIK, atau email"
-                        wire:model.live.debounce.300ms="search">
-                </label>
-                @if ($search !== '')
-                    <span class="text-xs text-base-content/60">Hasil: {{ count($this->filteredUsers) }}</span>
-                @endif
+            <div class="flex items-center justify-between gap-2 mb-4">
+                <div class="flex items-center gap-2">
+                    <label class="input input-bordered flex items-center gap-2 w-full max-w-xs">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5 opacity-70">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                        <input type="text" class="grow" placeholder="Cari nama, NIK, atau email"
+                            wire:model.live.debounce.300ms="search">
+                    </label>
+                    @if ($search !== '')
+                        <span class="text-xs text-base-content/60">Hasil: {{ count($this->filteredUsers) }}</span>
+                    @endif
+                </div>
+                <div>
+                    <button type="button" class="btn btn-error btn-sm shadow-lg text-white font-bold italic tracking-wider uppercase" wire:click="openExportModal" wire:loading.attr="disabled">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+                        Export PDF
+                    </button>
+                </div>
             </div>
             <div wire:loading.flex class="items-center justify-center p-10">
                 <span class="loading loading-spinner loading-md"></span>
@@ -221,3 +229,43 @@
             </div>
         </div>
     </div>
+
+    <dialog id="exportModal" class="modal modal-bottom sm:modal-middle backdrop-blur-sm" @if($showExportModal) open @endif>
+        <div class="modal-box">
+            <h3 class="font-bold text-lg text-info flex items-center gap-2 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+                <span class="italic uppercase tracking-wider">Export PDF Data User</span>
+            </h3>
+            
+            <div class="mt-4">
+                <p class="text-sm text-base-content/70 mb-3">Klik tombol proses untuk men-download seluruh data user. (Catatan: Data sensitif seperti NIK, Email, dan No WA akan disamarkan secara otomatis demi keamanan).</p>
+            </div>
+
+            @if($exportMessage)
+                <div class="mt-6 p-4 bg-success/10 border border-success rounded-xl text-center">
+                    <div class="w-12 h-12 bg-success text-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                    </div>
+                    <p class="font-bold text-success">{{ $exportMessage }}</p>
+                    <button class="btn btn-success text-white mt-4 w-full shadow-lg font-bold italic tracking-widest uppercase" wire:click="downloadExport">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 mr-1"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                        Download PDF
+                    </button>
+                </div>
+            @endif
+
+            <div class="modal-action">
+                <button type="button" class="btn btn-ghost btn-sm" wire:click="closeExportModal" wire:loading.attr="disabled">Tutup</button>
+                @if(!$exportMessage)
+                <button class="btn btn-info btn-sm text-white font-bold italic uppercase tracking-widest" wire:click="processExport" wire:loading.attr="disabled" wire:target="processExport">
+                    <span wire:loading.remove wire:target="processExport">Proses Export</span>
+                    <span class="loading loading-spinner loading-xs" wire:loading wire:target="processExport"></span>
+                </button>
+                @endif
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button wire:click="closeExportModal">close</button>
+        </form>
+    </dialog>
+</div>

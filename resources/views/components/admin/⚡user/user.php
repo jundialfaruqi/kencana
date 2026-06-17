@@ -6,6 +6,8 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Component
 {
@@ -22,6 +24,11 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
     public $error = null;
     #[Url(as: 'q', history: true)]
     public $search = '';
+
+    public bool $showExportModal = false;
+    public bool $isExporting = false;
+    public ?string $exportPath = null;
+    public ?string $exportMessage = null;
 
     public function load()
     {
@@ -113,11 +120,137 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
                 'type' => 'error',
             ]);
         } catch (\Throwable $e) {
-            $this->error = 'Terjadi kesalahan saat mengubah status user';
             $this->dispatch('toast', [
                 'message' => $this->error,
                 'type' => 'error',
             ]);
+        }
+    }
+
+    public function openExportModal()
+    {
+        $this->showExportModal = true;
+        $this->exportPath = null;
+        $this->exportMessage = null;
+        $this->isExporting = false;
+        $this->dispatch('modal-export-open');
+        return $this->skipRender();
+    }
+
+    public function closeExportModal()
+    {
+        $this->showExportModal = false;
+        if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            Storage::disk('local')->delete($this->exportPath);
+        }
+        $this->exportPath = null;
+        $this->isExporting = false;
+        $this->dispatch('modal-export-close');
+        return $this->skipRender();
+    }
+
+    public function processExport()
+    {
+        $this->isExporting = true;
+        $this->exportPath = null;
+        $this->exportMessage = null;
+
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/user';
+
+            $allUsers = [];
+            $currentPage = 1;
+            $lastPage = 1;
+
+            do {
+                $params = [
+                    'page' => $currentPage,
+                    'per_page' => 100,
+                ];
+
+                $requestUrl = $url . '?' . http_build_query($params);
+
+                $response = Http::withToken($token)->accept('application/json')->get($requestUrl);
+                $result = $response->json();
+
+                if ($response->successful() && ($result['success'] ?? false)) {
+                    $data = (array) ($result['data'] ?? []);
+                    $items = (array) ($data['data'] ?? []);
+                    $allUsers = array_merge($allUsers, $items);
+                    $lastPage = intval($data['last_page'] ?? 1);
+                } else {
+                    break;
+                }
+
+                $currentPage++;
+            } while ($currentPage <= $lastPage);
+
+            // Mask data function
+            $maskEmail = function ($email) {
+                if (!$email) return '-';
+                $parts = explode('@', $email);
+                if (count($parts) === 2) {
+                    $name = $parts[0];
+                    if (strlen($name) > 2) {
+                        $maskedName = substr($name, 0, 1) . str_repeat('*', strlen($name) - 2) . substr($name, -1);
+                        return $maskedName . '@' . $parts[1];
+                    }
+                    return '*' . '@' . $parts[1];
+                }
+                return $email;
+            };
+
+            $maskNumber = function ($number) {
+                if (!$number) return '-';
+                $len = strlen($number);
+                if ($len > 8) {
+                    return substr($number, 0, 4) . str_repeat('*', $len - 8) . substr($number, -4);
+                } elseif ($len > 4) {
+                    return substr($number, 0, 2) . str_repeat('*', $len - 4) . substr($number, -2);
+                }
+                return str_repeat('*', $len);
+            };
+
+            // Apply mask
+            foreach ($allUsers as &$u) {
+                $u['email_masked'] = $maskEmail($u['email'] ?? '');
+                $u['nik_masked'] = $maskNumber($u['nik'] ?? '');
+                $u['no_wa_masked'] = $maskNumber($u['no_wa'] ?? '');
+            }
+            unset($u);
+
+            // Generate PDF
+            $pdf = Pdf::loadView('pdf.user-export', [
+                'users' => $allUsers,
+            ]);
+
+            // Save to local storage
+            $filename = 'Export_User_' . time() . '.pdf';
+            $path = 'exports/' . $filename;
+            
+            Storage::disk('local')->put($path, $pdf->output());
+
+            $this->exportPath = $path;
+            $this->exportMessage = 'File PDF sudah siap di download.';
+        } catch (\Throwable $th) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Terjadi kesalahan saat memproses PDF.',
+                'type' => 'error',
+            ]);
+        } finally {
+            $this->isExporting = false;
+        }
+    }
+
+    public function downloadExport()
+    {
+        if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            return response()->streamDownload(function () {
+                echo Storage::disk('local')->get($this->exportPath);
+            }, 'Export_User_' . date('Ymd_His') . '.pdf');
         }
     }
 };

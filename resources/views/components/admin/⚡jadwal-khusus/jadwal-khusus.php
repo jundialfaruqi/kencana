@@ -7,6 +7,8 @@ use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Component
 {
@@ -23,6 +25,13 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
     public ?string $path = '/jadwal-khusus';
     #[Url(as: 'page', history: true)]
     public int $page = 1;
+
+    public bool $showExportModal = false;
+    public ?string $exportFrom = null;
+    public ?string $exportTo = null;
+    public bool $isExporting = false;
+    public ?string $exportPath = null;
+    public ?string $exportMessage = null;
 
     public function load(): void
     {
@@ -144,5 +153,92 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
         }
         $this->fetchItems();
         $this->ready = true;
+    }
+
+    public function openExportModal()
+    {
+        $this->showExportModal = true;
+        $this->exportFrom = null;
+        $this->exportTo = null;
+        $this->exportPath = null;
+        $this->exportMessage = null;
+        $this->isExporting = false;
+        $this->dispatch('modal-export-open');
+        return $this->skipRender();
+    }
+
+    public function closeExportModal()
+    {
+        $this->showExportModal = false;
+        if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            Storage::disk('local')->delete($this->exportPath);
+        }
+        $this->exportPath = null;
+        $this->isExporting = false;
+        $this->dispatch('modal-export-close');
+        return $this->skipRender();
+    }
+
+    public function processExport()
+    {
+        $this->isExporting = true;
+        $this->exportPath = null;
+        $this->exportMessage = null;
+
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/jadwalKhusus';
+            
+            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $result = $response->json();
+            
+            $all = [];
+            if ($response->successful() && ($result['success'] ?? false)) {
+                $all = (array) ($result['data'] ?? []);
+            }
+            
+            if ($this->exportFrom || $this->exportTo) {
+                $all = array_filter($all, function($item) {
+                    $tanggal = $item['tanggal'] ?? null;
+                    if (!$tanggal) return false;
+                    $ts = strtotime(substr($tanggal, 0, 10));
+                    if ($this->exportFrom && $ts < strtotime($this->exportFrom)) return false;
+                    if ($this->exportTo && $ts > strtotime($this->exportTo)) return false;
+                    return true;
+                });
+            }
+
+            $pdf = Pdf::loadView('pdf.jadwal-khusus-export', [
+                'items' => $all,
+                'from' => $this->exportFrom,
+                'to' => $this->exportTo,
+            ]);
+
+            $filename = 'Export_Jadwal_Khusus_' . time() . '.pdf';
+            $path = 'exports/' . $filename;
+            
+            Storage::disk('local')->put($path, $pdf->output());
+
+            $this->exportPath = $path;
+            $this->exportMessage = 'File PDF sudah siap di download.';
+        } catch (\Throwable $th) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Terjadi kesalahan saat memproses PDF.',
+                'type' => 'error',
+            ]);
+        } finally {
+            $this->isExporting = false;
+        }
+    }
+
+    public function downloadExport()
+    {
+        if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            return response()->streamDownload(function () {
+                echo Storage::disk('local')->get($this->exportPath);
+            }, 'Export_Jadwal_Khusus_' . date('Ymd_His') . '.pdf');
+        }
     }
 };
