@@ -6,6 +6,8 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 new class extends Component
 {
@@ -32,6 +34,13 @@ new class extends Component
     public ?string $cancelReason = null;
     public ?string $cancelError = null;
     public ?string $cancelMessage = null;
+
+    public bool $showExportModal = false;
+    public ?string $exportFrom = null;
+    public ?string $exportTo = null;
+    public bool $isExporting = false;
+    public ?string $exportPath = null;
+    public ?string $exportMessage = null;
 
     #[Title('Booking Master')]
     #[Layout('layouts::admin.app')]
@@ -258,6 +267,109 @@ new class extends Component
             $this->error = (string) ($result['message'] ?? 'Gagal memuat data booking');
         } catch (\Throwable) {
             $this->error = 'Terjadi kesalahan saat mengambil data booking';
+        }
+    }
+
+    public function openExportModal()
+    {
+        $this->showExportModal = true;
+        $this->exportFrom = null;
+        $this->exportTo = null;
+        $this->exportPath = null;
+        $this->exportMessage = null;
+        $this->isExporting = false;
+        $this->dispatch('modal-export-open');
+        return $this->skipRender();
+    }
+
+    public function closeExportModal()
+    {
+        $this->showExportModal = false;
+        if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            Storage::disk('local')->delete($this->exportPath);
+        }
+        $this->exportPath = null;
+        $this->isExporting = false;
+        $this->dispatch('modal-export-close');
+        return $this->skipRender();
+    }
+
+    public function processExport()
+    {
+        $this->isExporting = true;
+        $this->exportPath = null;
+        $this->exportMessage = null;
+
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/bookings';
+
+            $allBookings = [];
+            $currentPage = 1;
+            $lastPage = 1;
+
+            do {
+                $params = array_filter([
+                    'from' => $this->exportFrom ? (string) $this->exportFrom : null,
+                    'to' => $this->exportTo ? (string) $this->exportTo : null,
+                    'page' => $currentPage,
+                    'per_page' => 100,
+                ], fn($v) => $v !== null && $v !== '');
+
+                $requestUrl = $url;
+                if (!empty($params)) {
+                    $requestUrl .= '?' . http_build_query($params);
+                }
+
+                $response = Http::withToken($token)->accept('application/json')->get($requestUrl);
+                $result = $response->json();
+
+                if ($response->successful() && ($result['success'] ?? false)) {
+                    $data = (array) ($result['data'] ?? []);
+                    $items = (array) ($data['data'] ?? []);
+                    $allBookings = array_merge($allBookings, $items);
+                    $lastPage = intval($data['last_page'] ?? 1);
+                } else {
+                    break;
+                }
+
+                $currentPage++;
+            } while ($currentPage <= $lastPage);
+
+            // Generate PDF
+            $pdf = Pdf::loadView('pdf.booking-export', [
+                'bookings' => $allBookings,
+                'from' => $this->exportFrom,
+                'to' => $this->exportTo,
+            ]);
+
+            // Save to local storage
+            $filename = 'Export_Booking_' . time() . '.pdf';
+            $path = 'exports/' . $filename;
+            
+            Storage::disk('local')->put($path, $pdf->output());
+
+            $this->exportPath = $path;
+            $this->exportMessage = 'File PDF sudah siap di download.';
+        } catch (\Throwable $th) {
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Terjadi kesalahan saat memproses PDF.',
+                'type' => 'error',
+            ]);
+        } finally {
+            $this->isExporting = false;
+        }
+    }
+
+    public function downloadExport()
+    {
+        if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            return response()->streamDownload(function () {
+                echo Storage::disk('local')->get($this->exportPath);
+                // Optionally delete after download, but we'll leave it until modal is closed
+            }, 'Export_Booking_' . date('Ymd_His') . '.pdf');
         }
     }
 };

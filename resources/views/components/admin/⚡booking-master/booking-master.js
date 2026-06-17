@@ -54,6 +54,30 @@
     if (t) t.value = '';
   }
 
+  function openExportModalJS() {
+    var el = document.getElementById('exportModal');
+    if (!el) return;
+    try {
+      if (typeof el.showModal === 'function') {
+        el.showModal();
+      } else {
+        el.classList.add('modal-open');
+      }
+    } catch (_) {}
+  }
+
+  function closeExportModalJS() {
+    var el = document.getElementById('exportModal');
+    if (!el) return;
+    try {
+      if (typeof el.close === 'function') {
+        el.close();
+      } else {
+        el.classList.remove('modal-open');
+      }
+    } catch (_) {}
+  }
+
   function bindLW() {
     if (window.Livewire && window.Livewire.on) {
       if (!window.__cancelModalBound) {
@@ -77,6 +101,27 @@
         window.Livewire.on('modal-cancel-close', function () {
           closeModal();
         });
+
+        // Export Modal Bindings
+        window.addEventListener('modal-export-open', function () {
+          openExportModalJS();
+        }, { passive: true });
+        window.addEventListener('modal-export-close', function () {
+          closeExportModalJS();
+        }, { passive: true });
+        document.addEventListener('modal-export-open', function () {
+          openExportModalJS();
+        }, { passive: true });
+        document.addEventListener('modal-export-close', function () {
+          closeExportModalJS();
+        }, { passive: true });
+        window.Livewire.on('modal-export-open', function () {
+          openExportModalJS();
+        });
+        window.Livewire.on('modal-export-close', function () {
+          closeExportModalJS();
+        });
+
         window.__cancelModalBound = true;
       }
     }
