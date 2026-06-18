@@ -25,7 +25,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
     public $deskripsi = '';
     public $alamat = '';
     public $gmap = '';
-    public $np_telp = '';
+    public $no_tlp = '';
     public $status = 'open';
     public $latitude = null;
     public $longitude = null;
@@ -39,7 +39,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             'deskripsi' => ['required', 'string'],
             'alamat' => ['required', 'string'],
             'gmap' => ['nullable', 'string'],
-            'np_telp' => ['nullable', 'string'],
+            'no_tlp' => ['nullable', 'string'],
             'status' => ['required', 'in:open,coming_soon'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
@@ -98,7 +98,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
                 $this->deskripsi = (string)($data['deskripsi'] ?? '');
                 $this->alamat = (string)($data['alamat'] ?? '');
                 $this->gmap = (string)($data['gmap'] ?? '');
-                $this->np_telp = (string)($data['np_telp'] ?? '');
+                $this->no_tlp = (string)($data['no_tlp'] ?? '');
                 $this->status = (string)($data['status'] ?? 'open');
                 $this->latitude = $data['latitude'] ?? null;
                 $this->longitude = $data['longitude'] ?? null;
@@ -154,7 +154,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             'deskripsi',
             'alamat',
             'gmap',
-            'np_telp',
+            'no_tlp',
             'status',
             'latitude',
             'longitude',
@@ -185,7 +185,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
                 'deskripsi' => (string)($validated['deskripsi'] ?? ''),
                 'alamat' => (string)($validated['alamat'] ?? ''),
                 'gmap' => (string)($validated['gmap'] ?? ''),
-                'np_telp' => (string)($validated['np_telp'] ?? ''),
+                'no_tlp' => (string)($validated['no_tlp'] ?? ''),
                 'status' => (string)($validated['status'] ?? 'open'),
                 'latitude' => $validated['latitude'] ?? null,
                 'longitude' => $validated['longitude'] ?? null,

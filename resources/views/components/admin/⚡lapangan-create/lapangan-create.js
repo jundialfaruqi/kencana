@@ -5,7 +5,7 @@
     'deskripsi',
     'alamat',
     'gmap',
-    'np_telp',
+    'no_telp',
     'status',
     'latitude',
     'longitude'

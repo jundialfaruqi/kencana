@@ -73,8 +73,8 @@
                             <span class="label-text">No. Telepon</span>
                         </div>
                         <input type="tel" class="input input-bordered w-full mt-1.5" placeholder="08123456789"
-                            wire:model.live="np_telp" />
-                        @error('np_telp')
+                            wire:model.live="no_tlp" />
+                        @error('no_tlp')
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
                     </label>

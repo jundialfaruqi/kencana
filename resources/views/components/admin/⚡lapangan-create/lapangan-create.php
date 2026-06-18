@@ -18,7 +18,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
     public $deskripsi = '';
     public $alamat = '';
     public $gmap = '';
-    public $np_telp = '';
+    public $no_tlp = '';
     public $status = 'open';
     public $latitude = null;
     public $longitude = null;
@@ -32,7 +32,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
             'deskripsi' => ['required', 'string'],
             'alamat' => ['required', 'string'],
             'gmap' => ['nullable', 'string'],
-            'np_telp' => ['nullable', 'string'],
+            'no_tlp' => ['nullable', 'string'],
             'status' => ['required', 'in:open,coming_soon'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
@@ -88,7 +88,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
             'deskripsi',
             'alamat',
             'gmap',
-            'np_telp',
+            'no_tlp',
             'status',
             'latitude',
             'longitude',
@@ -114,7 +114,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
                 'deskripsi' => (string)($validated['deskripsi'] ?? ''),
                 'alamat' => (string)($validated['alamat'] ?? ''),
                 'gmap' => (string)($validated['gmap'] ?? ''),
-                'np_telp' => (string)($validated['np_telp'] ?? ''),
+                'no_tlp' => (string)($validated['no_tlp'] ?? ''),
                 'status' => (string)($validated['status'] ?? 'open'),
                 'latitude' => $validated['latitude'] ?? null,
                 'longitude' => $validated['longitude'] ?? null,
@@ -153,7 +153,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
                     'deskripsi',
                     'alamat',
                     'gmap',
-                    'np_telp',
+                    'no_tlp',
                     'status',
                     'latitude',
                     'longitude',
