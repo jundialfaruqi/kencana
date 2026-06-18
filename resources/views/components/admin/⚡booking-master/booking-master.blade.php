@@ -47,9 +47,9 @@
                     </div>
                 </div>
                 <div class="sm:flex items-center gap-2 w-full sm:w-auto justify-end">
-                    <button type="button" class="btn btn-error btn-sm w-full sm:w-auto mt-2 sm:mt-0 shadow-lg text-white font-bold italic tracking-wider uppercase" wire:click="openExportModal" wire:loading.attr="disabled">
+                    <button type="button" class="btn btn-primary btn-sm w-full sm:w-auto mt-2 sm:mt-0 shadow-lg text-white font-bold italic tracking-wider uppercase" wire:click="openExportModal" wire:loading.attr="disabled">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
-                        Export PDF
+                        Export Data
                     </button>
                     {{-- filter date from to --}}
                     <div class="flex flex-row sm:flex-row w-full sm:w-auto gap-2 mt-2 sm:mt-0 text-base-content">
@@ -269,13 +269,26 @@
 
     <dialog id="exportModal" class="modal modal-bottom sm:modal-middle backdrop-blur-sm" @if($showExportModal) open @endif>
         <div class="modal-box">
-            <h3 class="font-bold text-lg text-info flex items-center gap-2 mb-4">
+            <h3 class="font-bold text-lg text-primary flex items-center gap-2 mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
-                <span class="italic uppercase tracking-wider">Export PDF Booking</span>
+                <span class="italic uppercase tracking-wider">Export Data Booking</span>
             </h3>
             
             <div class="mt-4">
-                <p class="text-sm text-base-content/70 mb-3">Pilih rentang tanggal booking yang ingin diexport menjadi file PDF.</p>
+                <p class="text-sm text-base-content/70 mb-3">Pilih format export dan rentang tanggal booking yang diinginkan.</p>
+                <div class="form-control mb-4">
+                    <label class="label"><span class="label-text font-bold text-[10px] uppercase tracking-wider">Format Export</span></label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="exportFormat" value="pdf" wire:model.live="exportFormat" class="radio radio-primary radio-sm">
+                            <span class="text-sm font-semibold">PDF (.pdf)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="exportFormat" value="xlsx" wire:model.live="exportFormat" class="radio radio-success radio-sm">
+                            <span class="text-sm font-semibold">Excel (.xlsx)</span>
+                        </label>
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="form-control">
                         <label class="label"><span class="label-text font-bold text-[10px] uppercase tracking-wider">Dari Tanggal (Opsional)</span></label>
@@ -289,14 +302,14 @@
             </div>
 
             @if($exportMessage)
-                <div class="mt-6 p-4 bg-success/10 border border-success rounded-xl text-center">
-                    <div class="w-12 h-12 bg-success text-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg">
+                <div class="mt-6 p-4 @if($exportFormat === 'xlsx') bg-success/10 border-success @else bg-info/10 border-info @endif border rounded-xl text-center">
+                    <div class="w-12 h-12 @if($exportFormat === 'xlsx') bg-success @else bg-info @endif text-white rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                     </div>
-                    <p class="font-bold text-success">{{ $exportMessage }}</p>
-                    <button class="btn btn-success text-white mt-4 w-full shadow-lg font-bold italic tracking-widest uppercase" wire:click="downloadExport">
+                    <p class="font-bold @if($exportFormat === 'xlsx') text-success @else text-info @endif">{{ $exportMessage }}</p>
+                    <button class="btn @if($exportFormat === 'xlsx') btn-success @else btn-info @endif text-white mt-4 w-full shadow-lg font-bold italic tracking-widest uppercase" wire:click="downloadExport">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 mr-1"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                        Download PDF
+                        Download {{ strtoupper($exportFormat) }}
                     </button>
                 </div>
             @endif
@@ -304,7 +317,7 @@
             <div class="modal-action">
                 <button type="button" class="btn btn-ghost btn-sm" wire:click="closeExportModal" wire:loading.attr="disabled">Tutup</button>
                 @if(!$exportMessage)
-                <button class="btn btn-info btn-sm text-white font-bold italic uppercase tracking-widest" wire:click="processExport" wire:loading.attr="disabled" wire:target="processExport">
+                <button class="btn btn-primary btn-sm text-white font-bold italic uppercase tracking-widest" wire:click="processExport" wire:loading.attr="disabled" wire:target="processExport">
                     <span wire:loading.remove wire:target="processExport">Proses Export</span>
                     <span class="loading loading-spinner loading-xs" wire:loading wire:target="processExport"></span>
                 </button>

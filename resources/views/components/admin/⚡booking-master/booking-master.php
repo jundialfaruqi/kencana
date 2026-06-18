@@ -38,6 +38,7 @@ new class extends Component
     public bool $showExportModal = false;
     public ?string $exportFrom = null;
     public ?string $exportTo = null;
+    public string $exportFormat = 'pdf';
     public bool $isExporting = false;
     public ?string $exportPath = null;
     public ?string $exportMessage = null;
@@ -275,6 +276,7 @@ new class extends Component
         $this->showExportModal = true;
         $this->exportFrom = null;
         $this->exportTo = null;
+        $this->exportFormat = 'pdf';
         $this->exportPath = null;
         $this->exportMessage = null;
         $this->isExporting = false;
@@ -337,25 +339,108 @@ new class extends Component
                 $currentPage++;
             } while ($currentPage <= $lastPage);
 
-            // Generate PDF
-            $pdf = Pdf::loadView('pdf.booking-export', [
-                'bookings' => $allBookings,
-                'from' => $this->exportFrom,
-                'to' => $this->exportTo,
-            ]);
+            if ($this->exportFormat === 'xlsx') {
+                $title = 'Data Booking Kencana Arena';
+                $fromStr = $this->exportFrom ? \Carbon\Carbon::parse($this->exportFrom)->format('d M Y') : '';
+                $toStr = $this->exportTo ? \Carbon\Carbon::parse($this->exportTo)->format('d M Y') : '';
+                
+                $period = 'Keseluruhan';
+                if ($fromStr && $toStr) {
+                    $period = "$fromStr - $toStr";
+                } elseif ($fromStr) {
+                    $period = "Sejak $fromStr";
+                } elseif ($toStr) {
+                    $period = "Hingga $toStr";
+                }
+                
+                $metadata = [
+                    'Periode' => $period,
+                    'Dicetak Pada' => \Carbon\Carbon::now()->format('d M Y H:i:s'),
+                ];
+                
+                $headers = [
+                    'No',
+                    'Kode Booking',
+                    'Tanggal',
+                    'Jam',
+                    'Pemesan',
+                    'Komunitas',
+                    'Lapangan',
+                    'Status',
+                    'Pemain'
+                ];
+                
+                $rows = [];
+                foreach ($allBookings as $index => $b) {
+                    $tanggal = \Carbon\Carbon::parse(data_get($b, 'tanggal'))->format('d M Y');
+                    $jam = substr(data_get($b, 'jam_mulai', ''), 0, 5) . ' - ' . substr(data_get($b, 'jam_selesai', ''), 0, 5);
+                    $pemesan = data_get($b, 'user.name') ?? data_get($b, 'pemesan.nama', '-');
+                    $komunitas = data_get($b, 'nama_komunitas') ?? data_get($b, 'pemesan.nama_komunitas', '-');
+                    $lapangan = data_get($b, 'lapangan.nama_lapangan') ?? data_get($b, 'lapangan.nama', '-');
+                    $status = data_get($b, 'status', '-');
+                    $pemain = data_get($b, 'jumlah_pemain', '-') . ' org';
+                    
+                    $rows[] = [
+                        $index + 1,
+                        data_get($b, 'kode_booking', '-'),
+                        $tanggal,
+                        $jam,
+                        $pemesan,
+                        $komunitas,
+                        $lapangan,
+                        $status,
+                        $pemain
+                    ];
+                }
+                
+                $formats = [
+                    'A' => 'center',
+                    'B' => 'center',
+                    'C' => 'center',
+                    'D' => 'center',
+                    'H' => 'center',
+                    'I' => 'center',
+                ];
+                
+                $spreadsheet = \App\Services\ExcelExportService::generate($title, $metadata, $headers, $rows, $formats);
+                
+                $filename = 'Export_Booking_' . time() . '.xlsx';
+                $path = 'exports/' . $filename;
+                
+                $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+                
+                if (!Storage::disk('local')->exists('exports')) {
+                    Storage::disk('local')->makeDirectory('exports');
+                }
+                
+                $tempFile = tempnam(sys_get_temp_dir(), 'excel');
+                $writer->save($tempFile);
+                Storage::disk('local')->put($path, fopen($tempFile, 'r'));
+                unlink($tempFile);
+                
+                $this->exportPath = $path;
+                $this->exportMessage = 'File Excel sudah siap di download.';
+            } else {
+                // Generate PDF
+                $pdf = Pdf::loadView('pdf.booking-export', [
+                    'bookings' => $allBookings,
+                    'from' => $this->exportFrom,
+                    'to' => $this->exportTo,
+                ]);
 
-            // Save to local storage
-            $filename = 'Export_Booking_' . time() . '.pdf';
-            $path = 'exports/' . $filename;
-            
-            Storage::disk('local')->put($path, $pdf->output());
+                // Save to local storage
+                $filename = 'Export_Booking_' . time() . '.pdf';
+                $path = 'exports/' . $filename;
+                
+                Storage::disk('local')->put($path, $pdf->output());
 
-            $this->exportPath = $path;
-            $this->exportMessage = 'File PDF sudah siap di download.';
+                $this->exportPath = $path;
+                $this->exportMessage = 'File PDF sudah siap di download.';
+            }
         } catch (\Throwable $th) {
             $this->dispatch('toast', [
                 'title' => 'Gagal',
-                'message' => 'Terjadi kesalahan saat memproses PDF.',
+                'message' => 'Terjadi kesalahan saat memproses export: ' . $th->getMessage(),
                 'type' => 'error',
             ]);
         } finally {
@@ -366,10 +451,11 @@ new class extends Component
     public function downloadExport()
     {
         if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            $ext = pathinfo($this->exportPath, PATHINFO_EXTENSION);
+            $filename = 'Export_Booking_' . date('Ymd_His') . '.' . $ext;
             return response()->streamDownload(function () {
                 echo Storage::disk('local')->get($this->exportPath);
-                // Optionally delete after download, but we'll leave it until modal is closed
-            }, 'Export_Booking_' . date('Ymd_His') . '.pdf');
+            }, $filename);
         }
     }
 };

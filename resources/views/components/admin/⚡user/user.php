@@ -26,6 +26,7 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
     public $search = '';
 
     public bool $showExportModal = false;
+    public string $exportFormat = 'pdf';
     public bool $isExporting = false;
     public ?string $exportPath = null;
     public ?string $exportMessage = null;
@@ -130,6 +131,7 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
     public function openExportModal()
     {
         $this->showExportModal = true;
+        $this->exportFormat = 'pdf';
         $this->exportPath = null;
         $this->exportMessage = null;
         $this->isExporting = false;
@@ -221,23 +223,85 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
             }
             unset($u);
 
-            // Generate PDF
-            $pdf = Pdf::loadView('pdf.user-export', [
-                'users' => $allUsers,
-            ]);
+            if ($this->exportFormat === 'xlsx') {
+                $title = 'Data User Kencana Arena';
+                
+                $metadata = [
+                    'Kategori' => 'Keseluruhan Data User Terdaftar',
+                    'Dicetak Pada' => \Carbon\Carbon::now()->format('d M Y H:i:s'),
+                ];
+                
+                $headers = [
+                    'No',
+                    'Nama',
+                    'Email',
+                    'Role',
+                    'NIK',
+                    'No. WA',
+                    'Status'
+                ];
+                
+                $rows = [];
+                foreach ($allUsers as $index => $u) {
+                    $status = (($u['is_active'] ?? false) === true) ? 'Aktif' : 'Tidak Aktif';
+                    
+                    $rows[] = [
+                        $index + 1,
+                        data_get($u, 'name', '-'),
+                        data_get($u, 'email_masked', '-'),
+                        data_get($u, 'role', '-'),
+                        data_get($u, 'nik_masked', '-'),
+                        data_get($u, 'no_wa_masked', '-'),
+                        $status
+                    ];
+                }
+                
+                $formats = [
+                    'A' => 'center',
+                    'C' => 'center',
+                    'D' => 'center',
+                    'E' => 'center',
+                    'F' => 'center',
+                    'G' => 'center',
+                ];
+                
+                $spreadsheet = \App\Services\ExcelExportService::generate($title, $metadata, $headers, $rows, $formats);
+                
+                $filename = 'Export_User_' . time() . '.xlsx';
+                $path = 'exports/' . $filename;
+                
+                $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+                
+                if (!Storage::disk('local')->exists('exports')) {
+                    Storage::disk('local')->makeDirectory('exports');
+                }
+                
+                $tempFile = tempnam(sys_get_temp_dir(), 'excel');
+                $writer->save($tempFile);
+                Storage::disk('local')->put($path, fopen($tempFile, 'r'));
+                unlink($tempFile);
+                
+                $this->exportPath = $path;
+                $this->exportMessage = 'File Excel sudah siap di download.';
+            } else {
+                // Generate PDF
+                $pdf = Pdf::loadView('pdf.user-export', [
+                    'users' => $allUsers,
+                ]);
 
-            // Save to local storage
-            $filename = 'Export_User_' . time() . '.pdf';
-            $path = 'exports/' . $filename;
-            
-            Storage::disk('local')->put($path, $pdf->output());
+                // Save to local storage
+                $filename = 'Export_User_' . time() . '.pdf';
+                $path = 'exports/' . $filename;
+                
+                Storage::disk('local')->put($path, $pdf->output());
 
-            $this->exportPath = $path;
-            $this->exportMessage = 'File PDF sudah siap di download.';
+                $this->exportPath = $path;
+                $this->exportMessage = 'File PDF sudah siap di download.';
+            }
         } catch (\Throwable $th) {
             $this->dispatch('toast', [
                 'title' => 'Gagal',
-                'message' => 'Terjadi kesalahan saat memproses PDF.',
+                'message' => 'Terjadi kesalahan saat memproses export: ' . $th->getMessage(),
                 'type' => 'error',
             ]);
         } finally {
@@ -248,9 +312,11 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
     public function downloadExport()
     {
         if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            $ext = pathinfo($this->exportPath, PATHINFO_EXTENSION);
+            $filename = 'Export_User_' . date('Ymd_His') . '.' . $ext;
             return response()->streamDownload(function () {
                 echo Storage::disk('local')->get($this->exportPath);
-            }, 'Export_User_' . date('Ymd_His') . '.pdf');
+            }, $filename);
         }
     }
 };

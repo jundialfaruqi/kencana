@@ -29,6 +29,7 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
     public bool $showExportModal = false;
     public ?string $exportFrom = null;
     public ?string $exportTo = null;
+    public string $exportFormat = 'pdf';
     public bool $isExporting = false;
     public ?string $exportPath = null;
     public ?string $exportMessage = null;
@@ -160,6 +161,7 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
         $this->showExportModal = true;
         $this->exportFrom = null;
         $this->exportTo = null;
+        $this->exportFormat = 'pdf';
         $this->exportPath = null;
         $this->exportMessage = null;
         $this->isExporting = false;
@@ -209,23 +211,96 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
                 });
             }
 
-            $pdf = Pdf::loadView('pdf.jadwal-khusus-export', [
-                'items' => $all,
-                'from' => $this->exportFrom,
-                'to' => $this->exportTo,
-            ]);
+            if ($this->exportFormat === 'xlsx') {
+                $title = 'Data Jadwal Khusus Kencana Arena';
+                $fromStr = $this->exportFrom ? \Carbon\Carbon::parse($this->exportFrom)->format('d M Y') : '';
+                $toStr = $this->exportTo ? \Carbon\Carbon::parse($this->exportTo)->format('d M Y') : '';
+                
+                $period = 'Keseluruhan';
+                if ($fromStr && $toStr) {
+                    $period = "$fromStr - $toStr";
+                } elseif ($fromStr) {
+                    $period = "Sejak $fromStr";
+                } elseif ($toStr) {
+                    $period = "Hingga $toStr";
+                }
+                
+                $metadata = [
+                    'Periode' => $period,
+                    'Dicetak Pada' => \Carbon\Carbon::now()->format('d M Y H:i:s'),
+                ];
+                
+                $headers = [
+                    'No',
+                    'Tanggal',
+                    'Jam',
+                    'Tipe',
+                    'Keterangan',
+                    'Arena'
+                ];
+                
+                $rows = [];
+                foreach (array_values($all) as $index => $it) {
+                    $tanggal = \Carbon\Carbon::parse(data_get($it, 'tanggal'))->format('d M Y');
+                    $jam = substr(data_get($it, 'buka', ''), 0, 5) . ' - ' . substr(data_get($it, 'tutup', ''), 0, 5);
+                    $tipe = data_get($it, 'tipe_label', '-');
+                    $keterangan = data_get($it, 'keterangan', '-');
+                    $arena = data_get($it, 'lapangan.nama_lapangan') ?? data_get($it, 'lapangan.nama', '-');
+                    
+                    $rows[] = [
+                        $index + 1,
+                        $tanggal,
+                        $jam,
+                        $tipe,
+                        $keterangan,
+                        $arena
+                    ];
+                }
+                
+                $formats = [
+                    'A' => 'center',
+                    'B' => 'center',
+                    'C' => 'center',
+                    'D' => 'center',
+                ];
+                
+                $spreadsheet = \App\Services\ExcelExportService::generate($title, $metadata, $headers, $rows, $formats);
+                
+                $filename = 'Export_Jadwal_Khusus_' . time() . '.xlsx';
+                $path = 'exports/' . $filename;
+                
+                $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+                
+                if (!Storage::disk('local')->exists('exports')) {
+                    Storage::disk('local')->makeDirectory('exports');
+                }
+                
+                $tempFile = tempnam(sys_get_temp_dir(), 'excel');
+                $writer->save($tempFile);
+                Storage::disk('local')->put($path, fopen($tempFile, 'r'));
+                unlink($tempFile);
+                
+                $this->exportPath = $path;
+                $this->exportMessage = 'File Excel sudah siap di download.';
+            } else {
+                $pdf = Pdf::loadView('pdf.jadwal-khusus-export', [
+                    'items' => $all,
+                    'from' => $this->exportFrom,
+                    'to' => $this->exportTo,
+                ]);
 
-            $filename = 'Export_Jadwal_Khusus_' . time() . '.pdf';
-            $path = 'exports/' . $filename;
-            
-            Storage::disk('local')->put($path, $pdf->output());
+                $filename = 'Export_Jadwal_Khusus_' . time() . '.pdf';
+                $path = 'exports/' . $filename;
+                
+                Storage::disk('local')->put($path, $pdf->output());
 
-            $this->exportPath = $path;
-            $this->exportMessage = 'File PDF sudah siap di download.';
+                $this->exportPath = $path;
+                $this->exportMessage = 'File PDF sudah siap di download.';
+            }
         } catch (\Throwable $th) {
             $this->dispatch('toast', [
                 'title' => 'Gagal',
-                'message' => 'Terjadi kesalahan saat memproses PDF.',
+                'message' => 'Terjadi kesalahan saat memproses export: ' . $th->getMessage(),
                 'type' => 'error',
             ]);
         } finally {
@@ -236,9 +311,11 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
     public function downloadExport()
     {
         if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
+            $ext = pathinfo($this->exportPath, PATHINFO_EXTENSION);
+            $filename = 'Export_Jadwal_Khusus_' . date('Ymd_His') . '.' . $ext;
             return response()->streamDownload(function () {
                 echo Storage::disk('local')->get($this->exportPath);
-            }, 'Export_Jadwal_Khusus_' . date('Ymd_His') . '.pdf');
+            }, $filename);
         }
     }
 };
