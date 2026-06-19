@@ -826,16 +826,16 @@
                                     {{ $bookingCode ?: '-' }}
                                 </span>
                             </div>
-                            <div class="flex items-center justify-between">
+                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
                                 <span class="font-black italic uppercase text-sm">
-                                    {{ $namaLapangan ?: '-' }}
+                                    {{ $successNamaLapangan ?: '-' }}
                                 </span>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
                                 <span class="font-black italic uppercase text-sm">
-                                    {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                                    {{ $successTanggal ? \Carbon\Carbon::parse($successTanggal)->locale('id')->translatedFormat('l, d F Y') : '-' }}
                                 </span>
                             </div>
                             <div class="flex items-center justify-between">
@@ -843,7 +843,7 @@
                                     Waktu
                                 </span>
                                 <span class="font-black italic uppercase text-sm">
-                                    {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
+                                    {{ $successSelectedSlot ? ($successSelectedSlot['mulai'] ?? '') . ' - ' . ($successSelectedSlot['selesai'] ?? '') : '-' }}
                                 </span>
                             </div>
 

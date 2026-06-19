@@ -58,6 +58,9 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public bool $showSuccessModal = false;
     public ?string $bookingMessage = null;
     public ?string $bookingCode = null;
+    public ?string $successNamaLapangan = null;
+    public ?string $successTanggal = null;
+    public ?array $successSelectedSlot = null;
     public bool $showTermsModal = false;
     public bool $termsAgreed = false;
     public array $catatan = [];
@@ -696,6 +699,28 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     $code = (string) ($m[0] ?? null);
                 }
                 $this->bookingCode = $code;
+                
+                // Save values for display in success modal
+                $this->successNamaLapangan = $this->namaLapangan;
+                $this->successTanggal = $this->tanggal;
+                $this->successSelectedSlot = $this->selectedSlot;
+
+                // Reset session-backed booking variables
+                $this->reset([
+                    'currentStep',
+                    'lapanganId',
+                    'lapanganParam',
+                    'lapanganSlug',
+                    'tanggal',
+                    'namaLapangan',
+                    'selectedSlot',
+                    'namaKomunitas',
+                    'jumlahPemain',
+                    'kategoriPemain',
+                    'jenisPermainan',
+                    'keterangan',
+                ]);
+
                 $this->showSuccessModal = true;
                 return;
             }
