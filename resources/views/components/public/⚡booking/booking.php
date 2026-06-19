@@ -374,6 +374,8 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     'message' => $msg,
                     'type' => 'error',
                 ]);
+            } else {
+                $this->currentStep = 3;
             }
         } catch (\Throwable) {
         }

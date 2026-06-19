@@ -181,7 +181,11 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <div class="mt-8 flex justify-end">
+                                <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
+                                    <button type="button" wire:click="handleBack"
+                                        class="btn btn-ghost w-full sm:w-auto font-black uppercase">
+                                        Batal
+                                    </button>
                                     <button type="button" wire:click="nextStep"
                                         class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
                                         <span class="skew-x-12">Lanjut Pilih Arena</span>
@@ -370,14 +374,10 @@
                                     </div>
                                 </div>
 
-                                <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
+                                <div class="mt-8 flex justify-start gap-4">
                                     <button type="button" wire:click="prevStep"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
                                         Kembali
-                                    </button>
-                                    <button type="button" wire:click="nextStep"
-                                        class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
-                                        <span class="skew-x-12">Lanjut ke Form</span>
                                     </button>
                                 </div>
                             </section>
