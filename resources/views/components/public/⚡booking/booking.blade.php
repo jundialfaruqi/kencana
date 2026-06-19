@@ -324,23 +324,25 @@
                                                                 wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
                                                                 wire:loading.attr="disabled"
                                                                 wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')">
-                                                                <div class="flex items-center justify-between">
-                                                                    <div>
+                                                                <div class="w-full">
+                                                                    <div class="flex items-center justify-between">
                                                                         <div
                                                                             class="text-xs font-black uppercase italic {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
                                                                             Arena
                                                                         </div>
-                                                                        <div
-                                                                            class="text-sm font-black italic uppercase">
-                                                                            {{ $arena['nama_lapangan'] ?? 'Arena' }}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="text-right">
                                                                         <span
                                                                             class="text-[10px] font-bold uppercase text-warning {{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-base-content/50' }}">
                                                                             {{ $arena['status_label'] ?? '' }}
                                                                         </span>
                                                                     </div>
+                                                                    <div class="text-sm font-black italic uppercase mt-1">
+                                                                        {{ $arena['nama_lapangan'] ?? 'Arena' }}
+                                                                    </div>
+                                                                    @if (!empty($arena['alamat']))
+                                                                        <div class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
+                                                                            {{ $arena['alamat'] }}
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
                                                                 <div wire:loading
                                                                     wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
