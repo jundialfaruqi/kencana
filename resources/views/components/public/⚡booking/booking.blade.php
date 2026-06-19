@@ -32,12 +32,20 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <ul class="steps w-full mb-8 max-w-3xl mx-auto flex justify-center">
+                <li class="step step-info text-[10px] sm:text-xs font-bold uppercase">Tanggal</li>
+                <li class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">Arena & Jam</li>
+                <li class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">Konfirmasi</li>
+            </ul>
+
+            <div class="grid grid-cols-1 {{ $currentStep === 3 ? '' : 'lg:grid-cols-3' }} gap-8">
                 <!-- Main Booking Form -->
+                @if ($currentStep < 3)
                 <div class="lg:col-span-2 space-y-10">
 
                     <!-- 1. Select Date -->
-                    <section>
+                    @if ($currentStep === 1)
+                    <section x-data x-init="window.scrollTo({top: 0, behavior: 'smooth'})">
                         <div class="flex items-center justify-between mb-4 px-2">
                             <div class="flex items-center gap-1">
                                 <div class="w-8 h-8 rounded-lg flex items-center justify-center">
@@ -94,16 +102,16 @@
                                             @for ($d = 1; $d <= $calCurrDays; $d++)
                                                 <button
                                                     wire:click="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"
-                                                    wire:loading.attr="disabled" wire:target="selectDate"
+                                                    wire:loading.attr="disabled" wire:target="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"
                                                     data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
                                                     class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'disabled aria-disabled=true' : '' }}>
                                                     <span wire:loading.remove
-                                                        wire:target="selectDate">{{ $d }}</span>
+                                                        wire:target="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')">{{ $d }}</span>
                                                     <span class="loading loading-dots loading-xs" wire:loading
-                                                        wire:target="selectDate"></span>
+                                                        wire:target="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"></span>
                                                 </button>
                                             @endfor
                                         </div>
@@ -120,14 +128,14 @@
                                             @for ($d = 1; $d <= $calNextDays; $d++)
                                                 <button
                                                     wire:click="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
-                                                    wire:loading.attr="disabled" wire:target="selectDate"
+                                                    wire:loading.attr="disabled" wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
                                                     data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
                                                     class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}">
                                                     <span wire:loading.remove
-                                                        wire:target="selectDate">{{ $d }}</span>
+                                                        wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')">{{ $d }}</span>
                                                     <span class="loading loading-dots loading-xs" wire:loading
-                                                        wire:target="selectDate"></span>
+                                                        wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"></span>
                                                 </button>
                                             @endfor
                                         </div>
@@ -144,24 +152,31 @@
                             @foreach ($carouselDates as $dateStr)
                                 <div class="carousel-item">
                                     <button wire:click="selectDate('{{ $dateStr }}')" wire:loading.attr="disabled"
-                                        wire:target="selectDate" data-date="{{ $dateStr }}"
+                                        wire:target="selectDate('{{ $dateStr }}')" data-date="{{ $dateStr }}"
                                         class="flex flex-col items-center justify-center w-16 h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
-                                        <span wire:loading.remove wire:target="selectDate"
+                                        <span wire:loading.remove wire:target="selectDate('{{ $dateStr }}')"
                                             class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
-                                        <span wire:loading.remove wire:target="selectDate"
+                                        <span wire:loading.remove wire:target="selectDate('{{ $dateStr }}')"
                                             class="text-xl font-black italic">{{ \Carbon\Carbon::parse($dateStr)->format('d') }}</span>
-                                        <span wire:loading.remove wire:target="selectDate"
+                                        <span wire:loading.remove wire:target="selectDate('{{ $dateStr }}')"
                                             class="text-[9px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('M') }}</span>
-                                        <span wire:loading wire:target="selectDate"
+                                        <span wire:loading wire:target="selectDate('{{ $dateStr }}')"
                                             class="loading loading-dots loading-xs"></span>
                                     </button>
                                 </div>
                             @endforeach
                         </div>
+                        <div class="mt-8 flex justify-end">
+                            <button type="button" wire:click="nextStep" class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
+                                <span class="skew-x-12">Lanjut Pilih Arena</span>
+                            </button>
+                        </div>
                     </section>
+                    @endif
 
                     <!-- 2. Arena & Time -->
-                    <section>
+                    @if ($currentStep === 2)
+                    <section x-data x-init="window.scrollTo({top: 0, behavior: 'smooth'})">
                         <div class="flex items-center gap-1 mb-4 px-2">
                             <div class="w-8 h-8 rounded-lg flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -187,8 +202,12 @@
                                                 {{ $namaLapangan }}
                                             </h4>
                                         </div>
-                                        <div class="text-right">
+                                        <div class="text-right flex flex-col items-end gap-2">
                                             <span class="text-xs font-black italic text-info">GRATIS</span>
+                                            <button type="button" wire:click="resetArena" wire:loading.attr="disabled" wire:target="resetArena" class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-2">
+                                                <span wire:loading.remove wire:target="resetArena">Ganti Arena</span>
+                                                <span wire:loading wire:target="resetArena" class="loading loading-spinner loading-xs"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -273,7 +292,7 @@
                                                         ? 'bg-info text-info-content border-info shadow-lg shadow-info/20'
                                                         : 'bg-base-100 border-base-300 hover:border-info/40 hover:bg-info/5') }}"
                                                         wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
-                                                        wire:loading.attr="disabled" wire:target="selectArena">
+                                                        wire:loading.attr="disabled" wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')">
                                                         <div class="flex items-center justify-between">
                                                             <div>
                                                                 <div
@@ -291,7 +310,7 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div wire:loading wire:target="selectArena" class="mt-2">
+                                                        <div wire:loading wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')" class="mt-2">
                                                             <span class="loading loading-dots loading-xs"></span>
                                                         </div>
                                                     </button>
@@ -319,13 +338,23 @@
                                 Dipesan
                             </div>
                         </div>
+                        
+                        <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
+                            <button type="button" wire:click="prevStep" class="btn btn-ghost w-full sm:w-auto font-black uppercase">
+                                Kembali
+                            </button>
+                            <button type="button" wire:click="nextStep" class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
+                                <span class="skew-x-12">Lanjut ke Form</span>
+                            </button>
+                        </div>
                     </section>
+                    @endif
                 </div>
 
-                <!-- Sidebar / Summary -->
-                <div class="lg:col-span-1">
+                <!-- Sidebar Summary Preview (Step 1 & 2) -->
+                <div class="lg:col-span-1 hidden lg:block opacity-60 pointer-events-none grayscale">
                     <div class="space-y-6">
-                        <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
+                        <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-sm">
                             <div class="bg-info p-6">
                                 <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
                                     Booking Summary
@@ -381,7 +410,7 @@
                                             <label class="text-[10px] font-bold uppercase text-base-content/50">Nama
                                                 Komunitas</label>
                                             <input type="text"
-                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
+                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
                                                 placeholder="Nama tim (opsional)" wire:model="namaKomunitas">
                                             @error('namaKomunitas')
                                                 <p class="text-[10px] text-error mt-1 font-bold uppercase">
@@ -392,7 +421,7 @@
                                             <label class="text-[10px] font-bold uppercase text-base-content/50">Jumlah
                                                 Pemain</label>
                                             <input type="number" min="1"
-                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
+                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
                                                 placeholder="Masukkan jumlah" wire:model="jumlahPemain">
                                             @error('jumlahPemain')
                                                 <p class="text-[10px] text-error mt-1 font-bold uppercase">
@@ -495,7 +524,110 @@
                         </div>
                     </div>
                 </div>
-                <div wire:loading wire:target="confirmBooking"
+                @endif
+                
+                @if ($currentStep === 3)
+                <div class="w-full max-w-xl mx-auto" x-data x-init="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="flex justify-start mb-4">
+                        <button type="button" wire:click="prevStep" class="btn btn-ghost btn-sm font-black uppercase">
+                            &larr; Kembali
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-base-100 rounded-3xl border-2 border-info overflow-hidden shadow-2xl">
+                            <div class="bg-info p-6 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-info-content/20 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6 text-info-content">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+                                    </svg>
+                                </div>
+                                <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
+                                    Booking Summary
+                                </h4>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <!-- Summary Info -->
+                                <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
+                                    <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
+                                    <span class="font-black italic uppercase text-sm">
+                                        {{ $namaLapangan ?: '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
+                                    <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
+                                    <span class="font-black italic uppercase text-sm">
+                                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
+                                    <span class="text-xs font-bold uppercase text-base-content/50">Jam</span>
+                                    <span class="font-black italic uppercase text-sm">
+                                        {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
+                                    </span>
+                                </div>
+                                <div class="pt-4">
+                                    <div class="flex justify-between items-end">
+                                        <span class="text-xs font-bold uppercase text-base-content/50">Total Biaya</span>
+                                        <span class="text-2xl font-black italic text-info leading-none">GRATIS</span>
+                                    </div>
+                                </div>
+
+                                <!-- Form Inputs -->
+                                <div class="mt-8 pt-6 border-t border-base-200">
+                                    <h5 class="text-sm font-black italic uppercase text-base-content/70 mb-4">Lengkapi Data Pemesanan</h5>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="text-[10px] font-bold uppercase text-base-content/50">Nama Komunitas</label>
+                                            <input type="text" class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30" placeholder="Nama tim (opsional)" wire:model="namaKomunitas">
+                                            @error('namaKomunitas')<p class="text-[10px] text-error mt-1 font-bold uppercase">{{ $message }}</p>@enderror
+                                        </div>
+                                        <div>
+                                            <label class="text-[10px] font-bold uppercase text-base-content/50">Jumlah Pemain</label>
+                                            <input type="number" min="1" class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30" placeholder="Masukkan jumlah" wire:model="jumlahPemain">
+                                            @error('jumlahPemain')<p class="text-[10px] text-error mt-1 font-bold uppercase">{{ $message }}</p>@enderror
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3 mt-3">
+                                        <div>
+                                            <label class="text-[10px] font-bold uppercase text-base-content/50">Kategori Pemain</label>
+                                            <select wire:model.live="kategoriPemain" class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
+                                                <option value="">PILIH KATEGORI</option>
+                                                <option value="anak-anak">ANAK-ANAK</option>
+                                                <option value="remaja">REMAJA</option>
+                                                <option value="dewasa">DEWASA</option>
+                                            </select>
+                                            @error('kategoriPemain')<p class="text-[10px] text-error mt-1 font-bold uppercase">{{ $message }}</p>@enderror
+                                        </div>
+                                        <div>
+                                            <label class="text-[10px] font-bold uppercase text-base-content/50">Jenis Permainan</label>
+                                            <select wire:model.live="jenisPermainan" class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
+                                                <option value="">PILIH JENIS</option>
+                                                <option value="fun_match">FUN MATCH</option>
+                                                <option value="latihan">LATIHAN</option>
+                                                <option value="turnamen_kecil">TURNAMEN KECIL</option>
+                                            </select>
+                                            @error('jenisPermainan')<p class="text-[10px] text-error mt-1 font-bold uppercase">{{ $message }}</p>@enderror
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-info w-full mt-8 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20" x-on:click="window.__bookingSuppressScroll = true; window.__bookingNoScrollUntil = Date.now() + 3000;" wire:click="confirmBooking" wire:loading.attr="disabled" wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur') aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
+                                        <span class="sm:skew-x-12">Konfirmasi Booking</span>
+                                        <span class="loading loading-dots loading-xs ml-2" wire:loading wire:target="confirmBooking"></span>
+                                    </button>
+                                    @if ($error)
+                                        <div class="alert alert-error mt-3">
+                                            <span>{{ $error }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+            </div>
+
+            <div wire:loading wire:target="confirmBooking"
                     class="fixed inset-0 z-50 bg-base-100/80 backdrop-blur-sm">
                     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                         <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
@@ -562,7 +694,7 @@
                                             class="checkbox checkbox-warning checkbox-sm sm:checkbox-md"
                                             wire:model="termsAgreed">
                                         <span
-                                            class="label-text text-xs sm:text-sm font-bold uppercase leading-snug">Setuju
+                                            class="label-text text-xs sm:text-sm font-bold uppercase leading-snug text-base-content/60">Setuju
                                             dengan syarat dan
                                             ketentuan</span>
                                     </label>

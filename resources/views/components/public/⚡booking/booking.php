@@ -8,26 +8,51 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Session as LivewireSession;
 use Livewire\Component;
 
 new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Component
 {
-    public $lapanganId;
+    #[LivewireSession]
+    public int $currentStep = 1;
+
+    #[LivewireSession]
+    public ?string $lapanganId = null;
+
     #[Url(as: 'lapangan_id')]
     public ?string $lapanganParam = null;
+
     #[Url(as: 'lapangan')]
     public ?string $lapanganSlug = null;
+
     public bool $ready = false;
+
+    #[LivewireSession]
     public string $tanggal = '';
+
+    #[LivewireSession]
     public string $namaLapangan = '';
+
     public array $timeSlots = [];
     public ?string $error = null;
     public array $arenas = [];
+
+    #[LivewireSession]
     public ?array $selectedSlot = null;
+
+    #[LivewireSession]
     public ?string $namaKomunitas = null;
+
+    #[LivewireSession]
     public ?int $jumlahPemain = null;
+
+    #[LivewireSession]
     public string $kategoriPemain = '';
+
+    #[LivewireSession]
     public string $jenisPermainan = '';
+
+    #[LivewireSession]
     public ?string $keterangan = null;
     public bool $showSuccessModal = false;
     public ?string $bookingMessage = null;
@@ -132,6 +157,46 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->fetchJadwal();
     }
 
+    public function nextStep(): void
+    {
+        if ($this->currentStep === 1) {
+            if (!$this->tanggal) {
+                $this->dispatch('toast', [
+                    'title' => 'Gagal',
+                    'message' => 'Pilih tanggal terlebih dahulu',
+                    'type' => 'error',
+                ]);
+                return;
+            }
+            $this->currentStep = 2;
+        } elseif ($this->currentStep === 2) {
+            if (!$this->lapanganId) {
+                $this->dispatch('toast', [
+                    'title' => 'Gagal',
+                    'message' => 'Pilih arena terlebih dahulu',
+                    'type' => 'error',
+                ]);
+                return;
+            }
+            if (!$this->selectedSlot || empty($this->selectedSlot['mulai'])) {
+                $this->dispatch('toast', [
+                    'title' => 'Gagal',
+                    'message' => 'Pilih jam terlebih dahulu',
+                    'type' => 'error',
+                ]);
+                return;
+            }
+            $this->currentStep = 3;
+        }
+    }
+
+    public function prevStep(): void
+    {
+        if ($this->currentStep > 1) {
+            $this->currentStep--;
+        }
+    }
+
     protected function fetchJadwal(): void
     {
         if (!$this->lapanganId) {
@@ -216,6 +281,17 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         }
         $this->namaLapangan = $nama;
         $this->fetchJadwal();
+    }
+
+    public function resetArena(): void
+    {
+        $this->lapanganId = null;
+        $this->lapanganParam = null;
+        $this->namaLapangan = '';
+        $this->timeSlots = [];
+        $this->selectedSlot = null;
+        $this->error = null;
+        $this->fetchArenas();
     }
 
     public function selectTime(string $mulai, string $selesai): void

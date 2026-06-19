@@ -25,3 +25,8 @@ Thumbs.db
 GEMINI.md
 boost.json
 /android
+/.agents
+/.gemini
+/.claude
+CLAUDE.md
+.mcp.json
