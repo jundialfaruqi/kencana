@@ -111,7 +111,9 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         }
 
         Carbon::setLocale('id');
-        $this->tanggal = Carbon::now()->toDateString();
+        if (!$this->tanggal) {
+            $this->tanggal = Carbon::now()->toDateString();
+        }
         $today = Carbon::now();
         $curr = $today->copy()->startOfMonth();
         $next = $today->copy()->addMonthNoOverflow()->startOfMonth();
