@@ -37,6 +37,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public array $timeSlots = [];
     public ?string $error = null;
     public array $arenas = [];
+    public bool $isLoadingArenas = false;
 
     #[LivewireSession]
     public ?array $selectedSlot = null;
@@ -146,13 +147,19 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 $this->lapanganParam = null;
                 $this->namaLapangan = '';
                 $this->timeSlots = [];
-                $this->fetchArenas();
+                $this->arenas = [];
+                $this->isLoadingArenas = true;
+                $this->dispatch('load-arenas');
                 $this->dispatch('booking-loaded');
             } else {
                 $this->fetchJadwal();
             }
         } else {
-            $this->fetchArenas();
+            if ($this->currentStep === 2) {
+                $this->arenas = [];
+                $this->isLoadingArenas = true;
+                $this->dispatch('load-arenas');
+            }
         }
         $this->ready = true;
     }
@@ -176,6 +183,11 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 return;
             }
             $this->currentStep = 2;
+            if (!$this->lapanganId) {
+                $this->arenas = [];
+                $this->isLoadingArenas = true;
+                $this->dispatch('load-arenas');
+            }
         } elseif ($this->currentStep === 2) {
             if (!$this->lapanganId) {
                 $this->dispatch('toast', [
@@ -335,6 +347,13 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->fetchJadwal();
     }
 
+    #[On('load-arenas')]
+    public function loadArenas(): void
+    {
+        $this->fetchArenas();
+        $this->isLoadingArenas = false;
+    }
+
     public function resetArena(): void
     {
         $this->lapanganId = null;
@@ -343,7 +362,9 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->timeSlots = [];
         $this->selectedSlot = null;
         $this->error = null;
-        $this->fetchArenas();
+        $this->arenas = [];
+        $this->isLoadingArenas = true;
+        $this->dispatch('load-arenas');
     }
 
     public function selectTime(string $mulai, string $selesai): void

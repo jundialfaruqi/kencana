@@ -319,12 +319,35 @@
                                                     Pilih Arena
                                                 </h4>
                                                 <span class="text-[10px] font-bold uppercase text-warning">
-                                                    {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
+                                                    @if ($isLoadingArenas)
+                                                        <span class="inline-block w-4 h-2.5 bg-warning/30 rounded animate-pulse"></span>
+                                                    @else
+                                                        {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
+                                                    @endif
                                                     tersedia
                                                 </span>
                                             </div>
                                         </div>
-                                        @if (count($arenas) === 0)
+                                        @if ($isLoadingArenas)
+                                            <div class="relative mt-4">
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-pulse">
+                                                    @for ($i = 0; $i < 4; $i++)
+                                                        <div class="p-4 rounded-xl border border-base-300 bg-base-100 flex items-center justify-between gap-4">
+                                                            <div class="flex-1 space-y-2">
+                                                                <!-- Status Badge Line -->
+                                                                <div class="h-2.5 bg-base-300 rounded-full w-24"></div>
+                                                                <!-- Title Line -->
+                                                                <div class="h-3.5 bg-base-300 rounded-full w-36 mt-2"></div>
+                                                                <!-- Subtitle/Address Line -->
+                                                                <div class="h-2.5 bg-base-300 rounded-full w-48 mt-2"></div>
+                                                            </div>
+                                                            <!-- Image Thumbnail -->
+                                                            <div class="w-16 h-16 rounded-xl bg-base-300 flex-shrink-0"></div>
+                                                        </div>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        @elseif (count($arenas) === 0)
                                             <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
                                                 <div class="text-sm font-bold uppercase text-base-content/60">
                                                     Belum ada arena tersedia
