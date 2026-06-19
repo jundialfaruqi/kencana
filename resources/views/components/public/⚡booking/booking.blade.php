@@ -363,15 +363,8 @@
                                                                 @endphp
                                                                 <div class="w-full flex items-center justify-between gap-4">
                                                                     <div class="flex-1">
-                                                                        <div class="flex items-center justify-between">
-                                                                            <div
-                                                                                class="text-xs font-black uppercase italic {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
-                                                                                Arena
-                                                                            </div>
-                                                                            <span
-                                                                                class="text-[10px] font-bold uppercase text-warning {{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-base-content/50' }}">
-                                                                                {{ $arena['status_label'] ?? '' }}
-                                                                            </span>
+                                                                        <div class="text-[10px] font-black uppercase italic tracking-wider {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
+                                                                            Arena <span class="mx-1 opacity-50">|</span> <span class="{{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-warning' }}">{{ $arena['status_label'] ?? '' }}</span>
                                                                         </div>
                                                                         <div class="text-sm font-black italic uppercase mt-1">
                                                                             {{ $arena['nama_lapangan'] ?? 'Arena' }}
