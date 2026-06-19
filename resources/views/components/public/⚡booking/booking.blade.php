@@ -357,25 +357,34 @@
                                                                 wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
                                                                 wire:loading.attr="disabled"
                                                                 wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')">
-                                                                <div class="w-full">
-                                                                    <div class="flex items-center justify-between">
-                                                                        <div
-                                                                            class="text-xs font-black uppercase italic {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
-                                                                            Arena
+                                                                @php
+                                                                    $cover = ltrim((string)($arena['image_cover'] ?? ''), '/');
+                                                                    $coverUrl = !empty($cover) ? (preg_match('/^https?:\/\//', $cover) ? $cover : rtrim(config('services.api.image_base_url'), '/') . '/' . $cover) : null;
+                                                                @endphp
+                                                                <div class="w-full flex items-center justify-between gap-4">
+                                                                    <div class="flex-1">
+                                                                        <div class="flex items-center justify-between">
+                                                                            <div
+                                                                                class="text-xs font-black uppercase italic {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
+                                                                                Arena
+                                                                            </div>
+                                                                            <span
+                                                                                class="text-[10px] font-bold uppercase text-warning {{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-base-content/50' }}">
+                                                                                {{ $arena['status_label'] ?? '' }}
+                                                                            </span>
                                                                         </div>
-                                                                        <span
-                                                                            class="text-[10px] font-bold uppercase text-warning {{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-base-content/50' }}">
-                                                                            {{ $arena['status_label'] ?? '' }}
-                                                                        </span>
+                                                                        <div class="text-sm font-black italic uppercase mt-1">
+                                                                            {{ $arena['nama_lapangan'] ?? 'Arena' }}
+                                                                        </div>
+                                                                        @if (!empty($arena['alamat']))
+                                                                            <div class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
+                                                                                {{ $arena['alamat'] }}
+                                                                            </div>
+                                                                        @endif
                                                                     </div>
-                                                                    <div
-                                                                        class="text-sm font-black italic uppercase mt-1">
-                                                                        {{ $arena['nama_lapangan'] ?? 'Arena' }}
-                                                                    </div>
-                                                                    @if (!empty($arena['alamat']))
-                                                                        <div
-                                                                            class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
-                                                                            {{ $arena['alamat'] }}
+                                                                    @if ($coverUrl)
+                                                                        <div class="w-16 h-16 rounded-xl overflow-hidden bg-base-200 flex-shrink-0">
+                                                                            <img src="{{ $coverUrl }}" class="w-full h-full object-cover" alt="Cover" />
                                                                         </div>
                                                                     @endif
                                                                 </div>
