@@ -188,7 +188,7 @@
                                     </button>
                                     <button type="button" wire:click="nextStep"
                                         class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
-                                        <span class="skew-x-12">Lanjut Pilih Arena</span>
+                                        <span class="skew-x-12">Selanjutnya</span>
                                     </button>
                                 </div>
                             </section>
@@ -209,7 +209,29 @@
                                     </h3>
                                 </div>
 
-                                <div class="w-full pb-6 px-2">
+                                <div class="w-full pb-6 px-2 space-y-4">
+                                    <!-- Selected Date Card -->
+                                    <div
+                                        class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
+                                        <div class="flex justify-between items-center">
+                                            <div>
+                                                <span
+                                                    class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
+                                                    Tanggal
+                                                </span>
+                                                <h4 class="text-base font-black italic uppercase mt-1 leading-none">
+                                                    {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                                                </h4>
+                                            </div>
+                                            <div>
+                                                <button type="button" wire:click="prevStep"
+                                                    class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
+                                                    Ubah Tanggal
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     @if ($lapanganId)
                                         <div
                                             class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
@@ -335,11 +357,13 @@
                                                                             {{ $arena['status_label'] ?? '' }}
                                                                         </span>
                                                                     </div>
-                                                                    <div class="text-sm font-black italic uppercase mt-1">
+                                                                    <div
+                                                                        class="text-sm font-black italic uppercase mt-1">
                                                                         {{ $arena['nama_lapangan'] ?? 'Arena' }}
                                                                     </div>
                                                                     @if (!empty($arena['alamat']))
-                                                                        <div class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
+                                                                        <div
+                                                                            class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
                                                                             {{ $arena['alamat'] }}
                                                                         </div>
                                                                     @endif
