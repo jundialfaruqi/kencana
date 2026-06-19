@@ -4,11 +4,16 @@
             <!-- Header Section -->
             <div class="mb-8 px-2 flex items-center gap-4">
                 <button type="button" wire:click="handleBack"
-                    class="btn btn-circle btn-ghost btn-sm sm:btn-md border-2 border-base-300 hover:border-info hover:text-info transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                        stroke="currentColor" class="size-5 sm:size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                    </svg>
+                    wire:loading.attr="disabled"
+                    wire:target="handleBack"
+                    class="btn btn-circle btn-ghost btn-sm sm:btn-md border-2 border-base-300 hover:border-info hover:text-info transition-all flex items-center justify-center">
+                    <span wire:loading.remove wire:target="handleBack">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                            stroke="currentColor" class="size-5 sm:size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                    </span>
+                    <span wire:loading wire:target="handleBack" class="loading loading-spinner loading-xs"></span>
                 </button>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
@@ -183,12 +188,20 @@
                                 </div>
                                 <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
                                     <button type="button" wire:click="handleBack"
+                                        wire:loading.attr="disabled"
+                                        wire:target="handleBack"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                        Batal
+                                        <span wire:loading wire:target="handleBack" class="loading loading-spinner loading-xs mr-2"></span>
+                                        <span>Batal</span>
                                     </button>
                                     <button type="button" wire:click="nextStep"
+                                        wire:loading.attr="disabled"
+                                        wire:target="nextStep"
                                         class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
-                                        <span class="skew-x-12">Selanjutnya</span>
+                                        <span class="skew-x-12 flex items-center justify-center gap-2">
+                                            <span wire:loading wire:target="nextStep" class="loading loading-spinner loading-xs"></span>
+                                            <span>Selanjutnya</span>
+                                        </span>
                                     </button>
                                 </div>
                             </section>
@@ -225,8 +238,11 @@
                                             </div>
                                             <div>
                                                 <button type="button" wire:click="prevStep"
+                                                    wire:loading.attr="disabled" wire:target="prevStep"
                                                     class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
-                                                    Ubah
+                                                    <span wire:loading.remove wire:target="prevStep">Ubah</span>
+                                                    <span wire:loading wire:target="prevStep"
+                                                        class="loading loading-spinner loading-xs"></span>
                                                 </button>
                                             </div>
                                         </div>
@@ -457,8 +473,11 @@
 
                                 <div class="mt-8 flex justify-start gap-4">
                                     <button type="button" wire:click="prevStep"
+                                        wire:loading.attr="disabled"
+                                        wire:target="prevStep"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                        Kembali
+                                        <span wire:loading wire:target="prevStep" class="loading loading-spinner loading-xs mr-2"></span>
+                                        <span>Kembali</span>
                                     </button>
                                 </div>
                             </section>
@@ -773,8 +792,11 @@
                                             </div>
                                         @endif
                                         <button type="button" wire:click="prevStep"
+                                            wire:loading.attr="disabled"
+                                            wire:target="prevStep"
                                             class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
-                                            Kembali
+                                            <span wire:loading wire:target="prevStep" class="loading loading-spinner loading-xs mr-2"></span>
+                                            <span>Kembali</span>
                                         </button>
                                     </div>
                                 </div>
@@ -856,8 +878,10 @@
                             </div>
                             <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <button type="button" class="btn btn-ghost w-full"
-                                    wire:click="$set('showTermsModal', false)">
-                                    Kembali
+                                    wire:click="$set('showTermsModal', false)"
+                                    wire:loading.attr="disabled">
+                                    <span wire:loading class="loading loading-spinner loading-xs mr-2"></span>
+                                    <span>Kembali</span>
                                 </button>
                                 <button type="button" class="btn btn-warning w-full" wire:click="finalizeBooking"
                                     wire:loading.attr="disabled" wire:target="finalizeBooking">
@@ -1177,12 +1201,18 @@
                 </p>
                 <div class="mt-4 grid grid-cols-2 gap-2">
                     <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                        wire:click="closeCancelConfirm">
-                        Tidak
+                        wire:click="closeCancelConfirm"
+                        wire:loading.attr="disabled"
+                        wire:target="closeCancelConfirm">
+                        <span wire:loading wire:target="closeCancelConfirm" class="loading loading-spinner loading-xs mr-2"></span>
+                        <span>Tidak</span>
                     </button>
                     <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
-                        wire:click="cancelBooking">
-                        Ya, Batalkan
+                        wire:click="cancelBooking"
+                        wire:loading.attr="disabled"
+                        wire:target="cancelBooking">
+                        <span wire:loading wire:target="cancelBooking" class="loading loading-spinner loading-xs mr-2"></span>
+                        <span>Ya, Batalkan</span>
                     </button>
                 </div>
             </div>
