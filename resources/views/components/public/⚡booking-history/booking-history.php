@@ -12,7 +12,7 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
     public array $items = [];
     public array $links = [];
     public ?string $error = null;
-    public ?string $status = null;
+    public ?string $status = 'dipesan';
     public ?string $from = null;
     public ?string $to = null;
     public int $currentPage = 1;
@@ -48,7 +48,13 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
             $json = $response->json();
             if ($response->successful() && ($json['success'] ?? false)) {
                 $data = (array) ($json['data'] ?? []);
-                $this->items = (array) ($data['data'] ?? []);
+                $items = (array) ($data['data'] ?? []);
+                usort($items, function ($a, $b) {
+                    $timeA = isset($a['dibuat_pada']) ? strtotime((string)$a['dibuat_pada']) : 0;
+                    $timeB = isset($b['dibuat_pada']) ? strtotime((string)$b['dibuat_pada']) : 0;
+                    return $timeB <=> $timeA;
+                });
+                $this->items = $items;
                 $this->links = (array) ($data['links'] ?? []);
                 $this->currentPage = intval($data['current_page'] ?? 1);
                 $this->lastPage = intval($data['last_page'] ?? 1);

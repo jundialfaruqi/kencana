@@ -779,7 +779,7 @@
                             <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <button type="button" class="btn btn-ghost w-full"
                                     wire:click="$set('showTermsModal', false)">
-                                    Lihat Booking
+                                    Kembali
                                 </button>
                                 <button type="button" class="btn btn-warning w-full" wire:click="finalizeBooking"
                                     wire:loading.attr="disabled" wire:target="finalizeBooking">
@@ -867,7 +867,8 @@
                                 </div>
                             </div>
                             <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                <a href="/booking-history" wire:navigate class="btn btn-ghost w-full">Tutup</a>
+                                <a href="/booking-history" wire:navigate class="btn btn-ghost w-full">Lihat
+                                    Booking</a>
                                 <a href="/" wire:navigate class="btn btn-info w-full">
                                     <span>Kembali ke Beranda</span>
                                 </a>
