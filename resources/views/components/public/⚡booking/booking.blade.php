@@ -226,7 +226,7 @@
                                             <div>
                                                 <button type="button" wire:click="prevStep"
                                                     class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
-                                                    Ubah Tanggal
+                                                    Ubah
                                                 </button>
                                             </div>
                                         </div>
@@ -250,9 +250,8 @@
                                                     <span class="text-xs font-black italic text-info">GRATIS</span>
                                                     <button type="button" wire:click="resetArena"
                                                         wire:loading.attr="disabled" wire:target="resetArena"
-                                                        class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-2">
-                                                        <span wire:loading.remove wire:target="resetArena">Ganti
-                                                            Arena</span>
+                                                        class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
+                                                        <span wire:loading.remove wire:target="resetArena">Ubah</span>
                                                         <span wire:loading wire:target="resetArena"
                                                             class="loading loading-spinner loading-xs"></span>
                                                     </button>
@@ -261,7 +260,8 @@
                                         </div>
 
                                         @if ($listJadwalStatus === 'loading')
-                                            <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4 animate-pulse">
+                                            <div
+                                                class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4 animate-pulse">
                                                 <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
                                                     @for ($j = 0; $j < 9; $j++)
                                                         <div class="py-2 h-16 bg-base-300 rounded-lg"></div>
@@ -301,7 +301,8 @@
                                                         class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                                                         <div
                                                             class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
-                                                            <span class="loading loading-dots loading-lg text-info"></span>
+                                                            <span
+                                                                class="loading loading-dots loading-lg text-info"></span>
                                                         </div>
                                                         <div
                                                             class="mt-2 text-[10px] sm:text-xs font-black uppercase italic tracking-widest text-base-content/70">
@@ -311,89 +312,107 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @else
-                                            <div
-                                                class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg">
-                                                <div class="flex items-center justify-between">
-                                                    <h4 class="text-base font-black italic uppercase leading-none">
-                                                        Pilih Arena
-                                                    </h4>
-                                                    <span class="text-[10px] font-bold uppercase text-warning">
-                                                        {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
-                                                        tersedia
-                                                    </span>
+                                    @else
+                                        <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg">
+                                            <div class="flex items-center justify-between">
+                                                <h4 class="text-base font-black italic uppercase leading-none">
+                                                    Pilih Arena
+                                                </h4>
+                                                <span class="text-[10px] font-bold uppercase text-warning">
+                                                    {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
+                                                    tersedia
+                                                </span>
+                                            </div>
+                                        </div>
+                                        @if (count($arenas) === 0)
+                                            <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
+                                                <div class="text-sm font-bold uppercase text-base-content/60">
+                                                    Belum ada arena tersedia
+                                                </div>
+                                                <div class="text-xs font-medium text-base-content/50 mt-1">
+                                                    Silakan kembali ke beranda untuk melihat informasi terbaru.
+                                                </div>
+                                                <div class="mt-3">
+                                                    <a href="/" wire:navigate class="btn btn-sm btn-ghost">
+                                                        Kembali ke Beranda
+                                                    </a>
                                                 </div>
                                             </div>
-                                            @if (count($arenas) === 0)
-                                                <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
-                                                    <div class="text-sm font-bold uppercase text-base-content/60">
-                                                        Belum ada arena tersedia
-                                                    </div>
-                                                    <div class="text-xs font-medium text-base-content/50 mt-1">
-                                                        Silakan kembali ke beranda untuk melihat informasi terbaru.
-                                                    </div>
-                                                    <div class="mt-3">
-                                                        <a href="/" wire:navigate class="btn btn-sm btn-ghost">
-                                                            Kembali ke Beranda
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            @elseif ($error && !$this->isValidationErr($error))
-                                                <div class="alert alert-error mt-4">
-                                                    <span>{{ $error }}</span>
-                                                </div>
-                                            @else
-                                                <div class="relative mt-4">
-                                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                                        @foreach ($arenas as $arena)
-                                                            <button
-                                                                {{ $this->arenaIsComing($arena) ? 'disabled' : '' }}
-                                                                class="p-4 rounded-xl border transition-all text-left
+                                        @elseif ($error && !$this->isValidationErr($error))
+                                            <div class="alert alert-error mt-4">
+                                                <span>{{ $error }}</span>
+                                            </div>
+                                        @else
+                                            <div class="relative mt-4">
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                    @foreach ($arenas as $arena)
+                                                        <button {{ $this->arenaIsComing($arena) ? 'disabled' : '' }}
+                                                            class="p-4 rounded-xl border transition-all text-left
                                                 {{ $this->arenaIsComing($arena)
                                                     ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through border-base-300'
                                                     : ($this->arenaIsSelected($arena)
                                                         ? 'bg-info text-info-content border-info shadow-lg shadow-info/20'
                                                         : 'bg-base-100 border-base-300 hover:border-info/40 hover:bg-info/5') }}"
-                                                                wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
-                                                                wire:loading.attr="disabled"
-                                                                wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')">
-                                                                @php
-                                                                    $cover = ltrim((string)($arena['image_cover'] ?? ''), '/');
-                                                                    $coverUrl = !empty($cover) ? (preg_match('/^https?:\/\//', $cover) ? $cover : rtrim(config('services.api.image_base_url'), '/') . '/' . $cover) : null;
-                                                                @endphp
-                                                                <div class="w-full flex items-center justify-between gap-4">
-                                                                    <div class="flex-1">
-                                                                        <div class="text-[10px] font-black uppercase italic tracking-wider {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
-                                                                            Arena <span class="mx-1 opacity-50">|</span> <span class="{{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-warning' }}">{{ $arena['status_label'] ?? '' }}</span>
-                                                                        </div>
-                                                                        <div class="text-sm font-black italic uppercase mt-1">
-                                                                            {{ $arena['nama_lapangan'] ?? 'Arena' }}
-                                                                        </div>
-                                                                        @if (!empty($arena['alamat']))
-                                                                            <div class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
-                                                                                {{ $arena['alamat'] }}
-                                                                            </div>
-                                                                        @endif
+                                                            wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
+                                                            wire:loading.attr="disabled"
+                                                            wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')">
+                                                            @php
+                                                                $cover = ltrim(
+                                                                    (string) ($arena['image_cover'] ?? ''),
+                                                                    '/',
+                                                                );
+                                                                $coverUrl = !empty($cover)
+                                                                    ? (preg_match('/^https?:\/\//', $cover)
+                                                                        ? $cover
+                                                                        : rtrim(
+                                                                                config('services.api.image_base_url'),
+                                                                                '/',
+                                                                            ) .
+                                                                            '/' .
+                                                                            $cover)
+                                                                    : null;
+                                                            @endphp
+                                                            <div
+                                                                class="w-full flex items-center justify-between gap-4">
+                                                                <div class="flex-1">
+                                                                    <div
+                                                                        class="text-[10px] font-black uppercase italic tracking-wider {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
+                                                                        Arena <span class="mx-1 opacity-50">|</span>
+                                                                        <span
+                                                                            class="{{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-warning' }}">{{ $arena['status_label'] ?? '' }}</span>
                                                                     </div>
-                                                                    @if ($coverUrl)
-                                                                        <div class="w-16 h-16 rounded-xl overflow-hidden bg-base-200 flex-shrink-0">
-                                                                            <img src="{{ $coverUrl }}" class="w-full h-full object-cover" alt="Cover" />
+                                                                    <div
+                                                                        class="text-sm font-black italic uppercase mt-1">
+                                                                        {{ $arena['nama_lapangan'] ?? 'Arena' }}
+                                                                    </div>
+                                                                    @if (!empty($arena['alamat']))
+                                                                        <div
+                                                                            class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
+                                                                            {{ $arena['alamat'] }}
                                                                         </div>
                                                                     @endif
                                                                 </div>
-                                                                <div wire:loading
-                                                                    wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
-                                                                    class="mt-2">
-                                                                    <span
-                                                                        class="loading loading-dots loading-xs"></span>
-                                                                </div>
-                                                            </button>
-                                                        @endforeach
-                                                    </div>
-                                                    <div wire:loading wire:target="selectArena"
-                                                        class="absolute inset-0 z-10 bg-base-100/40"></div>
+                                                                @if ($coverUrl)
+                                                                    <div
+                                                                        class="w-16 h-16 rounded-xl overflow-hidden bg-base-200 flex-shrink-0">
+                                                                        <img src="{{ $coverUrl }}"
+                                                                            class="w-full h-full object-cover"
+                                                                            alt="Cover" />
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                            <div wire:loading
+                                                                wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
+                                                                class="mt-2">
+                                                                <span class="loading loading-dots loading-xs"></span>
+                                                            </div>
+                                                        </button>
+                                                    @endforeach
                                                 </div>
-                                            @endif
+                                                <div wire:loading wire:target="selectArena"
+                                                    class="absolute inset-0 z-10 bg-base-100/40"></div>
+                                            </div>
+                                        @endif
                                     @endif
                                 </div>
                                 <!-- Legend -->
