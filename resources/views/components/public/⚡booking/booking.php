@@ -54,6 +54,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     #[LivewireSession]
     public ?string $keterangan = null;
+    public bool $showCancelConfirm = false;
     public bool $showSuccessModal = false;
     public ?string $bookingMessage = null;
     public ?string $bookingCode = null;
@@ -197,6 +198,53 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         if ($this->currentStep > 1) {
             $this->currentStep--;
         }
+    }
+
+    public function getStepTitle(): string
+    {
+        if ($this->currentStep === 1) {
+            return 'Pilih Tanggal';
+        }
+        if ($this->currentStep === 2) {
+            return 'Pilih Arena & Jam';
+        }
+        return 'Konfirmasi Booking';
+    }
+
+    public function handleBack(): void
+    {
+        if ($this->currentStep > 1) {
+            $this->currentStep--;
+        } else {
+            $this->showCancelConfirm = true;
+        }
+    }
+
+    public function cancelBooking()
+    {
+        $this->reset([
+            'currentStep',
+            'lapanganId',
+            'lapanganParam',
+            'lapanganSlug',
+            'tanggal',
+            'namaLapangan',
+            'selectedSlot',
+            'namaKomunitas',
+            'jumlahPemain',
+            'kategoriPemain',
+            'jenisPermainan',
+            'keterangan',
+        ]);
+        
+        $this->showCancelConfirm = false;
+
+        return $this->redirect('/', navigate: true);
+    }
+
+    public function closeCancelConfirm(): void
+    {
+        $this->showCancelConfirm = false;
     }
 
     protected function fetchJadwal(): void
