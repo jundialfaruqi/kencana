@@ -602,13 +602,6 @@
 
                 @if ($currentStep === 3)
                     <div class="w-full max-w-xl mx-auto" x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })">
-                        <div class="flex justify-start mb-4">
-                            <button type="button" wire:click="prevStep"
-                                class="btn btn-ghost btn-sm font-black uppercase">
-                                &larr; Kembali
-                            </button>
-                        </div>
-
                         <div class="space-y-6">
                             <div class="bg-base-100 rounded-3xl border-2 border-info overflow-hidden shadow-2xl">
                                 <div class="bg-info p-6 flex items-center gap-3">
@@ -735,6 +728,10 @@
                                                 <span>{{ $error }}</span>
                                             </div>
                                         @endif
+                                        <button type="button" wire:click="prevStep"
+                                            class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
+                                            Kembali
+                                        </button>
                                     </div>
                                 </div>
                             </div>
