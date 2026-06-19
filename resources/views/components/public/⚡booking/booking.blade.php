@@ -779,7 +779,7 @@
                             <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <button type="button" class="btn btn-ghost w-full"
                                     wire:click="$set('showTermsModal', false)">
-                                    Tutup
+                                    Lihat Booking
                                 </button>
                                 <button type="button" class="btn btn-warning w-full" wire:click="finalizeBooking"
                                     wire:loading.attr="disabled" wire:target="finalizeBooking">
@@ -826,7 +826,7 @@
                                     {{ $bookingCode ?: '-' }}
                                 </span>
                             </div>
-                             <div class="flex items-center justify-between">
+                            <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
                                 <span class="font-black italic uppercase text-sm">
                                     {{ $successNamaLapangan ?: '-' }}
