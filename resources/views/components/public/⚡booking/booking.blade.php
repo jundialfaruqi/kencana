@@ -260,46 +260,57 @@
                                             </div>
                                         </div>
 
-                                        <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4"
-                                            wire:loading.class="opacity-50 pointer-events-none"
-                                            wire:target="selectDate">
-                                            <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
-                                                @foreach ($timeSlots as $slot)
-                                                    <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
-                                                        data-time-slot
-                                                        wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
-                                                        wire:loading.attr="disabled" wire:target="selectTime"
-                                                        class="py-2 rounded-lg font-black italic text-[16px] md:text-[17px] transition-all
-                                                {{ !$this->slotIsAvailable($slot)
-                                                    ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
-                                                    : ($this->slotIsSelected($slot)
-                                                        ? 'bg-info text-info-content border border-info/50 shadow-lg shadow-info/20'
-                                                        : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
-                                                        <span class="block">{{ $slot['mulai'] }}</span>
-                                                        <span class="block">{{ $slot['selesai'] }}</span>
-                                                        <span
-                                                            class="block text-[10px] font-bold uppercase text-warning">
-                                                            {{ $this->getSlotDisplayStatus($slot) }}
-                                                        </span>
-                                                    </button>
-                                                @endforeach
+                                        @if ($listJadwalStatus === 'loading')
+                                            <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4 animate-pulse">
+                                                <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
+                                                    @for ($j = 0; $j < 9; $j++)
+                                                        <div class="py-2 h-16 bg-base-300 rounded-lg"></div>
+                                                    @endfor
+                                                </div>
                                             </div>
-                                            <div wire:loading wire:target="selectDate"
-                                                class="absolute inset-0 z-10 bg-base-100/40"></div>
-                                            <div wire:loading wire:target="selectTime"
-                                                class="absolute inset-0 rounded-2xl z-30 bg-base-100/80 backdrop-blur-sm">
-                                                <div
-                                                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                        @else
+                                            <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4"
+                                                wire:loading.class="opacity-50 pointer-events-none"
+                                                wire:target="selectDate">
+                                                <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
+                                                    @foreach ($timeSlots as $slot)
+                                                        <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
+                                                            data-time-slot
+                                                            wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
+                                                            wire:loading.attr="disabled" wire:target="selectTime"
+                                                            class="py-2 rounded-lg font-black italic text-[16px] md:text-[17px] transition-all
+                                                            {{ !$this->slotIsAvailable($slot)
+                                                                ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
+                                                                : ($this->slotIsSelected($slot)
+                                                                    ? 'bg-info text-info-content border border-info/50 shadow-lg shadow-info/20'
+                                                                    : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
+                                                            <span class="block">{{ $slot['mulai'] }}</span>
+                                                            <span class="block">{{ $slot['selesai'] }}</span>
+                                                            <span
+                                                                class="block text-[10px] font-bold uppercase text-warning">
+                                                                {{ $this->getSlotDisplayStatus($slot) }}
+                                                            </span>
+                                                        </button>
+                                                    @endforeach
+                                                </div>
+                                                <div wire:loading wire:target="selectDate"
+                                                    class="absolute inset-0 z-10 bg-base-100/40"></div>
+                                                <div wire:loading wire:target="selectTime"
+                                                    class="absolute inset-0 rounded-2xl z-30 bg-base-100/80 backdrop-blur-sm">
                                                     <div
-                                                        class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
-                                                        <span class="loading loading-dots loading-lg text-info"></span>
-                                                    </div>
-                                                    <div
-                                                        class="mt-2 text-[10px] sm:text-xs font-black uppercase italic tracking-widest text-base-content/70">
-                                                        Memilih Waktu...
+                                                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                                        <div
+                                                            class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
+                                                            <span class="loading loading-dots loading-lg text-info"></span>
+                                                        </div>
+                                                        <div
+                                                            class="mt-2 text-[10px] sm:text-xs font-black uppercase italic tracking-widest text-base-content/70">
+                                                            Memilih Waktu...
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endif
                                         @else
                                             <div
                                                 class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg">

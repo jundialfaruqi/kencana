@@ -9,6 +9,7 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Session as LivewireSession;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Component
@@ -316,16 +317,6 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function selectArena(string $id, string $nama): void
     {
-        if (!$this->isArenaOpen($id)) {
-            $this->error = 'Arena belum dibuka';
-            $this->lapanganId = null;
-            $this->lapanganParam = null;
-            $this->namaLapangan = '';
-            $this->timeSlots = [];
-            $this->fetchArenas();
-            $this->dispatch('booking-loaded');
-            return;
-        }
         $this->lapanganId = $id;
         try {
             $this->lapanganParam = Crypt::encryptString((string) $id);
@@ -333,6 +324,14 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             $this->lapanganParam = (string) $id;
         }
         $this->namaLapangan = $nama;
+        $this->timeSlots = [];
+        $this->listJadwalStatus = 'loading';
+        $this->dispatch('load-jadwal');
+    }
+
+    #[On('load-jadwal')]
+    public function loadJadwalAfterSelection(): void
+    {
         $this->fetchJadwal();
     }
 
