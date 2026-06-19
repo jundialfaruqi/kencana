@@ -961,107 +961,185 @@
         <div class="w-full animate-pulse">
             <!-- Header Skeleton -->
             <div class="mb-8 px-2 flex items-center gap-4">
-                <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-base-300"></div>
                 <div>
-                    <div class="h-6 sm:h-8 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
-                    <div class="h-3 sm:h-4 bg-base-300 w-32 sm:w-48 mt-2 rounded-lg"></div>
+                    <div class="h-6 sm:h-7 bg-base-300 w-32 sm:w-48 rounded-lg"></div>
+                    <div class="h-3 sm:h-4 bg-base-300 w-24 sm:w-36 mt-2 rounded-lg"></div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Main Form Skeleton -->
-                <div class="lg:col-span-2 space-y-10">
-                    <!-- Date Skeleton -->
-                    <section>
-                        <div class="flex items-center gap-3 mb-4 px-2">
-                            <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                            <div class="h-6 bg-base-300 w-32 rounded"></div>
-                        </div>
-                        <div class="carousel carousel-center w-full bg-base-200/30 rounded-2xl p-4 space-x-3">
-                            @for ($i = 0; $i < 7; $i++)
-                                <div class="carousel-item">
-                                    <div class="w-16 h-20 bg-base-300 rounded-xl"></div>
-                                </div>
-                            @endfor
-                        </div>
-                    </section>
+            <!-- Steps Indicator Skeleton -->
+            <ul class="steps w-full mb-8 max-w-3xl mx-auto flex justify-center">
+                <li class="step step-info text-[10px] sm:text-xs font-bold uppercase">
+                    {{ $currentStep === 1 ? 'Tanggal' : '' }}</li>
+                <li class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+                    {{ $currentStep === 2 ? 'Arena & Jam' : '' }}</li>
+                <li class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+                    {{ $currentStep === 3 ? 'Konfirmasi' : '' }}</li>
+            </ul>
 
-                    <!-- Arena & Time Skeleton -->
-                    <section>
-                        <div class="flex items-center gap-3 mb-4 px-2">
-                            <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                            <div class="h-6 bg-base-300 w-48 rounded"></div>
-                        </div>
-                        @if ($lapanganParam || $lapanganSlug)
-                            <div class="w-full pb-6 px-2">
-                                <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
-                                    <div class="flex justify-between items-start">
+            <div class="grid grid-cols-1 {{ $currentStep === 3 ? '' : 'lg:grid-cols-3' }} gap-8">
+                <!-- Main Form Skeleton -->
+                @if ($currentStep < 3)
+                    <div class="lg:col-span-2 space-y-10">
+                        @if ($currentStep === 1)
+                            <!-- 1. Select Date Skeleton -->
+                            <section>
+                                <div class="flex items-center justify-between mb-4 px-2">
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-8 h-8 rounded-lg bg-base-300"></div>
+                                        <div class="h-6 bg-base-300 w-32 rounded"></div>
+                                    </div>
+                                    <div class="h-8 bg-base-300 w-20 rounded-lg"></div>
+                                </div>
+                                <div class="carousel carousel-center w-full bg-base-200/30 rounded-2xl p-4 space-x-3">
+                                    @for ($i = 0; $i < 7; $i++)
+                                        <div class="carousel-item">
+                                            <div class="w-16 h-20 bg-base-300 rounded-xl"></div>
+                                        </div>
+                                    @endfor
+                                </div>
+                                <div class="mt-8 flex justify-between gap-4">
+                                    <div class="h-10 bg-base-300 w-24 rounded-lg"></div>
+                                    <div class="h-10 bg-base-300 w-32 rounded-lg -skew-x-12"></div>
+                                </div>
+                            </section>
+                        @endif
+
+                        @if ($currentStep === 2)
+                            <!-- 2. Arena & Time Skeleton -->
+                            <section>
+                                <div class="flex items-center gap-1 mb-4 px-2">
+                                    <div class="w-8 h-8 rounded-lg bg-base-300"></div>
+                                    <div class="h-6 bg-base-300 w-48 rounded"></div>
+                                </div>
+
+                                <div class="w-full pb-6 px-2 space-y-4">
+                                    <!-- Selected Date Card Skeleton -->
+                                    <div class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
                                         <div class="space-y-2">
                                             <div class="h-3 bg-base-300 w-12 rounded"></div>
-                                            <div class="h-5 bg-base-300 w-40 rounded"></div>
+                                            <div class="h-5 bg-base-300 w-48 rounded"></div>
                                         </div>
-                                        <div class="h-4 bg-base-300 w-16 rounded"></div>
+                                        <div class="h-6 bg-base-300 w-16 rounded"></div>
                                     </div>
-                                </div>
-                                <div class="bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4">
-                                    <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
-                                        @for ($j = 0; $j < 9; $j++)
-                                            <div class="py-2 h-16 bg-base-300 rounded-lg"></div>
-                                        @endfor
-                                    </div>
-                                </div>
-                            </div>
-                        @else
-                            <div class="w-full pb-6 px-2">
-                                <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-300/30 shadow-lg">
-                                    <div class="flex items-center justify-between">
-                                        <div class="h-5 bg-base-300 w-24 rounded"></div>
-                                        <div class="h-3 bg-base-300 w-16 rounded"></div>
-                                    </div>
-                                </div>
-                                <div class="relative mt-4">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        @for ($i = 0; $i < 6; $i++)
-                                            <div class="p-4 rounded-xl border bg-base-100 border-base-300/30">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="space-y-2">
-                                                        <div class="h-3 bg-base-300 w-10 rounded"></div>
-                                                        <div class="h-5 bg-base-300 w-32 rounded"></div>
-                                                    </div>
-                                                    <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                                </div>
-                                            </div>
-                                        @endfor
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    </section>
-                </div>
 
-                <!-- Sidebar Skeleton -->
-                <div class="lg:col-span-1">
-                    <div class="sticky top-6 space-y-6">
-                        <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
-                            <div class="h-16 bg-base-300"></div>
-                            <div class="p-6 space-y-6">
-                                @for ($i = 0; $i < 3; $i++)
-                                    <div class="flex justify-between">
-                                        <div class="h-4 bg-base-300 w-16 rounded"></div>
-                                        <div class="h-4 bg-base-300 w-24 rounded"></div>
-                                    </div>
-                                @endfor
-                                <div class="pt-4">
-                                    <div class="flex justify-between items-end">
+                                    @if ($lapanganId || $lapanganParam || $lapanganSlug)
+                                        <!-- Selected Arena Card & Time Slots Skeleton -->
+                                        <div class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
+                                            <div class="space-y-2">
+                                                <div class="h-3 bg-base-300 w-12 rounded"></div>
+                                                <div class="h-5 bg-base-300 w-36 rounded"></div>
+                                            </div>
+                                            <div class="h-6 bg-base-300 w-16 rounded"></div>
+                                        </div>
+                                        <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4">
+                                            <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
+                                                @for ($j = 0; $j < 9; $j++)
+                                                    <div class="py-3 h-16 bg-base-300 rounded-lg"></div>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                    @else
+                                        <!-- Arenas Selector List Skeleton -->
+                                        <div class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
+                                            <div class="h-5 bg-base-300 w-24 rounded"></div>
+                                            <div class="h-3 bg-base-300 w-16 rounded"></div>
+                                        </div>
+                                        <div class="relative mt-4">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                @for ($i = 0; $i < 4; $i++)
+                                                    <div class="p-4 rounded-xl border bg-base-100 border-base-300/30 flex items-center justify-between gap-4">
+                                                        <div class="flex-1 space-y-2">
+                                                            <div class="h-3 bg-base-300 w-16 rounded"></div>
+                                                            <div class="h-4 bg-base-300 w-32 rounded"></div>
+                                                            <div class="h-3 bg-base-300 w-24 rounded"></div>
+                                                        </div>
+                                                        <div class="w-16 h-16 rounded-xl bg-base-300 flex-shrink-0"></div>
+                                                    </div>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="mt-8 flex justify-start gap-4">
+                                    <div class="h-10 bg-base-300 w-24 rounded-lg"></div>
+                                </div>
+                            </section>
+                        @endif
+                    </div>
+
+                    <!-- Sidebar Summary Skeleton (Step 1 & 2) -->
+                    <div class="lg:col-span-1 hidden lg:block">
+                        <div class="space-y-6">
+                            <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-sm">
+                                <div class="h-16 bg-base-300"></div>
+                                <div class="p-6 space-y-6">
+                                    @for ($i = 0; $i < 3; $i++)
+                                        <div class="flex justify-between border-b border-base-200 border-dashed pb-2">
+                                            <div class="h-4 bg-base-300 w-16 rounded"></div>
+                                            <div class="h-4 bg-base-300 w-24 rounded"></div>
+                                        </div>
+                                    @endfor
+                                    <div class="pt-4 flex justify-between items-end">
                                         <div class="h-3 bg-base-300 w-20 rounded"></div>
                                         <div class="h-8 bg-base-300 w-24 rounded"></div>
                                     </div>
+                                    <div class="h-14 bg-base-300 rounded-xl mt-6 -skew-x-12"></div>
                                 </div>
-                                <div class="h-14 bg-base-300 rounded-xl mt-6"></div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
+
+                @if ($currentStep === 3)
+                    <!-- Step 3: Konfirmasi Skeleton -->
+                    <div class="w-full max-w-xl mx-auto">
+                        <div class="space-y-6">
+                            <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-2xl">
+                                <div class="h-20 bg-base-300"></div>
+                                <div class="p-6 space-y-6">
+                                    @for ($i = 0; $i < 3; $i++)
+                                        <div class="flex justify-between border-b border-base-200 border-dashed pb-2">
+                                            <div class="h-4 bg-base-300 w-16 rounded"></div>
+                                            <div class="h-4 bg-base-300 w-32 rounded"></div>
+                                        </div>
+                                    @endfor
+                                    <div class="pt-4 flex justify-between items-end">
+                                        <div class="h-4 bg-base-300 w-20 rounded"></div>
+                                        <div class="h-8 bg-base-300 w-24 rounded"></div>
+                                    </div>
+
+                                    <div class="mt-8 pt-6 border-t border-base-200 space-y-4">
+                                        <div class="h-5 bg-base-300 w-48 rounded mb-2"></div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="space-y-2">
+                                                <div class="h-3 bg-base-300 w-24 rounded"></div>
+                                                <div class="h-10 bg-base-200 rounded-lg"></div>
+                                            </div>
+                                            <div class="space-y-2">
+                                                <div class="h-3 bg-base-300 w-20 rounded"></div>
+                                                <div class="h-10 bg-base-200 rounded-lg"></div>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="space-y-2">
+                                                <div class="h-3 bg-base-300 w-24 rounded"></div>
+                                                <div class="h-10 bg-base-200 rounded-lg"></div>
+                                            </div>
+                                            <div class="space-y-2">
+                                                <div class="h-3 bg-base-300 w-20 rounded"></div>
+                                                <div class="h-10 bg-base-200 rounded-lg"></div>
+                                            </div>
+                                        </div>
+                                        <div class="h-14 bg-base-300 rounded-xl mt-8 -skew-x-12"></div>
+                                        <div class="h-10 bg-base-200 rounded-xl mt-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 </div>
