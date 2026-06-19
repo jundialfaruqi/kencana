@@ -4,6 +4,12 @@
     if (!root) return;
     root.dataset.bookingInitialized = 'true';
 
+    var currentStep = parseInt(root.getAttribute('data-step') || '1');
+    if (window.__lastBookingStep !== undefined && window.__lastBookingStep !== currentStep) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    window.__lastBookingStep = currentStep;
+
     try {
       var trigger = root.querySelector('[data-cal-trigger]');
       var popover = root.querySelector('#select-date-calendar');
@@ -47,6 +53,13 @@
             try {
               old.dateButtons.forEach(function (btn) {
                 btn.removeEventListener('click', old.onDateButtonClick);
+              });
+            } catch (_) {}
+          }
+          if (old.confirmBtns && old.onConfirmClick) {
+            try {
+              old.confirmBtns.forEach(function (btn) {
+                btn.removeEventListener('click', old.onConfirmClick);
               });
             } catch (_) {}
           }
@@ -220,6 +233,15 @@
         btn.addEventListener('click', onDateButtonClick);
       });
 
+      var confirmBtns = root.querySelectorAll('[data-confirm-booking]');
+      var onConfirmClick = function () {
+        window.__bookingSuppressScroll = true;
+        window.__bookingNoScrollUntil = Date.now() + 3000;
+      };
+      confirmBtns.forEach(function (btn) {
+        btn.addEventListener('click', onConfirmClick);
+      });
+
       var containerSelected = (container && container.getAttribute('data-cal-selected')) || null;
       window.__bookingCal = {
         trigger: trigger,
@@ -239,6 +261,8 @@
         onTimeSlotClick: onTimeSlotClick,
         dateButtons: dateButtons,
         onDateButtonClick: onDateButtonClick,
+        confirmBtns: confirmBtns,
+        onConfirmClick: onConfirmClick,
         closeBtns: closeBtns,
         onCloseClick: onCloseClick,
         selectedDate: containerSelected || ((window.__bookingCal && window.__bookingCal.selectedDate) || null),
@@ -278,6 +302,7 @@
     } catch (_) {}
   }
   document.addEventListener('livewire:navigated', function () {
+    window.__lastBookingStep = undefined;
     setTimeout(function () { initBooking(); }, 50);
   });
   window.addEventListener('booking-loaded', function () {

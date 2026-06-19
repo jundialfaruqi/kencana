@@ -1,4 +1,4 @@
-<div class="mt-4 sm:mt-8" wire:init="load">
+<div class="mt-4 sm:mt-8" wire:init="load" data-step="{{ $currentStep }}">
     @if ($ready)
         <div class="w-full" x-transition>
             <!-- Header Section -->
@@ -48,7 +48,7 @@
 
                         <!-- 1. Select Date -->
                         @if ($currentStep === 1)
-                            <section x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                            <section>
                                 <div class="flex items-center justify-between mb-4 px-2">
                                     <div class="flex items-center gap-1">
                                         <div class="w-8 h-8 rounded-lg flex items-center justify-center">
@@ -196,7 +196,7 @@
 
                         <!-- 2. Arena & Time -->
                         @if ($currentStep === 2)
-                            <section x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                            <section>
                                 <div class="flex items-center gap-1 mb-4 px-2">
                                     <div class="w-8 h-8 rounded-lg flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -624,7 +624,7 @@
                                         </div>
                                         <button
                                             class="btn btn-info w-full mt-6 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
-                                            x-on:click="window.__bookingSuppressScroll = true; window.__bookingNoScrollUntil = Date.now() + 3000;"
+                                            data-confirm-booking
                                             wire:click="confirmBooking" wire:loading.attr="disabled"
                                             wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
                                             aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
@@ -645,7 +645,7 @@
                 @endif
 
                 @if ($currentStep === 3)
-                    <div class="w-full max-w-xl mx-auto" x-data x-init="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                    <div class="w-full max-w-xl mx-auto">
                         <div class="space-y-6">
                             <div class="bg-base-100 rounded-3xl border-2 border-info overflow-hidden shadow-2xl">
                                 <div class="bg-info p-6 flex items-center gap-3">
@@ -759,7 +759,7 @@
                                         </div>
                                         <button
                                             class="btn btn-info w-full mt-8 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
-                                            x-on:click="window.__bookingSuppressScroll = true; window.__bookingNoScrollUntil = Date.now() + 3000;"
+                                            data-confirm-booking
                                             wire:click="confirmBooking" wire:loading.attr="disabled"
                                             wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
                                             aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
