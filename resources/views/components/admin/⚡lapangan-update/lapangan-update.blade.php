@@ -48,37 +48,17 @@
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
                     </label>
-                    <label class="form-control w-full md:col-span-2">
-                        <div class="label">
-                            <span class="label-text">Alamat</span>
-                        </div>
-                        <input type="text" class="input input-bordered w-full mt-1.5" placeholder="Alamat lengkap"
-                            wire:model.live="alamat" />
-                        @error('alamat')
-                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </label>
-                    <label class="form-control w-full">
-                        <div class="label">
-                            <span class="label-text">Link Google Maps</span>
-                        </div>
-                        <input type="url" class="input input-bordered w-full mt-1.5"
-                            placeholder="https://maps.google.com/..." wire:model.live="gmap" />
-                        @error('gmap')
-                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </label>
-                    <label class="form-control w-full">
-                        <div class="label">
-                            <span class="label-text">No. Telepon</span>
-                        </div>
-                        <input type="tel" class="input input-bordered w-full mt-1.5" placeholder="08123456789"
-                            wire:model.live="no_tlp" />
-                        @error('no_tlp')
-                            <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </label>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:col-span-2">
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text">No. Telepon</span>
+                            </div>
+                            <input type="tel" class="input input-bordered w-full mt-1.5" placeholder="08123456789"
+                                wire:model.live="no_tlp" />
+                            @error('no_tlp')
+                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                            @enderror
+                        </label>
                         <label class="form-control w-full">
                             <div class="label">
                                 <span class="label-text">Status</span>
@@ -91,26 +71,44 @@
                                 <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                             @enderror
                         </label>
+                    </div>
+
+                    <div class="md:col-span-2 bg-base-200/50 border border-base-300 rounded-xl p-4 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-base">Informasi Lokasi</h3>
+                            <button type="button" @click="$dispatch('open-map-picker')" class="btn btn-sm btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                </svg>
+                                Pilih Maps
+                            </button>
+                        </div>
+                        
                         <label class="form-control w-full">
-                            <div class="label">
-                                <span class="label-text">Latitude</span>
-                            </div>
-                            <input type="number" step="any" class="input input-bordered w-full mt-1.5"
-                                placeholder="-0.12345" wire:model.live="latitude" />
-                            @error('latitude')
-                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                            @enderror
+                            <div class="label"><span class="label-text">Alamat</span></div>
+                            <input type="text" class="input input-bordered w-full mt-1.5" placeholder="Alamat lengkap" wire:model.live="alamat" />
+                            @error('alamat')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
                         </label>
+                        
                         <label class="form-control w-full">
-                            <div class="label">
-                                <span class="label-text">Longitude</span>
-                            </div>
-                            <input type="number" step="any" class="input input-bordered w-full mt-1.5"
-                                placeholder="101.12345" wire:model.live="longitude" />
-                            @error('longitude')
-                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
-                            @enderror
+                            <div class="label"><span class="label-text">Link Google Maps</span></div>
+                            <input type="url" class="input input-bordered w-full mt-1.5" placeholder="https://maps.google.com/..." wire:model.live="gmap" />
+                            @error('gmap')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
                         </label>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="form-control w-full">
+                                <div class="label"><span class="label-text">Latitude</span></div>
+                                <input type="number" step="any" class="input input-bordered w-full mt-1.5" placeholder="-0.12345" wire:model.live="latitude" />
+                                @error('latitude')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
+                            </label>
+                            <label class="form-control w-full">
+                                <div class="label"><span class="label-text">Longitude</span></div>
+                                <input type="number" step="any" class="input input-bordered w-full mt-1.5" placeholder="101.12345" wire:model.live="longitude" />
+                                @error('longitude')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -227,5 +225,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Map Picker Modal -->
+    <x-map-picker-modal />
 
 </div>
