@@ -376,7 +376,7 @@
             <!-- Kolom Download Aplikasi -->
             <div class="w-full">
                 <div x-data="{ apk: 'armeabi-v7a' }"
-                    class="card bg-gradient-to-br from-blue-600 to-indigo-900 text-white shadow-xl relative overflow-hidden">
+                    class="card bg-linear-to-br from-blue-600 to-indigo-900 text-white shadow-xl relative overflow-hidden">
                     <!-- Background Decoration / Mockup -->
                     <img src="{{ asset('assets/images/ilustrasi/home-screen-android-mockup-phone.png') }}"
                         class="absolute -right-12 -bottom-24 w-72 sm:w-80 opacity-90 z-0 drop-shadow-2xl"
