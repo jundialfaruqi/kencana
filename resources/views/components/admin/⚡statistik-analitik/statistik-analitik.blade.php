@@ -75,10 +75,11 @@
     </div>
     
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" data-navigate-once></script>
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('bookingCharts', (initial) => ({
+        const registerCharts = () => {
+            if (!window.Alpine) return;
+            window.Alpine.data('bookingCharts', (initial) => ({
                 init() {
                     let d = { monthlyData: [], daysLabels: [], daysData: [], timesLabels: [], timesData: [] };
                     try {
@@ -89,7 +90,14 @@
                         d.timesData = JSON.parse(initial.timesData || '[]');
                     } catch(e) {}
                     
-                    this.renderCharts(d);
+                    const tryRender = () => {
+                        if (typeof Chart === 'undefined') {
+                            setTimeout(tryRender, 50);
+                            return;
+                        }
+                        this.renderCharts(d);
+                    };
+                    tryRender();
                     
                     window.addEventListener('analytics-updated', (e) => {
                         let evData = e.detail[0] || e.detail; // Handle Livewire 3 event structure variations
@@ -146,5 +154,10 @@
                     });
                 }
             }));
-        });
+        };
+        
+        document.addEventListener('alpine:init', registerCharts);
+        if (window.Alpine) {
+            registerCharts();
+        }
     </script>
