@@ -1,3 +1,32 @@
+function toggleResetButton() {}
+
+function startResetButtonObserver() {
+    if (window.__resetBtnObserverStarted) return;
+    window.__resetBtnObserverStarted = true;
+    
+    setInterval(() => {
+        const inputs = ['input-year-1', 'input-year-2', 'input-year-3', 'input-year-4',
+                        'input-month-1', 'input-month-2', 'input-day-1', 'input-day-2',
+                        'input-code-1', 'input-code-2', 'input-code-3', 'input-code-4'];
+        let isFilled = false;
+        for (let i = 0; i < inputs.length; i++) {
+            const el = document.getElementById(inputs[i]);
+            if (el && el.value.length > 0) {
+                isFilled = true;
+                break;
+            }
+        }
+        const resetBtn = document.getElementById('reset-button');
+        if (resetBtn) {
+            if (isFilled) {
+                resetBtn.style.display = 'flex';
+            } else {
+                resetBtn.style.display = 'none';
+            }
+        }
+    }, 150);
+}
+
 let livewireSearchQueryInput;
 let searchButton;
 let html5QrCode = null;
@@ -122,6 +151,7 @@ function fillBookingCode(fullCode) {
                 }
             }
         }
+        toggleResetButton();
         return true;
     }
     return false;
@@ -146,6 +176,7 @@ function getFullBookingCode(inputSegments) {
 }
 
 function updateLivewireSearchQuery(inputSegments) {
+    toggleResetButton();
     const fullCode = getFullBookingCode(inputSegments);
     if (livewireSearchQueryInput) {
         livewireSearchQueryInput.value = fullCode;
@@ -199,6 +230,7 @@ function initializeInputLogic() {
             inputSegments[currentIndex + 1].focus();
         }
         updateLivewireSearchQuery(inputSegments);
+    startResetButtonObserver();
     }
 
     function handleKeydown(e) {
@@ -322,11 +354,24 @@ function initializeInputLogic() {
     }
 
     updateLivewireSearchQuery(inputSegments);
+    startResetButtonObserver();
     setInitialFocus(inputSegments);
 }
 
 function registerLivewireListeners() {
     if (window.Livewire && !window.__dashboardListenersBound) {
+                window.Livewire.on('reset-inputs', () => {
+            const inputs = ['input-year-1', 'input-year-2', 'input-year-3', 'input-year-4',
+                            'input-month-1', 'input-month-2', 'input-day-1', 'input-day-2',
+                            'input-code-1', 'input-code-2', 'input-code-3', 'input-code-4'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            const first = document.getElementById('input-year-1');
+            if (first) first.focus();
+            toggleResetButton();
+        });
         window.Livewire.on('inputs-ready', () => {
             setTimeout(() => {
                 initializeInputLogic(); // Re-initialize after Livewire event

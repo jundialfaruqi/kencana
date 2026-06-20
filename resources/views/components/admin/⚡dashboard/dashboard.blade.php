@@ -13,7 +13,7 @@
         </div>
     </div> --}}
     <div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 items-start mb-8">
+        <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6 items-start mb-8">
             <!-- Kolom Cek Kode Booking -->
             <div class="w-full">
                 <div
@@ -21,45 +21,46 @@
                     <h2 class="text-lg font-bold text-center mb-2 text-base-content">
                         Cek Kode Booking
                     </h2>
+
                     <label class="form-control">
                         <div class="join w-full">
                             <div id="booking-code-input-segments"
-                                class="flex flex-col sm:flex-row items-center join-item grow gap-1">
+                                class="flex flex-row flex-wrap justify-center items-center join-item grow gap-2 sm:gap-1">
                                 <div class="flex items-center gap-1 sm:contents">
                                     <input type="text" id="input-bk-b" value="B" maxlength="1" readonly
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-bk-k" value="K" maxlength="1" readonly
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <span class="font-bold text-lg">-</span>
                                 </div>
                                 <div class="flex items-center gap-1 sm:contents">
                                     <input type="text" id="input-year-1" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-year-2" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-year-3" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-year-4" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-month-1" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-month-2" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-day-1" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-day-2" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <span class="font-bold text-lg">-</span>
                                 </div>
                                 <div class="flex items-center gap-1 sm:contents">
                                     <input type="text" id="input-code-1" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-code-2" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-code-3" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-code-4" maxlength="1"
-                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs sm:input-md w-8 h-8 sm:w-10 sm:h-10 text-center text-[10px] sm:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                 </div>
                             </div>
                             <input type="hidden" id="livewire-search-query-input" wire:model.live="searchQuery">
@@ -85,6 +86,16 @@
                             <span class="loading loading-spinner loading-md" wire:loading
                                 wire:target="searchBooking"></span>
                         </button>
+                        <button id="reset-button" type="button" wire:click="resetSearch" wire:loading.attr="disabled"
+                            style="display: none;"
+                            class="btn btn-error bg-red-100 hover:bg-red-200 border-0 btn-md text-red-600 rounded-xl flex-none px-4"
+                            title="Reset">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
+                        </button>
 
                         <button id="scan-button" type="button"
                             class="btn btn-info border-0 btn-md text-info-content rounded-xl hover:opacity-90 flex-1">
@@ -96,7 +107,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                                 </svg>
-                                Scan Barcode
+                                QR CODE
                             </span>
                         </button>
                     </div>
@@ -117,7 +128,7 @@
 
                                 <div wire:loading.remove wire:target="searchBooking">
                                     @if ($searchError)
-                                        <div class="alert bg-red-500 mb-4 text-white">
+                                        <div class="alert bg-red-500 mb-4 mx-4 mt-4 text-white">
                                             <span>{{ $searchError }}</span>
                                         </div>
                                     @elseif ($bookingDetail)
@@ -175,7 +186,8 @@
                                                 <div class="bp-divider my-4"></div>
                                                 <div class="grid grid-cols-3 gap-2">
                                                     <div class="col-span-2">
-                                                        <div class="text-[10px] font-bold uppercase text-gray-400">Tim
+                                                        <div class="text-[10px] font-bold uppercase text-gray-400">
+                                                            Tim
                                                             / Nama</div>
                                                         <div class="mt-1 flex flex-col">
                                                             @php
@@ -327,11 +339,13 @@
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <div class="text-[10px] font-bold uppercase text-gray-400">Kode
+                                                        <div class="text-[10px] font-bold uppercase text-gray-400">
+                                                            Kode
                                                         </div>
                                                         <div
                                                             class="mt-1 text-xs font-black italic uppercase text-white">
-                                                            {{ data_get($bookingDetail, 'kode_booking') ?? '-' }}</div>
+                                                            {{ data_get($bookingDetail, 'kode_booking') ?? '-' }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div
@@ -369,9 +383,9 @@
                         alt="Mockup" />
 
                     <div class="card-body relative z-10 w-2/3 md:w-3/4">
-                        <h2 class="card-title text-2xl font-black mb-2">Aplikasi Admin</h2>
-                        <p class="text-sm opacity-80 mb-6">Kelola booking, ketersediaan jadwal, dan pelanggan lebih
-                            mudah langsung dari genggaman Anda.</p>
+                        <h2 class="card-title text-2xl font-black mb-2">Aplikasi Kencana Admin</h2>
+                        <p class="text-sm opacity-80 mb-6">Kelola booking, ketersediaan jadwal, dan pengguna lebih
+                            mudah langsung dari aplikasi Android.</p>
 
                         <div class="form-control w-full max-w-xs mb-4">
                             <label class="label px-0">

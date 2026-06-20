@@ -39,6 +39,16 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
         };
     }
 
+    
+    public function resetSearch(): void
+    {
+        $this->searchQuery = '';
+        $this->bookingDetail = null;
+        $this->searchError = null;
+        $this->resetValidation();
+        $this->dispatch('reset-inputs');
+    }
+
     public function searchBooking(): void
     {
         $this->resetValidation();
