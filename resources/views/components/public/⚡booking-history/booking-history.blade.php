@@ -78,7 +78,7 @@
                             </div>
                             <button class="btn btn-info btn-sm w-full italic font-black uppercase"
                                 wire:click="applyFilter" wire:loading.attr="disabled">
-                                <span class="skew-x-12">Kirim</span>
+                                <span class="skew-x-12">Terapkan</span>
                             </button>
                         </div>
                         <!-- Desktop Filters -->
@@ -109,7 +109,7 @@
                             <div class="flex items-end">
                                 <button class="btn btn-info btn-sm w-full italic font-black uppercase"
                                     wire:click="applyFilter" wire:loading.attr="disabled">
-                                    <span class="skew-x-12">Filter Booking</span>
+                                    <span class="skew-x-12">Terapkan</span>
                                 </button>
                             </div>
                         </div>
