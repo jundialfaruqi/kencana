@@ -38,10 +38,10 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
     {
         if (Session::has('auth_token')) {
             $user = Session::get('user_data');
-            if ($user && in_array($user['role'], ['admin', 'superadmin'])) {
-                return $this->redirect('/dashboard', navigate: true);
-            }
-            return $this->redirect('/', navigate: true);
+            $defaultUrl = ($user && in_array($user['role'], ['admin', 'superadmin'])) ? '/dashboard' : '/';
+            $intendedUrl = Session::pull('url.intended', $defaultUrl);
+            
+            return $this->redirect($intendedUrl, navigate: true);
         }
     }
 
@@ -97,11 +97,10 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
                 // Redirect berdasarkan role
                 $role = $result['data']['user']['role'];
 
-                if (in_array($role, ['admin', 'superadmin'])) {
-                    return $this->redirect('/dashboard', navigate: true);
-                }
+                $defaultUrl = in_array($role, ['admin', 'superadmin']) ? '/dashboard' : '/';
+                $intendedUrl = Session::pull('url.intended', $defaultUrl);
 
-                return $this->redirect('/', navigate: true);
+                return $this->redirect($intendedUrl, navigate: true);
             }
 
             if ($response->status() === 422) {

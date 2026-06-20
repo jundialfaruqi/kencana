@@ -16,14 +16,18 @@ class ApiAuth
      */
     public function handle(Request $request, Closure $next, ?string $role = null): Response
     {
-        if (!Session::has('auth_token')) {
+        if (! Session::has('auth_token')) {
+            if ($request->isMethod('get') && ! $request->expectsJson()) {
+                Session::put('url.intended', $request->fullUrl());
+            }
+
             return redirect('/login');
         }
 
         if ($role) {
             $user = Session::get('user_data');
 
-            if (!$user || ($role === 'admin' && !in_array($user['role'], ['admin', 'superadmin'])) || ($role !== 'admin' && $user['role'] !== $role)) {
+            if (! $user || ($role === 'admin' && ! in_array($user['role'], ['admin', 'superadmin'])) || ($role !== 'admin' && $user['role'] !== $role)) {
                 // Jika bukan admin atau superadmin tapi mencoba akses dashboard, lempar ke home
                 if ($role === 'admin') {
                     return redirect('/');

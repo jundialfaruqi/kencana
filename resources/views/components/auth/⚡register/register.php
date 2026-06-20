@@ -94,10 +94,10 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
     {
         if (Session::has('auth_token')) {
             $user = Session::get('user_data');
-            if ($user && in_array($user['role'], ['admin', 'superadmin'])) {
-                return $this->redirect('/dashboard', navigate: true);
-            }
-            return $this->redirect('/', navigate: true);
+            $defaultUrl = ($user && in_array($user['role'], ['admin', 'superadmin'])) ? '/dashboard' : '/';
+            $intendedUrl = Session::pull('url.intended', $defaultUrl);
+            
+            return $this->redirect($intendedUrl, navigate: true);
         }
     }
 
