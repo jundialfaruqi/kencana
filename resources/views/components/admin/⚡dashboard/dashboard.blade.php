@@ -374,41 +374,77 @@
             </div>
 
             <!-- Kolom Download Aplikasi -->
-            <div class="w-full">
+            <div class="w-full h-full">
                 <div x-data="{ apk: 'armeabi-v7a' }"
-                    class="card bg-linear-to-br from-blue-600 to-indigo-900 text-white shadow-xl relative overflow-hidden">
-                    <!-- Background Decoration / Mockup -->
+                    class="card bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden h-full">
+
+                    <!-- Background blobs -->
+                    <div
+                        class="absolute -right-20 -top-20 w-64 h-64 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70">
+                    </div>
+                    <div
+                        class="absolute -right-10 bottom-0 w-80 h-80 bg-blue-100/50 rounded-full mix-blend-multiply filter blur-3xl opacity-70">
+                    </div>
+
+                    <!-- Phone Mockup -->
                     <img src="{{ asset('assets/images/ilustrasi/home-screen-android-mockup-phone.png') }}"
-                        class="absolute -right-12 -bottom-24 w-72 sm:w-80 opacity-90 z-0 drop-shadow-2xl"
+                        class="absolute -right-16 sm:-right-16 bottom-6 sm:-bottom-2 w-102 sm:w-100 lg:w-95 drop-shadow-[0_20px_30px_rgba(0,0,0,0.25)] z-0 pointer-events-none transform -rotate-2"
                         alt="Mockup" />
 
-                    <div class="card-body relative z-10 w-2/3 md:w-3/4">
-                        <h2 class="card-title text-2xl font-black mb-2">Aplikasi Kencana Admin</h2>
-                        <p class="text-sm opacity-80 mb-6">Kelola booking, ketersediaan jadwal, dan pengguna lebih
-                            mudah langsung dari aplikasi Android.</p>
+                    <div
+                        class="card-body relative z-10 w-[75%] sm:w-[65%] lg:w-[65%] p-6 sm:p-8 flex flex-col justify-between">
+                        <div>
+                            <!-- Header: Logo & Title -->
+                            <div class="flex flex-row sm:flex-row items-start sm:items-center gap-2 mb-3">
+                                <div
+                                    class="w-10 h-10 bg-[#143e99] rounded-lg flex items-center justify-center shrink-0 shadow-lg overflow-hidden">
+                                    <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
+                                        class="w-full h-full object-contain p-1" alt="Logo Kencana">
+                                </div>
+                                <h2
+                                    class="text-[16px] sm:text-3xl font-black text-[#143e99] leading-tight tracking-tight">
+                                    Aplikasi Kencana Admin</h2>
+                            </div>
 
-                        <div class="form-control w-full max-w-xs mb-4">
-                            <label class="label px-0">
-                                <span
-                                    class="label-text text-white/70 text-[10px] font-bold uppercase tracking-wider">Pilih
-                                    Arsitektur APK</span>
-                            </label>
-                            <select x-model="apk"
-                                class="select select-sm w-full bg-white text-blue-900 border-none focus:ring-2 focus:ring-white/50">
-                                <option value="armeabi-v7a" class="text-base-content">Android 32-bit (armeabi-v7a)
-                                </option>
-                                <option value="arm64-v8a" class="text-base-content">Android 64-bit (arm64-v8a)
-                                </option>
-                            </select>
+                            <!-- Description -->
+                            <p
+                                class="text-[13px] sm:text-[15px] text-gray-500 mb-6 leading-relaxed drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
+                                Kelola booking, ketersediaan jadwal, dan pengguna lebih mudah langsung dari aplikasi
+                                Android.
+                            </p>
+
+                            <!-- Form Control -->
+                            <div class="form-control w-full max-w-sm mb-6">
+                                <label class="label px-0 pt-0 pb-2">
+                                    <span class="label-text text-[#143e99] font-bold text-sm">Pilih Arsitektur
+                                        APK</span>
+                                </label>
+                                <div class="relative">
+                                    <div
+                                        class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-[#3DDC84] z-10">
+                                        <!-- Android Icon -->
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0004.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592c.1158-.2018.0468-.4584-.1558-.5742-.203-.1165-.4588-.0464-.5746.1558l-2.022 3.5027c-1.4746-.6731-3.1511-1.0454-4.9452-1.0454-1.8021 0-3.4866.3768-4.9662 1.0567l-2.006-3.4754c-.1154-.2026-.3715-.2727-.5746-.1565-.2026.115-.2716.3715-.1554.5746l1.9793 3.4284C2.793 10.7719.2559 14.8693.0232 19.6715h23.9529c-.2323-4.8022-2.7694-8.8996-6.4256-10.3501" />
+                                        </svg>
+                                    </div>
+                                    <select x-model="apk"
+                                        class="select select-bordered w-65 pl-10 bg-white border-gray-200 text-gray-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all h-12 rounded-xl text-[14px]">
+                                        <option value="armeabi-v7a">Android 32-bit (armeabi-v7a)</option>
+                                        <option value="arm64-v8a">Android 64-bit (arm64-v8a)</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="card-actions mt-auto pt-4">
+                        <!-- Button -->
+                        <div class="card-actions">
                             <a :href="'/apk-download/kencana-admin-' + apk + '.apk'" download
-                                class="btn bg-white text-blue-700 hover:bg-gray-100 border-none flex gap-2">
+                                class="btn bg-[#044bc0] hover:bg-[#033c99] text-white border-none shadow-[0_4px_15px_rgba(4,75,192,0.3)] px-6 rounded-xl font-semibold flex items-center gap-2 normal-case h-11 min-h-11">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2.5" stroke="currentColor" class="size-4">
+                                    stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                 </svg>
                                 Download APK
                             </a>
