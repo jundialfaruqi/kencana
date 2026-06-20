@@ -27,39 +27,39 @@
                                 class="flex flex-col sm:flex-row items-center join-item grow gap-1">
                                 <div class="flex items-center gap-1 sm:contents">
                                     <input type="text" id="input-bk-b" value="B" maxlength="1" readonly
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-bk-k" value="K" maxlength="1" readonly
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <span class="font-bold text-lg">-</span>
                                 </div>
                                 <div class="flex items-center gap-1 sm:contents">
                                     <input type="text" id="input-year-1" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-year-2" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-year-3" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-year-4" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-month-1" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-month-2" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-day-1" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-day-2" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <span class="font-bold text-lg">-</span>
                                 </div>
                                 <div class="flex items-center gap-1 sm:contents">
                                     <input type="text" id="input-code-1" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-code-2" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-code-3" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                     <input type="text" id="input-code-4" maxlength="1"
-                                        class="input input-xs md:input-md w-8 h-8 md:w-10 md:h-10 text-center text-[8px] md:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
+                                        class="input input-xs lg:input-md w-8 h-8 lg:w-10 lg:h-10 text-center text-[10px] lg:text-[14px] uppercase focus-within:outline-none focus-within:ring-0 border-0 border-b-2 rounded-none font-bold font-mono" />
                                 </div>
                             </div>
                             <input type="hidden" id="livewire-search-query-input" wire:model.live="searchQuery">
