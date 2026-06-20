@@ -439,7 +439,7 @@
 
                         <!-- Button -->
                         <div class="card-actions">
-                            <a :href="'/apk-download/kencana-admin-' + apk + '.apk'" download
+                            <a :href="'/admin/apk-download/kencana-admin-' + apk + '.apk'" download
                                 class="btn bg-[#044bc0] hover:bg-[#033c99] text-white border-none shadow-[0_4px_15px_rgba(4,75,192,0.3)] px-6 rounded-xl font-semibold flex items-center gap-2 normal-case h-11 min-h-11">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2.5" stroke="currentColor" class="w-5 h-5">

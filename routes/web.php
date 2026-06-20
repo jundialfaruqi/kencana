@@ -31,6 +31,15 @@ Route::middleware(['api.auth'])->group(function () {
 
 // Admin Route
 Route::middleware(['api.auth:admin'])->group(function () {
+    // Protected APK Download Route
+    Route::get('/admin/apk-download/{filename}', function ($filename) {
+        $path = storage_path('app/private/apk-download/' . $filename);
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        return response()->download($path);
+    })->name('admin.apk-download');
+
     Route::livewire('/dashboard', 'admin::dashboard')
         ->name('dashboard');
         
