@@ -85,10 +85,8 @@
                     let lngInput = document.querySelector('[wire\\:model\\.live="longitude"]');
                     let addrInput = document.querySelector('[wire\\:model\\.live="alamat"]');
 
-                    let initialLat = latInput && latInput.value ? parseFloat(latInput.value) : -
-                    6.200000;
-                    let initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) :
-                        106.816666;
+                    let initialLat = latInput && latInput.value ? parseFloat(latInput.value) : -6.200000;
+                    let initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) : 106.816666;
 
                     this.selectedLat = latInput ? latInput.value : '';
                     this.selectedLng = lngInput ? lngInput.value : '';
@@ -146,7 +144,7 @@
                     try {
                         const response = await fetch(
                             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
-                            );
+                        );
                         const data = await response.json();
                         if (data && data.display_name) {
                             this.selectedAddress = data.display_name;
@@ -163,7 +161,7 @@
                     try {
                         const response = await fetch(
                             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}`
-                            );
+                        );
                         const data = await response.json();
 
                         if (data && data.length > 0) {
@@ -187,7 +185,8 @@
                     }
                     this.isSearching = true;
                     fetch(
-                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}&limit=5`)
+                        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}&limit=5`
+                    )
                         .then(res => res.json())
                         .then(data => {
                             this.searchResults = data || [];
@@ -217,8 +216,7 @@
                 },
 
                 saveLocation() {
-                    const gmapUrl =
-                    `https://maps.google.com/?q=${this.selectedLat},${this.selectedLng}`;
+                    const gmapUrl = `https://maps.google.com/?q=${this.selectedLat},${this.selectedLng}`;
 
                     this.$wire.set('latitude', this.selectedLat);
                     this.$wire.set('longitude', this.selectedLng);
@@ -229,5 +227,10 @@
                 }
             }));
         });
+
+        // Ensure registration happens if Alpine is already initialized (e.g. during Livewire navigate)
+        if (window.Alpine) {
+            document.dispatchEvent(new CustomEvent('alpine:init'));
+        }
     </script>
 </div>
