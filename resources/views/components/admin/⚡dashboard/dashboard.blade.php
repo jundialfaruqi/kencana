@@ -13,9 +13,9 @@
         </div>
     </div> --}}
     <div>
-        <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6 items-start mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start mb-8">
             <!-- Kolom Cek Kode Booking -->
-            <div class="w-full">
+            <div class="w-full lg:col-span-2">
                 <div
                     class="card bg-base-100 border border-base-200 mx-auto rounded-2xl items-center py-10 flex flex-col">
                     <h2 class="text-lg font-bold text-center mb-2 text-base-content">
@@ -388,7 +388,7 @@
             </div>
 
             <!-- Kolom Download Aplikasi -->
-            <div class="w-full">
+            <div class="w-full lg:col-span-1">
                 <div x-data="{ apk: 'armeabi-v7a' }"
                     class="card bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
 
