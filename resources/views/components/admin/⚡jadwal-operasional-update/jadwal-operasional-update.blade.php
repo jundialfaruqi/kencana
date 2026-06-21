@@ -28,7 +28,7 @@
                                 <span class="label-text">Nama Lapangan</span>
                             </div>
                             <input type="text"
-                                class="input text-primary-content italic font-black border-2 border-dashed border-base-300 input-bordered w-full mt-1.5"
+                                class="input text-base-content italic font-black border-2 border-dashed border-base-300 input-bordered w-full mt-1.5"
                                 value="{{ $lapangan_nama ?: '-' }}" disabled />
                         </label>
                         <label class="form-control w-full">
