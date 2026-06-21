@@ -17,7 +17,7 @@
             <!-- Kolom Cek Kode Booking -->
             <div class="w-full lg:col-span-2">
                 <div
-                    class="card bg-base-100 border border-base-200 mx-auto rounded-2xl items-center py-10 flex flex-col">
+                    class="card bg-base-100 border border-base-200 mx-auto rounded-2xl items-center py-10 flex flex-col min-h-196">
                     <h2 class="text-lg font-bold text-center mb-2 text-base-content">
                         Cek Kode Booking
                     </h2>
@@ -402,7 +402,7 @@
 
                     <!-- Phone Mockup -->
                     <img src="{{ asset('assets/images/ilustrasi/home-screen-android-mockup-phone.png') }}"
-                        class="absolute -right-16 sm:-right-16 bottom-6 sm:-bottom-2 w-102 sm:w-100 lg:w-95 drop-shadow-[0_20px_30px_rgba(0,0,0,0.25)] z-0 pointer-events-none transform -rotate-2"
+                        class="absolute -right-16 sm:-right-18 bottom-6 sm:-bottom-1 w-102 sm:w-100 lg:w-100 drop-shadow-[0_20px_30px_rgba(0,0,0,0.25)] z-0 pointer-events-none transform -rotate-2"
                         alt="Mockup" />
 
                     <div
@@ -416,13 +416,12 @@
                                         class="w-full h-full object-contain p-1" alt="Logo Kencana">
                                 </div>
                                 <h2
-                                    class="text-[16px] sm:text-3xl font-black text-[#143e99] leading-tight tracking-tight">
+                                    class="text-[16px] sm:text-xl font-black text-[#143e99] leading-tight tracking-tight">
                                     Aplikasi Kencana Admin</h2>
                             </div>
 
                             <!-- Description -->
-                            <p
-                                class="text-[13px] sm:text-[15px] text-gray-500 mb-6 leading-relaxed drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
+                            <p class="text-[13px] sm:text-[15px] text-gray-500 mb-6 leading-relaxed text-stroke-white">
                                 Kelola booking, ketersediaan jadwal, dan pengguna lebih mudah langsung dari aplikasi
                                 Android.
                             </p>
