@@ -85,8 +85,8 @@
                     let lngInput = document.querySelector('[wire\\:model\\.live="longitude"]');
                     let addrInput = document.querySelector('[wire\\:model\\.live="alamat"]');
 
-                    let initialLat = latInput && latInput.value ? parseFloat(latInput.value) : -6.200000;
-                    let initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) : 106.816666;
+                    let initialLat = latInput && latInput.value ? parseFloat(latInput.value) : 0.507068;
+                    let initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) : 101.445107;
 
                     this.selectedLat = latInput ? latInput.value : '';
                     this.selectedLng = lngInput ? lngInput.value : '';
