@@ -13,7 +13,7 @@
         </div>
     </div> --}}
     <div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             <!-- Kolom Cek Kode Booking -->
             <div class="w-full lg:col-span-2">
                 <div
@@ -70,9 +70,9 @@
                             <p class="text-warning italic text-xs mt-1 text-center">*{{ $message }}</p>
                         @enderror
                     </label>
-                    <div class="flex flex-row sm:flex-row gap-3 mt-4 w-full max-w-xs justify-center">
+                    <div class="flex flex-row sm:flex-row gap-2 sm:gap-3 mt-4 w-full max-w-xs justify-center">
                         <button id="search-button"
-                            class="btn btn-gray bg-base-300 border-0 btn-md text-base-content rounded-xl hover:bg-base-300 flex-1"
+                            class="btn btn-gray bg-base-300 border-0 btn-sm sm:btn-md text-base-content rounded-xl hover:bg-base-300 flex-1"
                             wire:click="searchBooking" wire:loading.attr="disabled" wire:target="searchBooking">
                             <span class="flex items-center justify-center gap-1" wire:loading.remove
                                 wire:target="searchBooking">
@@ -86,19 +86,9 @@
                             <span class="loading loading-spinner loading-md" wire:loading
                                 wire:target="searchBooking"></span>
                         </button>
-                        <button id="reset-button" type="button" wire:click="resetSearch" wire:loading.attr="disabled"
-                            style="display: none;"
-                            class="btn btn-error bg-red-100 hover:bg-red-200 border-0 btn-md text-red-600 rounded-xl flex-none px-4"
-                            title="Reset">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2.5" stroke="currentColor" class="size-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                            </svg>
-                        </button>
 
                         <button id="scan-button" type="button"
-                            class="btn btn-info border-0 btn-md text-info-content rounded-xl hover:opacity-90 flex-1">
+                            class="btn btn-info border-0 btn-sm sm:btn-md text-info-content rounded-xl hover:opacity-90 flex-1">
                             <span class="flex items-center justify-center gap-1.5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -123,6 +113,17 @@
                                 </svg>
                                 QR CODE
                             </span>
+                        </button>
+
+                        <button id="reset-button" type="button" wire:click="resetSearch"
+                            wire:loading.attr="disabled" style="display: none;"
+                            class="btn btn-error bg-red-100 hover:bg-red-200 border-0 btn-sm sm:btn-md text-red-600 rounded-xl flex-none px-3 sm:px-4"
+                            title="Reset">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
                         </button>
                     </div>
                     <div class="w-full">
@@ -377,6 +378,22 @@
                                                     {{ data_get($bookingDetail, 'lapangan.nama_lapangan') ?? '-' }}
                                                 </div>
                                             </div>
+                                        </div>
+                                    @else
+                                        <div
+                                            class="flex flex-col items-center justify-center text-center p-10 opacity-50 mt-40">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-20 mb-4 text-base-content">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+                                            </svg>
+                                            <h3 class="text-xl font-black italic uppercase text-base-content mb-2">
+                                                Belum Ada Pencarian</h3>
+                                            <p class="text-sm font-semibold text-base-content/60 max-w-xs">
+                                                Masukkan kode booking atau scan QR Code untuk melihat detail tiket di
+                                                sini.
+                                            </p>
                                         </div>
                                     @endif
                                 </div>
