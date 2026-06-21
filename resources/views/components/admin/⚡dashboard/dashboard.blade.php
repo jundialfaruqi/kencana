@@ -388,9 +388,9 @@
             </div>
 
             <!-- Kolom Download Aplikasi -->
-            <div class="w-full h-full">
+            <div class="w-full">
                 <div x-data="{ apk: 'armeabi-v7a' }"
-                    class="card bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden h-full">
+                    class="card bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
 
                     <!-- Background blobs -->
                     <div
