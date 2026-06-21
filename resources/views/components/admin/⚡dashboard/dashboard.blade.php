@@ -17,7 +17,7 @@
             <!-- Kolom Cek Kode Booking -->
             <div class="w-full">
                 <div
-                    class="card bg-base-100 shadow-xl border border-base-200 mx-auto rounded-2xl items-center py-10 flex flex-col">
+                    class="card bg-base-100 border border-base-200 mx-auto rounded-2xl items-center py-10 flex flex-col">
                     <h2 class="text-lg font-bold text-center mb-2 text-base-content">
                         Cek Kode Booking
                     </h2>
@@ -100,12 +100,26 @@
                         <button id="scan-button" type="button"
                             class="btn btn-info border-0 btn-md text-info-content rounded-xl hover:opacity-90 flex-1">
                             <span class="flex items-center justify-center gap-1.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2" stroke="currentColor" class="size-[1.2em]">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-qrcode size-[1.2em]">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path
+                                        d="M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" />
+                                    <path d="M7 17l0 .01" />
+                                    <path
+                                        d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" />
+                                    <path d="M7 7l0 .01" />
+                                    <path
+                                        d="M4 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" />
+                                    <path d="M17 7l0 .01" />
+                                    <path d="M14 14l3 0" />
+                                    <path d="M20 14l0 .01" />
+                                    <path d="M14 14l0 3" />
+                                    <path d="M14 20l3 0" />
+                                    <path d="M17 17l3 0" />
+                                    <path d="M20 17l0 3" />
                                 </svg>
                                 QR CODE
                             </span>
