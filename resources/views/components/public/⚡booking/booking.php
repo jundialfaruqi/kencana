@@ -427,23 +427,16 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     protected function isArenaOpen(string $id): bool
     {
-        try {
-            $base = config('services.api.base_url');
-            $url = rtrim((string) $base, '/') . '/v1/lapangan';
-            $token = Session::get('auth_token');
-            /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
-                ->accept('application/json')
-                ->get($url);
-            $json = $response->json();
-            $list = ($json['data'] ?? []);
-            foreach ((array) $list as $item) {
-                if ((string) ($item['id'] ?? '') === (string) $id) {
-                    return (($item['status'] ?? '') === 'open');
-                }
-            }
-        } catch (\Throwable) {
+        if (empty($this->arenas)) {
+            $this->fetchArenas();
         }
+
+        foreach ((array) $this->arenas as $item) {
+            if ((string) ($item['id'] ?? '') === (string) $id) {
+                return (($item['status'] ?? '') === 'open');
+            }
+        }
+
         return false;
     }
 
