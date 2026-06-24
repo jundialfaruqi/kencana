@@ -2,7 +2,7 @@
     class="min-h-[100dvh] bg-base-300 py-12 px-4 sm:py-16 font-sans relative">
 
     <div wire:key="register-card"
-        class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative z-10">
+        class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative z-10 transform-gpu">
         <!-- Sporty Accent Line (Top Border with Glow) -->
         <div
             class="absolute top-0 left-0 w-full h-1.5 rounded-t-[inherit] bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
@@ -277,7 +277,7 @@
 
                         <div class="grid grid-cols-2 gap-3 mt-6">
                             <button type="submit" wire:loading.attr="disabled" wire:target="register"
-                                class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group h-12">
+                                class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest group h-12">
                                 <span wire:loading.remove wire:target="register">Daftar Sekarang</span>
                                 <span wire:loading wire:target="register">Registering...</span>
                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +288,7 @@
                                 </svg>
                             </button>
                             <a href="{{ route('home') }}" wire:navigate
-                                class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg h-12 flex items-center justify-center">
+                                class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest h-12 flex items-center justify-center">
                                 Batal
                             </a>
                         </div>
