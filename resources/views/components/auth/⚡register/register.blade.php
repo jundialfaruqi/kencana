@@ -1,5 +1,5 @@
 <div data-theme="chaotictoast" wire:init="load" x-data="{ showPassword: false, showConfirmPassword: false }"
-    class="min-h-screen flex items-center justify-center bg-base-300 p-4 font-sans transition-colors duration-500 overflow-hidden relative">
+    class="min-h-screen flex items-center justify-center bg-base-300 p-4 font-sans transition-colors duration-500 overflow-x-hidden overflow-y-auto relative">
     <!-- Dynamic Mesh Gradient Background -->
     <div class="absolute inset-0 z-0 pointer-events-none opacity-50">
         <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-info blur-[120px] opacity-20">
