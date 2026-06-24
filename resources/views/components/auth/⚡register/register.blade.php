@@ -2,7 +2,7 @@
     class="min-h-[100dvh] bg-base-300 py-12 px-4 sm:py-16 font-sans relative">
 
     <div wire:key="register-card"
-        class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative z-10 transform-gpu">
+        class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative z-10">
         <!-- Sporty Accent Line (Top Border with Glow) -->
         <div
             class="absolute top-0 left-0 w-full h-1.5 rounded-t-[inherit] bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
@@ -201,10 +201,10 @@
                                 </span>
                             </label>
                             <div class="relative group/input">
-                                <input :type="showPassword ? 'text' : 'password'" placeholder="••••••••"
+                                <input :type="showPassword ? 'text' : 'password'" placeholder="••••••••" autocomplete="new-password"
                                     class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 h-10 @error('password') input-warning @enderror"
                                     wire:model="password" />
-                                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
+                                <div class="absolute right-4 inset-y-0 flex items-center">
                                     <label class="swap text-base-content/30 hover:text-info transition-colors">
                                         <input type="checkbox" x-model="showPassword" />
                                         <!-- eye icon -->
@@ -245,10 +245,10 @@
                                 </span>
                             </label>
                             <div class="relative group/input">
-                                <input :type="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••"
+                                <input :type="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••" autocomplete="new-password"
                                     class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 h-10 @error('password_confirmation') input-warning @enderror"
                                     wire:model="password_confirmation" />
-                                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
+                                <div class="absolute right-4 inset-y-0 flex items-center">
                                     <label class="swap text-base-content/30 hover:text-info transition-colors">
                                         <input type="checkbox" x-model="showConfirmPassword" />
                                         <!-- eye icon -->
