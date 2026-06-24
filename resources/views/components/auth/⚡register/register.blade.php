@@ -186,7 +186,6 @@
                             @enderror
                         </div>
 
-
                         <!-- Password -->
                         <div class="form-control my-5">
                             <label class="label">
