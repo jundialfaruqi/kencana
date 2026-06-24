@@ -1,5 +1,5 @@
 <div data-theme="chaotictoast" wire:init="load" x-data="{ showPassword: false, showConfirmPassword: false }"
-    class="min-h-[100dvh] bg-base-300 py-12 px-4 sm:py-16 font-sans relative">
+    class="min-h-dvh bg-base-300 py-12 px-4 sm:py-16 font-sans relative">
 
     <div wire:key="register-card"
         class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative z-10">
