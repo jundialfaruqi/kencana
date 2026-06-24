@@ -1,17 +1,17 @@
 <div data-theme="chaotictoast" wire:init="load" x-data="{ showPassword: false, showConfirmPassword: false }"
-    class="min-h-screen bg-base-300 py-12 px-4 sm:py-16 font-sans relative">
+    class="min-h-[100dvh] bg-base-300 py-12 px-4 sm:py-16 font-sans relative">
 
     <div wire:key="register-card"
-        class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10">
+        class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative z-10">
         <!-- Sporty Accent Line (Top Border with Glow) -->
         <div
-            class="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
+            class="absolute top-0 left-0 w-full h-1.5 rounded-t-[inherit] bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
         </div>
 
         @if ($ready)
             @if ($registrationSuccess)
                 <!-- Registration Success Message -->
-                <div class="card-body p-8 text-center" wire:key="register-success-container" x-transition>
+                <div class="card-body p-8 text-center" wire:key="register-success-container">
                     <div class="flex flex-col items-center justify-center">
                         <!-- Success Icon -->
                         <div class="mb-4">
@@ -51,7 +51,7 @@
                 </div>
             @else
                 <!-- Registration Form -->
-                <div class="card-body p-8" wire:key="register-form-container" x-transition>
+                <div class="card-body p-8" wire:key="register-form-container">
                     <div class="flex flex-col items-center mb-8">
                         <div>
                             <!-- Logo Kencana Arena -->
