@@ -1,15 +1,15 @@
 <div data-theme="chaotictoast" wire:init="load" x-data="{ showPassword: false, showConfirmPassword: false }"
-    class="min-h-screen flex items-center justify-center bg-base-300 p-4 font-sans transition-colors duration-500 overflow-x-hidden overflow-y-auto relative">
+    class="min-h-screen bg-base-300 py-12 px-4 sm:py-16 font-sans transition-colors duration-500 overflow-x-hidden relative">
     <!-- Dynamic Mesh Gradient Background -->
-    <div class="absolute inset-0 z-0 pointer-events-none opacity-50">
-        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-info blur-[120px] opacity-20">
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-50">
+        <div class="absolute top-[-10%] left-[-10%] w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] rounded-full bg-info blur-[100px] opacity-20">
         </div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-warning blur-[120px] opacity-20">
+        <div class="absolute bottom-[-10%] right-[-10%] w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] rounded-full bg-warning blur-[100px] opacity-20">
         </div>
     </div>
 
     <!-- Floating Sporty Elements -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <!-- Floating Circles/Shapes -->
         <div class="absolute top-20 left-[10%] w-32 h-32 border-4 border-info/10 rounded-full"
             style="animation-duration: 4s"></div>
@@ -28,7 +28,7 @@
     </div>
 
     <div wire:key="register-card"
-        class="card w-full max-w-md bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10 my-8">
+        class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10">
         <!-- Sporty Accent Line (Top Border with Glow) -->
         <div
             class="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
