@@ -63,7 +63,7 @@
                                     <label class="text-[10px] font-bold uppercase text-base-content/50">Dari</label>
                                     <div class="relative mt-1">
                                         <input type="date"
-                                            class="input input-sm input-bordered w-full text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
+                                            class="input input-sm input-bordered w-full text-base-content focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                                             wire:model.defer="from" />
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                     <label class="text-[10px] font-bold uppercase text-base-content/50">Sampai</label>
                                     <div class="relative mt-1">
                                         <input type="date"
-                                            class="input input-sm input-bordered w-full text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
+                                            class="input input-sm input-bordered w-full text-base-content focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
                                             wire:model.defer="to" />
                                     </div>
                                 </div>
