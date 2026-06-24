@@ -64,7 +64,7 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
             $url = $base . '/v1/master/bookings?search=' . $this->searchQuery;
 
             /** @var Response $response */
-            $response = Http::withToken($token)->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->get($url);
             $json = $response->json();
 
             if ($response->successful() && ($json['success'] ?? false)) {

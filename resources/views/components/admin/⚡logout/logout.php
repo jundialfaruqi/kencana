@@ -15,7 +15,7 @@ new class extends Component
             $token = Session::get('auth_token');
 
             if ($token) {
-                Http::withToken($token)
+                Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                     ->post(config('services.api.base_url') . '/logout');
             }
         } catch (\Exception $e) {

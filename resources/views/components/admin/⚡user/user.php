@@ -57,7 +57,7 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = $result['data'] ?? [];
@@ -98,7 +98,7 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
             $base = rtrim(config('services.api.base_url'), '/');
             $url = $base . '/v1/master/user/' . $id . '/status';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->post($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->post($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 foreach ($this->users as &$u) {
@@ -174,7 +174,7 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
 
                 $requestUrl = $url . '?' . http_build_query($params);
 
-                $response = Http::withToken($token)->accept('application/json')->get($requestUrl);
+                $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($requestUrl);
                 $result = $response->json();
 
                 if ($response->successful() && ($result['success'] ?? false)) {

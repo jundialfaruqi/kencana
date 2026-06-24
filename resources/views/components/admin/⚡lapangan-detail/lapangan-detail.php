@@ -32,7 +32,7 @@ new #[Title('Detail Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             $imageBase = rtrim(config('services.api.image_base_url'), '/');
             $url = $apiBase . '/v1/master/lapangan/' . $this->id;
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->lapangan = $result['data'] ?? null;

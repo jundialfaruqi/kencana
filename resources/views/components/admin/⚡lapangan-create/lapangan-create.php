@@ -120,7 +120,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
                 'longitude' => $validated['longitude'] ?? null,
             ];
 
-            $request = Http::asMultipart()->withToken($token)->accept('application/json');
+            $request = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->asMultipart()->withToken($token)->accept('application/json');
 
             if ($this->image_cover instanceof TemporaryUploadedFile) {
                 $request = $request->attach(

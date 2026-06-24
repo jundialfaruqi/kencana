@@ -36,7 +36,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
                 ->get($url);
             $json = $response->json();
@@ -119,7 +119,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
                 ->delete($url);
             $json = $response->json();

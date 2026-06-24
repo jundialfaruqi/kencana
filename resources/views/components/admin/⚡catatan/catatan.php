@@ -38,7 +38,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/catatan';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = json_decode((string) $response->body(), true);
             if (is_array($result) && ($result['success'] ?? false)) {
                 $all = (array) ($result['data'] ?? []);
@@ -123,7 +123,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/catatan/' . urlencode((string) $id);
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->delete($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->delete($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;

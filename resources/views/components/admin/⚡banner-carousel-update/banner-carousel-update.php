@@ -43,7 +43,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
             $url = $base . '/v1/master/slider';
 
             /** @var Response $response */
-            $response = Http::withToken($token)->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->get($url);
             $json = $response->json();
 
             if ($response->successful() && ($json['success'] ?? false)) {
@@ -76,7 +76,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/slider/' . (int) $this->id;
             /** @var Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $json = $response->json();
             if ($response->successful() && ($json['success'] ?? false)) {
                 $data = (array) ($json['data'] ?? []);
@@ -114,7 +114,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/slider/' . (int) $this->id;
-            $request = Http::asMultipart()->withToken($token)->accept('application/json');
+            $request = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->asMultipart()->withToken($token)->accept('application/json');
             if ($this->image) {
                 $request = $request->attach(
                     'image',

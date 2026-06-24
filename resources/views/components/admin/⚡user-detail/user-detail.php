@@ -32,7 +32,7 @@ new #[Title('Detail User')] #[Layout('layouts::admin.app')] class extends Compon
             $base = rtrim(config('services.api.base_url'), '/');
             $url = $base . '/v1/master/user/' . $this->id;
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->user = $result['data'] ?? null;

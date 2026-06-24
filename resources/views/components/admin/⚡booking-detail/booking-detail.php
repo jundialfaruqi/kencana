@@ -31,7 +31,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Com
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/bookings/' . urlencode((string) $this->id);
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->detail = (array) ($result['data'] ?? []);

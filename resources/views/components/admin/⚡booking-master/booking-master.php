@@ -117,7 +117,7 @@ new class extends Component
                 $url .= '?' . http_build_query($params);
             }
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = (array) ($result['data'] ?? []);
@@ -163,7 +163,7 @@ new class extends Component
                 $base = rtrim((string) config('services.api.base_url'), '/');
                 $url = $base . '/v1/master/bookings/' . urlencode((string) $this->cancelBookingId);
                 /** @var \Illuminate\Http\Client\Response $response */
-                $response = Http::withToken($token)->accept('application/json')->get($url);
+                $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
                 $result = $response->json();
                 if ($response->successful() && ($result['success'] ?? false)) {
                     $data = (array) ($result['data'] ?? []);
@@ -209,7 +209,7 @@ new class extends Component
                 $payload['keterangan'] = $ket;
             }
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
                 ->post($url, $payload);
@@ -249,7 +249,7 @@ new class extends Component
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = (array) ($result['data'] ?? []);
@@ -324,7 +324,7 @@ new class extends Component
                     $requestUrl .= '?' . http_build_query($params);
                 }
 
-                $response = Http::withToken($token)->accept('application/json')->get($requestUrl);
+                $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($requestUrl);
                 $result = $response->json();
 
                 if ($response->successful() && ($result['success'] ?? false)) {

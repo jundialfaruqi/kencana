@@ -42,7 +42,7 @@ new #[Title('Banner Carousel Detail')] #[Layout('layouts::admin.app')] class ext
             }
             $url = $apiBase . '/v1/master/slider/' . $id;
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = (array) ($result['data'] ?? []);

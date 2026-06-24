@@ -39,7 +39,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
         try {
             $token = Session::get('auth_token');
             /** @var Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
                 ->get($url);
             $json = $response->json();
@@ -137,7 +137,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/slider/' . $id;
             /** @var Response $response */
-            $response = Http::withToken($token)->accept('application/json')->delete($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->delete($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->dispatch('toast', [
@@ -178,7 +178,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/slider/' . $id . '/status';
             /** @var Response $response */
-            $response = Http::withToken($token)->accept('application/json')->post($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->post($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 foreach ($this->banners as &$b) {
@@ -225,7 +225,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/slider/' . $id . '/urutan';
             /** @var Response $response */
-            $response = Http::asForm()->withToken($token)->accept('application/json')->post($url, [
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->asForm()->withToken($token)->accept('application/json')->post($url, [
                 'direction' => $direction,
             ]);
             $result = $response->json();

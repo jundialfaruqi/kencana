@@ -48,7 +48,7 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/jadwalKhusus';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $all = (array) ($result['data'] ?? []);
@@ -125,7 +125,7 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/jadwalKhusus/' . $id;
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->delete($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->delete($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
@@ -192,7 +192,7 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/jadwalKhusus';
             
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             
             $all = [];

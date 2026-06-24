@@ -31,7 +31,7 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
             $base = rtrim(config('services.api.base_url'), '/');
             $url = $base . '/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->arenas = (array) ($result['data'] ?? []);
@@ -79,7 +79,7 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
             $base = rtrim(config('services.api.base_url'), '/');
             $url = $base . '/v1/master/jadwal';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
                 ->post($url, [

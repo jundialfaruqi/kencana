@@ -35,7 +35,7 @@ new #[Title('Manajamen Lapangan')] #[Layout('layouts::admin.app')] class extends
             $base = rtrim(config('services.api.base_url'), '/');
             $url = $base . '/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->lapangan = $result['data'] ?? [];
@@ -67,7 +67,7 @@ new #[Title('Manajamen Lapangan')] #[Layout('layouts::admin.app')] class extends
             $base = rtrim(config('services.api.base_url'), '/');
             $url = $base . '/v1/master/lapangan/' . intval($this->deletingId);
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->delete($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->delete($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->deletingId = null;

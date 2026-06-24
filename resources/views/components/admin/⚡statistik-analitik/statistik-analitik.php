@@ -50,7 +50,7 @@ new #[Title('Statistik & Analitik')] #[Layout('layouts::admin.app')] class exten
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/master/lapangan';
             
-            $response = Http::withToken($token)->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->get($url);
             $json = $response->json();
             
             if ($response->successful() && ($json['success'] ?? false)) {
@@ -92,7 +92,7 @@ new #[Title('Statistik & Analitik')] #[Layout('layouts::admin.app')] class exten
                     $requestUrl .= '?' . http_build_query($params);
                 }
 
-                $response = Http::withToken($token)->accept('application/json')->get($requestUrl);
+                $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($requestUrl);
                 $result = $response->json();
 
                 if ($response->successful() && ($result['success'] ?? false)) {

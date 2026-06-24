@@ -90,7 +90,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             }
             $url = $base . '/v1/master/lapangan/' . $id;
             /** @var Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = $result['data'] ?? [];
@@ -191,7 +191,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
                 'longitude' => $validated['longitude'] ?? null,
             ];
 
-            $request = Http::asMultipart()->withToken($token)->accept('application/json');
+            $request = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->asMultipart()->withToken($token)->accept('application/json');
 
             if ($this->image_cover instanceof TemporaryUploadedFile) {
                 $request = $request->attach(

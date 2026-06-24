@@ -49,7 +49,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
             }
             $detailUrl = $base . '/v1/master/jadwal/' . $id;
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($detailUrl);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($detailUrl);
             $json = $response->json();
             if ($response->successful() && ($json['success'] ?? false)) {
                 $raw = $json['data'] ?? [];
@@ -84,7 +84,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
             }
             $listUrl = $base . '/v1/master/jadwal';
             /** @var \Illuminate\Http\Client\Response $listResp */
-            $listResp = Http::withToken($token)->accept('application/json')->get($listUrl);
+            $listResp = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($listUrl);
             $listJson = $listResp->json();
             if ($listResp->successful() && ($listJson['success'] ?? false)) {
                 $items = (array) ($listJson['data'] ?? []);
@@ -116,7 +116,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
             $base = rtrim(config('services.api.base_url'), '/');
             $url = $base . '/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $json = $response->json();
             if ($response->successful() && ($json['success'] ?? false)) {
                 $this->arenas = (array) ($json['data'] ?? []);
@@ -191,7 +191,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
             }
             $url = $base . '/v1/master/jadwal/' . $id;
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
                 ->post($url, [
