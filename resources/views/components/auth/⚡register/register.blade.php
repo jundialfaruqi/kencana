@@ -1,5 +1,5 @@
 <div data-theme="chaotictoast" wire:init="load" x-data="{ showPassword: false, showConfirmPassword: false }"
-    class="min-h-screen bg-base-300 py-12 px-4 sm:py-16 font-sans transition-colors duration-500 overflow-x-hidden relative">
+    class="min-h-screen bg-base-300 py-12 px-4 sm:py-16 font-sans relative">
 
     <div wire:key="register-card"
         class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10">
@@ -204,7 +204,7 @@
                                 <input :type="showPassword ? 'text' : 'password'" placeholder="••••••••"
                                     class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 h-10 @error('password') input-warning @enderror"
                                     wire:model="password" />
-                                <div class="absolute right-4 top-2">
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
                                     <label class="swap text-base-content/30 hover:text-info transition-colors">
                                         <input type="checkbox" x-model="showPassword" />
                                         <!-- eye icon -->
@@ -248,7 +248,7 @@
                                 <input :type="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••"
                                     class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 h-10 @error('password_confirmation') input-warning @enderror"
                                     wire:model="password_confirmation" />
-                                <div class="absolute right-4 top-2">
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
                                     <label class="swap text-base-content/30 hover:text-info transition-colors">
                                         <input type="checkbox" x-model="showConfirmPassword" />
                                         <!-- eye icon -->
