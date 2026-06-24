@@ -145,7 +145,27 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
                 // Increment registration count
                 Cache::put($cacheKey, $currentCount + 1, Carbon::now()->endOfDay());
 
-                // Tampilkan pesan sukses
+                // Auto Login
+                $loginResponse = Http::withOptions(['verify' => $verifySsl])
+                    ->post(config('services.api.base_url') . '/login', [
+                        'email' => $this->email,
+                        'password' => $this->password,
+                    ]);
+
+                $loginResult = $loginResponse->json();
+
+                if ($loginResponse->successful() && ($loginResult['success'] ?? false)) {
+                    Session::put('auth_token', $loginResult['data']['token']);
+                    Session::put('user_data', $loginResult['data']['user']);
+
+                    $role = $loginResult['data']['user']['role'] ?? 'user';
+                    $defaultUrl = in_array($role, ['admin', 'superadmin']) ? '/dashboard' : '/';
+                    $intendedUrl = Session::pull('url.intended', $defaultUrl);
+
+                    return $this->redirect($intendedUrl, navigate: true);
+                }
+
+                // Tampilkan pesan sukses jika auto-login gagal untuk alasan apapun
                 $this->registrationSuccess = true;
                 $this->successMessage = $result['message'];
                 return;
