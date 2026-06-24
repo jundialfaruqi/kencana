@@ -15,8 +15,10 @@ new class extends Component
         $base = config('services.api.base_url');
         $url = rtrim((string) $base, '/') . '/v1/slider';
         try {
+            $verifySsl = filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN);
+            
             /** @var Response $response */
-            $response = Http::accept('application/json')->get($url);
+            $response = Http::accept('application/json')->withOptions(['verify' => $verifySsl])->get($url);
             $json = $response->json();
             if ($response->successful() && ($json['success'] ?? false)) {
                 $data = (array) ($json['data'] ?? []);

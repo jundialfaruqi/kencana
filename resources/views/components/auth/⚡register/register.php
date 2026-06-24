@@ -132,8 +132,11 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
             ];
 
 
+            $verifySsl = filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN);
+
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::asMultipart()
+                ->withOptions(['verify' => $verifySsl])
                 ->post(config('services.api.base_url') . '/v1/daftarAkun', $formData);
 
             $result = $response->json();

@@ -78,13 +78,14 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
         }
 
         try {
-            $response = Http::post(config('services.api.base_url') . '/login', [
-                'email' => $this->email,
-                'password' => $this->password,
-            ]);
+            $verifySsl = filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN);
+            $response = Http::withOptions(['verify' => $verifySsl])
+                ->post(config('services.api.base_url') . '/login', [
+                    'email' => $this->email,
+                    'password' => $this->password,
+                ]);
 
             $result = $response->json();
-            dd($result);
             
             if ($response->successful() && $result['success']) {
                 // Reset failed attempts on success
