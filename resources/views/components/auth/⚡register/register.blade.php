@@ -3,10 +3,6 @@
 
     <div wire:key="register-card"
         class="card w-full max-w-md mx-auto bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative z-10">
-        <!-- Sporty Accent Line (Top Border with Glow) -->
-        <div
-            class="absolute top-0 left-0 w-full h-1.5 rounded-t-[inherit] bg-linear-to-r from-info via-black to-info shadow-[0_0_15px_rgba(var(--p),0.5)]">
-        </div>
 
         @if ($ready)
             @if ($registrationSuccess)
@@ -53,17 +49,9 @@
                 <!-- Registration Form -->
                 <div class="card-body p-8" wire:key="register-form-container">
                     <div class="flex flex-col items-center mb-8">
-                        <div>
-                            <!-- Logo Kencana Arena -->
-                            <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
-                                alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
-                        </div>
-                        <h3 class="text-xl sm:text-3xl font-black italic tracking-tighter uppercase text-warning">
-                            DAFTAR <span class="text-info">AKUN</span>
+                        <h3 class="text-xl sm:text-3xl font-bold text-base-content">
+                            Daftar Akun
                         </h3>
-                        {{-- <div class="text-xs text-base-content/50 text-center font-bold italic tracking-tighter uppercase">
-                            MINI
-                            SOCCER</div> --}}
                     </div>
 
                     <form class="space-y-6" wire:submit.prevent="register" enctype="multipart/form-data">
@@ -148,8 +136,8 @@
                                 <!-- Phone Number Input -->
                                 <input type="tel" placeholder="8123456789"
                                     class="input input-ghost border-0 bg-transparent focus:outline-none focus:ring-0 font-medium w-full italic placeholder:text-base-content/50 h-10"
-                                    wire:model.live.debounce.300ms="phone_number" id="no_wa_input"
-                                    inputmode="numeric" pattern="[0-9]*" maxlength="12"
+                                    wire:model.live.debounce.300ms="phone_number" id="no_wa_input" inputmode="numeric"
+                                    pattern="[0-9]*" maxlength="12"
                                     oninput="
                                         // Remove all non-numeric characters and limit to 12 digits
                                         this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);
@@ -277,7 +265,7 @@
                         <div class="grid grid-cols-2 gap-3 mt-6">
                             <button type="submit" wire:loading.attr="disabled" wire:target="register"
                                 class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest group h-12">
-                                <span wire:loading.remove wire:target="register">Daftar Sekarang</span>
+                                <span wire:loading.remove wire:target="register">Daftar</span>
                                 <span wire:loading wire:target="register">Registering...</span>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
@@ -299,24 +287,6 @@
                                 Disini</a>
                         </div>
                     </form>
-
-                    <div class="flex items-center justify-center gap-4 sm:gap-5 mt-8">
-                        <img src="{{ asset('assets/images/logo/aman.webp') }}" alt="Aman"
-                            class="h-4.5 sm:h-5.5 object-contain">
-                        <img src="{{ asset('assets/images/logo/bangun-negeri.webp') }}" alt="Bangun Negeri"
-                            class="h-4.5 sm:h-5.5 object-contain">
-                        <img src="{{ asset('assets/images/logo/dispora.webp') }}" alt="Dispora"
-                            class="h-4.5 sm:h-5.5 object-contain">
-                        <img src="{{ asset('assets/images/logo/logo-diskominfo-pekanbaru.webp') }}" alt="Diskominfo"
-                            class="h-4.5 sm:h-5.5 object-contain">
-                    </div>
-
-                    <div class="mt-4 text-center border-t border-white/10 pt-6">
-                        <p
-                            class="text-[10px] sm:text-xs font-medium opacity-50 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
-                            Powered by DISKOMINFOTIKSAN
-                            Pekanbaru</p>
-                    </div>
                 </div>
             @endif
         @endif
