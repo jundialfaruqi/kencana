@@ -3,14 +3,13 @@
         <div class="w-full" x-transition>
             <!-- Header Section -->
             <div class="mb-8 px-2 flex items-center gap-4">
-                <button type="button" wire:click="handleBack"
-                    wire:loading.attr="disabled"
-                    wire:target="handleBack"
+                <button type="button" wire:click="handleBack" wire:loading.attr="disabled" wire:target="handleBack"
                     class="btn btn-circle btn-ghost btn-sm sm:btn-md border-2 border-base-300 hover:border-info hover:text-info transition-all flex items-center justify-center">
                     <span wire:loading.remove wire:target="handleBack">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                             stroke="currentColor" class="size-5 sm:size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>
                     </span>
                     <span wire:loading wire:target="handleBack" class="loading loading-spinner loading-xs"></span>
@@ -187,19 +186,19 @@
                                     @endforeach
                                 </div>
                                 <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
-                                    <button type="button" wire:click="handleBack"
-                                        wire:loading.attr="disabled"
+                                    <button type="button" wire:click="handleBack" wire:loading.attr="disabled"
                                         wire:target="handleBack"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                        <span wire:loading wire:target="handleBack" class="loading loading-spinner loading-xs mr-2"></span>
+                                        <span wire:loading wire:target="handleBack"
+                                            class="loading loading-spinner loading-xs mr-2"></span>
                                         <span>Batal</span>
                                     </button>
-                                    <button type="button" wire:click="nextStep"
-                                        wire:loading.attr="disabled"
+                                    <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
                                         wire:target="nextStep"
                                         class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
                                         <span class="skew-x-12 flex items-center justify-center gap-2">
-                                            <span wire:loading wire:target="nextStep" class="loading loading-spinner loading-xs"></span>
+                                            <span wire:loading wire:target="nextStep"
+                                                class="loading loading-spinner loading-xs"></span>
                                             <span>Selanjutnya</span>
                                         </span>
                                     </button>
@@ -336,7 +335,8 @@
                                                 </h4>
                                                 <span class="text-[10px] font-bold uppercase text-warning">
                                                     @if ($isLoadingArenas)
-                                                        <span class="inline-block w-4 h-2.5 bg-warning/30 rounded animate-pulse"></span>
+                                                        <span
+                                                            class="inline-block w-4 h-2.5 bg-warning/30 rounded animate-pulse"></span>
                                                     @else
                                                         {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
                                                     @endif
@@ -348,17 +348,21 @@
                                             <div class="relative mt-4">
                                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-pulse">
                                                     @for ($i = 0; $i < 4; $i++)
-                                                        <div class="p-4 rounded-xl border border-base-300 bg-base-100 flex items-center justify-between gap-4">
+                                                        <div
+                                                            class="p-4 rounded-xl border border-base-300 bg-base-100 flex items-center justify-between gap-4">
                                                             <div class="flex-1 space-y-2">
                                                                 <!-- Status Badge Line -->
                                                                 <div class="h-2.5 bg-base-300 rounded-full w-24"></div>
                                                                 <!-- Title Line -->
-                                                                <div class="h-3.5 bg-base-300 rounded-full w-36 mt-2"></div>
+                                                                <div class="h-3.5 bg-base-300 rounded-full w-36 mt-2">
+                                                                </div>
                                                                 <!-- Subtitle/Address Line -->
-                                                                <div class="h-2.5 bg-base-300 rounded-full w-48 mt-2"></div>
+                                                                <div class="h-2.5 bg-base-300 rounded-full w-48 mt-2">
+                                                                </div>
                                                             </div>
                                                             <!-- Image Thumbnail -->
-                                                            <div class="w-16 h-16 rounded-xl bg-base-300 flex-shrink-0"></div>
+                                                            <div class="w-16 h-16 rounded-xl bg-base-300 shrink-0">
+                                                            </div>
                                                         </div>
                                                     @endfor
                                                 </div>
@@ -433,7 +437,7 @@
                                                                 </div>
                                                                 @if ($coverUrl)
                                                                     <div
-                                                                        class="w-16 h-16 rounded-xl overflow-hidden bg-base-200 flex-shrink-0">
+                                                                        class="w-16 h-16 rounded-xl overflow-hidden bg-base-200 shrink-0">
                                                                         <img src="{{ $coverUrl }}"
                                                                             class="w-full h-full object-cover"
                                                                             alt="Cover" />
@@ -472,11 +476,11 @@
                                 </div>
 
                                 <div class="mt-8 flex justify-start gap-4">
-                                    <button type="button" wire:click="prevStep"
-                                        wire:loading.attr="disabled"
+                                    <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
                                         wire:target="prevStep"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                        <span wire:loading wire:target="prevStep" class="loading loading-spinner loading-xs mr-2"></span>
+                                        <span wire:loading wire:target="prevStep"
+                                            class="loading loading-spinner loading-xs mr-2"></span>
                                         <span>Kembali</span>
                                     </button>
                                 </div>
@@ -643,9 +647,9 @@
                                         </div>
                                         <button
                                             class="btn btn-info w-full mt-6 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
-                                            data-confirm-booking
-                                            wire:click="confirmBooking" wire:loading.attr="disabled"
-                                            wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
+                                            data-confirm-booking wire:click="confirmBooking"
+                                            wire:loading.attr="disabled" wire:target="confirmBooking"
+                                            @disabled(($listJadwalStatus ?? '') === 'libur')
                                             aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
                                             <span class="sm:skew-x-12">Konfirmasi Booking</span>
                                             <span class="loading loading-dots loading-xs ml-2" wire:loading
@@ -778,9 +782,9 @@
                                         </div>
                                         <button
                                             class="btn btn-info w-full mt-8 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
-                                            data-confirm-booking
-                                            wire:click="confirmBooking" wire:loading.attr="disabled"
-                                            wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
+                                            data-confirm-booking wire:click="confirmBooking"
+                                            wire:loading.attr="disabled" wire:target="confirmBooking"
+                                            @disabled(($listJadwalStatus ?? '') === 'libur')
                                             aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
                                             <span class="sm:skew-x-12">Konfirmasi Booking</span>
                                             <span class="loading loading-dots loading-xs ml-2" wire:loading
@@ -791,11 +795,11 @@
                                                 <span>{{ $error }}</span>
                                             </div>
                                         @endif
-                                        <button type="button" wire:click="prevStep"
-                                            wire:loading.attr="disabled"
+                                        <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
                                             wire:target="prevStep"
                                             class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
-                                            <span wire:loading wire:target="prevStep" class="loading loading-spinner loading-xs mr-2"></span>
+                                            <span wire:loading wire:target="prevStep"
+                                                class="loading loading-spinner loading-xs mr-2"></span>
                                             <span>Kembali</span>
                                         </button>
                                     </div>
@@ -878,8 +882,7 @@
                             </div>
                             <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <button type="button" class="btn btn-ghost w-full"
-                                    wire:click="$set('showTermsModal', false)"
-                                    wire:loading.attr="disabled">
+                                    wire:click="$set('showTermsModal', false)" wire:loading.attr="disabled">
                                     <span wire:loading class="loading loading-spinner loading-xs mr-2"></span>
                                     <span>Kembali</span>
                                 </button>
@@ -996,9 +999,11 @@
             <ul class="steps w-full mb-8 max-w-3xl mx-auto flex justify-center">
                 <li class="step step-info text-[10px] sm:text-xs font-bold uppercase">
                     {{ $currentStep === 1 ? 'Tanggal' : '' }}</li>
-                <li class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+                <li
+                    class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
                     {{ $currentStep === 2 ? 'Arena & Jam' : '' }}</li>
-                <li class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+                <li
+                    class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
                     {{ $currentStep === 3 ? 'Konfirmasi' : '' }}</li>
             </ul>
 
@@ -1040,7 +1045,8 @@
 
                                 <div class="w-full pb-6 px-2 space-y-4">
                                     <!-- Selected Date Card Skeleton -->
-                                    <div class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
+                                    <div
+                                        class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
                                         <div class="space-y-2">
                                             <div class="h-3 bg-base-300 w-12 rounded"></div>
                                             <div class="h-5 bg-base-300 w-48 rounded"></div>
@@ -1050,14 +1056,16 @@
 
                                     @if ($lapanganId || $lapanganParam || $lapanganSlug)
                                         <!-- Selected Arena Card & Time Slots Skeleton -->
-                                        <div class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
+                                        <div
+                                            class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
                                             <div class="space-y-2">
                                                 <div class="h-3 bg-base-300 w-12 rounded"></div>
                                                 <div class="h-5 bg-base-300 w-36 rounded"></div>
                                             </div>
                                             <div class="h-6 bg-base-300 w-16 rounded"></div>
                                         </div>
-                                        <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4">
+                                        <div
+                                            class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4">
                                             <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
                                                 @for ($j = 0; $j < 9; $j++)
                                                     <div class="py-3 h-16 bg-base-300 rounded-lg"></div>
@@ -1066,20 +1074,22 @@
                                         </div>
                                     @else
                                         <!-- Arenas Selector List Skeleton -->
-                                        <div class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
+                                        <div
+                                            class="w-full p-4 rounded-2xl bg-base-100 border border-base-300/30 shadow-sm flex justify-between items-center">
                                             <div class="h-5 bg-base-300 w-24 rounded"></div>
                                             <div class="h-3 bg-base-300 w-16 rounded"></div>
                                         </div>
                                         <div class="relative mt-4">
                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                 @for ($i = 0; $i < 4; $i++)
-                                                    <div class="p-4 rounded-xl border bg-base-100 border-base-300/30 flex items-center justify-between gap-4">
+                                                    <div
+                                                        class="p-4 rounded-xl border bg-base-100 border-base-300/30 flex items-center justify-between gap-4">
                                                         <div class="flex-1 space-y-2">
                                                             <div class="h-3 bg-base-300 w-16 rounded"></div>
                                                             <div class="h-4 bg-base-300 w-32 rounded"></div>
                                                             <div class="h-3 bg-base-300 w-24 rounded"></div>
                                                         </div>
-                                                        <div class="w-16 h-16 rounded-xl bg-base-300 flex-shrink-0"></div>
+                                                        <div class="w-16 h-16 rounded-xl bg-base-300 shrink-0"></div>
                                                     </div>
                                                 @endfor
                                             </div>
@@ -1170,7 +1180,7 @@
 @endif
 
 @if ($showCancelConfirm)
-    <div class="fixed inset-0 z-[9999] grid place-items-center p-4" wire:key="cancel-confirm-modal">
+    <div class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
         <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="closeCancelConfirm"></div>
         <div
             class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
@@ -1201,17 +1211,16 @@
                 </p>
                 <div class="mt-4 grid grid-cols-2 gap-2">
                     <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                        wire:click="closeCancelConfirm"
-                        wire:loading.attr="disabled"
+                        wire:click="closeCancelConfirm" wire:loading.attr="disabled"
                         wire:target="closeCancelConfirm">
-                        <span wire:loading wire:target="closeCancelConfirm" class="loading loading-spinner loading-xs mr-2"></span>
+                        <span wire:loading wire:target="closeCancelConfirm"
+                            class="loading loading-spinner loading-xs mr-2"></span>
                         <span>Tidak</span>
                     </button>
                     <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
-                        wire:click="cancelBooking"
-                        wire:loading.attr="disabled"
-                        wire:target="cancelBooking">
-                        <span wire:loading wire:target="cancelBooking" class="loading loading-spinner loading-xs mr-2"></span>
+                        wire:click="cancelBooking" wire:loading.attr="disabled" wire:target="cancelBooking">
+                        <span wire:loading wire:target="cancelBooking"
+                            class="loading loading-spinner loading-xs mr-2"></span>
                         <span>Ya, Batalkan</span>
                     </button>
                 </div>
