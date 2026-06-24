@@ -7,14 +7,10 @@
   Version           : 1.0
   Date              : Februari 01, 2026
   Url               : kencana.pekanbaru.go.id
-  Type              : Web APP
-  Project Analyst   : Deni Hidayat
-  Frontend          : M. Jundi Al faruqi
-  Backend           : Fadel Setiawan
 
   ============================================================================
   NOTE :
-  Website ini dibuat oleh tim DISKOMINFOTIKSAN Pekanbaru.
+  Website ini dikembangkan oleh tim DISKOMINFOTIKSAN Kota Pekanbaru.
   ============================================================================
 
 -->
