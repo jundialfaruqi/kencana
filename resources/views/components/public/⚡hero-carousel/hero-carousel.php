@@ -21,6 +21,8 @@ new class extends Component {
 
         $url = rtrim($base, '/') . '/v1/lapangan';
 
+        $verifySsl = filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN);
+
         try {
             $context = stream_context_create([
                 'http' => [
@@ -29,11 +31,36 @@ new class extends Component {
                     'ignore_errors' => true,
                     'timeout' => 10,
                 ],
+                'ssl' => [
+                    'verify_peer' => $verifySsl,
+                    'verify_peer_name' => $verifySsl,
+                ]
             ]);
+            $lastError = error_get_last();
             $raw = @file_get_contents($url, false, $context);
-            $json = is_string($raw) ? json_decode($raw, true) : [];
+            $newError = error_get_last();
+            
+            $feError = ($raw === false || $lastError !== $newError) ? $newError : null;
+            $json = is_string($raw) ? json_decode($raw, true) : null;
+            
+            $statusCode = 0;
+            if (isset($http_response_header) && is_array($http_response_header) && count($http_response_header) > 0) {
+                preg_match('{HTTP\/\S*\s(\d{3})}', $http_response_header[0], $match);
+                $statusCode = $match[1] ?? 0;
+            }
+            
+            $apiError = null;
+            if ($statusCode >= 400 || (is_array($json) && !($json['success'] ?? false))) {
+                $apiError = [
+                    'status_code' => $statusCode,
+                    'headers' => $http_response_header ?? [],
+                    'raw_response' => $raw,
+                ];
+            }
 
-            if (($json['success'] ?? false)) {
+            // dd() dihapus agar proses bisa lanjut me-render UI
+
+            if (is_array($json) && ($json['success'] ?? false)) {
                 $data = $json['data'] ?? [];
                 $this->lapangan = array_map(function ($item) {
                     $cover = $item['image_cover'] ?? null;

@@ -84,7 +84,8 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
             ]);
 
             $result = $response->json();
-
+            dd($result);
+            
             if ($response->successful() && $result['success']) {
                 // Reset failed attempts on success
                 Session::forget($attemptsKey);
