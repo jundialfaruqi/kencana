@@ -28,7 +28,7 @@ new #[Title('Daftar Lapangan')] #[Layout('layouts::public.app')] class extends C
             $imageBase = rtrim(config('services.api.image_base_url'), '/');
             $url = $apiBase . '/v1/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = (array) ($result['data'] ?? []);

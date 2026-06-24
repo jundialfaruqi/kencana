@@ -47,7 +47,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
         $url = rtrim($baseUrl, '/') . '/v1/lapangan/historyBooking/' . urlencode((string) $this->kode_booking);
         $token = Session::get('auth_token');
 
-        $response = Http::withToken($token)
+        $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
             ->asForm()
             ->accept('application/json')
             ->post($url, []);
@@ -72,7 +72,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/catatan/' . urlencode((string) $lapId);
-            $response = Http::withToken($token)->accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $json = json_decode((string) $response, true);
             if (is_array($json) && ($json['success'] ?? false)) {
                 $data = (array) ($json['data'] ?? []);
@@ -100,7 +100,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
         try {
             $base = rtrim((string) config('services.api.base_url'), '/');
             $url = $base . '/v1/lapangan';
-            $response = Http::accept('application/json')->get($url);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($url);
             $result = json_decode((string) $response, true);
             if (!is_array($result) || !($result['success'] ?? false)) {
                 return null;
@@ -139,7 +139,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
         $url = rtrim((string) $base, '/') . '/v1/lapangan/cancelBooking/' . urlencode($code);
         try {
             $token = Session::get('auth_token');
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
                 ->post($url, []);

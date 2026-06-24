@@ -37,7 +37,7 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
                 ->post($url . '?page=' . intval($page), [

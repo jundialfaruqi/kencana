@@ -38,7 +38,7 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
             $id = intval($this->id ?? 0);
             if ($id <= 0 && !empty($this->slug)) {
                 /** @var \Illuminate\Http\Client\Response $response */
-                $response = Http::accept('application/json')->get($apiBase . '/v1/lapangan');
+                $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($apiBase . '/v1/lapangan');
                 $json = $response->json() ?? [];
                 $ok = $response->successful();
                 if ($ok && ($json['success'] ?? false)) {
@@ -57,7 +57,7 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
                 return;
             }
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::accept('application/json')->get($apiBase . '/v1/lapangan/' . $id);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($apiBase . '/v1/lapangan/' . $id);
             $json = $response->json() ?? [];
             $ok = $response->successful();
             if ($ok && ($json['success'] ?? false)) {

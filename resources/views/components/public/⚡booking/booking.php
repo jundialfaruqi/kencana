@@ -289,7 +289,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
                 ->post($url, [
@@ -408,7 +408,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
                 ->get($url);
             $json = $response->json();
@@ -432,7 +432,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             $url = rtrim((string) $base, '/') . '/v1/lapangan';
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
                 ->get($url);
             $json = $response->json();
@@ -625,7 +625,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             $url = rtrim((string) $base, '/') . '/v1/catatan/' . (string) $this->lapanganId;
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
                 ->get($url);
             $json = $response->json();
@@ -697,7 +697,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withToken($token)
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
                 ->post($url, [
