@@ -48,7 +48,7 @@
                         </div>
                         <div class="flex flex-col leading-none">
                             <span id="aman-text" wire:ignore
-                                class="text-[21.4px] sm:text-[24.3px] font-black italic tracking-tighter uppercase text-info group-hover:text-base-content transition-colors min-w-25">
+                                class="text-[21.4px] sm:text-[24.3px] font-black italic tracking-tighter uppercase text-base-content group-hover:text-info transition-colors min-w-25">
                                 Kencana
                             </span>
                             <span

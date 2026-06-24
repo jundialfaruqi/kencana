@@ -106,11 +106,11 @@
                                         </p>
                                     </div>
                                     <span
-                                        class="{{ data_get($lp, 'status') === 'open' ? 'bg-success text-success-content' : 'bg-warning text-warning-content' }} rounded-md text-center uppercase italic font-bold text-[8px] sm:text-[10px] px-2 py-1 -skew-x-12">
+                                        class="{{ data_get($lp, 'status') === 'open' ? 'bg-success text-success-content' : 'bg-warning text-warning-content' }} rounded-md text-center uppercase italic font-bold text-[8px] sm:text-[10px] px-2 py-1 -skew-x-12 shrink-0">
                                         {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
                                     </span>
                                 </div>
-                                <div class="mt-3 space-y-2 text-xs">
+                                <div class="mt-auto pt-3 space-y-2 text-xs">
                                     @php $gmap = data_get($lp, 'gmap'); @endphp
                                     <div class="flex items-center gap-2 justify-start sm:justify-start">
                                         @if (!empty($gmap))
@@ -121,7 +121,7 @@
                                             </a>
                                             <a href="{{ $gmap }}" target="_blank" rel="noopener"
                                                 class="btn btn-sm btn-success border-base-300 -skew-x-12 flex-1 text-[10px]">
-                                                Google Maps
+                                                Gmaps
                                             </a>
                                         @endif
                                         <a wire:navigate
