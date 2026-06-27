@@ -1,4 +1,4 @@
-<div id="hero-carousel-root" class="mt-4 sm:mt-8" wire:init="load">
+<div id="hero-carousel-root" class="mt-8 sm:mt-12" wire:init="load">
     @if ($ready)
         <div class="flex flex-col gap-4 sm:gap-6" x-transition>
             <!-- Section Header -->

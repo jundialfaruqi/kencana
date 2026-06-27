@@ -1,4 +1,4 @@
-<div id="banner-carousel-root" class="mt-8 sm:mt-12" wire:init="load" wire:transition>
+<div id="banner-carousel-root" class="mt-4 sm:mt-8" wire:init="load" wire:transition>
     @if (!$readyToLoad)
         <div class="flex flex-col gap-4 sm:gap-6 animate-pulse">
             <!-- Skeleton Header -->
