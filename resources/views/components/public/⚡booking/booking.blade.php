@@ -1228,4 +1228,33 @@
             </div>
         </div>
     @endif
+
+    @if ($showErrorModal)
+        <div class="fixed inset-0 z-[9999] grid place-items-center p-4" wire:key="error-modal">
+            <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="handleErrorClose"></div>
+            <div class="relative w-full max-w-sm mx-4 rounded-2xl bg-base-100 shadow-2xl p-6 sm:p-8 text-center overflow-hidden">
+                <div class="flex justify-center mb-4">
+                    <div class="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" class="w-8 h-8 text-error">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                </div>
+                <h4 class="font-black italic uppercase tracking-tighter text-xl mb-2 text-base-content">
+                    Booking Gagal
+                </h4>
+                <p class="text-sm font-medium text-base-content/70 leading-relaxed mb-6">
+                    {{ $error ?? 'Terjadi kesalahan saat memproses booking Anda.' }}
+                </p>
+                <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white rounded-xl"
+                    wire:click="handleErrorClose" wire:loading.attr="disabled" wire:target="handleErrorClose">
+                    <span wire:loading wire:target="handleErrorClose"
+                        class="loading loading-spinner loading-xs mr-2"></span>
+                    <span>Tutup & Kembali</span>
+                </button>
+            </div>
+        </div>
+    @endif
 </div>

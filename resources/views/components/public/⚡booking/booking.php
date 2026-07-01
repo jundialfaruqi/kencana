@@ -58,6 +58,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public ?string $keterangan = null;
     public bool $showCancelConfirm = false;
     public bool $showSuccessModal = false;
+    public bool $showErrorModal = false;
     public ?string $bookingMessage = null;
     public ?string $bookingCode = null;
     public ?string $successNamaLapangan = null;
@@ -740,18 +741,30 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 return;
             }
             $this->error = $result['message'] ?? 'Gagal melakukan booking';
-            $this->dispatch('toast', [
-                'title' => 'Gagal',
-                'message' => $this->error,
-                'type' => 'error',
-            ]);
+            $this->showErrorModal = true;
         } catch (\Throwable) {
             $this->error = 'Terjadi kesalahan saat melakukan booking';
-            $this->dispatch('toast', [
-                'title' => 'Gagal',
-                'message' => $this->error,
-                'type' => 'error',
-            ]);
+            $this->showErrorModal = true;
         }
+    }
+
+    public function handleErrorClose(): void
+    {
+        $this->reset([
+            'currentStep',
+            'lapanganId',
+            'lapanganParam',
+            'lapanganSlug',
+            'tanggal',
+            'namaLapangan',
+            'selectedSlot',
+            'namaKomunitas',
+            'jumlahPemain',
+            'kategoriPemain',
+            'jenisPermainan',
+            'keterangan',
+        ]);
+        $this->showErrorModal = false;
+        $this->redirect('/', navigate: true);
     }
 };
