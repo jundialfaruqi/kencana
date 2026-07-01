@@ -20,10 +20,35 @@
                 </div>
             </div>
 
+            <style>
+                .detail-ticket-mask {
+                    mask-image: radial-gradient(circle 10px at 0 calc(100% - var(--cut-pos)), transparent 10px, black 10.5px),
+                                radial-gradient(circle 10px at 100% calc(100% - var(--cut-pos)), transparent 10px, black 10.5px);
+                    mask-size: 51% 100%;
+                    mask-position: left, right;
+                    mask-repeat: no-repeat;
+                    -webkit-mask-image: radial-gradient(circle 10px at 0 calc(100% - var(--cut-pos)), transparent 10px, black 10.5px),
+                                        radial-gradient(circle 10px at 100% calc(100% - var(--cut-pos)), transparent 10px, black 10.5px);
+                    -webkit-mask-size: 51% 100%;
+                    -webkit-mask-position: left, right;
+                    -webkit-mask-repeat: no-repeat;
+                }
+                @media (min-width: 640px) {
+                    .detail-ticket-mask {
+                        mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px),
+                                    radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px);
+                        mask-size: 100% 51%;
+                        mask-position: top, bottom;
+                        -webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px),
+                                            radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px);
+                        -webkit-mask-size: 100% 51%;
+                        -webkit-mask-position: top, bottom;
+                    }
+                }
+            </style>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <div style="-webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
-                        class="w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-lg flex flex-row relative overflow-hidden [--cut-pos:6.75rem] sm:[--cut-pos:10.75rem]"
+                    <div class="w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-lg flex flex-col sm:flex-row relative overflow-hidden detail-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]"
                         id="detail-card">
                         
                         <!-- Left Section (Main Details) -->
@@ -161,19 +186,19 @@
                         </div>
 
                         <!-- Perforated Line -->
-                        <div class="flex flex-col justify-center items-center relative w-6 shrink-0">
-                            <div class="border-l-2 border-dashed border-base-300 w-px flex-grow my-4 sm:my-6"></div>
+                        <div class="flex sm:flex-col justify-center items-center relative h-6 sm:h-auto w-full sm:w-6 shrink-0">
+                            <div class="border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-base-300 h-px sm:h-auto w-full sm:w-px flex-grow mx-4 my-2 sm:mx-0 sm:my-6"></div>
                         </div>
 
                         <!-- Right Section (ID) -->
-                        <div class="w-24 sm:w-40 p-2 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-100/50">
+                        <div class="w-full sm:w-40 h-[13.5rem] sm:h-auto p-4 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-100/50">
                             @if ($detail['kode_booking'] ?? $kode_booking)
-                                <div class="p-1 sm:p-2 bg-white shadow-sm border border-base-200 mb-2 sm:mb-4">
+                                <div class="p-2 sm:p-2 bg-white shadow-sm border border-base-200 mb-2 sm:mb-4">
                                     <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}"
-                                        alt="QR Code" class="w-14 h-14 sm:w-28 sm:h-28" style="image-rendering: pixelated;" />
+                                        alt="QR Code" class="w-36 h-36 sm:w-28 sm:h-28" style="image-rendering: pixelated;" />
                                 </div>
                             @endif
-                            <div class="text-[8px] sm:text-xs font-medium uppercase tracking-widest text-base-content text-center">
+                            <div class="text-[10px] sm:text-xs font-medium uppercase tracking-widest text-base-content text-center">
                                 {{ $detail['kode_booking'] ?? $kode_booking }}
                             </div>
                         </div>
@@ -316,8 +341,7 @@
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <div style="-webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
-                        class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-row relative overflow-hidden [--cut-pos:6.75rem] sm:[--cut-pos:10.75rem]">
+                    <div class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-col sm:flex-row relative overflow-hidden detail-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]">
                         
                         <!-- Left Section -->
                         <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0">
@@ -361,14 +385,16 @@
                         </div>
 
                         <!-- Perforated Line -->
-                        <div class="flex flex-col justify-center items-center relative w-6 shrink-0">
-                            <div class="border-l-2 border-dashed border-base-300/50 w-px flex-grow my-4 sm:my-6"></div>
+                        <div class="flex sm:flex-col justify-center items-center relative h-6 sm:h-auto w-full sm:w-6 shrink-0">
+                            <div class="border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-base-300/50 h-px sm:h-auto w-full sm:w-px flex-grow mx-4 my-2 sm:mx-0 sm:my-6"></div>
                         </div>
 
                         <!-- Right Section -->
-                        <div class="w-24 sm:w-40 p-2 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-300/30">
-                            <div class="w-14 h-14 sm:w-28 sm:h-28 bg-base-300 rounded-xl mb-2 sm:mb-4"></div>
-                            <div class="w-16 sm:w-28 h-3 sm:h-5 bg-base-300 rounded"></div>
+                        <div class="w-full sm:w-40 h-[13.5rem] sm:h-auto p-4 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-200/50">
+                            <div class="p-2 sm:p-2 bg-base-100 shadow-sm border border-base-300/50 mb-2 sm:mb-4">
+                                <div class="w-36 h-36 sm:w-28 sm:h-28 bg-base-300"></div>
+                            </div>
+                            <div class="h-3 sm:h-4 bg-base-300 w-16 sm:w-20 rounded"></div>
                         </div>
                     </div>
                 </div>
