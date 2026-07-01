@@ -26,108 +26,137 @@
                         class="w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-lg flex flex-row relative overflow-hidden [--cut-pos:6.75rem] sm:[--cut-pos:10.75rem]"
                         id="detail-card">
                         
-                        <!-- Left Section -->
-                        <div class="flex-1 p-3 sm:p-6 flex flex-col min-w-0">
-                            <!-- Status & Header -->
-                            <div class="flex items-center justify-between">
+                        <!-- Left Section (Main Details) -->
+                        <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0">
+                            <!-- Header -->
+                            <div class="flex flex-row justify-between items-center mb-2 sm:mb-4 gap-2">
+                                <!-- Status Badge -->
                                 <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider {{ ($detail['status'] ?? '') === 'dipesan' ? 'bg-info/10 text-info' : (($detail['status'] ?? '') === 'dibatalkan' ? 'bg-error/10 text-error' : 'bg-success/10 text-success') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
+                                    </svg>
                                     {{ data_get($detail, 'status') ?? '-' }}
                                 </div>
-                                <div class="text-[10px] sm:text-xs font-medium text-base-content/50 uppercase">
+
+                                <!-- Created Date -->
+                                <span class="text-[10px] sm:text-xs font-medium text-base-content/50">
                                     {{ $dpFmt ?? (data_get($detail, 'dibuat_pada') ?? '-') }}
-                                </div>
+                                </span>
                             </div>
-                            
-                            <h4 class="text-base sm:text-3xl font-black italic uppercase text-base-content mt-3 sm:mt-4 leading-none">
+
+                            <!-- Title -->
+                            <h4 class="text-sm sm:text-xl font-extrabold text-base-content mb-4 sm:mb-6 leading-tight truncate">
                                 {{ data_get($detail, 'lapangan.nama') ?? '-' }}
                             </h4>
 
-                            <!-- Time Grid -->
-                            <div class="mt-4 grid grid-cols-3 gap-2 sm:gap-4 items-start">
-                                <div class="text-center">
-                                    <div class="text-lg sm:text-3xl font-black tracking-tight text-warning">
-                                        {{ $mulai ?? '-' }}</div>
-                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/60 mt-0.5 sm:mt-1">
-                                        {{ $tglFmt ?? ($tgl ?? '-') }}</div>
-                                </div>
-                                <div class="flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 text-base-300">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                                    </svg>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-lg sm:text-3xl font-black tracking-tight text-warning">
-                                        {{ $selesai ?? '-' }}</div>
-                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/60 mt-0.5 sm:mt-1">
-                                        {{ $tglFmt ?? ($tgl ?? '-') }}</div>
-                                </div>
-                            </div>
-
                             <!-- Details Grid -->
-                            <div class="mt-4">
-                                <div class="text-[10px] font-bold uppercase text-base-content/50">Tim / Nama</div>
-                                <div class="mt-1 flex flex-col">
-                                    @php
-                                        $sessionName = data_get(Session::get('user_data'), 'name');
-                                        $apiTeam = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
-                                        $apiName = data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name');
-                                        $pemesanNama = data_get($detail, 'pemesan.nama');
+                            <div class="grid grid-cols-2 gap-y-3 gap-x-3 sm:gap-y-4 sm:gap-x-4">
+                                <!-- Date -->
+                                <div>
+                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">Tanggal</div>
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                        </svg>
+                                        <span class="text-xs sm:text-sm font-medium leading-none">{{ $tglFmt ?? ($tgl ?? '-') }}</span>
+                                    </div>
+                                </div>
 
-                                        $team = null;
-                                        $name = null;
+                                <!-- Time -->
+                                <div>
+                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">Jam</div>
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span class="text-xs sm:text-sm font-medium leading-none">{{ $mulai ?? '-' }} - {{ $selesai ?? '-' }}</span>
+                                    </div>
+                                </div>
 
-                                        if (filled($apiTeam)) {
-                                            $team = $apiTeam;
-                                        }
-                                        if (filled($apiName)) {
-                                            $name = $apiName;
-                                        }
+                                <!-- Tim/Nama -->
+                                <div class="col-span-2">
+                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">Tim / Pemesan</div>
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                        @php
+                                            $sessionName = data_get(Session::get('user_data'), 'name');
+                                            $apiTeam = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
+                                            $apiName = data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name');
+                                            $pemesanNama = data_get($detail, 'pemesan.nama');
 
-                                        if (filled($pemesanNama)) {
-                                            if (filled($name)) {
-                                                if (blank($team)) {
-                                                    $team = $pemesanNama;
-                                                }
-                                            } else {
-                                                if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
-                                                    $team = $pemesanNama;
-                                                    $name = $sessionName;
+                                            $team = null;
+                                            $name = null;
+
+                                            if (filled($apiTeam)) {
+                                                $team = $apiTeam;
+                                            }
+                                            if (filled($apiName)) {
+                                                $name = $apiName;
+                                            }
+
+                                            if (filled($pemesanNama)) {
+                                                if (filled($name)) {
+                                                    if (blank($team)) {
+                                                        $team = $pemesanNama;
+                                                    }
                                                 } else {
-                                                    $name = $pemesanNama;
+                                                    if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
+                                                        $team = $pemesanNama;
+                                                        $name = $sessionName;
+                                                    } else {
+                                                        $name = $pemesanNama;
+                                                    }
                                                 }
                                             }
-                                        }
 
-                                        if (blank($name)) {
-                                            $name = $sessionName;
-                                        }
-                                    @endphp
-                                    <span class="font-black italic uppercase text-xs sm:text-sm text-warning">
-                                        {{ $team ?: '-' }}
-                                    </span>
-                                    <span class="text-[10px] sm:text-xs text-base-content/60 font-semibold uppercase mt-0.5">
-                                        {{ $name ?: '-' }}
-                                    </span>
+                                            if (blank($name)) {
+                                                $name = $sessionName;
+                                            }
+                                        @endphp
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                        </svg>
+                                        <span class="text-xs sm:text-sm font-medium uppercase leading-none">{{ $team ?: '-' }} <span class="text-[10px] sm:text-xs font-normal opacity-80 capitalize">({{ $name ?: '-' }})</span></span>
+                                    </div>
                                 </div>
-                                <div class="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+
+                                <!-- 3-Column Info -->
+                                <div class="col-span-2 grid grid-cols-3 gap-2 sm:gap-4">
+                                    <!-- Pemain -->
                                     <div>
-                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50">Pemain</div>
-                                        <div class="mt-0.5 sm:mt-1 font-black italic uppercase text-xs sm:text-sm">
-                                            {{ data_get($detail, 'pemesan.jumlah_pemain') ?? '-' }}</div>
+                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">Pemain</div>
+                                        <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                                            </svg>
+                                            <span class="text-[10px] sm:text-sm font-medium leading-none">{{ data_get($detail, 'pemesan.jumlah_pemain') ?? '-' }}</span>
+                                        </div>
                                     </div>
+
+                                    <!-- Kategori -->
                                     <div>
-                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50">Kategori</div>
-                                        <div class="mt-0.5 sm:mt-1 font-black italic uppercase text-xs sm:text-sm">
-                                            {{ data_get($detail, 'pemesan.kategori') ?? '-' }}</div>
+                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">Kategori</div>
+                                        <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                                            </svg>
+                                            <span class="text-[10px] sm:text-sm font-medium leading-none">{{ data_get($detail, 'pemesan.kategori') ?? '-' }}</span>
+                                        </div>
                                     </div>
+
+                                    <!-- Jenis -->
                                     <div>
-                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50">Jenis</div>
-                                        <div class="mt-0.5 sm:mt-1 font-black italic uppercase text-xs sm:text-sm">
-                                            {{ $jenisAlias ?: '-' }}</div>
+                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">Jenis</div>
+                                        <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                                            </svg>
+                                            <span class="text-[10px] sm:text-sm font-medium leading-none">{{ $jenisAlias ?: '-' }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <!-- No keterangan here, moved outside -->
                         </div>
 
@@ -291,52 +320,44 @@
                         class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-row relative overflow-hidden [--cut-pos:6.75rem] sm:[--cut-pos:10.75rem]">
                         
                         <!-- Left Section -->
-                        <div class="flex-1 p-3 sm:p-6 flex flex-col min-w-0">
+                        <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0">
                             <!-- Status & Header -->
-                            <div class="flex items-center justify-between mb-3 sm:mb-4">
-                                <div class="h-5 sm:h-8 w-20 sm:w-24 bg-base-300 rounded-xl"></div>
-                                <div class="h-3 sm:h-4 w-16 sm:w-20 bg-base-300 rounded"></div>
+                            <div class="flex items-center justify-between mb-4 sm:mb-6 gap-2">
+                                <div class="h-6 sm:h-8 w-24 sm:w-28 bg-base-300 rounded-xl"></div>
+                                <div class="h-4 w-24 sm:w-32 bg-base-300 rounded"></div>
                             </div>
                             
-                            <div class="h-6 sm:h-10 w-40 sm:w-64 bg-base-300 rounded mt-3 sm:mt-4"></div>
-
-                            <!-- Time Grid -->
-                            <div class="mt-4 grid grid-cols-3 gap-2 sm:gap-4 items-center">
-                                <div class="flex flex-col items-center">
-                                    <div class="h-6 sm:h-10 w-16 sm:w-20 bg-base-300 rounded"></div>
-                                    <div class="h-2 sm:h-3 w-12 sm:w-16 bg-base-300 rounded mt-1 sm:mt-2"></div>
-                                </div>
-                                <div class="flex justify-center">
-                                    <div class="h-4 w-4 sm:h-6 sm:w-6 rounded-full bg-base-300"></div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <div class="h-6 sm:h-10 w-16 sm:w-20 bg-base-300 rounded"></div>
-                                    <div class="h-2 sm:h-3 w-12 sm:w-16 bg-base-300 rounded mt-1 sm:mt-2"></div>
-                                </div>
-                            </div>
+                            <div class="h-6 sm:h-8 w-48 sm:w-64 bg-base-300 rounded mb-4 sm:mb-6"></div>
 
                             <!-- Details Grid -->
-                            <div class="mt-4">
-                                <div class="h-2 sm:h-3 w-12 sm:w-16 bg-base-300 rounded"></div>
-                                <div class="h-4 sm:h-5 w-24 sm:w-32 bg-base-300 rounded mt-1 sm:mt-2"></div>
-                                <div class="h-2 sm:h-3 w-16 sm:w-24 bg-base-300 rounded mt-1"></div>
-                                
-                                <div class="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+                            <div class="grid grid-cols-2 gap-y-4 gap-x-4">
+                                <div>
+                                    <div class="h-3 sm:h-4 w-12 sm:w-16 bg-base-300 rounded mb-2"></div>
+                                    <div class="h-4 sm:h-5 w-24 sm:w-32 bg-base-300 rounded"></div>
+                                </div>
+                                <div>
+                                    <div class="h-3 sm:h-4 w-10 sm:w-12 bg-base-300 rounded mb-2"></div>
+                                    <div class="h-4 sm:h-5 w-20 sm:w-28 bg-base-300 rounded"></div>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="h-3 sm:h-4 w-20 sm:w-24 bg-base-300 rounded mb-2"></div>
+                                    <div class="h-4 sm:h-5 w-40 sm:w-48 bg-base-300 rounded"></div>
+                                </div>
+                                <div class="col-span-2 grid grid-cols-3 gap-2 sm:gap-4">
                                     <div>
-                                        <div class="h-2 sm:h-3 w-10 sm:w-12 bg-base-300 rounded"></div>
-                                        <div class="h-4 sm:h-5 w-12 sm:w-16 bg-base-300 rounded mt-1"></div>
+                                        <div class="h-3 sm:h-4 w-12 sm:w-14 bg-base-300 rounded mb-2"></div>
+                                        <div class="h-4 sm:h-5 w-16 sm:w-20 bg-base-300 rounded"></div>
                                     </div>
                                     <div>
-                                        <div class="h-2 sm:h-3 w-10 sm:w-12 bg-base-300 rounded"></div>
-                                        <div class="h-4 sm:h-5 w-16 sm:w-20 bg-base-300 rounded mt-1"></div>
+                                        <div class="h-3 sm:h-4 w-14 sm:w-16 bg-base-300 rounded mb-2"></div>
+                                        <div class="h-4 sm:h-5 w-20 sm:w-24 bg-base-300 rounded"></div>
                                     </div>
                                     <div>
-                                        <div class="h-2 sm:h-3 w-10 sm:w-12 bg-base-300 rounded"></div>
-                                        <div class="h-4 sm:h-5 w-20 sm:w-24 bg-base-300 rounded mt-1"></div>
+                                        <div class="h-3 sm:h-4 w-12 sm:w-14 bg-base-300 rounded mb-2"></div>
+                                        <div class="h-4 sm:h-5 w-16 sm:w-24 bg-base-300 rounded"></div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <!-- Perforated Line -->
