@@ -10,15 +10,14 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
 {
     public bool $ready = false;
     public array $items = [];
-    public array $links = [];
+
     public ?string $error = null;
     public ?string $status = 'dipesan';
-    public ?string $from = null;
-    public ?string $to = null;
+
     public int $currentPage = 1;
     public int $lastPage = 1;
     public int $perPage = 0;
-    public int $total = 0;
+
 
     public function load()
     {
@@ -42,8 +41,6 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
                 ->accept('application/json')
                 ->post($url . '?page=' . intval($page), [
                     'status' => (string) ($this->status ?? ''),
-                    'from' => (string) ($this->from ?? ''),
-                    'to' => (string) ($this->to ?? ''),
                 ]);
             $json = $response->json();
             if ($response->successful() && ($json['success'] ?? false)) {
@@ -55,28 +52,27 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
                     return $timeB <=> $timeA;
                 });
                 $this->items = $items;
-                $this->links = (array) ($data['links'] ?? []);
+
                 $this->currentPage = intval($data['current_page'] ?? 1);
                 $this->lastPage = intval($data['last_page'] ?? 1);
                 $this->perPage = intval($data['per_page'] ?? 0);
-                $this->total = intval($data['total'] ?? 0);
+
                 $this->error = null;
             } else {
                 $this->items = [];
-                $this->links = [];
+
                 $this->currentPage = 1;
                 $this->lastPage = 1;
                 $this->perPage = 0;
-                $this->total = 0;
+
                 $this->error = $json['message'] ?? 'Gagal memuat history';
             }
         } catch (\Throwable) {
             $this->items = [];
-            $this->links = [];
             $this->currentPage = 1;
             $this->lastPage = 1;
             $this->perPage = 0;
-            $this->total = 0;
+
             $this->error = 'Terjadi kesalahan saat mengambil history';
         }
     }
