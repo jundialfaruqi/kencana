@@ -57,7 +57,7 @@
                         @forelse ($items as $it)
                             <a wire:navigate href="/booking-detail/{{ $it['kode_booking'] ?? '' }}"
                                 style="-webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
-                                class="block w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-sm hover:border-info hover:shadow-info/20 transition-all flex flex-row relative group [--cut-pos:4.75rem] sm:[--cut-pos:5.75rem]">
+                                class="block w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-sm hover:scale-[1.02] hover:shadow-md transition-all flex flex-row relative group [--cut-pos:4.75rem] sm:[--cut-pos:5.75rem]">
 
                                 <!-- Left Section (Main Details) -->
                                 <div class="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
