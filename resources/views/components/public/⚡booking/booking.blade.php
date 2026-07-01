@@ -1,18 +1,18 @@
-<div class="mt-4 sm:mt-8" wire:init="load" data-step="{{ $currentStep }}" x-data="{ step: @entangle('currentStep') }">
+<div class="mt-4 sm:mt-8" wire:init="load" data-step="{{ $currentStep }}" x-data="{ step: @entangle('currentStep'), showCancelModal: false }">
     @if ($ready)
         <div class="w-full" x-transition>
             <!-- Header Section -->
             <div class="mb-8 px-2 flex items-center gap-4">
-                <button type="button" wire:click="handleBack" wire:loading.attr="disabled" wire:target="handleBack"
+                <button type="button" @click="step > 1 ? step-- : showCancelModal = true"
                     class="btn btn-circle btn-ghost btn-sm sm:btn-md border-2 border-base-300 hover:border-info hover:text-info transition-all flex items-center justify-center">
-                    <span wire:loading.remove wire:target="handleBack">
+                    <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                             stroke="currentColor" class="size-5 sm:size-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>
                     </span>
-                    <span wire:loading wire:target="handleBack" class="loading loading-spinner loading-xs"></span>
+                    
                 </button>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
@@ -156,11 +156,8 @@
                                     @endforeach
                                 </div>
                                 <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
-                                    <button type="button" wire:click="handleBack" wire:loading.attr="disabled"
-                                        wire:target="handleBack"
+                                    <button type="button" @click="showCancelModal = true"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                        <span wire:loading wire:target="handleBack"
-                                            class="loading loading-spinner loading-xs mr-2"></span>
                                         <span>Batal</span>
                                     </button>
                                     <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
@@ -206,12 +203,11 @@
                                                 </h4>
                                             </div>
                                             <div>
-                                                <button type="button" wire:click="prevStep"
+                                                <button type="button" @click="step--"
                                                     wire:loading.attr="disabled" wire:target="prevStep"
                                                     class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
                                                     <span wire:loading.remove wire:target="prevStep">Ubah</span>
-                                                    <span wire:loading wire:target="prevStep"
-                                                        class="loading loading-spinner loading-xs"></span>
+                                                    
                                                 </button>
                                             </div>
                                         </div>
@@ -446,11 +442,9 @@
                                 </div>
 
                                 <div class="mt-8 flex justify-start gap-4">
-                                    <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
-                                        wire:target="prevStep"
+                                    <button type="button" @click="step--"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                        <span wire:loading wire:target="prevStep"
-                                            class="loading loading-spinner loading-xs mr-2"></span>
+                                        
                                         <span>Kembali</span>
                                     </button>
                                 </div>
@@ -765,11 +759,10 @@
                                                 <span>{{ $error }}</span>
                                             </div>
                                         @endif
-                                        <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
+                                        <button type="button" @click="step--"
                                             wire:target="prevStep"
                                             class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
-                                            <span wire:loading wire:target="prevStep"
-                                                class="loading loading-spinner loading-xs mr-2"></span>
+                                            
                                             <span>Kembali</span>
                                         </button>
                                     </div>
@@ -1148,9 +1141,8 @@
         </div>
     @endif
 
-    @if ($showCancelConfirm)
-        <div class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
-            <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="closeCancelConfirm"></div>
+    <div x-show="showCancelModal" style="display: none;" class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
+            <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" @click="showCancelModal = false"></div>
             <div
                 class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
                 <div class="bg-error p-4 sm:p-6 text-error-content">
@@ -1181,10 +1173,8 @@
                     </p>
                     <div class="mt-4 grid grid-cols-2 gap-2">
                         <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                            wire:click="closeCancelConfirm" wire:loading.attr="disabled"
-                            wire:target="closeCancelConfirm">
-                            <span wire:loading wire:target="closeCancelConfirm"
-                                class="loading loading-spinner loading-xs mr-2"></span>
+                            @click="showCancelModal = false">
+                            
                             <span>Tidak</span>
                         </button>
                         <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
@@ -1195,7 +1185,6 @@
                         </button>
                     </div>
                 </div>
-            </div>
         </div>
-    @endif
+    </div>
 </div>
