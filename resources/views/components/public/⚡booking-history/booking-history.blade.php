@@ -23,7 +23,7 @@
 
             {{-- Section konten booking history --}}
 
-            <div class="w-full max-w-5xl mx-auto">
+            <div class="w-full px-2">
                 <div class="relative">
                     @if ($error)
                         <div class="alert alert-error mb-4">
@@ -52,16 +52,17 @@
                             </button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4"
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                         wire:loading.class="opacity-0 pointer-events-none" wire:target="applyFilter,goToPage">
                         @forelse ($items as $it)
                             <a wire:navigate href="/booking-detail/{{ $it['kode_booking'] ?? '' }}"
-                                class="block w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-sm hover:border-info hover:shadow-info/20 transition-all flex flex-col sm:flex-row relative overflow-hidden group">
+                                style="--cut-pos: 4.75rem; -webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
+                                class="block w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-sm hover:border-info hover:shadow-info/20 transition-all flex flex-row relative group sm:[--cut-pos:5.75rem]">
 
                                 <!-- Left Section (Main Details) -->
-                                <div class="flex-1 p-5 sm:p-6 flex flex-col justify-between">
+                                <div class="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
                                     <!-- Header -->
-                                    <div class="flex justify-between items-start sm:items-center mb-4 gap-4">
+                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 sm:mb-4 gap-2 sm:gap-4">
                                         <!-- Status Badge -->
                                         <div
                                             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider {{ ($it['status'] ?? '') === 'dipesan' ? 'bg-info/10 text-info' : (($it['status'] ?? '') === 'dibatalkan' ? 'bg-error/10 text-error' : 'bg-success/10 text-success') }}">
@@ -85,20 +86,20 @@
                                     </div>
 
                                     <!-- Title -->
-                                    <h4 class="text-lg sm:text-xl font-extrabold text-base-content mb-4 sm:mb-6">
+                                    <h4 class="text-sm sm:text-lg font-extrabold text-base-content mb-3 sm:mb-4 leading-tight truncate">
                                         {{ $it['lapangan'] ?? '-' }}
                                     </h4>
 
                                     <!-- Details Grid -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-4">
+                                    <div class="grid grid-cols-2 gap-y-2 gap-x-2 sm:gap-y-2 sm:gap-x-3">
                                         <!-- Date -->
-                                        <div class="flex items-center gap-2 text-base-content/70">
+                                        <div class="flex items-center gap-1 sm:gap-2 text-base-content/70">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 opacity-70">
+                                                stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 sm:w-5 sm:h-5 opacity-70">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                                             </svg>
-                                            <span class="text-sm font-medium">{{ $it['tanggal'] ?? '-' }}</span>
+                                            <span class="text-[9px] sm:text-sm font-medium leading-none">{{ $it['tanggal'] ?? '-' }}</span>
                                         </div>
 
                                         <!-- Time -->
@@ -107,29 +108,29 @@
                                             $jm = [];
                                             foreach ($jr as $t) {
                                                 $t = trim($t);
-                                                $jm[] = substr($t, 0, 8);
+                                                $jm[] = substr($t, 0, 5);
                                             }
                                             $jamFmt = implode(' - ', $jm);
                                         @endphp
-                                        <div class="flex items-center gap-2 text-base-content/70">
+                                        <div class="flex items-center gap-1 sm:gap-2 text-base-content/70">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 opacity-70">
+                                                stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 sm:w-5 sm:h-5 opacity-70">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             <span
-                                                class="text-sm font-medium">{{ $jamFmt ?: $it['jam'] ?? '-' }}</span>
+                                                class="text-[9px] sm:text-sm font-medium leading-none">{{ $jamFmt ?: $it['jam'] ?? '-' }}</span>
                                         </div>
 
                                         <!-- Players -->
-                                        <div class="flex items-center gap-2 text-base-content/70">
+                                        <div class="flex items-center gap-1 sm:gap-2 text-base-content/70">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 opacity-70">
+                                                stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 sm:w-5 sm:h-5 opacity-70">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                             </svg>
-                                            <span class="text-sm font-medium">{{ $it['jumlah_pemain'] ?? '-' }}
-                                                Pemain</span>
+                                            <span class="text-[9px] sm:text-sm font-medium leading-none">{{ $it['jumlah_pemain'] ?? '-' }}
+                                                <span class="hidden sm:inline">Pemain</span></span>
                                         </div>
 
                                         <!-- Jenis -->
@@ -142,52 +143,29 @@
                                                 default => strtoupper(str_replace('_', ' ', $jenisRaw)),
                                             };
                                         @endphp
-                                        <div class="flex items-center gap-2 text-base-content/70">
+                                        <div class="flex items-center gap-1 sm:gap-2 text-base-content/70">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 opacity-70">
+                                                stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 sm:w-5 sm:h-5 opacity-70">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                                             </svg>
                                             <span
-                                                class="text-sm font-medium capitalize">{{ strtolower($jenisAlias ?: '-') }}</span>
+                                                class="text-[9px] sm:text-sm font-medium capitalize leading-none">{{ strtolower($jenisAlias ?: '-') }}</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Perforated Line (Desktop) -->
-                                <div class="hidden sm:flex flex-col justify-center items-center relative w-8">
-                                    <div
-                                        class="w-6 h-6 bg-[oklch(var(--b2))] rounded-full absolute -top-3 left-1/2 -translate-x-1/2 shadow-inner border-b-2 border-base-200">
-                                    </div>
-                                    <div class="h-full border-l-2 border-dashed border-base-300 w-px"></div>
-                                    <div
-                                        class="w-6 h-6 bg-[oklch(var(--b2))] rounded-full absolute -bottom-3 left-1/2 -translate-x-1/2 shadow-inner border-t-2 border-base-200">
-                                    </div>
+                                <!-- Perforated Line -->
+                                <div class="flex flex-col justify-center items-center relative w-6 shrink-0">
+                                    <div class="border-l-2 border-dashed border-base-300 w-px flex-grow my-3 sm:my-4"></div>
                                 </div>
 
-                                <!-- Perforated Line (Mobile) -->
-                                <div class="sm:hidden flex justify-center items-center relative h-8 w-full">
-                                    <div
-                                        class="w-6 h-6 bg-[oklch(var(--b2))] rounded-full absolute -left-3 top-1/2 -translate-y-1/2 shadow-inner border-r-2 border-base-200">
-                                    </div>
-                                    <div class="w-full border-t-2 border-dashed border-base-300 h-px"></div>
-                                    <div
-                                        class="w-6 h-6 bg-[oklch(var(--b2))] rounded-full absolute -right-3 top-1/2 -translate-y-1/2 shadow-inner border-l-2 border-base-200">
-                                    </div>
-                                </div>
 
-                                <!-- Right Section (QR & ID) -->
+                                <!-- Right Section (ID) -->
                                 <div
-                                    class="w-full sm:w-1/3 md:w-1/4 p-5 sm:p-6 flex flex-col justify-center items-center bg-base-100/50">
-                                    <div class="bg-white p-2 rounded-lg border border-base-200 shadow-sm mb-3">
-                                        <svg class="w-16 h-16 sm:w-20 sm:h-20 text-base-content" viewBox="0 0 24 24"
-                                            fill="currentColor">
-                                            <path
-                                                d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v3h-3v-3zm-2 2h3v3h-3v-3zm-2 2h3v3h-3v-3zm2 2h3v3h-3v-3zm2-2h3v3h-3v-3zm-4 0h3v3h-3v-3zm-2-2h3v3h-3v-3zm4-4h3v3h-3v-3zm-2 2h3v3h-3v-3zm-2-2h3v3h-3v-3z" />
-                                        </svg>
-                                    </div>
-                                    <div
-                                        class="text-[10px] sm:text-xs font-black uppercase text-center tracking-wider text-base-content/80 group-hover:text-info transition-colors break-all">
+                                    class="w-16 sm:w-20 p-3 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-100/50">
+                                    <div style="writing-mode: vertical-rl; transform: rotate(180deg);"
+                                        class="text-xs sm:text-base font-black uppercase tracking-widest text-base-content/70 group-hover:text-info transition-colors">
                                         {{ $it['kode_booking'] ?? '-' }}
                                     </div>
                                 </div>
@@ -280,7 +258,7 @@
                 </div>
             </div>
 
-            <div class="w-full max-w-5xl mx-auto">
+            <div class="w-full px-2">
                 <div class="relative">
                     <!-- Filter Bar Skeleton -->
                     <div class="flex justify-center mb-6">
@@ -292,24 +270,31 @@
                         </div>
                     </div>
                     <!-- List Grid Skeleton -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        @for ($i = 0; $i < 4; $i++)
-                            <div class="w-full p-4 rounded-2xl bg-base-200 border-2 border-base-300/30">
-                                <div class="flex justify-between items-start">
-                                    <div class="space-y-2">
-                                        <div class="h-3 bg-base-300 w-24 rounded"></div>
-                                        <div class="h-5 bg-base-300 w-40 rounded"></div>
-                                        <div class="h-4 bg-base-300 w-48 rounded"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        @for ($i = 0; $i < 6; $i++)
+                            <div style="--cut-pos: 4.75rem; -webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
+                                class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-row relative sm:[--cut-pos:5.75rem]">
+                                <!-- Left Section -->
+                                <div class="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
+                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 sm:mb-3 gap-2 sm:gap-3">
+                                        <div class="h-6 bg-base-300 w-16 sm:w-24 rounded-xl"></div>
+                                        <div class="h-3 bg-base-300 w-20 sm:w-24 rounded"></div>
                                     </div>
-                                    <div class="space-y-2">
-                                        <div class="h-4 bg-base-300 w-16 rounded"></div>
-                                        <div class="h-3 bg-base-300 w-24 rounded"></div>
+                                    <div class="h-5 sm:h-6 bg-base-300 w-32 sm:w-48 rounded mb-3 sm:mb-4"></div>
+                                    <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                                        <div class="h-4 bg-base-300 w-full rounded"></div>
+                                        <div class="h-4 bg-base-300 w-full rounded"></div>
+                                        <div class="h-4 bg-base-300 w-full rounded"></div>
+                                        <div class="h-4 bg-base-300 w-full rounded"></div>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-3 gap-3 mt-4">
-                                    <div class="h-4 bg-base-300 w-20 rounded"></div>
-                                    <div class="h-4 bg-base-300 w-20 rounded"></div>
-                                    <div class="h-4 bg-base-300 w-20 rounded"></div>
+                                <!-- Perforated Line -->
+                                <div class="flex flex-col justify-center items-center relative w-6 shrink-0">
+                                    <div class="border-l-2 border-dashed border-base-300/50 w-px flex-grow my-3 sm:my-4"></div>
+                                </div>
+                                <!-- Right Section -->
+                                <div class="w-16 sm:w-20 p-3 sm:p-4 shrink-0 flex flex-col justify-center items-center">
+                                    <div class="w-4 bg-base-300 h-24 sm:h-28 rounded"></div>
                                 </div>
                             </div>
                         @endfor
