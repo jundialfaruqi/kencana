@@ -56,8 +56,8 @@
                         wire:loading.class="opacity-0 pointer-events-none" wire:target="applyFilter,goToPage">
                         @forelse ($items as $it)
                             <a wire:navigate href="/booking-detail/{{ $it['kode_booking'] ?? '' }}"
-                                style="--cut-pos: 4.75rem; -webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
-                                class="block w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-sm hover:border-info hover:shadow-info/20 transition-all flex flex-row relative group sm:[--cut-pos:5.75rem]">
+                                style="-webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
+                                class="block w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-sm hover:border-info hover:shadow-info/20 transition-all flex flex-row relative group [--cut-pos:4.75rem] sm:[--cut-pos:5.75rem]">
 
                                 <!-- Left Section (Main Details) -->
                                 <div class="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
@@ -272,8 +272,8 @@
                     <!-- List Grid Skeleton -->
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         @for ($i = 0; $i < 6; $i++)
-                            <div style="--cut-pos: 4.75rem; -webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
-                                class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-row relative sm:[--cut-pos:5.75rem]">
+                            <div style="-webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
+                                class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-row relative [--cut-pos:4.75rem] sm:[--cut-pos:5.75rem]">
                                 <!-- Left Section -->
                                 <div class="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
                                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 sm:mb-3 gap-2 sm:gap-3">
