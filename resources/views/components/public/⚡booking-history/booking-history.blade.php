@@ -23,8 +23,8 @@
 
             {{-- Section konten booking history --}}
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 relative">
+            <div class="w-full max-w-5xl mx-auto">
+                <div class="relative">
                     @if ($error)
                         <div class="alert alert-error mb-4">
                             <span>{{ $error }}</span>
@@ -160,48 +160,12 @@
                     </div>
                     <div wire:loading wire:target="goToPage,applyFilter" class="absolute inset-0 z-10 rounded-xl">
                         <div class="space-y-4">
-                            <!-- Filter Bar Skeleton (matches current layout) -->
-                            <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-200 shadow">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="h-4 bg-base-300 w-12 rounded"></div>
-                                </div>
-                                <div class="sm:hidden space-y-3">
-                                    <div>
-                                        <div class="join w-full mt-1">
-                                            <div class="join-item h-7 bg-base-300 w-16 rounded"></div>
-                                            <div class="join-item h-7 bg-base-300 w-20 rounded"></div>
-                                            <div class="join-item h-7 bg-base-300 w-24 rounded"></div>
-                                            <div class="join-item h-7 bg-base-300 w-16 rounded"></div>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                            <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                        </div>
-                                        <div>
-                                            <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                            <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                        </div>
-                                    </div>
-                                    <div class="h-8 bg-base-300 w-full rounded"></div>
-                                </div>
-                                <div class="hidden sm:grid grid-cols-4 gap-3">
-                                    <div>
-                                        <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                        <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                    </div>
-                                    <div>
-                                        <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                        <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                    </div>
-                                    <div>
-                                        <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                        <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                    </div>
-                                    <div class="flex items-end">
-                                        <div class="h-8 bg-base-300 w-full rounded"></div>
-                                    </div>
+                            <!-- Filter Bar Skeleton -->
+                            <div class="flex justify-center mb-6">
+                                <div class="flex bg-base-200/50 p-1.5 rounded-full border border-base-300 gap-1 w-full sm:w-auto animate-pulse">
+                                    <div class="h-8 sm:h-10 bg-base-300 w-24 sm:w-32 rounded-full flex-1 sm:flex-none"></div>
+                                    <div class="h-8 sm:h-10 bg-base-300 w-24 sm:w-32 rounded-full flex-1 sm:flex-none"></div>
+                                    <div class="h-8 sm:h-10 bg-base-300 w-24 sm:w-32 rounded-full flex-1 sm:flex-none"></div>
                                 </div>
                             </div>
                             <!-- List Grid Skeleton -->
@@ -236,25 +200,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="lg:col-span-1">
-                    <div class="sticky top-6 space-y-6">
-                        <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
-                            <div class="bg-info p-6">
-                                <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
-                                    Ringkasan
-                                </h4>
-                            </div>
-                            <div class="p-6 space-y-4">
-                                <div
-                                    class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Total</span>
-                                    <span class="font-black italic uppercase text-sm">
-                                        {{ $total }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         @else
@@ -269,50 +214,14 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2 relative">
+                <div class="w-full max-w-5xl mx-auto">
+                    <div class="relative">
                         <!-- Filter Bar Skeleton -->
-                        <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-base-200 shadow mb-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="h-4 bg-base-300 w-12 rounded"></div>
-                            </div>
-                            <div class="sm:hidden space-y-3">
-                                <div>
-                                    <div class="join w-full mt-1">
-                                        <div class="join-item h-7 bg-base-300 w-16 rounded"></div>
-                                        <div class="join-item h-7 bg-base-300 w-20 rounded"></div>
-                                        <div class="join-item h-7 bg-base-300 w-24 rounded"></div>
-                                        <div class="join-item h-7 bg-base-300 w-16 rounded"></div>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                        <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                    </div>
-                                    <div>
-                                        <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                        <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                    </div>
-                                </div>
-                                <div class="h-8 bg-base-300 w-full rounded"></div>
-                            </div>
-                            <div class="hidden sm:grid grid-cols-4 gap-3">
-                                <div>
-                                    <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                    <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                </div>
-                                <div>
-                                    <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                    <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                </div>
-                                <div>
-                                    <div class="h-3 bg-base-300 w-20 rounded"></div>
-                                    <div class="h-8 bg-base-300 w-full mt-2 rounded"></div>
-                                </div>
-                                <div class="flex items-end">
-                                    <div class="h-8 bg-base-300 w-full rounded"></div>
-                                </div>
+                        <div class="flex justify-center mb-6">
+                            <div class="flex bg-base-200/50 p-1.5 rounded-full border border-base-300 gap-1 w-full sm:w-auto animate-pulse">
+                                <div class="h-8 sm:h-10 bg-base-300 w-24 sm:w-32 rounded-full flex-1 sm:flex-none"></div>
+                                <div class="h-8 sm:h-10 bg-base-300 w-24 sm:w-32 rounded-full flex-1 sm:flex-none"></div>
+                                <div class="h-8 sm:h-10 bg-base-300 w-24 sm:w-32 rounded-full flex-1 sm:flex-none"></div>
                             </div>
                         </div>
                         <!-- List Grid Skeleton -->
@@ -345,23 +254,8 @@
                             <div class="join-item h-8 bg-base-300 w-16 rounded-xl"></div>
                         </div>
                     </div>
-                    <!-- Sidebar Skeleton -->
-                    <div class="lg:col-span-1">
-                        <div class="sticky top-6 space-y-6">
-                            <div class="bg-base-100 rounded-3xl border-2 border-base-200 overflow-hidden shadow-xl">
-                                <div class="h-16 bg-base-300"></div>
-                                <div class="p-6 space-y-6">
-                                    <div
-                                        class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
-                                        <div class="h-4 bg-base-300 w-16 rounded"></div>
-                                        <div class="h-4 bg-base-300 w-10 rounded"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     @endif
-</div>
+
