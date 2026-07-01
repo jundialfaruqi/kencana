@@ -1,4 +1,4 @@
-<div class="mt-4 sm:mt-8" wire:init="load" data-step="{{ $currentStep }}">
+<div class="mt-4 sm:mt-8" wire:init="load" data-step="{{ $currentStep }}" x-data="{ step: @entangle('currentStep') }">
     @if ($ready)
         <div class="w-full" x-transition>
             <!-- Header Section -->
@@ -1176,56 +1176,56 @@
                 @endif
             </div>
         </div>
-</div>
-@endif
+    @endif
 
-@if ($showCancelConfirm)
-    <div class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
-        <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="closeCancelConfirm"></div>
-        <div
-            class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
-            <div class="bg-error p-4 sm:p-6 text-error-content">
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <div
-                        class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-error-content/20 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" class="size-5 sm:size-6 text-error-content">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-black italic uppercase tracking-tighter text-lg sm:text-xl">
-                            Batalkan Pesanan?
-                        </h4>
-                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-error-content/70">
-                            Sesi Booking Akan Dihapus
+    @if ($showCancelConfirm)
+        <div class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
+            <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="closeCancelConfirm"></div>
+            <div
+                class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
+                <div class="bg-error p-4 sm:p-6 text-error-content">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div
+                            class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-error-content/20 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="size-5 sm:size-6 text-error-content">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-black italic uppercase tracking-tighter text-lg sm:text-xl">
+                                Batalkan Pesanan?
+                            </h4>
+                            <div class="text-[9px] sm:text-[10px] font-bold uppercase text-error-content/70">
+                                Sesi Booking Akan Dihapus
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="p-4 sm:p-6 space-y-4">
-                <p class="text-sm font-medium text-base-content/75 leading-relaxed">
-                    Apakah Anda yakin ingin membatalkan pesanan? Seluruh data tanggal, arena, dan jam yang telah Anda
-                    pilih akan disetel ulang (reset).
-                </p>
-                <div class="mt-4 grid grid-cols-2 gap-2">
-                    <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                        wire:click="closeCancelConfirm" wire:loading.attr="disabled"
-                        wire:target="closeCancelConfirm">
-                        <span wire:loading wire:target="closeCancelConfirm"
-                            class="loading loading-spinner loading-xs mr-2"></span>
-                        <span>Tidak</span>
-                    </button>
-                    <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
-                        wire:click="cancelBooking" wire:loading.attr="disabled" wire:target="cancelBooking">
-                        <span wire:loading wire:target="cancelBooking"
-                            class="loading loading-spinner loading-xs mr-2"></span>
-                        <span>Ya, Batalkan</span>
-                    </button>
+                <div class="p-4 sm:p-6 space-y-4">
+                    <p class="text-sm font-medium text-base-content/75 leading-relaxed">
+                        Apakah Anda yakin ingin membatalkan pesanan? Seluruh data tanggal, arena, dan jam yang telah
+                        Anda
+                        pilih akan disetel ulang (reset).
+                    </p>
+                    <div class="mt-4 grid grid-cols-2 gap-2">
+                        <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
+                            wire:click="closeCancelConfirm" wire:loading.attr="disabled"
+                            wire:target="closeCancelConfirm">
+                            <span wire:loading wire:target="closeCancelConfirm"
+                                class="loading loading-spinner loading-xs mr-2"></span>
+                            <span>Tidak</span>
+                        </button>
+                        <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
+                            wire:click="cancelBooking" wire:loading.attr="disabled" wire:target="cancelBooking">
+                            <span wire:loading wire:target="cancelBooking"
+                                class="loading loading-spinner loading-xs mr-2"></span>
+                            <span>Ya, Batalkan</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
 </div>

@@ -31,3 +31,6 @@ boost.json
 /.claude
 CLAUDE.md
 .mcp.json
+
+# Custom Tools
+/tools/checkers
