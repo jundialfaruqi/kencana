@@ -85,16 +85,10 @@
                                         </button>
                                         <div @click.outside="open=false" id="select-date-calendar" wire:ignore.self
                                             class="absolute right-0 mt-2 w-80 p-3 rounded-xl border border-base-300 bg-base-100 shadow-xl z-20 hidden">
-                                            <div class="flex items-center justify-between mb-2">
-                                                <button type="button" class="btn btn-ghost btn-xs"
-                                                    data-cal-prev>&lsaquo;</button>
+                                            <div class="flex items-center justify-center mb-2">
                                                 <div class="text-sm font-black italic uppercase">
                                                     <span data-cal-label="curr">{{ $calCurrLabel }}</span>
-                                                    <span data-cal-label="next"
-                                                        class="hidden">{{ $calNextLabel }}</span>
                                                 </div>
-                                                <button type="button" class="btn btn-ghost btn-xs"
-                                                    data-cal-next>&rsaquo;</button>
                                             </div>
                                             <div
                                                 class="grid grid-cols-7 gap-1 text-[10px] font-bold uppercase text-base-content/60 mb-1">
@@ -133,31 +127,7 @@
                                                         data-cal-close>Tutup</button>
                                                 </div>
                                             </div>
-                                            <div data-cal-panel class="hidden">
-                                                <div class="grid grid-cols-7 gap-1">
-                                                    @for ($i = 0; $i < $calNextStartDow; $i++)
-                                                        <div class="h-8"></div>
-                                                    @endfor
-                                                    @for ($d = 1; $d <= $calNextDays; $d++)
-                                                        <button
-                                                            wire:click="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
-                                                            wire:loading.attr="disabled"
-                                                            wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
-                                                            data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
-                                                            class="h-8 rounded-md text-xs font-bold transition-all
-                                                    {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}">
-                                                            <span wire:loading.remove
-                                                                wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')">{{ $d }}</span>
-                                                            <span class="loading loading-dots loading-xs" wire:loading
-                                                                wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"></span>
-                                                        </button>
-                                                    @endfor
-                                                </div>
-                                                <div class="mt-2 flex justify-end">
-                                                    <button type="button" class="btn btn-ghost btn-xs"
-                                                        data-cal-close>Tutup</button>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
