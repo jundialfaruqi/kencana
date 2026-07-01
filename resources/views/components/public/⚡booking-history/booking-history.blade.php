@@ -31,87 +31,23 @@
                         </div>
                     @endif
 
-                    <div class="w-full p-4 rounded-2xl bg-base-100/50 border-2 border-base-200 shadow mb-4"
-                        wire:loading.class="opacity-0 pointer-events-none" wire:target="applyFilter,goToPage">
-                        <div class="flex items-center justify-start mb-1">
-                            <span
-                                class="text-[10px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
-                                Filter
-                            </span>
-                        </div>
-                        <!-- Mobile Enhanced Filters -->
-                        <div class="sm:hidden space-y-3">
-                            <div>
-                                <label class="text-[10px] font-bold uppercase text-base-content/50">Status</label>
-                                <div class="join w-full">
-                                    <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === '' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
-                                        wire:click="$set('status','')">Semua</button>
-                                    <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === 'dipesan' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
-                                        wire:click="$set('status','dipesan')">Dipesan</button>
-                                    <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === 'dibatalkan' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
-                                        wire:click="$set('status','dibatalkan')">Dibatalkan</button>
-                                    <button
-                                        class="join-item btn btn-xs {{ ($status ?? '') === 'selesai' ? 'btn-info text-info-content' : 'btn-outline-base-300' }}"
-                                        wire:click="$set('status','selesai')">Selesai</button>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="text-[10px] font-bold uppercase text-base-content/50">Dari</label>
-                                    <div class="relative mt-1">
-                                        <input type="date"
-                                            class="input input-sm input-bordered w-full text-base-content focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
-                                            wire:model.defer="from" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="text-[10px] font-bold uppercase text-base-content/50">Sampai</label>
-                                    <div class="relative mt-1">
-                                        <input type="date"
-                                            class="input input-sm input-bordered w-full text-base-content focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
-                                            wire:model.defer="to" />
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-info btn-sm w-full italic font-black uppercase"
-                                wire:click="applyFilter" wire:loading.attr="disabled">
-                                <span class="skew-x-12">Terapkan</span>
+                    <div class="flex justify-center mb-6" wire:loading.class="opacity-50 pointer-events-none" wire:target="setStatus">
+                        <div class="flex bg-base-200/50 p-1.5 rounded-full border border-base-300 gap-1 w-full sm:w-auto">
+                            <button type="button" 
+                                class="btn btn-sm sm:btn-md rounded-full border-none flex-1 sm:flex-none uppercase font-black italic text-[10px] sm:text-xs px-4 sm:px-6 {{ ($status ?? '') === 'dipesan' ? 'btn-info text-info-content shadow-md' : 'btn-ghost text-base-content/70 hover:bg-base-300/50' }}"
+                                wire:click="setStatus('dipesan')">
+                                Dipesan
                             </button>
-                        </div>
-                        <!-- Desktop Filters -->
-                        <div class="hidden sm:grid grid-cols-4 gap-3">
-                            <div>
-                                <label class="text-[10px] font-bold uppercase text-base-content/50">Status</label>
-                                <select
-                                    class="select select-sm w-full mt-1 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200"
-                                    wire:model.defer="status">
-                                    <option value="">Semua</option>
-                                    <option value="dipesan">Dipesan</option>
-                                    <option value="dibatalkan">Dibatalkan</option>
-                                    <option value="selesai">Selesai</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold uppercase text-base-content/50">Dari</label>
-                                <input type="date"
-                                    class="input input-sm input-bordered w-full mt-1 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 text-base-content"
-                                    wire:model.defer="from" />
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold uppercase text-base-content/50">Sampai</label>
-                                <input type="date"
-                                    class="input input-sm input-bordered w-full mt-1 focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 text-base-content"
-                                    wire:model.defer="to" />
-                            </div>
-                            <div class="flex items-end">
-                                <button class="btn btn-info btn-sm w-full italic font-black uppercase"
-                                    wire:click="applyFilter" wire:loading.attr="disabled">
-                                    <span class="skew-x-12">Terapkan</span>
-                                </button>
-                            </div>
+                            <button type="button" 
+                                class="btn btn-sm sm:btn-md rounded-full border-none flex-1 sm:flex-none uppercase font-black italic text-[10px] sm:text-xs px-4 sm:px-6 {{ ($status ?? '') === 'dibatalkan' ? 'btn-info text-info-content shadow-md' : 'btn-ghost text-base-content/70 hover:bg-base-300/50' }}"
+                                wire:click="setStatus('dibatalkan')">
+                                Dibatalkan
+                            </button>
+                            <button type="button" 
+                                class="btn btn-sm sm:btn-md rounded-full border-none flex-1 sm:flex-none uppercase font-black italic text-[10px] sm:text-xs px-4 sm:px-6 {{ ($status ?? '') === 'selesai' ? 'btn-info text-info-content shadow-md' : 'btn-ghost text-base-content/70 hover:bg-base-300/50' }}"
+                                wire:click="setStatus('selesai')">
+                                Selesai
+                            </button>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4"

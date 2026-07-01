@@ -95,4 +95,10 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
         $this->fetchHistory(1);
         $this->ready = true;
     }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+        $this->applyFilter();
+    }
 };
