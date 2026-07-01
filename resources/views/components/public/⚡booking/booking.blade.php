@@ -822,73 +822,59 @@
             </div>
 
             @if ($showTermsModal)
-                <div class="fixed inset-0 z-50 grid place-items-center p-4">
+                <div class="fixed inset-0 z-[9999] grid place-items-center p-4">
                     <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm"></div>
                     <div
-                        class="relative w-full max-w-sm sm:max-w-md mx-4 sm:mx-0 rounded-2xl sm:rounded-3xl border-2 border-warning bg-base-100 shadow-2xl overflow-hidden">
-                        <div class="bg-warning p-4 sm:p-6">
-                            <div class="flex items-center gap-2 sm:gap-3">
-                                <div
-                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-warning-content/20 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                        class="size-5 sm:size-6 text-warning-content">
-                                        <path fill-rule="evenodd"
-                                            d="M12 2.25c5.385 0 9.75 4.365 9.75 9.75s-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12 6.615 2.25 12 2.25ZM12 8.25a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4
-                                        class="text-warning-content font-black italic uppercase tracking-tighter text-lg sm:text-xl">
-                                        syarat dan ketentuan
-                                    </h4>
-                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-warning-content/70">
-                                        Mohon dibaca sebelum konfirmasi
-                                    </div>
-                                </div>
+                        class="relative w-full max-w-sm sm:max-w-md mx-4 sm:mx-0 rounded-2xl sm:rounded-3xl border border-base-300 bg-base-100 shadow-2xl overflow-hidden p-4 sm:p-6">
+                        <div class="mb-4">
+                            <h4 class="text-base-content font-black italic uppercase tracking-tighter text-xl">
+                                Syarat dan Ketentuan
+                            </h4>
+                            <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/70 mt-1">
+                                Mohon dibaca sebelum konfirmasi
                             </div>
                         </div>
-                        <div class="p-4 sm:p-6 space-y-4 overflow-y-auto max-h-[70vh]">
+                        <div class="space-y-4 overflow-y-auto max-h-[60vh] pr-2">
                             @forelse ($catatan as $group)
                                 <div class="space-y-2">
-                                    <div class="text-xs font-black italic uppercase text-base-content/70">
+                                    <div class="text-xs font-black italic uppercase text-base-content">
                                         {{ $group['kategori_catatan'] ?? 'Catatan' }}
                                     </div>
                                     <ul class="space-y-1">
                                         @foreach ($group['items'] ?? [] as $item)
-                                            <li class="flex items-center gap-3">
-                                                <span class="flex-none w-2 h-2 rounded-full bg-warning"></span>
+                                            <li class="flex items-start gap-2">
+                                                <span class="flex-none mt-1.5 w-1.5 h-1.5 rounded-full bg-base-content/70"></span>
                                                 <span
-                                                    class="text-xs sm:text-sm leading-relaxed wrap-break-word">{{ $item['catatan'] ?? '' }}</span>
+                                                    class="text-xs sm:text-sm text-base-content/70 leading-relaxed wrap-break-word">{{ $item['catatan'] ?? '' }}</span>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                             @empty
-                                <div class="text-sm font-bold uppercase text-base-content/60">
+                                <div class="text-sm font-bold uppercase text-base-content/70">
                                     Checklist Setuju dengan syarat dan ketentuan.
                                 </div>
                             @endforelse
-                            <div class="form-control">
+                            <div class="form-control mt-4">
                                 <label class="label cursor-pointer justify-start gap-3 px-1.5 sm:px-0">
                                     <input type="checkbox"
-                                        class="checkbox checkbox-warning checkbox-sm sm:checkbox-md"
+                                        class="checkbox checkbox-primary checkbox-sm sm:checkbox-md rounded-lg"
                                         wire:model="termsAgreed">
                                     <span
-                                        class="label-text text-xs sm:text-sm font-bold uppercase leading-snug text-base-content/60">Setuju
+                                        class="label-text text-xs sm:text-sm font-bold uppercase leading-snug text-base-content/70">Setuju
                                         dengan syarat dan
                                         ketentuan</span>
                                 </label>
                             </div>
-                            <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                <button type="button" class="btn btn-ghost w-full"
+                            <div class="mt-4 grid grid-cols-2 gap-2">
+                                <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
                                     wire:click="$set('showTermsModal', false)" wire:loading.attr="disabled">
                                     <span wire:loading class="loading loading-spinner loading-xs mr-2"></span>
                                     <span>Kembali</span>
                                 </button>
-                                <button type="button" class="btn btn-warning w-full" wire:click="finalizeBooking"
+                                <button type="button" class="btn btn-primary w-full font-black uppercase text-xs text-white" wire:click="finalizeBooking"
                                     wire:loading.attr="disabled" wire:target="finalizeBooking">
-                                    Setuju dan Konfirmasi
+                                    Setuju & Konfirmasi
                                 </button>
                             </div>
                         </div>
