@@ -22,179 +22,147 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <div class="boarding-pass border-2 border-base-200 border-dashed bg-base-100 rounded-2xl overflow-hidden shadow-lg"
+                    <div style="-webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
+                        class="w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-lg flex flex-row relative overflow-hidden [--cut-pos:6.75rem] sm:[--cut-pos:10.75rem]"
                         id="detail-card">
-                        <div class="bp-header bg-info text-warning-content px-4 py-3 sm:px-6 sm:py-4">
+                        
+                        <!-- Left Section -->
+                        <div class="flex-1 p-3 sm:p-6 flex flex-col min-w-0">
+                            <!-- Status & Header -->
                             <div class="flex items-center justify-between">
-                                <div class="text-[10px] font-bold uppercase opacity-80">Kode Booking</div>
-                                <div class="text-[10px] font-bold uppercase opacity-80">
-                                    {{ data_get($detail, 'status') ?? '-' }}</div>
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider {{ ($detail['status'] ?? '') === 'dipesan' ? 'bg-info/10 text-info' : (($detail['status'] ?? '') === 'dibatalkan' ? 'bg-error/10 text-error' : 'bg-success/10 text-success') }}">
+                                    {{ data_get($detail, 'status') ?? '-' }}
+                                </div>
+                                <div class="text-[10px] sm:text-xs font-medium text-base-content/50 uppercase">
+                                    {{ $dpFmt ?? (data_get($detail, 'dibuat_pada') ?? '-') }}
+                                </div>
                             </div>
-                            <div class="text-2xl sm:text-3xl font-black italic uppercase tracking-widest">
-                                {{ $detail['kode_booking'] ?? $kode_booking }}
-                            </div>
-                        </div>
-                        <div class="bp-body p-4 sm:p-6">
-                            <div class="flex items-center justify-between">
-                                <h4 class="text-base sm:text-lg font-black italic uppercase">
-                                    {{ data_get($detail, 'lapangan.nama') ?? '-' }}</h4>
-                            </div>
-                            <div class="mt-4 grid grid-cols-3 gap-4 items-start">
-                                <div>
-                                    <div class="text-2xl sm:text-3xl font-black tracking-tight text-warning">
+                            
+                            <h4 class="text-base sm:text-3xl font-black italic uppercase text-base-content mt-3 sm:mt-4 leading-none">
+                                {{ data_get($detail, 'lapangan.nama') ?? '-' }}
+                            </h4>
+
+                            <!-- Time Grid -->
+                            <div class="mt-4 grid grid-cols-3 gap-2 sm:gap-4 items-start">
+                                <div class="text-center">
+                                    <div class="text-lg sm:text-3xl font-black tracking-tight text-warning">
                                         {{ $mulai ?? '-' }}</div>
-                                    <div class="text-[10px] font-bold uppercase text-base-content/60 mt-1">
+                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/60 mt-0.5 sm:mt-1">
                                         {{ $tglFmt ?? ($tgl ?? '-') }}</div>
                                 </div>
                                 <div class="flex items-center justify-center">
-                                    <div class="h-8 sm:h-10 border-l-2 border-dashed border-base-300"></div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 text-base-300">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
                                 </div>
-                                <div class="text-right">
-                                    <div class="text-2xl sm:text-3xl font-black tracking-tight text-warning">
+                                <div class="text-center">
+                                    <div class="text-lg sm:text-3xl font-black tracking-tight text-warning">
                                         {{ $selesai ?? '-' }}</div>
-                                    <div class="text-[10px] font-bold uppercase text-base-content/60 mt-1">
+                                    <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/60 mt-0.5 sm:mt-1">
                                         {{ $tglFmt ?? ($tgl ?? '-') }}</div>
                                 </div>
                             </div>
-                            <div class="bp-divider my-4"></div>
-                            <div class="grid grid-cols-3 gap-2">
-                                <div class="col-span-2">
-                                    <div class="text-[10px] font-bold uppercase text-base-content/50">Tim / Nama</div>
-                                    <div class="mt-1 flex flex-col">
-                                        @php
-                                            $sessionName = data_get(Session::get('user_data'), 'name');
-                                            $apiTeam = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
-                                            $apiName = data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name');
-                                            $pemesanNama = data_get($detail, 'pemesan.nama');
 
-                                            $team = null;
-                                            $name = null;
+                            <!-- Details Grid -->
+                            <div class="mt-4">
+                                <div class="text-[10px] font-bold uppercase text-base-content/50">Tim / Nama</div>
+                                <div class="mt-1 flex flex-col">
+                                    @php
+                                        $sessionName = data_get(Session::get('user_data'), 'name');
+                                        $apiTeam = data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
+                                        $apiName = data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name');
+                                        $pemesanNama = data_get($detail, 'pemesan.nama');
 
-                                            if (filled($apiTeam)) {
-                                                $team = $apiTeam;
-                                            }
-                                            if (filled($apiName)) {
-                                                $name = $apiName;
-                                            }
+                                        $team = null;
+                                        $name = null;
 
-                                            if (filled($pemesanNama)) {
-                                                if (filled($name)) {
-                                                    if (blank($team)) {
-                                                        $team = $pemesanNama;
-                                                    }
+                                        if (filled($apiTeam)) {
+                                            $team = $apiTeam;
+                                        }
+                                        if (filled($apiName)) {
+                                            $name = $apiName;
+                                        }
+
+                                        if (filled($pemesanNama)) {
+                                            if (filled($name)) {
+                                                if (blank($team)) {
+                                                    $team = $pemesanNama;
+                                                }
+                                            } else {
+                                                if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
+                                                    $team = $pemesanNama;
+                                                    $name = $sessionName;
                                                 } else {
-                                                    if (filled($sessionName) && strcasecmp(trim((string)$pemesanNama), trim((string)$sessionName)) !== 0) {
-                                                        $team = $pemesanNama;
-                                                        $name = $sessionName;
-                                                    } else {
-                                                        $name = $pemesanNama;
-                                                    }
+                                                    $name = $pemesanNama;
                                                 }
                                             }
+                                        }
 
-                                            if (blank($name)) {
-                                                $name = $sessionName;
-                                            }
-                                        @endphp
-                                        <span class="font-black italic uppercase text-xs sm:text-sm text-warning">
-                                            {{ $team ?: '-' }}
-                                        </span>
-                                        <span class="text-[10px] sm:text-xs text-base-content/60 font-semibold uppercase mt-0.5">
-                                            {{ $name ?: '-' }}
-                                        </span>
-                                    </div>
-                                    <div class="mt-3 grid grid-cols-3 gap-3">
-                                        <div>
-                                            <div class="text-[10px] font-bold uppercase text-base-content/50">Pemain
-                                            </div>
-                                            <div class="mt-1 font-black italic uppercase text-sm">
-                                                {{ data_get($detail, 'pemesan.jumlah_pemain') ?? '-' }}</div>
-                                        </div>
-                                        <div>
-                                            <div class="text-[10px] font-bold uppercase text-base-content/50">Kategori
-                                            </div>
-                                            <div class="mt-1 font-black italic uppercase text-sm">
-                                                {{ data_get($detail, 'pemesan.kategori') ?? '-' }}</div>
-                                        </div>
-                                        <div>
-                                            <div class="text-[10px] font-bold uppercase text-base-content/50">Jenis
-                                            </div>
-                                            <div class="mt-1 font-black italic uppercase text-sm">
-                                                {{ $jenisAlias ?: '-' }}</div>
-                                        </div>
-                                    </div>
+                                        if (blank($name)) {
+                                            $name = $sessionName;
+                                        }
+                                    @endphp
+                                    <span class="font-black italic uppercase text-xs sm:text-sm text-warning">
+                                        {{ $team ?: '-' }}
+                                    </span>
+                                    <span class="text-[10px] sm:text-xs text-base-content/60 font-semibold uppercase mt-0.5">
+                                        {{ $name ?: '-' }}
+                                    </span>
                                 </div>
-                                <div class="col-span-1 flex items-center justify-center">
-                                    <div
-                                        class="relative w-12 h-12 sm:w-23 sm:h-23 rounded-full bg-info/10 flex items-center justify-center">
-
-                                        <!-- LOGO -->
-                                        <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
-                                            alt="Logo Kencana Arena"
-                                            class="w-full h-full object-contain p-1.5 sm:p-3 opacity-20 grayscale" />
-
-                                        <!-- OVERLAY VERIFIED (1 BARIS) -->
-                                        <div class="absolute flex items-center justify-between">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="2" stroke="currentColor"
-                                                class="size-4 sm:size-7 text-white">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                            </svg>
-                                            <div
-                                                class="text-info font-black uppercase italic tracking-widest text-[10px] sm:text-[20px] text-center leading-none shadow-md">
-                                                Verified
-                                            </div>
-                                        </div>
+                                <div class="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+                                    <div>
+                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50">Pemain</div>
+                                        <div class="mt-0.5 sm:mt-1 font-black italic uppercase text-xs sm:text-sm">
+                                            {{ data_get($detail, 'pemesan.jumlah_pemain') ?? '-' }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50">Kategori</div>
+                                        <div class="mt-0.5 sm:mt-1 font-black italic uppercase text-xs sm:text-sm">
+                                            {{ data_get($detail, 'pemesan.kategori') ?? '-' }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50">Jenis</div>
+                                        <div class="mt-0.5 sm:mt-1 font-black italic uppercase text-xs sm:text-sm">
+                                            {{ $jenisAlias ?: '-' }}</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="bp-divider my-4"></div>
-                            <div class="grid grid-cols-3 gap-3">
-                                <div>
-                                    <div class="text-[10px] font-bold uppercase text-base-content/50">Dibuat</div>
-                                    <div class="mt-1 text-xs">
-                                        {{ $dpFmt ?? (data_get($detail, 'dibuat_pada') ?? '-') }}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="text-[10px] font-bold uppercase text-base-content/50">Status</div>
-                                    <div
-                                        class="mt-1 text-xs font-black italic uppercase {{ (data_get($detail, 'status') ?? '') === 'dipesan' ? 'text-info' : 'text-warning' }}">
-                                        {{ data_get($detail, 'status') ?? '-' }}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="text-[10px] font-bold uppercase text-base-content/50">Kode</div>
-                                    <div class="mt-1 text-xs font-black italic uppercase">
-                                        {{ $detail['kode_booking'] ?? $kode_booking }}</div>
-                                </div>
-                            </div>
-                            <div class="mt-4 rounded-xl bg-base-200 border border-dashed border-base-300 p-3">
-                                <div class="text-[10px] font-bold uppercase text-base-content/50">Keterangan</div>
-                                <div class="mt-1 text-sm italic">{{ data_get($detail, 'keterangan') ?? '-' }}</div>
-                            </div>
 
+                            <!-- No keterangan here, moved outside -->
+                        </div>
+
+                        <!-- Perforated Line -->
+                        <div class="flex flex-col justify-center items-center relative w-6 shrink-0">
+                            <div class="border-l-2 border-dashed border-base-300 w-px flex-grow my-4 sm:my-6"></div>
+                        </div>
+
+                        <!-- Right Section (ID) -->
+                        <div class="w-24 sm:w-40 p-2 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-100/50">
                             @if ($detail['kode_booking'] ?? $kode_booking)
-                                <div
-                                    class="mt-6 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-inner border border-base-300">
-                                    <!-- QR Code -->
-                                    <div class="p-1.5 bg-white">
-                                        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}"
-                                            alt="QR Code" class="w-28 h-28" style="image-rendering: pixelated;" />
-                                    </div>
-                                    <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
-                                        {{ $detail['kode_booking'] ?? $kode_booking }}
-                                    </div>
+                                <div class="p-1 sm:p-2 bg-white shadow-sm border border-base-200 mb-2 sm:mb-4">
+                                    <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}"
+                                        alt="QR Code" class="w-14 h-14 sm:w-28 sm:h-28" style="image-rendering: pixelated;" />
                                 </div>
                             @endif
-                        </div>
-                        <div class="bp-footer bg-info text-info-content px-4 py-3 sm:px-6">
-                            <div class="text-center text-[10px] sm:text-xs font-black italic uppercase tracking-widest">
-                                {{ data_get($detail, 'lapangan.nama') ?? '-' }}
+                            <div class="text-[8px] sm:text-xs font-medium uppercase tracking-widest text-base-content text-center">
+                                {{ $detail['kode_booking'] ?? $kode_booking }}
                             </div>
                         </div>
                     </div>
+
+                    @if (!empty(data_get($detail, 'keterangan')))
+                        <div class="mt-4 rounded-2xl border-2 border-base-200 bg-base-100 shadow-sm p-4">
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-warning">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                <h4 class="text-xs sm:text-sm font-bold uppercase text-base-content/60">Catatan Booking</h4>
+                            </div>
+                            <div class="mt-2 text-sm italic font-medium text-base-content leading-relaxed">
+                                "{{ data_get($detail, 'keterangan') }}"
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <div>
                     <div class="rounded-2xl border-2 border-base-200 bg-base-100 shadow-lg p-4 sm:p-6">
@@ -319,84 +287,68 @@
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <div
-                        class="boarding-pass border-2 border-base-200 border-dashed bg-base-100 rounded-2xl overflow-hidden shadow-lg">
-                        <div class="bp-header px-4 py-3 sm:px-6 sm:py-4">
-                            <div class="flex items-center justify-between">
-                                <div class="h-3 w-24 bg-base-300 rounded"></div>
-                                <div class="h-3 w-20 bg-base-300 rounded"></div>
+                    <div style="-webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); -webkit-mask-size: 100% 51%; -webkit-mask-position: top, bottom; -webkit-mask-repeat: no-repeat; mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px), radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px); mask-size: 100% 51%; mask-position: top, bottom; mask-repeat: no-repeat;"
+                        class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-row relative overflow-hidden [--cut-pos:6.75rem] sm:[--cut-pos:10.75rem]">
+                        
+                        <!-- Left Section -->
+                        <div class="flex-1 p-3 sm:p-6 flex flex-col min-w-0">
+                            <!-- Status & Header -->
+                            <div class="flex items-center justify-between mb-3 sm:mb-4">
+                                <div class="h-5 sm:h-8 w-20 sm:w-24 bg-base-300 rounded-xl"></div>
+                                <div class="h-3 sm:h-4 w-16 sm:w-20 bg-base-300 rounded"></div>
                             </div>
-                            <div class="h-7 sm:h-9 w-44 sm:w-60 bg-base-300 rounded mt-2"></div>
-                        </div>
-                        <div class="bp-body p-4 sm:p-6">
-                            <div class="h-4 w-40 bg-base-300 rounded"></div>
-                            <div class="mt-4 grid grid-cols-3 gap-4 items-start">
-                                <div>
-                                    <div class="h-8 sm:h-10 w-24 sm:w-32 bg-base-300 rounded"></div>
-                                    <div class="h-3 w-28 bg-base-300 rounded mt-2"></div>
+                            
+                            <div class="h-6 sm:h-10 w-40 sm:w-64 bg-base-300 rounded mt-3 sm:mt-4"></div>
+
+                            <!-- Time Grid -->
+                            <div class="mt-4 grid grid-cols-3 gap-2 sm:gap-4 items-center">
+                                <div class="flex flex-col items-center">
+                                    <div class="h-6 sm:h-10 w-16 sm:w-20 bg-base-300 rounded"></div>
+                                    <div class="h-2 sm:h-3 w-12 sm:w-16 bg-base-300 rounded mt-1 sm:mt-2"></div>
                                 </div>
-                                <div class="flex items-center justify-center">
-                                    <div class="h-8 sm:h-10 border-l-2 border-dashed border-base-300"></div>
+                                <div class="flex justify-center">
+                                    <div class="h-4 w-4 sm:h-6 sm:w-6 rounded-full bg-base-300"></div>
                                 </div>
-                                <div class="text-right">
-                                    <div class="h-8 sm:h-10 w-24 sm:w-32 bg-base-300 rounded ml-auto"></div>
-                                    <div class="h-3 w-28 bg-base-300 rounded mt-2 ml-auto"></div>
+                                <div class="flex flex-col items-center">
+                                    <div class="h-6 sm:h-10 w-16 sm:w-20 bg-base-300 rounded"></div>
+                                    <div class="h-2 sm:h-3 w-12 sm:w-16 bg-base-300 rounded mt-1 sm:mt-2"></div>
                                 </div>
-                            </div>
-                            <div class="bp-divider my-4"></div>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div class="col-span-2">
-                                    <div class="h-3 w-20 bg-base-300 rounded"></div>
-                                    <div class="h-4 w-36 bg-base-300 rounded mt-1"></div>
-                                    <div class="mt-3 grid grid-cols-3 gap-3">
-                                        <div>
-                                            <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                            <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
-                                        </div>
-                                        <div>
-                                            <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                            <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
-                                        </div>
-                                        <div>
-                                            <div class="h-3 w-12 bg-base-300 rounded"></div>
-                                            <div class="h-4 w-20 bg-base-300 rounded mt-1"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-span-1 flex items-center justify-center">
-                                    <div
-                                        class="w-15 h-15 sm:w-28 sm:h-28 rounded-full border-2 border-base-300 overflow-hidden flex items-center justify-end bg-base-100">
-                                        <div class="w-full h-full bg-base-300"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bp-divider my-4"></div>
-                            <div class="grid grid-cols-3 gap-3">
-                                <div>
-                                    <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                    <div class="h-3 w-24 bg-base-300 rounded mt-1"></div>
-                                </div>
-                                <div>
-                                    <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                    <div class="h-3 w-20 bg-base-300 rounded mt-1"></div>
-                                </div>
-                                <div>
-                                    <div class="h-3 w-16 bg-base-300 rounded"></div>
-                                    <div class="h-3 w-20 bg-base-300 rounded mt-1"></div>
-                                </div>
-                            </div>
-                            <div class="mt-4 rounded-xl border border-dashed border-base-300 p-3">
-                                <div class="h-3 w-20 bg-base-300 rounded"></div>
-                                <div class="h-4 w-full bg-base-300 rounded mt-2"></div>
                             </div>
 
-                            <div
-                                class="mt-6 flex flex-col items-center justify-center p-4 bg-base-200/50 rounded-xl border border-dashed border-base-300">
-                                <div class="w-28 h-28 bg-base-300 rounded-xl animate-pulse"></div>
-                                <div class="h-3 w-24 bg-base-300 rounded mt-2 animate-pulse"></div>
+                            <!-- Details Grid -->
+                            <div class="mt-4">
+                                <div class="h-2 sm:h-3 w-12 sm:w-16 bg-base-300 rounded"></div>
+                                <div class="h-4 sm:h-5 w-24 sm:w-32 bg-base-300 rounded mt-1 sm:mt-2"></div>
+                                <div class="h-2 sm:h-3 w-16 sm:w-24 bg-base-300 rounded mt-1"></div>
+                                
+                                <div class="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+                                    <div>
+                                        <div class="h-2 sm:h-3 w-10 sm:w-12 bg-base-300 rounded"></div>
+                                        <div class="h-4 sm:h-5 w-12 sm:w-16 bg-base-300 rounded mt-1"></div>
+                                    </div>
+                                    <div>
+                                        <div class="h-2 sm:h-3 w-10 sm:w-12 bg-base-300 rounded"></div>
+                                        <div class="h-4 sm:h-5 w-16 sm:w-20 bg-base-300 rounded mt-1"></div>
+                                    </div>
+                                    <div>
+                                        <div class="h-2 sm:h-3 w-10 sm:w-12 bg-base-300 rounded"></div>
+                                        <div class="h-4 sm:h-5 w-20 sm:w-24 bg-base-300 rounded mt-1"></div>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
-                        <div class="bp-footer px-4 py-3 sm:px-6"></div>
+
+                        <!-- Perforated Line -->
+                        <div class="flex flex-col justify-center items-center relative w-6 shrink-0">
+                            <div class="border-l-2 border-dashed border-base-300/50 w-px flex-grow my-4 sm:my-6"></div>
+                        </div>
+
+                        <!-- Right Section -->
+                        <div class="w-24 sm:w-40 p-2 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-300/30">
+                            <div class="w-14 h-14 sm:w-28 sm:h-28 bg-base-300 rounded-xl mb-2 sm:mb-4"></div>
+                            <div class="w-16 sm:w-28 h-3 sm:h-5 bg-base-300 rounded"></div>
+                        </div>
                     </div>
                 </div>
                 <div>
