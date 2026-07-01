@@ -1,18 +1,18 @@
-<div class="mt-4 sm:mt-8" wire:init="load" data-step="{{ $currentStep }}" x-data="{ step: @entangle('currentStep'), showCancelModal: false }">
+<div class="mt-4 sm:mt-8" wire:init="load" data-step="{{ $currentStep }}" x-data="{ step: @entangle('currentStep') }">
     @if ($ready)
         <div class="w-full" x-transition>
             <!-- Header Section -->
             <div class="mb-8 px-2 flex items-center gap-4">
-                <button type="button" @click="step > 1 ? step-- : showCancelModal = true"
+                <button type="button" wire:click="handleBack" wire:loading.attr="disabled" wire:target="handleBack"
                     class="btn btn-circle btn-ghost btn-sm sm:btn-md border-2 border-base-300 hover:border-info hover:text-info transition-all flex items-center justify-center">
-                    <span>
+                    <span wire:loading.remove wire:target="handleBack">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                             stroke="currentColor" class="size-5 sm:size-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>
                     </span>
-                    
+                    <span wire:loading wire:target="handleBack" class="loading loading-spinner loading-xs"></span>
                 </button>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
@@ -85,10 +85,16 @@
                                         </button>
                                         <div @click.outside="open=false" id="select-date-calendar" wire:ignore.self
                                             class="absolute right-0 mt-2 w-80 p-3 rounded-xl border border-base-300 bg-base-100 shadow-xl z-20 hidden">
-                                            <div class="flex items-center justify-center mb-2">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <button type="button" class="btn btn-ghost btn-xs"
+                                                    data-cal-prev>&lsaquo;</button>
                                                 <div class="text-sm font-black italic uppercase">
                                                     <span data-cal-label="curr">{{ $calCurrLabel }}</span>
+                                                    <span data-cal-label="next"
+                                                        class="hidden">{{ $calNextLabel }}</span>
                                                 </div>
+                                                <button type="button" class="btn btn-ghost btn-xs"
+                                                    data-cal-next>&rsaquo;</button>
                                             </div>
                                             <div
                                                 class="grid grid-cols-7 gap-1 text-[10px] font-bold uppercase text-base-content/60 mb-1">
@@ -127,7 +133,31 @@
                                                         data-cal-close>Tutup</button>
                                                 </div>
                                             </div>
-
+                                            <div data-cal-panel class="hidden">
+                                                <div class="grid grid-cols-7 gap-1">
+                                                    @for ($i = 0; $i < $calNextStartDow; $i++)
+                                                        <div class="h-8"></div>
+                                                    @endfor
+                                                    @for ($d = 1; $d <= $calNextDays; $d++)
+                                                        <button
+                                                            wire:click="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
+                                                            wire:loading.attr="disabled"
+                                                            wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
+                                                            data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
+                                                            class="h-8 rounded-md text-xs font-bold transition-all
+                                                    {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}">
+                                                            <span wire:loading.remove
+                                                                wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')">{{ $d }}</span>
+                                                            <span class="loading loading-dots loading-xs" wire:loading
+                                                                wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"></span>
+                                                        </button>
+                                                    @endfor
+                                                </div>
+                                                <div class="mt-2 flex justify-end">
+                                                    <button type="button" class="btn btn-ghost btn-xs"
+                                                        data-cal-close>Tutup</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -156,8 +186,11 @@
                                     @endforeach
                                 </div>
                                 <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
-                                    <button type="button" @click="showCancelModal = true"
+                                    <button type="button" wire:click="handleBack" wire:loading.attr="disabled"
+                                        wire:target="handleBack"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
+                                        <span wire:loading wire:target="handleBack"
+                                            class="loading loading-spinner loading-xs mr-2"></span>
                                         <span>Batal</span>
                                     </button>
                                     <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
@@ -203,11 +236,12 @@
                                                 </h4>
                                             </div>
                                             <div>
-                                                <button type="button" @click="step--"
+                                                <button type="button" wire:click="prevStep"
                                                     wire:loading.attr="disabled" wire:target="prevStep"
                                                     class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
                                                     <span wire:loading.remove wire:target="prevStep">Ubah</span>
-                                                    
+                                                    <span wire:loading wire:target="prevStep"
+                                                        class="loading loading-spinner loading-xs"></span>
                                                 </button>
                                             </div>
                                         </div>
@@ -442,9 +476,11 @@
                                 </div>
 
                                 <div class="mt-8 flex justify-start gap-4">
-                                    <button type="button" @click="step--"
+                                    <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
+                                        wire:target="prevStep"
                                         class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                        
+                                        <span wire:loading wire:target="prevStep"
+                                            class="loading loading-spinner loading-xs mr-2"></span>
                                         <span>Kembali</span>
                                     </button>
                                 </div>
@@ -759,10 +795,11 @@
                                                 <span>{{ $error }}</span>
                                             </div>
                                         @endif
-                                        <button type="button" @click="step--"
+                                        <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
                                             wire:target="prevStep"
                                             class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
-                                            
+                                            <span wire:loading wire:target="prevStep"
+                                                class="loading loading-spinner loading-xs mr-2"></span>
                                             <span>Kembali</span>
                                         </button>
                                     </div>
@@ -1141,8 +1178,9 @@
         </div>
     @endif
 
-    <div x-show="showCancelModal" style="display: none;" class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
-            <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" @click="showCancelModal = false"></div>
+    @if ($showCancelConfirm)
+        <div class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
+            <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="closeCancelConfirm"></div>
             <div
                 class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
                 <div class="bg-error p-4 sm:p-6 text-error-content">
@@ -1173,8 +1211,10 @@
                     </p>
                     <div class="mt-4 grid grid-cols-2 gap-2">
                         <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                            @click="showCancelModal = false">
-                            
+                            wire:click="closeCancelConfirm" wire:loading.attr="disabled"
+                            wire:target="closeCancelConfirm">
+                            <span wire:loading wire:target="closeCancelConfirm"
+                                class="loading loading-spinner loading-xs mr-2"></span>
                             <span>Tidak</span>
                         </button>
                         <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
@@ -1185,6 +1225,7 @@
                         </button>
                     </div>
                 </div>
+            </div>
         </div>
-    </div>
+    @endif
 </div>
