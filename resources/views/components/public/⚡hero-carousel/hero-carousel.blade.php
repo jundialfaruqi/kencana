@@ -47,22 +47,24 @@
                                 </h4>
                             </div>
                         </div>
-                        <div class="px-1 sm:px-2">
+                        <div class="px-1 sm:px-2 flex flex-col flex-1 justify-between">
                             <p class="text-[10px] sm:text-[11px] text-base-content/70 leading-relaxed line-clamp-2">
-                                {{ $lp['deskripsi'] }}
+                                {{ $lp['alamat'] }}
                             </p>
-                            @if (($lp['status'] ?? '') === 'open')
-                                <a href="/booking?lapangan={{ \Illuminate\Support\Str::slug($lp['nama_lapangan'] ?? '') }}"
-                                    wire:navigate wire:navigate
-                                    class="btn btn-info btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12">
-                                    <span class="skew-x-12">Pesan Sekarang</span>
-                                </a>
-                            @else
-                                <button disabled
-                                    class="btn btn-neutral btn-xs sm:btn-sm w-full mt-2 sm:mt-3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
-                                    <span class="skew-x-12">{{ $lp['status_label'] ?: 'Segera Dibuka' }}</span>
-                                </button>
-                            @endif
+                            <div class="mt-auto pt-2 sm:pt-3">
+                                @if (($lp['status'] ?? '') === 'open')
+                                    <a href="/booking?lapangan={{ \Illuminate\Support\Str::slug($lp['nama_lapangan'] ?? '') }}"
+                                        wire:navigate
+                                        class="btn btn-info btn-xs sm:btn-sm w-full italic font-black uppercase -skew-x-12">
+                                        <span class="skew-x-12">Pesan Sekarang</span>
+                                    </a>
+                                @else
+                                    <button disabled
+                                        class="btn btn-neutral btn-xs sm:btn-sm w-full italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                                        <span class="skew-x-12">{{ $lp['status_label'] ?: 'Segera Dibuka' }}</span>
+                                    </button>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -80,10 +82,14 @@
                 @for ($i = 0; $i < 5; $i++)
                     <div class="carousel-item w-55 sm:w-72 flex flex-col gap-2 sm:gap-3">
                         <div class="w-full h-72.5 sm:h-90 bg-base-300 rounded-xl sm:rounded-2xl"></div>
-                        <div class="px-1 sm:px-2 space-y-2">
-                            <div class="h-3 bg-base-300 w-full rounded"></div>
-                            <div class="h-3 bg-base-300 w-2/3 rounded"></div>
-                            <div class="h-6 sm:h-8 bg-base-300 w-full mt-2 rounded-lg -skew-x-12"></div>
+                        <div class="px-1 sm:px-2 flex flex-col flex-1 justify-between">
+                            <div class="space-y-2">
+                                <div class="h-3 bg-base-300 w-full rounded"></div>
+                                <div class="h-3 bg-base-300 w-2/3 rounded"></div>
+                            </div>
+                            <div class="mt-auto pt-2 sm:pt-3">
+                                <div class="h-6 sm:h-8 bg-base-300 w-full rounded-lg -skew-x-12"></div>
+                            </div>
                         </div>
                     </div>
                 @endfor

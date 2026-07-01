@@ -68,9 +68,9 @@ new class extends Component {
                     return [
                         'id' => $item['id'] ?? null,
                         'nama_lapangan' => $item['nama_lapangan'] ?? '',
-                        'deskripsi' => $item['deskripsi'] ?? '',
                         'status' => $item['status'] ?? '',
                         'status_label' => $item['status_label'] ?? '',
+                        'alamat' => $item['alamat'] ?? '',
                         'cover_url' => $coverUrl,
                     ];
                 }, $data);
