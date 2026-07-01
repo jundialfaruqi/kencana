@@ -62,7 +62,7 @@
                                 <!-- Left Section (Main Details) -->
                                 <div class="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
                                     <!-- Header -->
-                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 sm:mb-4 gap-2 sm:gap-4">
+                                    <div class="flex flex-row justify-between items-center mb-2 sm:mb-4 gap-2">
                                         <!-- Status Badge -->
                                         <div
                                             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider {{ ($it['status'] ?? '') === 'dipesan' ? 'bg-info/10 text-info' : (($it['status'] ?? '') === 'dibatalkan' ? 'bg-error/10 text-error' : 'bg-success/10 text-success') }}">
@@ -276,7 +276,7 @@
                                 class="w-full bg-base-200 rounded-2xl border-2 border-base-300/30 flex flex-row relative overflow-hidden [--cut-pos:4.75rem] sm:[--cut-pos:5.75rem]">
                                 <!-- Left Section -->
                                 <div class="flex-1 p-3 sm:p-4 flex flex-col justify-between min-w-0">
-                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 sm:mb-3 gap-2 sm:gap-3">
+                                    <div class="flex flex-row justify-between items-center mb-2 sm:mb-3 gap-2">
                                         <div class="h-6 bg-base-300 w-16 sm:w-24 rounded-xl"></div>
                                         <div class="h-3 bg-base-300 w-20 sm:w-24 rounded"></div>
                                     </div>
