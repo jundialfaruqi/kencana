@@ -7,18 +7,15 @@ use Illuminate\Support\Facades\Http;
 
 new #[Title('Daftar Lapangan')] #[Layout('layouts::public.app')] class extends Component
 {
-    public bool $isLoading = true;
     public ?string $error = null;
     public array $lapangan = [];
 
-    public function loadLapangan(): void
+    public function mount(): void
     {
-        $this->isLoading = true;
         $this->error = null;
         $this->lapangan = [];
         $this->fetch();
-        $this->isLoading = false;
-        $this->dispatch('lapangan-loaded');
+
     }
 
     protected function fetch(): void

@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Component
 {
-    public bool $ready = false;
     public ?string $kode_booking = null;
     public array $detail = [];
     public array $catatan = [];
@@ -27,18 +26,11 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
     public function mount(string $kode_booking): void
     {
         $this->kode_booking = $kode_booking;
-    }
-
-    public function load(): void
-    {
-        $this->ready = false;
         $this->fetchDetail();
         $this->computeTanggalJam();
         $this->computeJenisAlias();
         $this->computeDibuatPada();
         $this->fetchCatatan();
-        $this->ready = true;
-        $this->dispatch('detail-loaded');
     }
 
     private function fetchDetail(): void

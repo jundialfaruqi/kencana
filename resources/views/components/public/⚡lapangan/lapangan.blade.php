@@ -1,4 +1,4 @@
-<div wire:init="loadLapangan" class="mt-4 sm:mt-8" x-data>
+<div class="mt-4 sm:mt-8" x-data>
     <div class="mb-8 px-2 flex items-center gap-4">
         <div class="flex-1 flex items-center justify-between">
             <div class="flex items-center gap-4">
@@ -24,41 +24,7 @@
     </div>
 
     <div class="mt-6">
-        @if ($isLoading)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                @for ($i = 0; $i < 6; $i++)
-                    <div class="card bg-base-100 animate-pulse">
-                        <figure>
-                            <div class="w-full overflow-hidden aspect-video bg-base-300"></div>
-                        </figure>
-                        <div class="card-body">
-                            <div class="flex items-start justify-between gap-4">
-                                <div class="flex-1">
-                                    <div class="h-4 bg-base-300 w-2/3 rounded"></div>
-                                    <div class="h-3 bg-base-300 w-3/4 rounded mt-2"></div>
-                                </div>
-                                <div class="h-5 bg-base-300 w-16 rounded"></div>
-                            </div>
-                            <div class="mt-3 space-y-2">
-                                <div class="flex items-start gap-2 p-2 rounded-xl bg-base-200 border border-base-200">
-                                    <div class="w-6 h-6 rounded-2xl bg-base-300"></div>
-                                    <div class="flex-1 min-w-0 space-y-2">
-                                        <div class="h-3 bg-base-300 w-24 rounded"></div>
-                                        <div class="h-3 bg-base-300 w-3/4 rounded"></div>
-                                    </div>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <div class="h-8 bg-base-300 w-36 rounded-xl -skew-x-12"></div>
-                                    <div class="h-8 bg-base-300 w-36 rounded-xl -skew-x-12"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-base-300 h-10 rounded-b-xl">
-                        </div>
-                    </div>
-                @endfor
-            </div>
-        @else
+
             @if ($error)
                 <div class="alert alert-error">
                     <span>{{ $error }}</span>
@@ -66,8 +32,7 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     @foreach ($lapangan as $lp)
-                        <div class="card rounded-xl bg-base-100 opacity-0 translate-y-2 transition-all duration-300 will-change-transform shadow-2xl"
-                            data-animate-card>
+                        <div class="card rounded-xl bg-base-100 shadow-2xl">
                             <figure>
                                 @php $cover = data_get($lp, 'coverUrl'); @endphp
                                 @if ($cover)
@@ -141,8 +106,5 @@
                     @endforeach
                 </div>
             @endif
-        @endif
     </div>
-
-
 </div>

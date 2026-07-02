@@ -1,6 +1,5 @@
-<div class="mt-4 sm:mt-8" wire:init="load">
-    @if ($ready)
-        <div class="w-full" x-transition>
+<div class="mt-4 sm:mt-8">
+    <div class="w-full" x-transition>
             <!-- Header Section -->
             <div class="mb-8 px-2 flex items-center gap-4">
                 <a href="/" wire:navigate
@@ -126,71 +125,5 @@
             </div>
 
         </div>
-    @else
-        <!-- Loading Skeleton -->
-        <div class="w-full animate-pulse">
-            <!-- Header Skeleton -->
-            <div class="mb-8 px-2 flex items-center gap-4">
-                <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
-                <div class="space-y-2">
-                    <div class="h-6 sm:h-8 bg-base-300 w-48 rounded"></div>
-                    <div class="h-3 bg-base-300 w-64 rounded"></div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-
-                <!-- Card 1 Skeleton -->
-                <div class="bg-base-100 rounded-3xl overflow-hidden shadow-xl">
-                    <div class="p-6 border-b border-base-200 bg-base-200/30">
-                        <div class="flex flex-col items-center text-center gap-4">
-                            <div class="w-24 h-24 rounded-full bg-base-300"></div>
-                            <div class="space-y-2">
-                                <div class="h-6 bg-base-300 w-40 rounded"></div>
-                                <div class="h-4 bg-base-300 w-32 rounded mx-auto"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex flex-row gap-4">
-                            <div class="h-12 bg-base-300 rounded-xl flex-1"></div>
-                            <div class="h-12 bg-base-300 rounded-xl flex-1"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 Skeleton -->
-                <div class="bg-base-100 rounded-3xl overflow-hidden shadow-xl">
-                    <div class="p-6 border-b border-base-200 bg-base-200/30">
-                        <div class="flex items-center gap-3 px-2">
-                            <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                            <div class="h-6 bg-base-300 w-32 rounded"></div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="grid grid-cols-1 gap-4">
-                            <div class="h-24 bg-base-300 rounded-2xl w-full"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 Skeleton -->
-                <div class="bg-base-100 rounded-3xl overflow-hidden shadow-xl">
-                    <div class="p-6 border-b border-base-200 bg-base-200/30">
-                        <div class="flex items-center gap-3 px-2">
-                            <div class="w-8 h-8 rounded-lg bg-base-300"></div>
-                            <div class="h-6 bg-base-300 w-32 rounded"></div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="grid grid-cols-1 gap-4">
-                            <div class="h-24 bg-base-300 rounded-2xl w-full"></div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
         </div>
-    @endif
 </div>

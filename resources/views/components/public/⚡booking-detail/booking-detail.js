@@ -13,9 +13,6 @@
     setTimeout(function () { initDetail(); }, 50);
   });
 
-  window.addEventListener('detail-loaded', function () {
-    setTimeout(function () { initDetail(); }, 50);
-  });
 
   document.addEventListener('livewire:init', function () {
     if (window.Livewire && window.Livewire.hook) {

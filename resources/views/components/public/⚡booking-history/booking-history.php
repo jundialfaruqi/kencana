@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Session;
 
 new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends Component
 {
-    public bool $ready = false;
     public array $items = [];
 
     public ?string $error = null;
@@ -19,14 +18,13 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
     public int $perPage = 0;
 
 
-    public function load()
+    public function mount()
     {
         if (!Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
             return;
         }
         $this->fetchHistory(1);
-        $this->ready = true;
     }
 
     protected function fetchHistory(int $page = 1): void
@@ -80,16 +78,12 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
     public function goToPage(?int $page): void
     {
         if (!$page) return;
-        $this->ready = false;
         $this->fetchHistory(intval($page));
-        $this->ready = true;
     }
 
     public function applyFilter(): void
     {
-        $this->ready = false;
         $this->fetchHistory(1);
-        $this->ready = true;
     }
 
     public function setStatus(string $status): void

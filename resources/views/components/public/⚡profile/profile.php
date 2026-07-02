@@ -8,12 +8,6 @@ use Illuminate\Support\Facades\Session;
 new #[Layout('layouts::public.app')] #[Title('Profil Saya')] class extends Component
 {
     public $user;
-    public bool $ready = false;
-
-    public function load()
-    {
-        $this->ready = true;
-    }
 
     public function mount()
     {
