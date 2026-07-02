@@ -2,15 +2,14 @@
     <div class="w-full" x-transition>
         <!-- Header Section -->
         <div class="mb-8 px-2 flex items-center gap-4">
-            <button type="button" wire:click="handleBack" wire:loading.attr="disabled" wire:target="handleBack"
+            <button type="button" onclick="window.goBackBooking()"
                 class="btn btn-circle btn-ghost btn-sm sm:btn-md border-2 border-base-300 hover:border-info hover:text-info transition-all flex items-center justify-center">
-                <span wire:loading.remove wire:target="handleBack">
+                <span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                         stroke="currentColor" class="size-5 sm:size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
                 </span>
-                <span wire:loading wire:target="handleBack" class="loading loading-spinner loading-xs"></span>
             </button>
             <div>
                 <h2 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
@@ -33,23 +32,21 @@
             </div>
         </div>
 
-        <ul class="steps w-full mb-8 max-w-3xl mx-auto flex justify-center">
-            <li class="step step-info text-[10px] sm:text-xs font-bold uppercase">
-                {{ $currentStep === 1 ? 'Tanggal' : '' }}</li>
-            <li class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
-                {{ $currentStep === 2 ? 'Arena & Jam' : '' }}</li>
-            <li class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
-                {{ $currentStep === 3 ? 'Konfirmasi' : '' }}</li>
+        <ul class="steps w-full mb-8 max-w-3xl mx-auto flex justify-center" id="booking-stepper">
+            <li data-step-nav="1" class="step {{ $currentStep >= 1 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+                Tanggal</li>
+            <li data-step-nav="2" class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+                Arena & Jam</li>
+            <li data-step-nav="3" class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+                Konfirmasi</li>
         </ul>
 
         <div class="w-full max-w-4xl mx-auto">
             <!-- Main Booking Form -->
-            @if ($currentStep < 3)
-                <div class="space-y-10">
+            <div id="step-container-1-2" class="{{ $currentStep < 3 ? 'space-y-10' : 'hidden' }}">
 
-                    <!-- 1. Select Date -->
-                    @if ($currentStep === 1)
-                        <section>
+                <!-- 1. Select Date -->
+                <section id="step-1" class="{{ $currentStep === 1 ? 'block' : 'hidden' }}">
                             <input type="hidden" wire:model="tanggal" id="hidden-tanggal-input">
                             <div class="flex items-center justify-between mb-4 px-2">
                                 <div class="flex items-center gap-1">
@@ -157,11 +154,8 @@
                                 @endforeach
                             </div>
                             <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
-                                <button type="button" wire:click="handleBack" wire:loading.attr="disabled"
-                                    wire:target="handleBack"
+                                <button type="button" onclick="window.goBackBooking()"
                                     class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                    <span wire:loading wire:target="handleBack"
-                                        class="loading loading-spinner loading-xs mr-2"></span>
                                     <span>Batal</span>
                                 </button>
                                 <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
@@ -175,11 +169,9 @@
                                 </button>
                             </div>
                         </section>
-                    @endif
 
                     <!-- 2. Arena & Time -->
-                    @if ($currentStep === 2)
-                        <section>
+                        <section id="step-2" class="{{ $currentStep === 2 ? 'block' : 'hidden' }}">
                             <div class="flex items-center gap-1 mb-4 px-2">
                                 <h3 class="text-xl font-black italic uppercase tracking-tight">Pilih Arena & Jam
                                 </h3>
@@ -200,12 +192,9 @@
                                             </h4>
                                         </div>
                                         <div>
-                                            <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
-                                                wire:target="prevStep"
+                                            <button type="button" onclick="window.goBackBooking()"
                                                 class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
-                                                <span wire:loading.remove wire:target="prevStep">Ubah</span>
-                                                <span wire:loading wire:target="prevStep"
-                                                    class="loading loading-spinner loading-xs"></span>
+                                                <span>Ubah</span>
                                             </button>
                                         </div>
                                     </div>
@@ -433,22 +422,15 @@
                             </div>
 
                             <div class="mt-8 flex justify-start gap-4">
-                                <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
-                                    wire:target="prevStep"
+                                <button type="button" onclick="window.goBackBooking()"
                                     class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                    <span wire:loading wire:target="prevStep"
-                                        class="loading loading-spinner loading-xs mr-2"></span>
                                     <span>Kembali</span>
                                 </button>
                             </div>
                         </section>
-                    @endif
                 </div>
 
-            @endif
-
-            @if ($currentStep === 3)
-                <div class="w-full max-w-xl mx-auto">
+                <div id="step-3" class="w-full max-w-xl mx-auto {{ $currentStep === 3 ? 'block' : 'hidden' }}">
                     <div class="space-y-6">
                         <div class="bg-base-100 rounded-3xl border-2 border-info overflow-hidden shadow-2xl">
                             <div class="bg-info p-6 flex items-center gap-3">
@@ -569,11 +551,8 @@
                                             <span>{{ $error }}</span>
                                         </div>
                                     @endif
-                                    <button type="button" wire:click="prevStep" wire:loading.attr="disabled"
-                                        wire:target="prevStep"
+                                    <button type="button" onclick="window.goBackBooking()"
                                         class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
-                                        <span wire:loading wire:target="prevStep"
-                                            class="loading loading-spinner loading-xs mr-2"></span>
                                         <span>Kembali</span>
                                     </button>
                                 </div>
@@ -581,7 +560,6 @@
                         </div>
                     </div>
                 </div>
-            @endif
         </div>
 
         <div wire:loading wire:target="confirmBooking" class="fixed inset-0 z-50 bg-base-100/80 backdrop-blur-sm">
@@ -746,16 +724,16 @@
             </div>
         @endif
     </div>
-    @if ($showCancelConfirm)
-        <div class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="cancel-confirm-modal">
-            <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="closeCancelConfirm"></div>
-            <div
-                class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
-                <div class="bg-error p-4 sm:p-6 text-error-content">
-                    <div class="flex items-center gap-2 sm:gap-3">
-                        <div
-                            class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-error-content/20 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+
+    <div id="cancel-modal" class="fixed inset-0 z-[9999] grid place-items-center p-4 {{ $showCancelConfirm ? 'block' : 'hidden' }}" wire:ignore.self>
+        <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" onclick="window.closeCancelBooking()"></div>
+        <div
+            class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
+            <div class="bg-error p-4 sm:p-6 text-error-content">
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <div
+                        class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-error-content/20 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2" stroke="currentColor" class="size-5 sm:size-6 text-error-content">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
@@ -779,10 +757,7 @@
                     </p>
                     <div class="mt-4 grid grid-cols-2 gap-2">
                         <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                            wire:click="closeCancelConfirm" wire:loading.attr="disabled"
-                            wire:target="closeCancelConfirm">
-                            <span wire:loading wire:target="closeCancelConfirm"
-                                class="loading loading-spinner loading-xs mr-2"></span>
+                            onclick="window.closeCancelBooking()">
                             <span>Tidak</span>
                         </button>
                         <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
@@ -795,7 +770,6 @@
                 </div>
             </div>
         </div>
-    @endif
 
     @if ($showErrorModal)
         <div class="fixed inset-0 z-[9999] grid place-items-center p-4" wire:key="error-modal">

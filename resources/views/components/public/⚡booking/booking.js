@@ -344,4 +344,41 @@
   } else {
     document.addEventListener('DOMContentLoaded', function () { initBooking(); }, { once: true });
   }
+
+  window.goBackBooking = function() {
+    var root = document.getElementById('booking-root');
+    if (!root) return;
+    var current = parseInt(root.getAttribute('data-step') || '1');
+    if (current === 3) {
+      var s3 = document.getElementById('step-3');
+      if (s3) { s3.classList.remove('block'); s3.classList.add('hidden'); }
+      var s1_2 = document.getElementById('step-container-1-2');
+      if (s1_2) { s1_2.classList.remove('hidden'); s1_2.classList.add('space-y-10'); }
+      var s2 = document.getElementById('step-2');
+      if (s2) { s2.classList.remove('hidden'); s2.classList.add('block'); }
+      root.setAttribute('data-step', '2');
+      var snav = document.querySelector('[data-step-nav="3"]');
+      if (snav) snav.classList.remove('step-info');
+      var wire = window.Livewire.find(root.getAttribute('wire:id'));
+      if (wire) wire.set('currentStep', 2);
+    } else if (current === 2) {
+      var s2 = document.getElementById('step-2');
+      if (s2) { s2.classList.remove('block'); s2.classList.add('hidden'); }
+      var s1 = document.getElementById('step-1');
+      if (s1) { s1.classList.remove('hidden'); s1.classList.add('block'); }
+      root.setAttribute('data-step', '1');
+      var snav = document.querySelector('[data-step-nav="2"]');
+      if (snav) snav.classList.remove('step-info');
+      var wire = window.Livewire.find(root.getAttribute('wire:id'));
+      if (wire) wire.set('currentStep', 1);
+    } else if (current === 1) {
+      var modal = document.getElementById('cancel-modal');
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('block'); }
+    }
+  };
+
+  window.closeCancelBooking = function() {
+    var modal = document.getElementById('cancel-modal');
+    if (modal) { modal.classList.remove('block'); modal.classList.add('hidden'); }
+  };
 })();
