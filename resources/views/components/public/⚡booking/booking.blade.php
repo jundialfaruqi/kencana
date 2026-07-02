@@ -480,7 +480,7 @@
                                 <div class="mt-8 pt-6 border-t border-base-200">
                                     <h5 class="text-sm font-black italic uppercase text-base-content/70 mb-4">
                                         Lengkapi Data Pemesanan</h5>
-                                    <div class="grid grid-cols-2 gap-3">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <div>
                                             <label class="text-[10px] font-bold uppercase text-base-content/50">Nama
                                                 Komunitas</label>
@@ -504,7 +504,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-2 gap-3 mt-3">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
                                         <div>
                                             <label
                                                 class="text-[10px] font-bold uppercase text-base-content/50">Kategori
