@@ -14,7 +14,7 @@
         <div class="flex flex-col items-center text-center space-y-4 mb-12">
             <!-- Avatar Circle -->
             <div
-                class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md text-white font-bold text-3xl">
+                class="w-24 h-24 rounded-full bg-linear-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md text-white font-bold text-3xl">
                 {{ $initials }}
             </div>
             <div class="space-y-1">
