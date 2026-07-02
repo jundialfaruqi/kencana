@@ -147,18 +147,20 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 $this->lapanganParam = null;
                 $this->namaLapangan = '';
                 $this->timeSlots = [];
-                $this->arenas = [];
-                $this->isLoadingArenas = true;
-                $this->dispatch('load-arenas');
+                if (empty($this->arenas)) {
+                    $this->fetchArenas();
+                }
+                $this->isLoadingArenas = false;
                 $this->dispatch('booking-loaded');
             } else {
                 $this->fetchJadwal();
             }
         } else {
             if ($this->currentStep === 2) {
-                $this->arenas = [];
-                $this->isLoadingArenas = true;
-                $this->dispatch('load-arenas');
+                if (empty($this->arenas)) {
+                    $this->fetchArenas();
+                }
+                $this->isLoadingArenas = false;
             }
         }
     }
@@ -183,9 +185,10 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             }
             $this->currentStep = 2;
             if (!$this->lapanganId) {
-                $this->arenas = [];
-                $this->isLoadingArenas = true;
-                $this->dispatch('load-arenas');
+                if (empty($this->arenas)) {
+                    $this->fetchArenas();
+                }
+                $this->isLoadingArenas = false;
             }
         } elseif ($this->currentStep === 2) {
             if (!$this->lapanganId) {
@@ -361,9 +364,10 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->timeSlots = [];
         $this->selectedSlot = null;
         $this->error = null;
-        $this->arenas = [];
-        $this->isLoadingArenas = true;
-        $this->dispatch('load-arenas');
+        if (empty($this->arenas)) {
+            $this->fetchArenas();
+        }
+        $this->isLoadingArenas = false;
     }
 
     public function selectTime(string $mulai, string $selesai): void
@@ -373,30 +377,27 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             'selesai' => $selesai,
         ];
         $this->selectedSlot = $clicked;
-        try {
-            $this->fetchJadwal();
-            $match = null;
-            foreach ((array) $this->timeSlots as $s) {
-                if (
-                    (string) ($s['mulai'] ?? '') === (string) $clicked['mulai']
-                    && (string) ($s['selesai'] ?? '') === (string) $clicked['selesai']
-                ) {
-                    $match = $s;
-                    break;
-                }
+        $match = null;
+        foreach ((array) $this->timeSlots as $s) {
+            if (
+                (string) ($s['mulai'] ?? '') === (string) $clicked['mulai']
+                && (string) ($s['selesai'] ?? '') === (string) $clicked['selesai']
+            ) {
+                $match = $s;
+                break;
             }
-            if (!$match || (string) ($match['status'] ?? '') !== 'tersedia') {
-                $this->selectedSlot = null;
-                $msg = (string) ($match['message'] ?? ($match['status_label'] ?? ($this->error ?? 'Jam sudah dibooking oleh pengguna lain')));
-                $this->dispatch('toast', [
-                    'title' => 'Tidak tersedia',
-                    'message' => $msg,
-                    'type' => 'error',
-                ]);
-            } else {
-                $this->currentStep = 3;
-            }
-        } catch (\Throwable) {
+        }
+        
+        if (!$match || (string) ($match['status'] ?? '') !== 'tersedia' || !$this->slotIsAvailable($match)) {
+            $this->selectedSlot = null;
+            $msg = (string) ($match['message'] ?? ($match['status_label'] ?? ($this->error ?? 'Jam tidak tersedia')));
+            $this->dispatch('toast', [
+                'title' => 'Tidak tersedia',
+                'message' => $msg,
+                'type' => 'error',
+            ]);
+        } else {
+            $this->currentStep = 3;
         }
     }
 
@@ -449,45 +450,33 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         return (string) ($arena['id'] ?? '') === (string) ($this->lapanganId ?? '');
     }
 
+    protected ?string $currentTimeStrCache = null;
+
+    protected function getCurrentTimeStr(): string
+    {
+        if ($this->currentTimeStrCache === null) {
+            $this->currentTimeStrCache = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i');
+        }
+        return $this->currentTimeStrCache;
+    }
+
     public function slotIsAvailable(array $slot): bool
     {
-        // Periksa apakah status slot adalah 'tersedia'
         $isAvailableByStatus = (($slot['status'] ?? '') === 'tersedia');
-
-        // Jika slot tidak tersedia berdasarkan status, langsung kembalikan false
         if (!$isAvailableByStatus) {
             return false;
         }
 
-        // Dapatkan tanggal yang dipilih dari komponen
-        $selectedDate = $this->tanggal; // Ini adalah tanggal dalam format YYYY-MM-DD
-
-        // Dapatkan waktu mulai dari slot
-        $startTime = $slot['mulai'] ?? ''; // Ini adalah waktu dalam format HH:MM
-
-        // Jika tanggal atau waktu mulai kosong, anggap tidak tersedia (atau tangani sesuai kebutuhan)
+        $selectedDate = $this->tanggal;
+        $startTime = $slot['mulai'] ?? '';
         if (empty($selectedDate) || empty($startTime)) {
             return false;
         }
 
-        try {
-            // Buat objek Carbon untuk waktu mulai slot dengan zona waktu Asia/Jakarta
-            $slotDateTime = Carbon::parse("{$selectedDate} {$startTime}", 'Asia/Jakarta');
+        $slotTimeStr = "{$selectedDate} {$startTime}";
+        $nowStr = $this->getCurrentTimeStr();
 
-            // Dapatkan waktu saat ini di Asia/Jakarta
-            $now = Carbon::now('Asia/Jakarta');
-
-            // Periksa apakah waktu mulai slot sudah lewat dari waktu sekarang
-            // Jika slotDateTime kurang dari atau sama dengan now, berarti sudah lewat
-            $isPast = $slotDateTime->lessThanOrEqualTo($now);
-
-            // Slot tersedia hanya jika statusnya 'tersedia' DAN waktu mulainya belum lewat
-            return !$isPast;
-        } catch (\Exception $e) {
-            // Tangani kesalahan parsing tanggal/waktu jika terjadi
-            // Untuk keamanan, anggap slot tidak tersedia jika ada kesalahan
-            return false;
-        }
+        return $slotTimeStr > $nowStr;
     }
 
     public function slotIsSelected(array $slot): bool
@@ -499,32 +488,20 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function getSlotDisplayStatus(array $slot): string
     {
-        // Dapatkan tanggal yang dipilih dari komponen
         $selectedDate = $this->tanggal;
-
-        // Dapatkan waktu mulai dari slot
         $startTime = $slot['mulai'] ?? '';
 
-        // Jika tanggal atau waktu mulai kosong, kembalikan status asli
         if (empty($selectedDate) || empty($startTime)) {
             return $slot['status'] ?? '';
         }
 
-        try {
-            $slotDateTime = Carbon::parse("{$selectedDate} {$startTime}", 'Asia/Jakarta');
-            $now = Carbon::now('Asia/Jakarta');
+        $slotTimeStr = "{$selectedDate} {$startTime}";
+        $nowStr = $this->getCurrentTimeStr();
 
-            // Jika waktu slot sudah lewat, tampilkan "Lewat"
-            if ($slotDateTime->lessThanOrEqualTo($now)) {
-                return 'Lewat';
-            }
-        } catch (\Exception $e) {
-            // Tangani kesalahan parsing tanggal/waktu jika terjadi
-            // Untuk keamanan, kembalikan status asli jika ada kesalahan
-            return $slot['status'] ?? '';
+        if ($slotTimeStr <= $nowStr) {
+            return 'Lewat';
         }
 
-        // Jika tidak lewat, kembalikan status asli dari API
         return $slot['status'] ?? '';
     }
 
