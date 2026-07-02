@@ -1,61 +1,60 @@
 <div id="location-card-root" class="mt-8 sm:mt-12">
     <div class="flex flex-col gap-4 sm:gap-6" x-data x-transition>
-            <!-- Section Header -->
-            <div class="px-2 flex justify-between items-end">
-                <div>
-                    <h3 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
-                        Lokasi <span class="text-info">ARENA</span>
-                    </h3>
-                    <p
-                        class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
-                        Lihat Daftar Lokasi disini
-                    </p>
-                </div>
-                <a
-                    class="btn btn-info -skew-x-12 btn-sm text-[10px] sm:text-xs font-black uppercase tracking-widest shadow-lg group">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-4 mr-1 transition-transform group-hover:scale-110">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                    </svg>
-                    Google Maps
-                </a>
+        <!-- Section Header -->
+        <div class="px-2 flex justify-between items-end">
+            <div>
+                <h3 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
+                    Lokasi <span class="text-info">ARENA</span>
+                </h3>
+                <p
+                    class="text-[10px] sm:text-xs font-medium text-base-content/60 uppercase tracking-widest mt-0.5 sm:mt-1">
+                    Lihat Daftar Lokasi disini
+                </p>
             </div>
+            <a
+                class="btn btn-info -skew-x-12 btn-sm text-[10px] sm:text-xs font-black uppercase tracking-widest shadow-lg group">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-4 mr-1 transition-transform group-hover:scale-110">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+                Google Maps
+            </a>
+        </div>
 
-            <!-- Map Container -->
-            <div class="relative w-full group">
-                <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl border border-white/5 bg-base-200 aspect-video sm:aspect-21/9"
-                    wire:ignore data-api-url="{{ rtrim($apiBase, '/') }}/v1/lokasi">
-                    <!-- Map Element -->
-                    <div id="leaflet-map" class="w-full h-full z-0"></div>
+        <!-- Map Container -->
+        <div class="relative w-full group">
+            <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl border border-white/5 bg-base-200 aspect-video sm:aspect-21/9"
+                wire:ignore data-api-url="{{ rtrim($apiBase, '/') }}/v1/lokasi">
+                <!-- Map Element -->
+                <div id="leaflet-map" class="w-full h-full z-0"></div>
 
-                    <!-- Address Overlay (Desktop Only) -->
-                    <div
-                        class="hidden sm:block absolute top-6 left-6 z-10 max-w-xs bg-base-100/90 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-xl pointer-events-none">
-                        <div class="flex items-start gap-3">
-                            <div class="bg-info/10 p-2 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2" stroke="currentColor" class="size-5 text-info">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                </svg>
-                            </div>
+                <!-- Address Overlay (Desktop Only) -->
+                <div
+                    class="hidden sm:block absolute top-6 left-6 z-10 max-w-xs bg-base-100/90 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-xl pointer-events-none">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-info/10 p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" class="size-5 text-info">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-black uppercase text-xs text-base-content">
+                                <span>Lokasi KENCANA ARENA</span>
+                            </h4>
                             <div>
-                                <h4 class="font-black italic uppercase tracking-wider text-xs text-info">
-                                    <span>Lokasi KENCANA ARENA</span>
-                                </h4>
-                                <div>
-                                    <span class="text-[10px] font-bold text-base-content/70">Cek lokasi KENCANA Arena
-                                        disini</span>
-                                </div>
+                                <span class="text-[10px] font-bold text-base-content/70">Cek lokasi Kencana Arena
+                                    disini</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>

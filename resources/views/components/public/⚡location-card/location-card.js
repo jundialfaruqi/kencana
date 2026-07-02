@@ -52,23 +52,17 @@ import './location-card.css';
                     var popupContent = '<div class="popup-sporty-wrapper">' +
                         '<div class="popup-sporty-content font-sans min-w-37.5">' +
                         '<div class="flex items-center gap-2 mb-1">' +
-                        '<span class="w-2 h-2 rounded-full bg-info animate-pulse"></span>' +
-                        '<h4 class="font-black italic uppercase tracking-tighter text-info text-xs">' + (item.nama || '-') + '</h4>' +
+                        '<h4 class="font-black uppercase text-info text-xs">' + (item.nama || '-') + '</h4>' +
                         '</div>' +
                         '<div class="mt-2 pt-2 border-t border-base-300 flex justify-between items-center">' +
-                        '<span class="text-[8px] font-black uppercase italic ' + (item.status === 'open' ? 'text-success' : 'text-warning') + '">' + statusText + '</span>' +
-                        '<a href="' + (item.gmap || 'https://maps.app.goo.gl/xmVpF14sPhjzm5EW9') + '" target="_blank" rel="noopener noreferrer" class="text-[8px] font-black uppercase opacity-70 underline">Google Maps</a>' +
+                        '<span class="text-[8px] font-black uppercase ' + (item.status === 'open' ? 'text-success' : 'text-warning') + '">' + statusText + '</span>' +
+                        '<a href="' + (item.gmap || 'https://maps.app.goo.gl/xmVpF14sPhjzm5EW9') + '" target="_blank" rel="noopener noreferrer" class="text-[8px] font-black uppercase underline">Google Maps</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
 
                     var marker = new L.Marker([lat, lng], { icon: customIcon }).addTo(map);
                     marker.bindPopup(new L.Popup({ offset: [0, -35], className: 'sporty-map-popup' }).setContent(popupContent));
-                    marker.bindTooltip('<div class="tooltip-content">' + (item.nama || '-') + '</div>', {
-                        direction: 'top',
-                        offset: [0, -45],
-                        className: 'sporty-map-tooltip'
-                    });
                     bounds.extend([lat, lng]);
                 });
 

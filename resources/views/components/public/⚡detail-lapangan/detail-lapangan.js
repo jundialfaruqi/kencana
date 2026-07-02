@@ -30,11 +30,13 @@ import './detail-lapangan.css';
       currentImageIndex = index;
       updateLightboxContent();
       lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
       document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
       lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
       document.body.style.overflow = '';
     }
 

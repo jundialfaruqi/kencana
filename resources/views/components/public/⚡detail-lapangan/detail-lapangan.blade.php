@@ -138,7 +138,7 @@
         @endif
 
     <div id="gallery-lightbox"
-        class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-9999 hidden">
+        class="fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-9999 hidden">
         <div class="relative w-11/12 max-w-5xl p-4">
             <button id="lightbox-close"
                 class="btn btn-sm btn-circle bg-gray-600/50 border-0 absolute right-5 top-5 sm:right-2 sm:top-2 z-10 text-white">✕</button>

@@ -48,7 +48,7 @@
         </style>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
-                <div class="w-full bg-base-100 rounded-2xl border-2 border-base-200 shadow-lg flex flex-col sm:flex-row relative overflow-hidden detail-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]"
+                <div class="w-full bg-white rounded-2xl border-2 border-base-200 shadow-lg flex flex-col sm:flex-row relative overflow-hidden detail-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]"
                     id="detail-card">
 
                     <!-- Left Section (Main Details) -->
@@ -68,14 +68,14 @@
                             </div>
 
                             <!-- Created Date -->
-                            <span class="text-[10px] sm:text-xs font-medium text-base-content/50">
+                            <span class="text-[10px] sm:text-xs font-medium text-slate-500">
                                 {{ $dpFmt ?? (data_get($detail, 'dibuat_pada') ?? '-') }}
                             </span>
                         </div>
 
                         <!-- Title -->
                         <h4
-                            class="text-sm sm:text-xl font-extrabold text-base-content mb-4 sm:mb-6 leading-tight truncate">
+                            class="text-sm sm:text-xl font-extrabold text-slate-900 mb-4 sm:mb-6 leading-tight truncate">
                             {{ data_get($detail, 'lapangan.nama') ?? '-' }}
                         </h4>
 
@@ -84,12 +84,12 @@
                             <!-- Date -->
                             <div>
                                 <div
-                                    class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase mb-1 sm:mb-1.5">
                                     Tanggal</div>
-                                <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                <div class="flex items-center gap-1.5 sm:gap-2 text-slate-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
-                                        class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                        class="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 shrink-0">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                                     </svg>
@@ -101,12 +101,12 @@
                             <!-- Time -->
                             <div>
                                 <div
-                                    class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                    class="text-[9px] sm:text-[10px] font-bold uppercase text-slate-500 mb-1 sm:mb-1.5">
                                     Jam</div>
-                                <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                <div class="flex items-center gap-1.5 sm:gap-2 text-slate-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
-                                        class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                        class="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 shrink-0">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -118,9 +118,9 @@
                             <!-- Tim/Nama -->
                             <div class="col-span-2">
                                 <div
-                                    class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                    class="text-[9px] sm:text-[10px] font-bold uppercase text-slate-500 mb-1 sm:mb-1.5">
                                     Tim / Pemesan</div>
-                                <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                <div class="flex items-center gap-1.5 sm:gap-2 text-slate-700">
                                     @php
                                         $sessionName = data_get(Session::get('user_data'), 'name');
                                         $apiTeam =
@@ -167,14 +167,14 @@
                                     @endphp
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
-                                        class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                        class="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 shrink-0">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                                     </svg>
                                     <span
-                                        class="text-xs sm:text-sm font-medium uppercase leading-none">{{ $team ?: '-' }}
+                                        class="text-xs sm:text-sm font-medium uppercase leading-none text-slate-700">{{ $team ?: '-' }}
                                         <span
-                                            class="text-[10px] sm:text-xs font-normal opacity-80 capitalize">({{ $name ?: '-' }})</span></span>
+                                            class="text-[10px] sm:text-xs font-normal text-slate-500 capitalize">({{ $name ?: '-' }})</span></span>
                                 </div>
                             </div>
 
@@ -183,12 +183,12 @@
                                 <!-- Pemain -->
                                 <div>
                                     <div
-                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-slate-500 mb-1 sm:mb-1.5">
                                         Pemain</div>
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-slate-700">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
-                                            class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                            class="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 shrink-0">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                         </svg>
@@ -200,12 +200,12 @@
                                 <!-- Kategori -->
                                 <div>
                                     <div
-                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-slate-500 mb-1 sm:mb-1.5">
                                         Kategori</div>
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-slate-700">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
-                                            class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                            class="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 shrink-0">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -219,12 +219,12 @@
                                 <!-- Jenis -->
                                 <div>
                                     <div
-                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-slate-500 mb-1 sm:mb-1.5">
                                         Jenis</div>
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content/70">
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-slate-700">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
-                                            class="w-4 h-4 sm:w-5 sm:h-5 opacity-70">
+                                            class="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 shrink-0">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                                         </svg>
@@ -234,30 +234,28 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- No keterangan here, moved outside -->
                     </div>
 
                     <!-- Perforated Line -->
                     <div
                         class="flex sm:flex-col justify-center items-center relative h-6 sm:h-auto w-full sm:w-6 shrink-0">
                         <div
-                            class="border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-base-300 h-px sm:h-auto w-full sm:w-px grow mx-4 my-2 sm:mx-0 sm:my-6">
+                            class="border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-slate-200 h-px sm:h-auto w-full sm:w-px grow mx-4 my-2 sm:mx-0 sm:my-6">
                         </div>
                     </div>
 
                     <!-- Right Section (ID) -->
                     <div
-                        class="w-full sm:w-40 h-54 sm:h-auto p-4 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-base-100/50">
+                        class="w-full sm:w-40 h-54 sm:h-auto p-4 sm:p-4 shrink-0 flex flex-col justify-center items-center bg-white">
                         @if ($detail['kode_booking'] ?? $kode_booking)
-                            <div class="p-2 sm:p-2 bg-white shadow-sm border border-base-200 mb-2 sm:mb-4">
+                            <div class="p-2 sm:p-2 bg-white mb-2 sm:mb-4">
                                 <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($detail['kode_booking'] ?? $kode_booking, 'QRCODE', 4, 4) }}"
                                     alt="QR Code" class="w-36 h-36 sm:w-28 sm:h-28"
                                     style="image-rendering: pixelated;" />
                             </div>
                         @endif
                         <div
-                            class="text-[10px] sm:text-xs font-medium uppercase tracking-widest text-base-content text-center">
+                            class="text-[10px] sm:text-xs font-black uppercase tracking-widest text-black text-center">
                             {{ $detail['kode_booking'] ?? $kode_booking }}
                         </div>
                     </div>

@@ -178,8 +178,18 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
         $this->tglFmt = null;
         if (preg_match('/^\d{4}-\d{2}-\d{2}/', (string) $this->tgl)) {
             $this->tglFmt = date('d/m/Y', strtotime((string) $this->tgl));
+            $dayIndex = date('N', strtotime((string) $this->tgl));
+            $days = [
+                1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis',
+                5 => 'Jumat', 6 => 'Sabtu', 7 => 'Minggu'
+            ];
+            $dayName = $days[$dayIndex] ?? '';
+            if ($dayName) {
+                $this->tglFmt = $dayName . ', ' . $this->tglFmt;
+            }
         } else {
             $parts = explode(',', (string) $this->tgl);
+            $dayName = count($parts) > 1 ? trim($parts[0]) : '';
             $rest = trim((string) end($parts));
             $tok = preg_split('/\s+/', $rest);
             $bulanMap = [
@@ -201,7 +211,8 @@ new #[Title('Booking Detail')] #[Layout('layouts::public.app')] class extends Co
                 $b = $bulanMap[strtolower((string) $tok[1])] ?? null;
                 $y = (int) preg_replace('/\D/', '', (string) $tok[2]);
                 if ($d && $b && $y) {
-                    $this->tglFmt = sprintf('%02d/%02d/%04d', $d, (int) $b, $y);
+                    $formattedDate = sprintf('%02d/%02d/%04d', $d, (int) $b, $y);
+                    $this->tglFmt = $dayName ? ($dayName . ', ' . $formattedDate) : $formattedDate;
                 }
             }
         }
