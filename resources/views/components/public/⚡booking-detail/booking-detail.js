@@ -1,3 +1,4 @@
+import './booking-detail.css';
 ;(function () {
   function initDetail() {
     var card = document.getElementById('detail-card');

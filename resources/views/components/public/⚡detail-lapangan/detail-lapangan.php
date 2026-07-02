@@ -12,22 +12,16 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
     #[Url(as: 'id')]
     public ?int $id = null;
     public ?string $slug = null;
-    public bool $isLoading = true;
+    public bool $isLoading = false;
     public ?string $error = null;
     public ?array $lapangan = null;
     public ?string $coverUrl = null;
     public array $galleryUrls = [];
 
-    public function loadDetailLapangan(): void
+    public function mount(?string $slug = null): void
     {
-        $this->isLoading = true;
-        $this->error = null;
-        $this->lapangan = null;
-        $this->coverUrl = null;
-        $this->galleryUrls = [];
+        $this->slug = $slug;
         $this->fetch();
-        $this->isLoading = false;
-        $this->dispatch('detail-lapangan-loaded');
     }
 
     protected function fetch(): void

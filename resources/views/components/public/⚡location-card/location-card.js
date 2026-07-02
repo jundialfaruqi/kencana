@@ -1,3 +1,4 @@
+import './location-card.css';
 (function() {
     let map = null;
 

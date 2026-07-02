@@ -1,3 +1,4 @@
+import './detail-lapangan.css';
 (function () {
   function init() {
     var cards = document.querySelectorAll('[data-animate-detail]');

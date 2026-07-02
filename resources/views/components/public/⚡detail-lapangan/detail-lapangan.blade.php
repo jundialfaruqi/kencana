@@ -1,13 +1,4 @@
-<div wire:init="loadDetailLapangan" class="mt-4 sm:mt-8" x-data>
-    @if ($isLoading)
-        <div class="mb-8 px-2 flex items-center gap-4 animate-pulse">
-            <div class="size-8 sm:size-12 rounded-full bg-base-300"></div>
-            <div>
-                <div class="h-6 sm:h-8 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
-                <div class="h-3 sm:h-4 bg-base-300 w-32 sm:w-48 mt-2 rounded-lg"></div>
-            </div>
-        </div>
-    @else
+<div class="mt-4 sm:mt-8" x-data>
         <div class="mb-8 px-2 flex items-center gap-4">
             <div class="flex-1 flex items-center justify-between">
                 <div class="flex items-center gap-4">
@@ -32,54 +23,6 @@
                 </div>
             </div>
         </div>
-    @endif
-    @if ($isLoading)
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-            <div class="card bg-base-100 animate-pulse">
-                <figure>
-                    <div class="w-full overflow-hidden aspect-video bg-base-300"></div>
-                </figure>
-                <div class="card-body">
-                    <div class="flex items-start justify-between gap-4">
-                        <div>
-                            <div class="h-3 bg-base-300 w-24 rounded"></div>
-                            <div class="h-6 bg-base-300 w-48 rounded mt-1"></div>
-                            <div class="h-4 bg-base-300 w-64 rounded mt-1"></div>
-                        </div>
-                        <div class="h-5 bg-base-300 w-20 rounded-md -skew-x-12"></div>
-                    </div>
-                    <div class="mt-4 space-y-2 text-sm">
-                        <div class="flex items-center gap-2 p-3 rounded-xl bg-base-200 border border-base-200">
-                            <div class="w-6 h-6 rounded-md bg-base-300"></div>
-                            <div class="flex-1 min-w-0">
-                                <div class="h-3 bg-base-300 w-24 rounded"></div>
-                                <div class="h-3 bg-base-300 w-2/3 rounded mt-2"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 mb-1">
-                        <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-3 justify-center">
-                            @for ($i = 0; $i < 6; $i++)
-                                <div class="aspect-square bg-base-300 rounded-xl"></div>
-                            @endfor
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card bg-base-100 animate-pulse">
-                <figure class="rounded-b-2xl">
-                    <div class="w-full overflow-hidden aspect-video bg-base-300"></div>
-                </figure>
-                <div class="card-body p-4">
-                    <div class="flex items-center gap-2 justify-start">
-                        <div class="h-8 bg-base-300 w-40 rounded-xl"></div>
-                        <div class="h-8 bg-base-300 w-32 rounded-xl"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @else
         @if ($error)
             <div class="alert alert-error">
                 <span>{{ $error }}</span>
@@ -193,7 +136,6 @@
                 </div>
             </div>
         @endif
-    @endif
 
     <div id="gallery-lightbox"
         class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-9999 hidden">
