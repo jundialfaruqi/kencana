@@ -33,7 +33,8 @@ new class extends Component
             } else {
                 $this->banners = [];
             }
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Banner carousel error: ' . $e->getMessage());
             $this->banners = [];
         }
         $this->readyToLoad = true;

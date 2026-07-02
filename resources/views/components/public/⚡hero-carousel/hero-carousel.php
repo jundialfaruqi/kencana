@@ -78,6 +78,7 @@ new class extends Component {
                 $this->lapangan = [];
             }
         } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Hero carousel error: ' . $e->getMessage());
             $this->lapangan = [];
         }
 
