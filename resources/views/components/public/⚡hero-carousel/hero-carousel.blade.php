@@ -16,7 +16,7 @@
         </div>
 
         <div wire:ignore
-            class="carousel carousel-center w-full bg-base-200/30 rounded-2xl sm:rounded-3xl space-x-3 sm:space-x-4 p-3 sm:p-4 scroll-smooth">
+            class="carousel carousel-center w-full rounded-2xl sm:rounded-3xl space-x-3 sm:space-x-4 p-3 sm:p-1 scroll-smooth">
             @foreach ($lapangan as $lp)
                 <div class="carousel-item w-55 sm:w-72 flex flex-col gap-2 sm:gap-3 group">
                     <div

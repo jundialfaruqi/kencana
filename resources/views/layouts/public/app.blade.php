@@ -33,7 +33,7 @@
 
         <div class="relative z-10 flex flex-col min-h-screen">
             <div id="navbar"
-                class="navbar bg-base-200 fixed top-0 inset-x-0 z-50 px-4 sm:px-70 py-3 border-b border-info/5 transition-transform duration-300">
+                class="navbar bg-base-200 fixed top-0 inset-x-0 z-50 px-4 sm:px-12 md:px-24 lg:px-48 xl:px-70 py-3 border-b border-info/5 transition-transform duration-300">
                 <div class="navbar-start">
                     <a href="/" wire:navigate class="flex items-center gap-1.5 sm:gap-2 group cursor-pointer">
                         <div class="shrink-0">
@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <main class="grow container-xl px-4 pt-21 pb-18 sm:pt-22 sm:px-70 sm:pb-25">
+            <main class="grow container-xl px-4 pt-21 pb-18 sm:pt-22 sm:px-12 md:px-24 lg:px-48 xl:px-70 sm:pb-25">
                 {{ $slot }}
             </main>
 
