@@ -33,11 +33,14 @@
         </div>
 
         <ul class="steps w-full mb-8 max-w-3xl mx-auto flex justify-center" id="booking-stepper">
-            <li data-step-nav="1" class="step {{ $currentStep >= 1 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+            <li data-step-nav="1"
+                class="step {{ $currentStep >= 1 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
                 Tanggal</li>
-            <li data-step-nav="2" class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+            <li data-step-nav="2"
+                class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
                 Arena & Jam</li>
-            <li data-step-nav="3" class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
+            <li data-step-nav="3"
+                class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
                 Konfirmasi</li>
         </ul>
 
@@ -47,519 +50,507 @@
 
                 <!-- 1. Select Date -->
                 <section id="step-1" class="{{ $currentStep === 1 ? 'block' : 'hidden' }}">
-                            <input type="hidden" wire:model="tanggal" id="hidden-tanggal-input">
-                            <div class="flex items-center justify-between mb-4 px-2">
-                                <div class="flex items-center gap-1">
-                                    <h3 class="text-xl font-black italic uppercase tracking-tight">Pilih Tanggal
-                                    </h3>
+                    <input type="hidden" wire:model="tanggal" id="hidden-tanggal-input">
+                    <div class="flex items-center justify-between mb-4 px-2">
+                        <div class="flex items-center gap-1">
+                            <h3 class="text-xl font-black italic uppercase tracking-tight">Pilih Tanggal
+                            </h3>
+                        </div>
+                        <div class="relative" x-data="{ open: false, idx: 0 }" data-cal-selected="{{ $tanggal }}"
+                            data-cal-curr-month="{{ $calCurrMonth }}" data-cal-next-month="{{ $calNextMonth }}">
+                            <button class="btn btn-base-300 btn-sm" @click="open = !open" type="button"
+                                data-cal-trigger>
+                                <span class="inline-flex items-center gap-2">
+                                    <span class="w-4 h-4 inline-flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="2" stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                                        </svg>
+                                    </span>
+                                    <span>Kalender</span>
+                                </span>
+                            </button>
+                            <div @click.outside="open=false" id="select-date-calendar" wire:ignore.self
+                                class="absolute right-0 mt-2 w-80 p-3 rounded-xl border border-base-300 bg-base-100 shadow-xl z-20 hidden">
+                                <div class="flex items-center justify-between mb-2">
+                                    <button type="button" class="btn btn-ghost btn-xs" data-cal-prev>&lsaquo;</button>
+                                    <div class="text-sm font-black italic uppercase">
+                                        <span data-cal-label="curr">{{ $calCurrLabel }}</span>
+                                        <span data-cal-label="next" class="hidden">{{ $calNextLabel }}</span>
+                                    </div>
+                                    <button type="button"
+                                        class="btn btn-ghost btn-xs {{ sprintf('%s-01', $calNextMonth) > $maxDate ? 'hidden' : '' }}"
+                                        data-cal-next>&rsaquo;</button>
                                 </div>
-                                <div class="relative" x-data="{ open: false, idx: 0 }" data-cal-selected="{{ $tanggal }}"
-                                    data-cal-curr-month="{{ $calCurrMonth }}"
-                                    data-cal-next-month="{{ $calNextMonth }}">
-                                    <button class="btn btn-base-300 btn-sm" @click="open = !open" type="button"
-                                        data-cal-trigger>
-                                        <span class="inline-flex items-center gap-2">
-                                            <span class="w-4 h-4 inline-flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                                    class="size-4">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                                                </svg>
-                                            </span>
-                                            <span>Kalender</span>
-                                        </span>
-                                    </button>
-                                    <div @click.outside="open=false" id="select-date-calendar" wire:ignore.self
-                                        class="absolute right-0 mt-2 w-80 p-3 rounded-xl border border-base-300 bg-base-100 shadow-xl z-20 hidden">
-                                        <div class="flex items-center justify-between mb-2">
-                                            <button type="button" class="btn btn-ghost btn-xs"
-                                                data-cal-prev>&lsaquo;</button>
-                                            <div class="text-sm font-black italic uppercase">
-                                                <span data-cal-label="curr">{{ $calCurrLabel }}</span>
-                                                <span data-cal-label="next" class="hidden">{{ $calNextLabel }}</span>
-                                            </div>
+                                <div
+                                    class="grid grid-cols-7 gap-1 text-[10px] font-bold uppercase text-base-content/60 mb-1">
+                                    <div>Min</div>
+                                    <div>Sen</div>
+                                    <div>Sel</div>
+                                    <div>Rab</div>
+                                    <div>Kam</div>
+                                    <div>Jum</div>
+                                    <div>Sab</div>
+                                </div>
+                                <div data-cal-panel>
+                                    <div class="grid grid-cols-7 gap-1">
+                                        @for ($i = 0; $i < $calCurrStartDow; $i++)
+                                            <div class="h-8"></div>
+                                        @endfor
+                                        @for ($d = 1; $d <= $calCurrDays; $d++)
                                             <button type="button"
-                                                class="btn btn-ghost btn-xs {{ sprintf('%s-01', $calNextMonth) > $maxDate ? 'hidden' : '' }}"
-                                                data-cal-next>&rsaquo;</button>
-                                        </div>
-                                        <div
-                                            class="grid grid-cols-7 gap-1 text-[10px] font-bold uppercase text-base-content/60 mb-1">
-                                            <div>Min</div>
-                                            <div>Sen</div>
-                                            <div>Sel</div>
-                                            <div>Rab</div>
-                                            <div>Kam</div>
-                                            <div>Jum</div>
-                                            <div>Sab</div>
-                                        </div>
-                                        <div data-cal-panel>
-                                            <div class="grid grid-cols-7 gap-1">
-                                                @for ($i = 0; $i < $calCurrStartDow; $i++)
-                                                    <div class="h-8"></div>
-                                                @endfor
-                                                @for ($d = 1; $d <= $calCurrDays; $d++)
-                                                    <button type="button"
-                                                        data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
-                                                        class="h-8 rounded-md text-xs font-bold transition-all
+                                                data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
+                                                class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate || sprintf('%s-%02d', $calCurrMonth, $d) > $maxDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
-                                                        {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate || sprintf('%s-%02d', $calCurrMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
-                                                        <span>{{ $d }}</span>
-                                                    </button>
-                                                @endfor
-                                            </div>
-                                            <div class="mt-2 flex justify-end">
-                                                <button type="button" class="btn btn-ghost btn-xs"
-                                                    data-cal-close>Tutup</button>
-                                            </div>
-                                        </div>
-                                        <div data-cal-panel class="hidden">
-                                            <div class="grid grid-cols-7 gap-1">
-                                                @for ($i = 0; $i < $calNextStartDow; $i++)
-                                                    <div class="h-8"></div>
-                                                @endfor
-                                                @for ($d = 1; $d <= $calNextDays; $d++)
-                                                    <button type="button"
-                                                        data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
-                                                        class="h-8 rounded-md text-xs font-bold transition-all
+                                                {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate || sprintf('%s-%02d', $calCurrMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
+                                                <span>{{ $d }}</span>
+                                            </button>
+                                        @endfor
+                                    </div>
+                                    <div class="mt-2 flex justify-end">
+                                        <button type="button" class="btn btn-ghost btn-xs"
+                                            data-cal-close>Tutup</button>
+                                    </div>
+                                </div>
+                                <div data-cal-panel class="hidden">
+                                    <div class="grid grid-cols-7 gap-1">
+                                        @for ($i = 0; $i < $calNextStartDow; $i++)
+                                            <div class="h-8"></div>
+                                        @endfor
+                                        @for ($d = 1; $d <= $calNextDays; $d++)
+                                            <button type="button"
+                                                data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
+                                                class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
                                                     {{ sprintf('%s-%02d', $calNextMonth, $d) < $todayDate || sprintf('%s-%02d', $calNextMonth, $d) > $maxDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
-                                                        {{ sprintf('%s-%02d', $calNextMonth, $d) < $todayDate || sprintf('%s-%02d', $calNextMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
-                                                        <span>{{ $d }}</span>
-                                                    </button>
-                                                @endfor
-                                            </div>
-                                            <div class="mt-2 flex justify-end">
-                                                <button type="button" class="btn btn-ghost btn-xs"
-                                                    data-cal-close>Tutup</button>
-                                            </div>
-                                        </div>
+                                                {{ sprintf('%s-%02d', $calNextMonth, $d) < $todayDate || sprintf('%s-%02d', $calNextMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
+                                                <span>{{ $d }}</span>
+                                            </button>
+                                        @endfor
+                                    </div>
+                                    <div class="mt-2 flex justify-end">
+                                        <button type="button" class="btn btn-ghost btn-xs"
+                                            data-cal-close>Tutup</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div data-date-container
-                                class="grid grid-cols-4 lg:grid-cols-12 gap-2 sm:gap-3 w-full bg-base-200/30 rounded-2xl p-4">
-                                @foreach ($carouselDates as $dateStr)
+                    <div data-date-container
+                        class="grid grid-cols-4 lg:grid-cols-12 gap-2 sm:gap-3 w-full bg-base-200/30 rounded-2xl p-4">
+                        @foreach ($carouselDates as $dateStr)
+                            <div>
+                                <button type="button" data-date="{{ $dateStr }}"
+                                    class="flex flex-col items-center justify-center w-full h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
+                                    <span
+                                        class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
+                                    <span
+                                        class="text-xl font-black italic">{{ \Carbon\Carbon::parse($dateStr)->format('d') }}</span>
+                                    <span
+                                        class="text-[9px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('M') }}</span>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
+                        <button type="button" onclick="window.goBackBooking()"
+                            class="btn btn-ghost w-full sm:w-auto font-black uppercase">
+                            <span>Batal</span>
+                        </button>
+                        <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
+                            wire:target="nextStep"
+                            class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
+                            <span class="skew-x-12 flex items-center justify-center gap-2">
+                                <span wire:loading wire:target="nextStep"
+                                    class="loading loading-spinner loading-xs"></span>
+                                <span>Selanjutnya</span>
+                            </span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- 2. Arena & Time -->
+                <section id="step-2" class="{{ $currentStep === 2 ? 'block' : 'hidden' }}">
+                    <div class="flex items-center gap-1 mb-4 px-2">
+                        <h3 class="text-xl font-black italic uppercase tracking-tight">Pilih Arena & Jam
+                        </h3>
+                    </div>
+
+                    <div class="w-full pb-6 px-2 space-y-4">
+                        <!-- Selected Date Card -->
+                        <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span
+                                        class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
+                                        Tanggal
+                                    </span>
+                                    <h4 class="text-base font-black italic uppercase mt-1 leading-none">
+                                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                                    </h4>
+                                </div>
+                                <div>
+                                    <button type="button" onclick="window.goBackBooking()"
+                                        class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
+                                        <span>Ubah</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if ($lapanganId)
+                            <div
+                                class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
+                                <div class="flex justify-between items-start">
                                     <div>
-                                        <button type="button"
-                                            data-date="{{ $dateStr }}"
-                                            class="flex flex-col items-center justify-center w-full h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
-                                            <span class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
-                                            <span class="text-xl font-black italic">{{ \Carbon\Carbon::parse($dateStr)->format('d') }}</span>
-                                            <span class="text-[9px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('M') }}</span>
+                                        <span
+                                            class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
+                                            Arena
+                                        </span>
+                                        <h4 class="text-base font-black italic uppercase mt-1 leading-none">
+                                            {{ $namaLapangan }}
+                                        </h4>
+                                    </div>
+                                    <div class="text-right flex flex-col items-end gap-2">
+                                        <span class="text-xs font-black italic text-info">GRATIS</span>
+                                        <button type="button" wire:click="resetArena" wire:loading.attr="disabled"
+                                            wire:target="resetArena"
+                                            class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
+                                            <span wire:loading.remove wire:target="resetArena">Ubah</span>
+                                            <span wire:loading wire:target="resetArena"
+                                                class="loading loading-spinner loading-xs"></span>
                                         </button>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="mt-8 flex flex-col-reverse sm:flex-row justify-between gap-4">
-                                <button type="button" onclick="window.goBackBooking()"
-                                    class="btn btn-ghost w-full sm:w-auto font-black uppercase">
-                                    <span>Batal</span>
-                                </button>
-                                <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
-                                    wire:target="nextStep"
-                                    class="btn btn-info w-full sm:w-auto -skew-x-12 italic font-black uppercase shadow-lg shadow-info/20">
-                                    <span class="skew-x-12 flex items-center justify-center gap-2">
-                                        <span wire:loading wire:target="nextStep"
-                                            class="loading loading-spinner loading-xs"></span>
-                                        <span>Selanjutnya</span>
-                                    </span>
-                                </button>
-                            </div>
-                        </section>
-
-                    <!-- 2. Arena & Time -->
-                        <section id="step-2" class="{{ $currentStep === 2 ? 'block' : 'hidden' }}">
-                            <div class="flex items-center gap-1 mb-4 px-2">
-                                <h3 class="text-xl font-black italic uppercase tracking-tight">Pilih Arena & Jam
-                                </h3>
+                                </div>
                             </div>
 
-                            <div class="w-full pb-6 px-2 space-y-4">
-                                <!-- Selected Date Card -->
+                            @if ($listJadwalStatus === 'loading')
                                 <div
-                                    class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <span
-                                                class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
-                                                Tanggal
-                                            </span>
-                                            <h4 class="text-base font-black italic uppercase mt-1 leading-none">
-                                                {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                                            </h4>
-                                        </div>
-                                        <div>
-                                            <button type="button" onclick="window.goBackBooking()"
-                                                class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
-                                                <span>Ubah</span>
-                                            </button>
-                                        </div>
+                                    class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4 animate-pulse">
+                                    <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
+                                        @for ($j = 0; $j < 9; $j++)
+                                            <div class="py-2 h-16 bg-base-300 rounded-lg"></div>
+                                        @endfor
                                     </div>
                                 </div>
-
-                                @if ($lapanganId)
-                                    <div
-                                        class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <span
-                                                    class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
-                                                    Arena
-                                                </span>
-                                                <h4 class="text-base font-black italic uppercase mt-1 leading-none">
-                                                    {{ $namaLapangan }}
-                                                </h4>
-                                            </div>
-                                            <div class="text-right flex flex-col items-end gap-2">
-                                                <span class="text-xs font-black italic text-info">GRATIS</span>
-                                                <button type="button" wire:click="resetArena"
-                                                    wire:loading.attr="disabled" wire:target="resetArena"
-                                                    class="btn btn-xs btn-outline btn-error text-[10px] uppercase font-bold px-3">
-                                                    <span wire:loading.remove wire:target="resetArena">Ubah</span>
-                                                    <span wire:loading wire:target="resetArena"
-                                                        class="loading loading-spinner loading-xs"></span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    @if ($listJadwalStatus === 'loading')
-                                        <div
-                                            class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4 animate-pulse">
-                                            <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
-                                                @for ($j = 0; $j < 9; $j++)
-                                                    <div class="py-2 h-16 bg-base-300 rounded-lg"></div>
-                                                @endfor
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4"
-                                            wire:loading.class="opacity-50 pointer-events-none"
-                                            wire:target="selectDate">
-                                            <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
-                                                @foreach ($timeSlots as $slot)
-                                                    <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
-                                                        data-time-slot
-                                                        wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
-                                                        wire:loading.attr="disabled" wire:target="selectTime"
-                                                        class="py-2 rounded-lg font-black italic text-[16px] md:text-[17px] transition-all
+                            @else
+                                <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4"
+                                    wire:loading.class="opacity-50 pointer-events-none" wire:target="selectDate">
+                                    <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
+                                        @foreach ($timeSlots as $slot)
+                                            <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
+                                                data-time-slot
+                                                wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
+                                                wire:loading.attr="disabled" wire:target="selectTime"
+                                                class="py-2 rounded-lg font-black italic text-[16px] md:text-[17px] transition-all
                                                             {{ !$this->slotIsAvailable($slot)
                                                                 ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
                                                                 : ($this->slotIsSelected($slot)
                                                                     ? 'bg-info text-info-content border border-info/50 shadow-lg shadow-info/20'
                                                                     : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
-                                                        <span class="block">{{ $slot['mulai'] }}</span>
-                                                        <span class="block">{{ $slot['selesai'] }}</span>
-                                                        <span
-                                                            class="block text-[10px] font-bold uppercase text-warning">
-                                                            {{ $this->getSlotDisplayStatus($slot) }}
-                                                        </span>
-                                                    </button>
-                                                @endforeach
+                                                <span class="block">{{ $slot['mulai'] }}</span>
+                                                <span class="block">{{ $slot['selesai'] }}</span>
+                                                <span class="block text-[10px] font-bold uppercase text-warning">
+                                                    {{ $this->getSlotDisplayStatus($slot) }}
+                                                </span>
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                    <div wire:loading wire:target="selectDate"
+                                        class="absolute inset-0 z-10 bg-base-100/40"></div>
+                                    <div wire:loading wire:target="selectTime"
+                                        class="absolute inset-0 rounded-2xl z-30 bg-base-100/80 backdrop-blur-sm">
+                                        <div
+                                            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                            <div
+                                                class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
+                                                <span class="loading loading-dots loading-lg text-info"></span>
                                             </div>
-                                            <div wire:loading wire:target="selectDate"
-                                                class="absolute inset-0 z-10 bg-base-100/40"></div>
-                                            <div wire:loading wire:target="selectTime"
-                                                class="absolute inset-0 rounded-2xl z-30 bg-base-100/80 backdrop-blur-sm">
-                                                <div
-                                                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                                                    <div
-                                                        class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-info/10">
-                                                        <span class="loading loading-dots loading-lg text-info"></span>
-                                                    </div>
-                                                    <div
-                                                        class="mt-2 text-[10px] sm:text-xs font-black uppercase italic tracking-widest text-base-content/70">
-                                                        Memilih Waktu...
-                                                    </div>
-                                                </div>
+                                            <div
+                                                class="mt-2 text-[10px] sm:text-xs font-black uppercase italic tracking-widest text-base-content/70">
+                                                Memilih Waktu...
                                             </div>
-                                        </div>
-                                    @endif
-                                @else
-                                    <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg">
-                                        <div class="flex items-center justify-between">
-                                            <h4 class="text-base font-black italic uppercase leading-none">
-                                                Pilih Arena
-                                            </h4>
-                                            <span class="text-[10px] font-bold uppercase text-warning">
-                                                @if ($isLoadingArenas)
-                                                    <span
-                                                        class="inline-block w-4 h-2.5 bg-warning/30 rounded animate-pulse"></span>
-                                                @else
-                                                    {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
-                                                @endif
-                                                tersedia
-                                            </span>
                                         </div>
                                     </div>
-                                    @if ($isLoadingArenas)
-                                        <div class="relative mt-4">
-                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-pulse">
-                                                @for ($i = 0; $i < 4; $i++)
-                                                    <div
-                                                        class="p-4 rounded-xl border border-base-300 bg-base-100 flex items-center justify-between gap-4">
-                                                        <div class="flex-1 space-y-2">
-                                                            <!-- Status Badge Line -->
-                                                            <div class="h-2.5 bg-base-300 rounded-full w-24"></div>
-                                                            <!-- Title Line -->
-                                                            <div class="h-3.5 bg-base-300 rounded-full w-36 mt-2">
-                                                            </div>
-                                                            <!-- Subtitle/Address Line -->
-                                                            <div class="h-2.5 bg-base-300 rounded-full w-48 mt-2">
-                                                            </div>
-                                                        </div>
-                                                        <!-- Image Thumbnail -->
-                                                        <div class="w-16 h-16 rounded-xl bg-base-300 shrink-0">
-                                                        </div>
+                                </div>
+                            @endif
+                        @else
+                            <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-base font-black italic uppercase leading-none">
+                                        Pilih Arena
+                                    </h4>
+                                    <span class="text-[10px] font-bold uppercase text-warning">
+                                        @if ($isLoadingArenas)
+                                            <span
+                                                class="inline-block w-4 h-2.5 bg-warning/30 rounded animate-pulse"></span>
+                                        @else
+                                            {{ count(array_filter($arenas, fn($a) => ($a['status'] ?? '') === 'open')) }}
+                                        @endif
+                                        tersedia
+                                    </span>
+                                </div>
+                            </div>
+                            @if ($isLoadingArenas)
+                                <div class="relative mt-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-pulse">
+                                        @for ($i = 0; $i < 4; $i++)
+                                            <div
+                                                class="p-4 rounded-xl border border-base-300 bg-base-100 flex items-center justify-between gap-4">
+                                                <div class="flex-1 space-y-2">
+                                                    <!-- Status Badge Line -->
+                                                    <div class="h-2.5 bg-base-300 rounded-full w-24"></div>
+                                                    <!-- Title Line -->
+                                                    <div class="h-3.5 bg-base-300 rounded-full w-36 mt-2">
                                                     </div>
-                                                @endfor
+                                                    <!-- Subtitle/Address Line -->
+                                                    <div class="h-2.5 bg-base-300 rounded-full w-48 mt-2">
+                                                    </div>
+                                                </div>
+                                                <!-- Image Thumbnail -->
+                                                <div class="w-16 h-16 rounded-xl bg-base-300 shrink-0">
+                                                </div>
                                             </div>
-                                        </div>
-                                    @elseif (count($arenas) === 0)
-                                        <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
-                                            <div class="text-sm font-bold uppercase text-base-content/60">
-                                                Belum ada arena tersedia
-                                            </div>
-                                            <div class="text-xs font-medium text-base-content/50 mt-1">
-                                                Silakan kembali ke beranda untuk melihat informasi terbaru.
-                                            </div>
-                                            <div class="mt-3">
-                                                <a href="/" wire:navigate class="btn btn-sm btn-ghost">
-                                                    Kembali ke Beranda
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @elseif ($error && !$this->isValidationErr($error))
-                                        <div class="alert alert-error mt-4">
-                                            <span>{{ $error }}</span>
-                                        </div>
-                                    @else
-                                        <div class="relative mt-4">
-                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                                @foreach ($arenas as $arena)
-                                                    <button {{ $this->arenaIsComing($arena) ? 'disabled' : '' }}
-                                                        class="p-4 rounded-xl border transition-all text-left
+                                        @endfor
+                                    </div>
+                                </div>
+                            @elseif (count($arenas) === 0)
+                                <div class="mt-4 p-4 rounded-xl bg-base-200 border border-base-300/50">
+                                    <div class="text-sm font-bold uppercase text-base-content/60">
+                                        Belum ada arena tersedia
+                                    </div>
+                                    <div class="text-xs font-medium text-base-content/50 mt-1">
+                                        Silakan kembali ke beranda untuk melihat informasi terbaru.
+                                    </div>
+                                    <div class="mt-3">
+                                        <a href="/" wire:navigate class="btn btn-sm btn-ghost">
+                                            Kembali ke Beranda
+                                        </a>
+                                    </div>
+                                </div>
+                            @elseif ($error && !$this->isValidationErr($error))
+                                <div class="alert alert-error mt-4">
+                                    <span>{{ $error }}</span>
+                                </div>
+                            @else
+                                <div class="relative mt-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        @foreach ($arenas as $arena)
+                                            <button {{ $this->arenaIsComing($arena) ? 'disabled' : '' }}
+                                                class="p-4 rounded-xl border transition-all text-left
                                                 {{ $this->arenaIsComing($arena)
                                                     ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through border-base-300'
                                                     : ($this->arenaIsSelected($arena)
                                                         ? 'bg-info text-info-content border-info shadow-lg shadow-info/20'
                                                         : 'bg-base-100 border-base-300 hover:border-info/40 hover:bg-info/5') }}"
-                                                        wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
-                                                        wire:loading.attr="disabled"
-                                                        wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')">
-                                                        @php
-                                                            $cover = ltrim((string) ($arena['image_cover'] ?? ''), '/');
-                                                            $coverUrl = !empty($cover)
-                                                                ? (preg_match('/^https?:\/\//', $cover)
-                                                                    ? $cover
-                                                                    : rtrim(
-                                                                            config('services.api.image_base_url'),
-                                                                            '/',
-                                                                        ) .
-                                                                        '/' .
-                                                                        $cover)
-                                                                : null;
-                                                        @endphp
-                                                        <div class="w-full flex items-center justify-between gap-4">
-                                                            <div class="flex-1">
-                                                                <div
-                                                                    class="text-[10px] font-black uppercase italic tracking-wider {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
-                                                                    Arena <span class="mx-1 opacity-50">|</span>
-                                                                    <span
-                                                                        class="{{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-warning' }}">{{ $arena['status_label'] ?? '' }}</span>
-                                                                </div>
-                                                                <div class="text-sm font-black italic uppercase mt-1">
-                                                                    {{ $arena['nama_lapangan'] ?? 'Arena' }}
-                                                                </div>
-                                                                @if (!empty($arena['alamat']))
-                                                                    <div
-                                                                        class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
-                                                                        {{ $arena['alamat'] }}
-                                                                    </div>
-                                                                @endif
+                                                wire:click="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
+                                                wire:loading.attr="disabled"
+                                                wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')">
+                                                @php
+                                                    $cover = ltrim((string) ($arena['image_cover'] ?? ''), '/');
+                                                    $coverUrl = !empty($cover)
+                                                        ? (preg_match('/^https?:\/\//', $cover)
+                                                            ? $cover
+                                                            : rtrim(config('services.api.image_base_url'), '/') .
+                                                                '/' .
+                                                                $cover)
+                                                        : null;
+                                                @endphp
+                                                <div class="w-full flex items-center justify-between gap-4">
+                                                    <div class="flex-1">
+                                                        <div
+                                                            class="text-[10px] font-black uppercase italic tracking-wider {{ $this->arenaIsSelected($arena) ? 'text-info-content' : 'text-info' }}">
+                                                            Arena <span class="mx-1 opacity-50">|</span>
+                                                            <span
+                                                                class="{{ $this->arenaIsSelected($arena) ? 'text-info-content/70' : 'text-warning' }}">{{ $arena['status_label'] ?? '' }}</span>
+                                                        </div>
+                                                        <div class="text-sm font-black italic uppercase mt-1">
+                                                            {{ $arena['nama_lapangan'] ?? 'Arena' }}
+                                                        </div>
+                                                        @if (!empty($arena['alamat']))
+                                                            <div
+                                                                class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-wider">
+                                                                {{ $arena['alamat'] }}
                                                             </div>
-                                                            @if ($coverUrl)
-                                                                <div
-                                                                    class="w-16 h-16 rounded-xl overflow-hidden bg-base-200 shrink-0">
-                                                                    <img src="{{ $coverUrl }}"
-                                                                        class="w-full h-full object-cover"
-                                                                        alt="Cover" />
-                                                                </div>
-                                                            @endif
+                                                        @endif
+                                                    </div>
+                                                    @if ($coverUrl)
+                                                        <div
+                                                            class="w-16 h-16 rounded-xl overflow-hidden bg-base-200 shrink-0">
+                                                            <img src="{{ $coverUrl }}"
+                                                                class="w-full h-full object-cover" alt="Cover" />
                                                         </div>
-                                                        <div wire:loading
-                                                            wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
-                                                            class="mt-2">
-                                                            <span class="loading loading-dots loading-xs"></span>
-                                                        </div>
-                                                    </button>
-                                                @endforeach
-                                            </div>
-                                            <div wire:loading wire:target="selectArena"
-                                                class="absolute inset-0 z-10 bg-base-100/40"></div>
-                                        </div>
-                                    @endif
-                                @endif
+                                                    @endif
+                                                </div>
+                                                <div wire:loading
+                                                    wire:target="selectArena('{{ $arena['id'] ?? '' }}','{{ $arena['nama_lapangan'] ?? 'Arena' }}')"
+                                                    class="mt-2">
+                                                    <span class="loading loading-dots loading-xs"></span>
+                                                </div>
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                    <div wire:loading wire:target="selectArena"
+                                        class="absolute inset-0 z-10 bg-base-100/40"></div>
+                                </div>
+                            @endif
+                        @endif
+                    </div>
+                    <!-- Legend -->
+                    <div
+                        class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[9px] font-bold uppercase tracking-widest text-base-content/50 px-4">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded bg-base-100 border border-base-300"></div>
+                            Tersedia
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded bg-info"></div>
+                            Dipilih
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded bg-base-300/50 line-through"></div>
+                            Dipesan
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-start gap-4">
+                        <button type="button" onclick="window.goBackBooking()"
+                            class="btn btn-ghost w-full sm:w-auto font-black uppercase">
+                            <span>Kembali</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <div id="step-3" class="w-full max-w-xl mx-auto {{ $currentStep === 3 ? 'block' : 'hidden' }}">
+                <div class="space-y-6">
+                    <div class="bg-base-100 rounded-3xl border-2 border-info overflow-hidden shadow-2xl">
+                        <div class="bg-info p-6 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-info-content/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" class="size-6 text-info-content">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+                                </svg>
                             </div>
-                            <!-- Legend -->
-                            <div
-                                class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[9px] font-bold uppercase tracking-widest text-base-content/50 px-4">
-                                <div class="flex items-center gap-1.5">
-                                    <div class="w-2.5 h-2.5 rounded bg-base-100 border border-base-300"></div>
-                                    Tersedia
-                                </div>
-                                <div class="flex items-center gap-1.5">
-                                    <div class="w-2.5 h-2.5 rounded bg-info"></div>
-                                    Dipilih
-                                </div>
-                                <div class="flex items-center gap-1.5">
-                                    <div class="w-2.5 h-2.5 rounded bg-base-300/50 line-through"></div>
-                                    Dipesan
+                            <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
+                                Booking Summary
+                            </h4>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <!-- Summary Info -->
+                            <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
+                                <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
+                                <span class="font-black italic uppercase text-sm">
+                                    {{ $namaLapangan ?: '-' }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
+                                <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
+                                <span class="font-black italic uppercase text-sm">
+                                    {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
+                                <span class="text-xs font-bold uppercase text-base-content/50">Jam</span>
+                                <span class="font-black italic uppercase text-sm">
+                                    {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
+                                </span>
+                            </div>
+                            <div class="pt-4">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-xs font-bold uppercase text-base-content/50">Total
+                                        Biaya</span>
+                                    <span class="text-2xl font-black italic text-info leading-none">GRATIS</span>
                                 </div>
                             </div>
 
-                            <div class="mt-8 flex justify-start gap-4">
+                            <!-- Form Inputs -->
+                            <div class="mt-8 pt-6 border-t border-base-200">
+                                <h5 class="text-sm font-black italic uppercase text-base-content/70 mb-4">
+                                    Lengkapi Data Pemesanan</h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Nama
+                                            Komunitas</label>
+                                        <input type="text"
+                                            class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
+                                            placeholder="Nama tim (opsional)" wire:model="namaKomunitas">
+                                        @error('namaKomunitas')
+                                            <p class="text-[10px] text-error mt-1 font-bold uppercase">
+                                                {{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Jumlah
+                                            Pemain</label>
+                                        <input type="number" min="1"
+                                            class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
+                                            placeholder="Masukkan jumlah" wire:model="jumlahPemain">
+                                        @error('jumlahPemain')
+                                            <p class="text-[10px] text-error mt-1 font-bold uppercase">
+                                                {{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                                    <div>
+                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Kategori
+                                            Pemain</label>
+                                        <select wire:model.live="kategoriPemain"
+                                            class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
+                                            <option value="">PILIH KATEGORI</option>
+                                            <option value="anak-anak">ANAK-ANAK</option>
+                                            <option value="remaja">REMAJA</option>
+                                            <option value="dewasa">DEWASA</option>
+                                        </select>
+                                        @error('kategoriPemain')
+                                            <p class="text-[10px] text-error mt-1 font-bold uppercase">
+                                                {{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Jenis
+                                            Permainan</label>
+                                        <select wire:model.live="jenisPermainan"
+                                            class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
+                                            <option value="">PILIH JENIS</option>
+                                            <option value="fun_match">FUN MATCH</option>
+                                            <option value="latihan">LATIHAN</option>
+                                            <option value="turnamen_kecil">TURNAMEN KECIL</option>
+                                        </select>
+                                        @error('jenisPermainan')
+                                            <p class="text-[10px] text-error mt-1 font-bold uppercase">
+                                                {{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <button
+                                    class="btn btn-info w-full mt-8 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
+                                    data-confirm-booking wire:click="confirmBooking" wire:loading.attr="disabled"
+                                    wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
+                                    aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
+                                    <span class="sm:skew-x-12">Konfirmasi Booking</span>
+                                    <span class="loading loading-dots loading-xs ml-2" wire:loading
+                                        wire:target="confirmBooking"></span>
+                                </button>
+                                @if ($error)
+                                    <div class="alert alert-error mt-3">
+                                        <span>{{ $error }}</span>
+                                    </div>
+                                @endif
                                 <button type="button" onclick="window.goBackBooking()"
-                                    class="btn btn-ghost w-full sm:w-auto font-black uppercase">
+                                    class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
                                     <span>Kembali</span>
                                 </button>
-                            </div>
-                        </section>
-                </div>
-
-                <div id="step-3" class="w-full max-w-xl mx-auto {{ $currentStep === 3 ? 'block' : 'hidden' }}">
-                    <div class="space-y-6">
-                        <div class="bg-base-100 rounded-3xl border-2 border-info overflow-hidden shadow-2xl">
-                            <div class="bg-info p-6 flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-info-content/20 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="2" stroke="currentColor" class="size-6 text-info-content">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-                                    </svg>
-                                </div>
-                                <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
-                                    Booking Summary
-                                </h4>
-                            </div>
-                            <div class="p-6 space-y-4">
-                                <!-- Summary Info -->
-                                <div
-                                    class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
-                                    <span class="font-black italic uppercase text-sm">
-                                        {{ $namaLapangan ?: '-' }}
-                                    </span>
-                                </div>
-                                <div
-                                    class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
-                                    <span class="font-black italic uppercase text-sm">
-                                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                                    </span>
-                                </div>
-                                <div
-                                    class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
-                                    <span class="text-xs font-bold uppercase text-base-content/50">Jam</span>
-                                    <span class="font-black italic uppercase text-sm">
-                                        {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
-                                    </span>
-                                </div>
-                                <div class="pt-4">
-                                    <div class="flex justify-between items-end">
-                                        <span class="text-xs font-bold uppercase text-base-content/50">Total
-                                            Biaya</span>
-                                        <span class="text-2xl font-black italic text-info leading-none">GRATIS</span>
-                                    </div>
-                                </div>
-
-                                <!-- Form Inputs -->
-                                <div class="mt-8 pt-6 border-t border-base-200">
-                                    <h5 class="text-sm font-black italic uppercase text-base-content/70 mb-4">
-                                        Lengkapi Data Pemesanan</h5>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        <div>
-                                            <label class="text-[10px] font-bold uppercase text-base-content/50">Nama
-                                                Komunitas</label>
-                                            <input type="text"
-                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
-                                                placeholder="Nama tim (opsional)" wire:model="namaKomunitas">
-                                            @error('namaKomunitas')
-                                                <p class="text-[10px] text-error mt-1 font-bold uppercase">
-                                                    {{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div>
-                                            <label class="text-[10px] font-bold uppercase text-base-content/50">Jumlah
-                                                Pemain</label>
-                                            <input type="number" min="1"
-                                                class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
-                                                placeholder="Masukkan jumlah" wire:model="jumlahPemain">
-                                            @error('jumlahPemain')
-                                                <p class="text-[10px] text-error mt-1 font-bold uppercase">
-                                                    {{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-                                        <div>
-                                            <label
-                                                class="text-[10px] font-bold uppercase text-base-content/50">Kategori
-                                                Pemain</label>
-                                            <select wire:model.live="kategoriPemain"
-                                                class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
-                                                <option value="">PILIH KATEGORI</option>
-                                                <option value="anak-anak">ANAK-ANAK</option>
-                                                <option value="remaja">REMAJA</option>
-                                                <option value="dewasa">DEWASA</option>
-                                            </select>
-                                            @error('kategoriPemain')
-                                                <p class="text-[10px] text-error mt-1 font-bold uppercase">
-                                                    {{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div>
-                                            <label class="text-[10px] font-bold uppercase text-base-content/50">Jenis
-                                                Permainan</label>
-                                            <select wire:model.live="jenisPermainan"
-                                                class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
-                                                <option value="">PILIH JENIS</option>
-                                                <option value="fun_match">FUN MATCH</option>
-                                                <option value="latihan">LATIHAN</option>
-                                                <option value="turnamen_kecil">TURNAMEN KECIL</option>
-                                            </select>
-                                            @error('jenisPermainan')
-                                                <p class="text-[10px] text-error mt-1 font-bold uppercase">
-                                                    {{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <button
-                                        class="btn btn-info w-full mt-8 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
-                                        data-confirm-booking wire:click="confirmBooking" wire:loading.attr="disabled"
-                                        wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
-                                        aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
-                                        <span class="sm:skew-x-12">Konfirmasi Booking</span>
-                                        <span class="loading loading-dots loading-xs ml-2" wire:loading
-                                            wire:target="confirmBooking"></span>
-                                    </button>
-                                    @if ($error)
-                                        <div class="alert alert-error mt-3">
-                                            <span>{{ $error }}</span>
-                                        </div>
-                                    @endif
-                                    <button type="button" onclick="window.goBackBooking()"
-                                        class="btn btn-ghost w-full mt-4 font-black uppercase text-sm">
-                                        <span>Kembali</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div wire:loading wire:target="confirmBooking" class="fixed inset-0 z-50 bg-base-100/80 backdrop-blur-sm">
@@ -604,17 +595,15 @@
                                 </ul>
                             </div>
                         @empty
-                            <div class="text-sm font-bold uppercase text-base-content/70">
+                            <div class="text-xs sm:text-sm font-bold uppercase text-base-content/70">
                                 Checklist Setuju dengan syarat dan ketentuan.
                             </div>
                         @endforelse
                         <div class="form-control mt-4">
                             <label class="label cursor-pointer justify-start gap-3 px-1.5 sm:px-0">
-                                <input type="checkbox"
-                                    class="checkbox checkbox-primary checkbox-sm sm:checkbox-md rounded-lg"
+                                <input type="checkbox" class="checkbox checkbox-primary checkbox-xs rounded-lg"
                                     wire:model="termsAgreed">
-                                <span
-                                    class="label-text text-xs sm:text-sm font-bold uppercase leading-snug text-base-content/70">Setuju
+                                <span class="label-text text-xs uppercase leading-snug text-base-content/70">Setuju
                                     dengan syarat dan
                                     ketentuan</span>
                             </label>
@@ -629,7 +618,7 @@
                                 class="btn btn-primary w-full font-black uppercase text-xs text-white"
                                 wire:click="finalizeBooking" wire:loading.attr="disabled"
                                 wire:target="finalizeBooking">
-                                Setuju & Konfirmasi
+                                Konfirmasi
                             </button>
                         </div>
                     </div>
@@ -725,7 +714,9 @@
         @endif
     </div>
 
-    <div id="cancel-modal" class="fixed inset-0 z-[9999] grid place-items-center p-4 {{ $showCancelConfirm ? 'block' : 'hidden' }}" wire:ignore.self>
+    <div id="cancel-modal"
+        class="fixed inset-0 z-[9999] grid place-items-center p-4 {{ $showCancelConfirm ? 'block' : 'hidden' }}"
+        wire:ignore.self>
         <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" onclick="window.closeCancelBooking()"></div>
         <div
             class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
@@ -733,43 +724,43 @@
                 <div class="flex items-center gap-2 sm:gap-3">
                     <div
                         class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-error-content/20 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor" class="size-5 sm:size-6 text-error-content">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="font-black italic uppercase tracking-tighter text-lg sm:text-xl">
-                                Batalkan Pesanan?
-                            </h4>
-                            <div class="text-[9px] sm:text-[10px] font-bold uppercase text-error-content/70">
-                                Sesi Booking Akan Dihapus
-                            </div>
-                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="size-5 sm:size-6 text-error-content">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
                     </div>
-                </div>
-                <div class="p-4 sm:p-6 space-y-4">
-                    <p class="text-sm font-medium text-base-content/75 leading-relaxed">
-                        Apakah Anda yakin ingin membatalkan pesanan? Seluruh data tanggal, arena, dan jam yang telah
-                        Anda
-                        pilih akan disetel ulang (reset).
-                    </p>
-                    <div class="mt-4 grid grid-cols-2 gap-2">
-                        <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                            onclick="window.closeCancelBooking()">
-                            <span>Tidak</span>
-                        </button>
-                        <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
-                            wire:click="cancelBooking" wire:loading.attr="disabled" wire:target="cancelBooking">
-                            <span wire:loading wire:target="cancelBooking"
-                                class="loading loading-spinner loading-xs mr-2"></span>
-                            <span>Ya, Batalkan</span>
-                        </button>
+                    <div>
+                        <h4 class="font-black italic uppercase tracking-tighter text-lg sm:text-xl">
+                            Batalkan Pesanan?
+                        </h4>
+                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-error-content/70">
+                            Sesi Booking Akan Dihapus
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="p-4 sm:p-6 space-y-4">
+                <p class="text-sm font-medium text-base-content/75 leading-relaxed">
+                    Apakah Anda yakin ingin membatalkan pesanan? Seluruh data tanggal, arena, dan jam yang telah
+                    Anda
+                    pilih akan disetel ulang (reset).
+                </p>
+                <div class="mt-4 grid grid-cols-2 gap-2">
+                    <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
+                        onclick="window.closeCancelBooking()">
+                        <span>Tidak</span>
+                    </button>
+                    <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
+                        wire:click="cancelBooking" wire:loading.attr="disabled" wire:target="cancelBooking">
+                        <span wire:loading wire:target="cancelBooking"
+                            class="loading loading-spinner loading-xs mr-2"></span>
+                        <span>Ya, Batalkan</span>
+                    </button>
+                </div>
+            </div>
         </div>
+    </div>
 
     @if ($showErrorModal)
         <div class="fixed inset-0 z-[9999] grid place-items-center p-4" wire:key="error-modal">
