@@ -183,7 +183,7 @@
           updatePanelBySelected(date);
           render();
           updateCalendarSelected(date);
-          var target = root.querySelector('.carousel [data-date="' + date + '"]');
+          var target = root.querySelector('[data-date-container] [data-date="' + date + '"]');
           if (target) {
             try {
               target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -204,9 +204,9 @@
       var onTimeSlotClick = function () {
         var date = (window.__bookingCal && window.__bookingCal.selectedDate) ? window.__bookingCal.selectedDate : (container ? container.getAttribute('data-cal-selected') : null);
         if (!date) return;
-        var target = root.querySelector('.carousel [data-date="' + date + '"]');
+        var target = root.querySelector('[data-date-container] [data-date="' + date + '"]');
         if (!target) return;
-        var btn = target.closest('.carousel-item') ? target : target;
+        var btn = target;
         try {
           btn.classList.add('bg-info', 'text-info-content', 'shadow-lg', 'shadow-info/20');
         } catch (_) {}
@@ -215,7 +215,7 @@
         btn.addEventListener('click', onTimeSlotClick);
       });
 
-      var dateButtons = root.querySelectorAll('.carousel [data-date]');
+      var dateButtons = root.querySelectorAll('[data-date-container] [data-date]');
       var onDateButtonClick = function (e) {
         var btn = e.currentTarget;
         var date = btn.getAttribute('data-date');
@@ -281,7 +281,7 @@
         // scrolling on Livewire re-renders caused by other interactions.
         var requestedByDate = (window.__bookingScrollDueToDate === true);
         if (!suppress && requestedByDate) {
-          var el = root.querySelector('.carousel [data-date="' + sel + '"]');
+          var el = root.querySelector('[data-date-container] [data-date="' + sel + '"]');
           if (el) {
             try {
               el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
