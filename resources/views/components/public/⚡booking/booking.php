@@ -168,7 +168,6 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     {
         $this->tanggal = $date;
         $this->selectedSlot = null;
-        $this->fetchJadwal();
     }
 
     public function nextStep(): void
@@ -188,6 +187,8 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     $this->fetchArenas();
                 }
                 $this->isLoadingArenas = false;
+            } else {
+                $this->fetchJadwal();
             }
         } elseif ($this->currentStep === 2) {
             if (!$this->lapanganId) {
