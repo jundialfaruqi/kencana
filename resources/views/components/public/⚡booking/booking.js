@@ -324,18 +324,21 @@
       }
     } catch (_) {}
   }
-  document.addEventListener('livewire:navigated', function () {
-    window.__lastBookingStep = undefined;
-    setTimeout(function () { initBooking(); }, 50);
-  });
-  document.addEventListener('livewire:init', function () {
-    if (window.Livewire && window.Livewire.hook) {
-      window.Livewire.hook('commit', function (_ref) {
-        var succeed = _ref.succeed;
-        succeed(function () { setTimeout(function () { initBooking(); }, 50); });
-      });
-    }
-  });
+  if (!window.__bookingJsListenersAdded) {
+    window.__bookingJsListenersAdded = true;
+    document.addEventListener('livewire:navigated', function () {
+      window.__lastBookingStep = undefined;
+      setTimeout(function () { initBooking(); }, 50);
+    });
+    document.addEventListener('livewire:init', function () {
+      if (window.Livewire && window.Livewire.hook) {
+        window.Livewire.hook('commit', function (_ref) {
+          var succeed = _ref.succeed;
+          succeed(function () { setTimeout(function () { initBooking(); }, 50); });
+        });
+      }
+    });
+  }
   if (document.readyState !== 'loading') {
     initBooking();
   } else {
