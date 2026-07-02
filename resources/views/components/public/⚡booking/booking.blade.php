@@ -712,7 +712,7 @@
     </div>
 
     <div id="cancel-modal"
-        class="fixed inset-0 z-[9999] grid place-items-center p-4 {{ $showCancelConfirm ? 'block' : 'hidden' }}"
+        class="fixed inset-0 z-9999 grid place-items-center p-4 {{ $showCancelConfirm ? 'block' : 'hidden' }}"
         wire:ignore.self>
         <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" onclick="window.closeCancelBooking()"></div>
         <div
@@ -740,7 +740,7 @@
     </div>
 
     @if ($showErrorModal)
-        <div class="fixed inset-0 z-[9999] grid place-items-center p-4" wire:key="error-modal">
+        <div class="fixed inset-0 z-9999 grid place-items-center p-4" wire:key="error-modal">
             <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" wire:click="handleErrorClose"></div>
             <div
                 class="relative w-full max-w-sm mx-4 rounded-2xl bg-base-100 shadow-2xl p-6 sm:p-8 text-center overflow-hidden">
