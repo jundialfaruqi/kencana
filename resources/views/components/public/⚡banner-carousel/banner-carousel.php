@@ -7,10 +7,9 @@ use Illuminate\Http\Client\Response;
 
 new class extends Component
 {
-    public bool $readyToLoad = false;
     public array $banners = [];
 
-    public function load()
+    public function mount()
     {
         $base = config('services.api.base_url');
         $url = rtrim((string) $base, '/') . '/v1/slider';
@@ -37,7 +36,5 @@ new class extends Component
             \Illuminate\Support\Facades\Log::error('Banner carousel error: ' . $e->getMessage());
             $this->banners = [];
         }
-        $this->readyToLoad = true;
-        $this->dispatch('banner-carousel-loaded');
     }
 };

@@ -1,27 +1,5 @@
-<div id="banner-carousel-root" class="mt-4 sm:mt-8" wire:init="load" wire:transition>
-    @if (!$readyToLoad)
-        <div class="flex flex-col gap-4 sm:gap-6 animate-pulse">
-            <!-- Skeleton Header -->
-            <div class="px-2">
-                <div class="h-6 sm:h-8 bg-base-300 w-32 sm:w-48 rounded-lg mb-2"></div>
-                <div class="h-3 sm:h-4 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
-            </div>
-
-            <!-- Skeleton Carousel -->
-            <div class="relative w-full">
-                <div class="w-full bg-base-300 rounded-2xl sm:rounded-3xl aspect-video sm:aspect-21/9 shadow-2xl"></div>
-
-                <!-- Skeleton Indicators -->
-                <div class="flex justify-center w-full py-3 gap-2 absolute bottom-2 sm:bottom-4">
-                    <div class="w-2 sm:w-8 h-1 sm:h-1.5 rounded-full bg-base-200/50"></div>
-                    <div class="w-2 sm:w-8 h-1 sm:h-1.5 rounded-full bg-base-200/50"></div>
-                    <div class="w-2 sm:w-8 h-1 sm:h-1.5 rounded-full bg-base-200/50"></div>
-                    <div class="w-2 sm:w-8 h-1 sm:h-1.5 rounded-full bg-base-200/50"></div>
-                </div>
-            </div>
-        </div>
-    @else
-        <div class="flex flex-col gap-4 sm:gap-6">
+<div id="banner-carousel-root" class="mt-4 sm:mt-8">
+    <div class="flex flex-col gap-4 sm:gap-6">
             <!-- Section Header -->
             <div class="px-2">
                 <h3 class="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-base-content">
@@ -74,6 +52,5 @@
                         class="btn-next btn btn-circle btn-sm bg-black/20 border-none text-white pointer-events-auto hover:bg-info">❯</button>
                 </div>
             </div>
-        </div>
-    @endif
+    </div>
 </div>

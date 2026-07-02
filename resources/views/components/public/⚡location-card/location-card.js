@@ -88,9 +88,7 @@
         }, 100);
     };
 
-    window.addEventListener('map-ready', () => {
-        setTimeout(initMap, 100);
-    });
+
 
     document.addEventListener('livewire:navigated', () => {
         if (document.getElementById('leaflet-map')) {

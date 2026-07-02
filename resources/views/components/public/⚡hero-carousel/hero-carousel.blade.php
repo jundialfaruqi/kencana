@@ -1,6 +1,5 @@
-<div id="hero-carousel-root" class="mt-8 sm:mt-12" wire:init="load">
-    @if ($ready)
-        <div class="flex flex-col gap-4 sm:gap-6" x-transition>
+<div id="hero-carousel-root" class="mt-8 sm:mt-12">
+    <div class="flex flex-col gap-4 sm:gap-6" x-transition>
             <!-- Section Header -->
             <div class="flex items-end justify-between px-2">
                 <div>
@@ -69,31 +68,5 @@
                     </div>
                 @endforeach
             </div>
-        </div>
-    @else
-        <!-- Skeleton Loading -->
-        <div class="flex flex-col gap-4 sm:gap-6 animate-pulse">
-            <div class="flex items-end justify-between px-2">
-                <div class="h-6 sm:h-8 bg-base-300 w-32 sm:w-48 rounded-lg"></div>
-                <div class="h-3 sm:h-4 bg-base-300 w-12 sm:w-16 rounded-lg"></div>
-            </div>
-            <div
-                class="carousel carousel-center w-full bg-base-200/30 rounded-2xl sm:rounded-3xl space-x-3 sm:space-x-4 p-3 sm:p-4">
-                @for ($i = 0; $i < 5; $i++)
-                    <div class="carousel-item w-55 sm:w-72 flex flex-col gap-2 sm:gap-3">
-                        <div class="w-full h-72.5 sm:h-90 bg-base-300 rounded-xl sm:rounded-2xl"></div>
-                        <div class="px-1 sm:px-2 flex flex-col flex-1 justify-between">
-                            <div class="space-y-2">
-                                <div class="h-3 bg-base-300 w-full rounded"></div>
-                                <div class="h-3 bg-base-300 w-2/3 rounded"></div>
-                            </div>
-                            <div class="mt-auto pt-2 sm:pt-3">
-                                <div class="h-6 sm:h-8 bg-base-300 w-full rounded-lg -skew-x-12"></div>
-                            </div>
-                        </div>
-                    </div>
-                @endfor
-            </div>
-        </div>
-    @endif
+    </div>
 </div>

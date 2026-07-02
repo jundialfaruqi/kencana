@@ -3,19 +3,16 @@
 use Livewire\Component;
 
 new class extends Component {
-    public $ready = false;
     public array $lapangan = [];
     public string $imageBase = '';
 
-    public function load()
+    public function mount()
     {
         $this->imageBase = rtrim((string) config('services.api.image_base_url'), '/');
 
         $base = config('services.api.base_url');
         if (!$base) {
             $this->lapangan = [];
-            $this->ready = true;
-            $this->dispatch('hero-carousel-loaded');
             return;
         }
 
@@ -81,8 +78,5 @@ new class extends Component {
             \Illuminate\Support\Facades\Log::error('Hero carousel error: ' . $e->getMessage());
             $this->lapangan = [];
         }
-
-        $this->ready = true;
-        $this->dispatch('hero-carousel-loaded');
     }
 };

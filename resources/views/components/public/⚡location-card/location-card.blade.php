@@ -1,19 +1,5 @@
-<div id="location-card-root" class="mt-8 sm:mt-12" wire:init="load">
-    @if (!$readyToLoad)
-        <div class="flex flex-col gap-4 sm:gap-6 animate-pulse">
-            <!-- Skeleton Header -->
-            <div class="px-2">
-                <div class="h-6 sm:h-8 bg-base-300 w-32 sm:w-48 rounded-lg mb-2"></div>
-                <div class="h-3 sm:h-4 bg-base-300 w-48 sm:w-64 rounded-lg"></div>
-            </div>
-
-            <!-- Skeleton Map Container -->
-            <div class="relative w-full">
-                <div class="w-full bg-base-300 rounded-2xl sm:rounded-3xl aspect-video sm:aspect-21/9 shadow-2xl"></div>
-            </div>
-        </div>
-    @else
-        <div class="flex flex-col gap-4 sm:gap-6" x-data x-transition>
+<div id="location-card-root" class="mt-8 sm:mt-12">
+    <div class="flex flex-col gap-4 sm:gap-6" x-data x-transition>
             <!-- Section Header -->
             <div class="px-2 flex justify-between items-end">
                 <div>
@@ -71,6 +57,5 @@
                     </div>
                 </div>
             </div>
-        </div>
-    @endif
+    </div>
 </div>

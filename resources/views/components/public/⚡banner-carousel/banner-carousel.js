@@ -112,10 +112,6 @@
     // Listen for Livewire navigated (SPA navigate)
     document.addEventListener('livewire:navigated', initCarousel);
 
-    // Listen for Livewire custom event
-    window.addEventListener('banner-carousel-loaded', () => {
-        setTimeout(initCarousel, 50);
-    });
 
     // Handle re-initialization on Livewire commit (for updates/filters)
     document.addEventListener('livewire:init', () => {

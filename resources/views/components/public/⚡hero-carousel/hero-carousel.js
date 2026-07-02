@@ -7,9 +7,6 @@
   document.addEventListener('livewire:navigated', function () {
     setTimeout(function () { initHeroCarousel(); }, 50);
   });
-  window.addEventListener('hero-carousel-loaded', function () {
-    setTimeout(function () { initHeroCarousel(); }, 50);
-  });
   document.addEventListener('livewire:init', function () {
     if (window.Livewire && window.Livewire.hook) {
       window.Livewire.hook('commit', function (_ref) {
