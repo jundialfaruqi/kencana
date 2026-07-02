@@ -161,18 +161,41 @@
         } catch (_) {}
       }
       function updateCalendarSelected(date) {
-        if (!date || !calDateButtons || calDateButtons.length === 0) return;
-        calDateButtons.forEach(function (btn) {
-          var d = btn.getAttribute('data-cal-date');
-          var isSel = d === date;
-          if (isSel) {
-            btn.classList.add('bg-info', 'text-info-content');
-            btn.classList.remove('bg-base-100', 'hover:bg-base-200');
-          } else {
-            btn.classList.remove('bg-info', 'text-info-content');
-            btn.classList.add('bg-base-100');
-          }
-        });
+        if (!date) return;
+        if (calDateButtons && calDateButtons.length > 0) {
+          calDateButtons.forEach(function (btn) {
+            var d = btn.getAttribute('data-cal-date');
+            var isSel = d === date;
+            if (isSel) {
+              btn.classList.add('bg-info', 'text-info-content');
+              btn.classList.remove('bg-base-100', 'hover:bg-base-200');
+            } else {
+              btn.classList.remove('bg-info', 'text-info-content');
+              btn.classList.add('bg-base-100');
+            }
+          });
+        }
+        
+        var dateButtons = root.querySelectorAll('[data-date-container] [data-date]');
+        if (dateButtons && dateButtons.length > 0) {
+          dateButtons.forEach(function (btn) {
+            var d = btn.getAttribute('data-date');
+            var isSel = d === date;
+            if (isSel) {
+              btn.classList.add('bg-info', 'text-info-content', 'shadow-lg', 'shadow-info/20');
+              btn.classList.remove('bg-base-100', 'hover:bg-base-200', 'text-base-content/70');
+            } else {
+              btn.classList.remove('bg-info', 'text-info-content', 'shadow-lg', 'shadow-info/20');
+              btn.classList.add('bg-base-100', 'hover:bg-base-200', 'text-base-content/70');
+            }
+          });
+        }
+
+        var hiddenInput = document.getElementById('hidden-tanggal-input');
+        if (hiddenInput && hiddenInput.value !== date) {
+          hiddenInput.value = date;
+          hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
       }
       var onCalDateClick = function (e) {
         var btn = e.currentTarget;

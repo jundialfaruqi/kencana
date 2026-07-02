@@ -50,6 +50,7 @@
                     <!-- 1. Select Date -->
                     @if ($currentStep === 1)
                         <section>
+                            <input type="hidden" wire:model="tanggal" id="hidden-tanggal-input">
                             <div class="flex items-center justify-between mb-4 px-2">
                                 <div class="flex items-center gap-1">
                                     <h3 class="text-xl font-black italic uppercase tracking-tight">Pilih Tanggal
@@ -101,10 +102,7 @@
                                                     <div class="h-8"></div>
                                                 @endfor
                                                 @for ($d = 1; $d <= $calCurrDays; $d++)
-                                                    <button
-                                                        wire:click="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"
-                                                        wire:loading.attr="disabled"
-                                                        wire:target="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"
+                                                    <button type="button"
                                                         data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
                                                         class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
@@ -125,10 +123,7 @@
                                                     <div class="h-8"></div>
                                                 @endfor
                                                 @for ($d = 1; $d <= $calNextDays; $d++)
-                                                    <button
-                                                        wire:click="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
-                                                        wire:loading.attr="disabled"
-                                                        wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
+                                                    <button type="button"
                                                         data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
                                                         class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
@@ -151,9 +146,7 @@
                                 class="grid grid-cols-4 lg:grid-cols-12 gap-2 sm:gap-3 w-full bg-base-200/30 rounded-2xl p-4">
                                 @foreach ($carouselDates as $dateStr)
                                     <div>
-                                        <button wire:click="selectDate('{{ $dateStr }}')"
-                                            wire:loading.attr="disabled"
-                                            wire:target="selectDate('{{ $dateStr }}')"
+                                        <button type="button"
                                             data-date="{{ $dateStr }}"
                                             class="flex flex-col items-center justify-center w-full h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
                                             <span class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
