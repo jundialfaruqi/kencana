@@ -25,86 +25,81 @@
 
     <div class="mt-6">
 
-            @if ($error)
-                <div class="alert alert-error">
-                    <span>{{ $error }}</span>
-                </div>
-            @else
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    @foreach ($lapangan as $lp)
-                        <div class="card rounded-xl bg-base-100 shadow-2xl">
-                            <figure>
-                                @php $cover = data_get($lp, 'coverUrl'); @endphp
-                                @if ($cover)
-                                    <div class="w-full overflow-hidden aspect-video bg-base-200 relative">
-                                        <img src="{{ $cover }}" class="w-full h-full object-cover"
-                                            alt="Cover Lapangan" />
-                                        @if (data_get($lp, 'status') !== 'open')
-                                            <div
-                                                class="absolute inset-0 bg-black/70 backdrop-blur-sm pointer-events-none">
-                                            </div>
-                                        @endif
-                                    </div>
-                                @else
-                                    <div
-                                        class="w-full overflow-hidden aspect-video bg-base-200 flex items-center justify-center">
-                                        <span class="text-base-content/60 text-sm">no-image</span>
-                                    </div>
-                                @endif
-                            </figure>
-                            <div class="card-body">
-                                <div class="flex items-start justify-between gap-4">
-                                    <div>
-                                        <h3 class="card-title text-base">
-                                            {{ data_get($lp, 'nama_lapangan', '-') }}
-                                        </h3>
-                                        <p class="text-xs text-base-content/70 mt-1">
-                                            @if ((data_get($lp, 'status') ?? '') === 'open')
-                                                <p class="text-xs font-medium text-base-content line-clamp-2">
-                                                    {{ data_get($lp, 'deskripsi', '-') }}
-                                                </p>
-                                            @else
-                                                <p class="text-xs font-medium text-base-content">
-                                                    {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
-                                                </p>
-                                            @endif
-                                        </p>
-                                    </div>
-                                    <span
-                                        class="{{ data_get($lp, 'status') === 'open' ? 'bg-success text-success-content' : 'bg-warning text-warning-content' }} rounded-md text-center uppercase italic font-bold text-[8px] sm:text-[10px] px-2 py-1 -skew-x-12 shrink-0">
-                                        {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
-                                    </span>
+        @if ($error)
+            <div class="alert alert-error">
+                <span>{{ $error }}</span>
+            </div>
+        @else
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                @foreach ($lapangan as $lp)
+                    <div class="card rounded-xl bg-base-100 shadow-2xl">
+                        <figure>
+                            @php $cover = data_get($lp, 'coverUrl'); @endphp
+                            @if ($cover)
+                                <div class="w-full overflow-hidden aspect-video bg-base-200 relative">
+                                    <img src="{{ $cover }}" class="w-full h-full object-cover"
+                                        alt="Cover Lapangan" />
+                                    @if (data_get($lp, 'status') !== 'open')
+                                        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm pointer-events-none">
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="mt-auto pt-3 space-y-2 text-xs">
-                                    @php $gmap = data_get($lp, 'gmap'); @endphp
-                                    <div class="flex items-center gap-2 justify-start sm:justify-start">
-                                        @if (!empty($gmap))
-                                            <a wire:navigate
-                                                href="/detail-lapangan/{{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
-                                                class="btn btn-sm btn-warning text-white -skew-x-12 flex-1 text-[10px]">
-                                                Selengkapnya
-                                            </a>
-                                            <a href="{{ $gmap }}" target="_blank" rel="noopener"
-                                                class="btn btn-sm btn-success border-base-300 -skew-x-12 flex-1 text-[10px]">
-                                                Gmaps
-                                            </a>
-                                        @endif
-                                        <a wire:navigate
-                                            href="/booking?lapangan={{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
-                                            class="btn btn-sm btn-info text-white -skew-x-12 flex-1 text-[10px] {{ data_get($lp, 'status') !== 'open' ? 'btn-disabled pointer-events-none opacity-50' : '' }}"
-                                            aria-disabled="{{ data_get($lp, 'status') !== 'open' ? 'true' : 'false' }}">
-                                            @if ((data_get($lp, 'status') ?? '') === 'open')
-                                                Pesan Arena
-                                            @else
+                            @else
+                                <div
+                                    class="w-full overflow-hidden aspect-video bg-base-200 flex items-center justify-center">
+                                    <span class="text-base-content/60 text-sm">no-image</span>
+                                </div>
+                            @endif
+                        </figure>
+                        <div class="card-body">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <h3 class="card-title text-base">
+                                        {{ data_get($lp, 'nama_lapangan', '-') }}
+                                    </h3>
+                                    <p class="text-xs text-base-content/70 mt-1">
+                                        @if ((data_get($lp, 'status') ?? '') === 'open')
+                                            <p class="text-xs font-medium text-base-content line-clamp-2">
+                                                {{ data_get($lp, 'deskripsi', '-') }}
+                                            </p>
+                                        @else
+                                            <p class="text-xs font-medium text-base-content">
                                                 {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
-                                            @endif
+                                            </p>
+                                        @endif
+                                    </p>
+                                </div>
+                                <span
+                                    class="{{ data_get($lp, 'status') === 'open' ? 'bg-success text-success-content' : 'bg-warning text-warning-content' }} rounded-md text-center uppercase italic font-bold text-[8px] sm:text-[10px] px-2 py-1 -skew-x-12 shrink-0">
+                                    {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
+                                </span>
+                            </div>
+                            <div class="mt-auto pt-3 space-y-2 text-xs">
+                                @php $gmap = data_get($lp, 'gmap'); @endphp
+                                <div class="flex items-center gap-2 justify-start sm:justify-start">
+                                    @if (!empty($gmap))
+                                        <a wire:navigate
+                                            href="/detail-lapangan/{{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
+                                            class="btn btn-sm btn-warning text-white -skew-x-12 flex-1 text-[10px]">
+                                            Selengkapnya
                                         </a>
-                                    </div>
+                                    @endif
+                                    <a wire:navigate
+                                        href="/booking?lapangan={{ \Illuminate\Support\Str::slug(data_get($lp, 'nama_lapangan', '')) }}"
+                                        class="btn btn-sm btn-info text-white -skew-x-12 flex-1 text-[10px] {{ data_get($lp, 'status') !== 'open' ? 'btn-disabled pointer-events-none opacity-50' : '' }}"
+                                        aria-disabled="{{ data_get($lp, 'status') !== 'open' ? 'true' : 'false' }}">
+                                        @if ((data_get($lp, 'status') ?? '') === 'open')
+                                            Pesan Arena
+                                        @else
+                                            {{ data_get($lp, 'status_label', ucfirst(data_get($lp, 'status', '-'))) }}
+                                        @endif
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>
