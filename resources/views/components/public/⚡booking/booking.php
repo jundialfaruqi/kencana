@@ -499,7 +499,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $nowStr = $this->getCurrentTimeStr();
 
         if ($slotTimeStr <= $nowStr) {
-            return 'Lewat';
+            return 'Tidak Tersedia';
         }
 
         return $slot['status'] ?? '';

@@ -38,7 +38,7 @@
                 Tanggal</li>
             <li data-step-nav="2"
                 class="step {{ $currentStep >= 2 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
-                Arena & Jam</li>
+                Jam</li>
             <li data-step-nav="3"
                 class="step {{ $currentStep >= 3 ? 'step-info' : '' }} text-[10px] sm:text-xs font-bold uppercase">
                 Konfirmasi</li>
@@ -181,14 +181,13 @@
 
                     <div class="w-full pb-6 px-2 space-y-4">
                         <!-- Selected Date Card -->
-                        <div class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
+                        <div class="w-full p-4 rounded-2xl bg-base-100 shadow-lg transition-all">
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <span
-                                        class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
+                                    <span class="text-[9px] font-black uppercase rounded text-info">
                                         Tanggal
                                     </span>
-                                    <h4 class="text-base font-black italic uppercase mt-1 leading-none">
+                                    <h4 class="text-base font-black  mt-1 leading-none">
                                         {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
                                     </h4>
                                 </div>
@@ -202,15 +201,13 @@
                         </div>
 
                         @if ($lapanganId)
-                            <div
-                                class="w-full p-4 rounded-2xl bg-base-100 border-2 border-info shadow-lg transition-all">
+                            <div class="w-full p-4 rounded-2xl bg-base-100 shadow-lg transition-all">
                                 <div class="flex justify-between items-start">
                                     <div>
-                                        <span
-                                            class="text-[9px] font-black uppercase italic px-1.5 py-0.5 rounded bg-info text-info-content">
+                                        <span class="text-[9px] font-black uppercase text-info">
                                             Arena
                                         </span>
-                                        <h4 class="text-base font-black italic uppercase mt-1 leading-none">
+                                        <h4 class="text-base font-black uppercase mt-1 leading-none">
                                             {{ $namaLapangan }}
                                         </h4>
                                     </div>
@@ -245,7 +242,7 @@
                                                 data-time-slot
                                                 wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
                                                 wire:loading.attr="disabled" wire:target="selectTime"
-                                                class="py-2 rounded-lg font-black italic text-[16px] md:text-[17px] transition-all
+                                                class="py-2 rounded-lg font-black text-[16px] md:text-[17px] transition-all
                                                             {{ !$this->slotIsAvailable($slot)
                                                                 ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
                                                                 : ($this->slotIsSelected($slot)
@@ -427,16 +424,16 @@
 
             <div id="step-3" class="w-full max-w-xl mx-auto {{ $currentStep === 3 ? 'block' : 'hidden' }}">
                 <div class="space-y-6">
-                    <div class="bg-base-100 rounded-3xl border-2 border-info overflow-hidden shadow-2xl">
-                        <div class="bg-info p-6 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-info-content/20 flex items-center justify-center">
+                    <div class="bg-base-100 rounded-3xl overflow-hidden shadow-2xl">
+                        <div class="p-6 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2" stroke="currentColor" class="size-6 text-info-content">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
                                 </svg>
                             </div>
-                            <h4 class="text-info-content font-black italic uppercase tracking-tighter text-xl">
+                            <h4 class="text-info-content font-black uppercase text-xl">
                                 Booking Summary
                             </h4>
                         </div>
@@ -444,19 +441,19 @@
                             <!-- Summary Info -->
                             <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                 <span class="text-xs font-bold uppercase text-base-content/50">Arena</span>
-                                <span class="font-black italic uppercase text-sm">
+                                <span class="font-black uppercase text-sm">
                                     {{ $namaLapangan ?: '-' }}
                                 </span>
                             </div>
                             <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                 <span class="text-xs font-bold uppercase text-base-content/50">Tanggal</span>
-                                <span class="font-black italic uppercase text-sm">
+                                <span class="font-black uppercase text-sm">
                                     {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
                                 </span>
                             </div>
                             <div class="flex justify-between items-center py-2 border-b border-base-200 border-dashed">
                                 <span class="text-xs font-bold uppercase text-base-content/50">Jam</span>
-                                <span class="font-black italic uppercase text-sm">
+                                <span class="font-black uppercase text-sm">
                                     {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') : '-' }}
                                 </span>
                             </div>
@@ -470,11 +467,11 @@
 
                             <!-- Form Inputs -->
                             <div class="mt-8 pt-6 border-t border-base-200">
-                                <h5 class="text-sm font-black italic uppercase text-base-content/70 mb-4">
+                                <h5 class="text-sm font-black uppercase text-base-content/90 mb-4">
                                     Lengkapi Data Pemesanan</h5>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div>
-                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Nama
+                                        <label class="text-[10px] font-bold uppercase text-base-content/90">Nama
                                             Komunitas</label>
                                         <input type="text"
                                             class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
@@ -485,7 +482,7 @@
                                         @enderror
                                     </div>
                                     <div>
-                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Jumlah
+                                        <label class="text-[10px] font-bold uppercase text-base-content/90">Jumlah
                                             Pemain</label>
                                         <input type="number" min="1"
                                             class="input input-bordered input-sm w-full mt-1 text-white focus-within:outline-none focus-within:ring-0 border-0 bg-base-200 placeholder:text-base-content/30"
@@ -498,7 +495,7 @@
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
                                     <div>
-                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Kategori
+                                        <label class="text-[10px] font-bold uppercase text-base-content/90">Kategori
                                             Pemain</label>
                                         <select wire:model.live="kategoriPemain"
                                             class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
@@ -513,7 +510,7 @@
                                         @enderror
                                     </div>
                                     <div>
-                                        <label class="text-[10px] font-bold uppercase text-base-content/50">Jenis
+                                        <label class="text-[10px] font-bold uppercase text-base-content/90">Jenis
                                             Permainan</label>
                                         <select wire:model.live="jenisPermainan"
                                             class="select select-bordered select-sm w-full mt-1 bg-base-200 text-white font-bold uppercase text-[11px] focus:outline-none focus:ring-0 border-0">
@@ -529,11 +526,11 @@
                                     </div>
                                 </div>
                                 <button
-                                    class="btn btn-info w-full mt-8 -skew-x-12 italic font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
+                                    class="btn btn-info w-full mt-8 font-black uppercase text-sm sm:text-lg h-12 sm:h-14 shadow-lg shadow-info/20"
                                     data-confirm-booking wire:click="confirmBooking" wire:loading.attr="disabled"
                                     wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
                                     aria-disabled="{{ ($listJadwalStatus ?? '') === 'libur' ? 'true' : 'false' }}">
-                                    <span class="sm:skew-x-12">Konfirmasi Booking</span>
+                                    <span>Konfirmasi Booking</span>
                                     <span class="loading loading-dots loading-xs ml-2" wire:loading
                                         wire:target="confirmBooking"></span>
                                 </button>
@@ -719,45 +716,25 @@
         wire:ignore.self>
         <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm" onclick="window.closeCancelBooking()"></div>
         <div
-            class="relative w-full max-w-sm mx-4 rounded-2xl sm:rounded-3xl border-2 border-error bg-base-100 shadow-2xl overflow-hidden">
-            <div class="bg-error p-4 sm:p-6 text-error-content">
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <div
-                        class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-error-content/20 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" class="size-5 sm:size-6 text-error-content">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-black italic uppercase tracking-tighter text-lg sm:text-xl">
-                            Batalkan Pesanan?
-                        </h4>
-                        <div class="text-[9px] sm:text-[10px] font-bold uppercase text-error-content/70">
-                            Sesi Booking Akan Dihapus
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 sm:p-6 space-y-4">
-                <p class="text-sm font-medium text-base-content/75 leading-relaxed">
-                    Apakah Anda yakin ingin membatalkan pesanan? Seluruh data tanggal, arena, dan jam yang telah
-                    Anda
-                    pilih akan disetel ulang (reset).
-                </p>
-                <div class="mt-4 grid grid-cols-2 gap-2">
-                    <button type="button" class="btn btn-ghost w-full font-black uppercase text-xs"
-                        onclick="window.closeCancelBooking()">
-                        <span>Tidak</span>
-                    </button>
-                    <button type="button" class="btn btn-error w-full font-black uppercase text-xs text-white"
-                        wire:click="cancelBooking" wire:loading.attr="disabled" wire:target="cancelBooking">
-                        <span wire:loading wire:target="cancelBooking"
-                            class="loading loading-spinner loading-xs mr-2"></span>
-                        <span>Ya, Batalkan</span>
-                    </button>
-                </div>
+            class="relative w-full max-w-sm mx-4 rounded-3xl border border-zinc-800 bg-black shadow-2xl p-6 text-left">
+            <h3 class="font-black text-xl text-white uppercase tracking-tight">Batalkan Pesanan?</h3>
+            <p class="py-4 text-sm text-zinc-400 leading-relaxed">
+                Apakah Anda yakin ingin membatalkan pesanan? Seluruh data tanggal, arena, dan jam yang telah Anda pilih
+                akan disetel ulang (reset).
+            </p>
+            <div class="flex justify-end gap-3 mt-4">
+                <button type="button"
+                    class="px-5 py-2.5 text-zinc-400 hover:text-zinc-200 font-semibold text-sm transition-colors"
+                    onclick="window.closeCancelBooking()">
+                    <span>Batal</span>
+                </button>
+                <button type="button"
+                    class="px-5 py-2.5 bg-red-950/20 hover:bg-red-900/30 border border-red-900/30 text-red-500 rounded-2xl font-bold transition-all text-sm flex items-center justify-center"
+                    wire:click="cancelBooking" wire:loading.attr="disabled" wire:target="cancelBooking">
+                    <span wire:loading wire:target="cancelBooking"
+                        class="loading loading-spinner loading-xs mr-2"></span>
+                    <span>Ya, Batalkan</span>
+                </button>
             </div>
         </div>
     </div>

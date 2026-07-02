@@ -1,4 +1,4 @@
-<div id="banner-carousel-root" class="mt-4 sm:mt-8">
+<div id="banner-carousel-root" class="mt-0 sm:mt-8">
     <div class="flex flex-col gap-4 sm:gap-6">
         <!-- Banner Carousel with Indicators -->
         <div class="relative w-full group">
