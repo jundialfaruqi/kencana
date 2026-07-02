@@ -1,6 +1,6 @@
 (function () {
   function initBooking() {
-    var root = document.querySelector('[wire\\:init="load"]');
+    var root = document.getElementById('booking-root');
     if (!root) return;
     root.dataset.bookingInitialized = 'true';
 
@@ -303,9 +303,6 @@
   }
   document.addEventListener('livewire:navigated', function () {
     window.__lastBookingStep = undefined;
-    setTimeout(function () { initBooking(); }, 50);
-  });
-  window.addEventListener('booking-loaded', function () {
     setTimeout(function () { initBooking(); }, 50);
   });
   document.addEventListener('livewire:init', function () {

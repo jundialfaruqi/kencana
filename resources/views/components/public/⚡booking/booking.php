@@ -26,7 +26,6 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     #[Url(as: 'lapangan')]
     public ?string $lapanganSlug = null;
 
-    public bool $ready = false;
 
     #[LivewireSession]
     public string $tanggal = '';
@@ -79,7 +78,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public array $carouselDates = [];
     public ?string $listJadwalStatus = null;
 
-    public function load()
+    public function mount()
     {
         if (!Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
@@ -162,7 +161,6 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 $this->dispatch('load-arenas');
             }
         }
-        $this->ready = true;
     }
 
     public function selectDate(string $date)
