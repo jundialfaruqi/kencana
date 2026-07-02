@@ -92,7 +92,7 @@
                                                     <span data-cal-label="next"
                                                         class="hidden">{{ $calNextLabel }}</span>
                                                 </div>
-                                                <button type="button" class="btn btn-ghost btn-xs"
+                                                <button type="button" class="btn btn-ghost btn-xs {{ sprintf('%s-01', $calNextMonth) > $maxDate ? 'hidden' : '' }}"
                                                     data-cal-next>&rsaquo;</button>
                                             </div>
                                             <div
