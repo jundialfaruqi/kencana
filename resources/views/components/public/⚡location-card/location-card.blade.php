@@ -31,31 +31,6 @@
             wire:ignore data-api-url="{{ rtrim($apiBase, '/') }}/v1/lokasi">
             <!-- Map Element -->
             <div id="leaflet-map" class="w-full h-full z-0"></div>
-
-            <!-- Address Overlay (Desktop Only) -->
-            <div
-                class="hidden sm:block absolute top-6 left-6 z-10 max-w-xs bg-base-100/90 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-xl pointer-events-none">
-                <div class="flex items-start gap-3">
-                    <div class="bg-info/10 p-2 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" class="size-5 text-info">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-black uppercase text-xs text-base-content">
-                            <span>Lokasi KENCANA ARENA</span>
-                        </h4>
-                        <div>
-                            <span class="text-[10px] font-bold text-base-content/70">Cek lokasi Kencana Arena
-                                disini</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
