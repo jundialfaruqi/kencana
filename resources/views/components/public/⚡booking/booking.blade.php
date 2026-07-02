@@ -118,8 +118,8 @@
                                                             data-cal-date="{{ sprintf('%s-%02d', $calCurrMonth, $d) }}"
                                                             class="h-8 rounded-md text-xs font-bold transition-all
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
-                                                    {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
-                                                            {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate ? 'disabled aria-disabled=true' : '' }}>
+                                                    {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate || sprintf('%s-%02d', $calCurrMonth, $d) > $maxDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
+                                                            {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate || sprintf('%s-%02d', $calCurrMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
                                                             <span wire:loading.remove
                                                                 wire:target="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')">{{ $d }}</span>
                                                             <span class="loading loading-dots loading-xs" wire:loading
@@ -144,7 +144,9 @@
                                                             wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"
                                                             data-cal-date="{{ sprintf('%s-%02d', $calNextMonth, $d) }}"
                                                             class="h-8 rounded-md text-xs font-bold transition-all
-                                                    {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}">
+                                                    {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
+                                                    {{ sprintf('%s-%02d', $calNextMonth, $d) < $todayDate || sprintf('%s-%02d', $calNextMonth, $d) > $maxDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
+                                                            {{ sprintf('%s-%02d', $calNextMonth, $d) < $todayDate || sprintf('%s-%02d', $calNextMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
                                                             <span wire:loading.remove
                                                                 wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')">{{ $d }}</span>
                                                             <span class="loading loading-dots loading-xs" wire:loading

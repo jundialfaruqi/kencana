@@ -74,7 +74,8 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public $calNextStartDow;
     public $calCurrMonth;
     public $calNextMonth;
-    public $todayDate;
+    public string $todayDate = '';
+    public string $maxDate = '';
     public array $carouselDates = [];
     public ?string $listJadwalStatus = null;
 
@@ -132,12 +133,10 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->calCurrMonth = $curr->format('Y-m');
         $this->calNextMonth = $next->format('Y-m');
         $this->todayDate = $today->toDateString();
-        $start = $today->copy()->startOfDay();
-        $end = $start->copy()->addMonthNoOverflow()->endOfMonth()->startOfDay();
-        $days = $start->diffInDays($end) + 1;
+        $this->maxDate = $today->copy()->addDays(29)->toDateString();
         $this->carouselDates = [];
-        for ($i = 0; $i < $days; $i++) {
-            $d = $start->copy()->addDays($i);
+        for ($i = 0; $i < 30; $i++) {
+            $d = $today->copy()->addDays($i);
             $this->carouselDates[] = $d->toDateString();
         }
         if ($this->lapanganId) {
