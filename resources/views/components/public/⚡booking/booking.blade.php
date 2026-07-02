@@ -110,10 +110,7 @@
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
                                                     {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate || sprintf('%s-%02d', $calCurrMonth, $d) > $maxDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
                                                         {{ sprintf('%s-%02d', $calCurrMonth, $d) < $todayDate || sprintf('%s-%02d', $calCurrMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
-                                                        <span wire:loading.remove
-                                                            wire:target="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')">{{ $d }}</span>
-                                                        <span class="loading loading-dots loading-xs" wire:loading
-                                                            wire:target="selectDate('{{ sprintf('%s-%02d', $calCurrMonth, $d) }}')"></span>
+                                                        <span>{{ $d }}</span>
                                                     </button>
                                                 @endfor
                                             </div>
@@ -137,10 +134,7 @@
                                                     {{ sprintf('%s-%02d', $calNextMonth, $d) === $tanggal ? 'bg-info text-info-content' : 'bg-base-100 hover:bg-base-200' }}
                                                     {{ sprintf('%s-%02d', $calNextMonth, $d) < $todayDate || sprintf('%s-%02d', $calNextMonth, $d) > $maxDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
                                                         {{ sprintf('%s-%02d', $calNextMonth, $d) < $todayDate || sprintf('%s-%02d', $calNextMonth, $d) > $maxDate ? 'disabled aria-disabled=true' : '' }}>
-                                                        <span wire:loading.remove
-                                                            wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')">{{ $d }}</span>
-                                                        <span class="loading loading-dots loading-xs" wire:loading
-                                                            wire:target="selectDate('{{ sprintf('%s-%02d', $calNextMonth, $d) }}')"></span>
+                                                        <span>{{ $d }}</span>
                                                     </button>
                                                 @endfor
                                             </div>
@@ -162,14 +156,9 @@
                                             wire:target="selectDate('{{ $dateStr }}')"
                                             data-date="{{ $dateStr }}"
                                             class="flex flex-col items-center justify-center w-full h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
-                                            <span wire:loading.remove wire:target="selectDate('{{ $dateStr }}')"
-                                                class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
-                                            <span wire:loading.remove wire:target="selectDate('{{ $dateStr }}')"
-                                                class="text-xl font-black italic">{{ \Carbon\Carbon::parse($dateStr)->format('d') }}</span>
-                                            <span wire:loading.remove wire:target="selectDate('{{ $dateStr }}')"
-                                                class="text-[9px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('M') }}</span>
-                                            <span wire:loading wire:target="selectDate('{{ $dateStr }}')"
-                                                class="loading loading-dots loading-xs"></span>
+                                            <span class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
+                                            <span class="text-xl font-black italic">{{ \Carbon\Carbon::parse($dateStr)->format('d') }}</span>
+                                            <span class="text-[9px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('M') }}</span>
                                         </button>
                                     </div>
                                 @endforeach
