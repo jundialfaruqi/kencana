@@ -30,12 +30,6 @@
 
 <body>
     <div data-theme="chaotictoast" class="min-h-screen bg-base-200 relative overflow-x-hidden">
-        <!-- Main Background with Smooth Overlay -->
-        {{-- <div class="fixed inset-0 z-0">
-            <img src="{{ asset('assets/images/landing-pages/bg.webp') }}"
-                class="w-full h-full object-cover object-top opacity-40 grayscale-[0.3]" alt="Background">
-            <div class="absolute inset-0 bg-linear-to-b from-base-100/40 via-base-100/85 to-base-100/95"></div>
-        </div> --}}
 
         <div class="relative z-10 flex flex-col min-h-screen">
             <div id="navbar"
