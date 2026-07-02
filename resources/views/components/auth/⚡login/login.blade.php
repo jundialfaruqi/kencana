@@ -1,26 +1,28 @@
-<div data-theme="chaotictoast" wire:init="load" x-data="{ showPassword: false }"
+<div data-theme="goldcandy" wire:init="load" x-data="{ showPassword: false }"
     class="min-h-screen flex items-center justify-center bg-base-300 p-4 font-sans transition-colors duration-500 overflow-hidden relative">
 
-    <div wire:key="login-card"
-        class="card w-full max-w-md bg-base-200 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative z-10">
+    <div wire:key="login-card" class="card w-full max-w-md bg-base-200 overflow-hidden relative z-10">
 
         @if ($ready)
             <div class="card-body p-8" wire:key="login-form-container">
-                <div class="flex flex-col items-center mb-8">
+                <div class="flex flex-col mb-8">
                     <div>
                         <!-- Logo KENCANA Arena -->
                         <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
-                            alt="Logo Kencana Mini Soccer" class="h-15 w-15 sm:h-25 sm:w-25 object-contain">
+                            alt="Logo Kencana Mini Soccer" class="h-13 w-13 sm:h-23 sm:w-23 object-contain">
                     </div>
                     <h3 class="text-xl sm:text-2xl font-bold text-base-content">
                         Kencana Arena
                     </h3>
+                    <h6 class="text-xs text-base-content/50 mt-2">
+                        Silahkan masuk untuk mengakses layanan dan fitur yang tersedia
+                    </h6>
                 </div>
 
                 <form class="space-y-6" wire:submit.prevent="authenticate">
                     @if ($errors->has('loginError'))
                         <div
-                            class="alert bg-warning/20 border border-warning text-white shadow-lg py-2 text-xs font-bold italic uppercase tracking-wider">
+                            class="alert bg-warning/20 border border-warning text-white shadow-lg py-2 text-xs font-bold uppercase tracking-wider">
                             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-5 w-5"
                                 fill="none" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -43,11 +45,11 @@
                             </span>
                         </label>
                         <input type="text" wire:model="email" placeholder="contoh@email.com"
-                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full italic placeholder:text-base-content/50 @error('email') input-warning @enderror"
+                            class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full placeholder:text-base-content/50 @error('email') input-warning @enderror"
                             autofocus />
                         @error('email')
                             <label class="label p-0 mt-1">
-                                <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
+                                <span class="label-text-alt text-warning text-xs">{{ $message }}</span>
                             </label>
                         @enderror
                     </div>
@@ -67,7 +69,7 @@
                         <div class="relative group/input">
                             <input :type="showPassword ? 'text' : 'password'" wire:model="password"
                                 placeholder="••••••••"
-                                class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 italic placeholder:text-base-content/50 @error('password') input-warning @enderror" />
+                                class="input input-bordered focus:input-info bg-base-200/50 w-full pr-12 placeholder:text-base-content/50 @error('password') input-warning @enderror" />
                             <div class="absolute right-4 top-2">
                                 <label class="swap text-base-content/30 hover:text-info transition-colors">
                                     <input type="checkbox" x-model="showPassword" />
@@ -90,62 +92,36 @@
                         </div>
                         @error('password')
                             <label class="label">
-                                <span class="label-text-alt text-warning italic text-xs">{{ $message }}</span>
+                                <span class="label-text-alt text-warning text-xs">{{ $message }}</span>
                             </label>
                         @enderror
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3 mt-4">
+                    <div class="flex flex-col gap-2 mt-4">
                         <button type="submit" wire:loading.attr="disabled"
-                            class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
+                            class="btn btn-info w-full text-[10px] sm:text-xs font-bold uppercase group">
                             <span wire:loading.remove>Masuk</span>
                             <span wire:loading>Authenticating...</span>
-                            <svg wire:loading.remove xmlns="http://www.w3.org/2000/svg"
-                                class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
                         </button>
+
+                        <div class="divider text-xs opacity-50 my-0">atau</div>
+
                         <a href="{{ route('register') }}" wire:navigate
-                            class="btn btn-warning text-[10px] -skew-x-12 sm:text-xs font-black italic uppercase tracking-widest shadow-lg group">
-                            Buat Akun
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor" class="size-4 ml-1">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-                            </svg>
+                            class="btn btn-outline border border-info/50 w-full text-[10px] sm:text-xs font-bold uppercase group">
+                            Buat Akun Baru
                         </a>
                     </div>
-
-                    <a href="/" wire:navigate
-                        class="text-[10px] sm:text-xs font-black italic uppercase tracking-widest text-info hover:text-info/80 transition-colors flex items-center justify-center gap-2 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="2.5" stroke="currentColor"
-                            class="size-3 transition-transform group-hover:-translate-x-1">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                        </svg>
-                        Back to Home
-                    </a>
                 </form>
 
-                <div class="flex items-center justify-center gap-4 sm:gap-5 mt-8">
+                <div class="flex items-center justify-center gap-4 sm:gap-5 mt-12">
                     <img src="{{ asset('assets/images/logo/aman.webp') }}" alt="Aman"
-                        class="h-4.5 sm:h-5.5 object-contain">
+                        class="h-4 sm:h-5.5 object-contain">
                     <img src="{{ asset('assets/images/logo/bangun-negeri.webp') }}" alt="Bangun Negeri"
-                        class="h-4.5 sm:h-5.5 object-contain">
+                        class="h-4 sm:h-5.5 object-contain">
                     <img src="{{ asset('assets/images/logo/dispora.webp') }}" alt="Dispora"
-                        class="h-4.5 sm:h-5.5 object-contain">
+                        class="h-4 sm:h-5.5 object-contain">
                     <img src="{{ asset('assets/images/logo/logo-diskominfo-pekanbaru.webp') }}" alt="Diskominfo"
-                        class="h-4.5 sm:h-5.5 object-contain">
-                </div>
-
-                <div class="mt-2 text-center border-t border-white/10 pt-3">
-                    <p
-                        class="text-[10px] sm:text-xs font-medium opacity-50 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
-                        Powered by DISKOMINFOTIKSAN
-                        Pekanbaru</p>
+                        class="h-4 sm:h-5.5 object-contain">
                 </div>
             </div>
         @endif

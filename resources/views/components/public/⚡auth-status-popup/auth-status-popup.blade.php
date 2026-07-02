@@ -10,7 +10,7 @@
         </div> --}}
 
         <div
-            class="fixed bottom-18 sm:bottom-25 left-4 right-4 sm:max-w-lg sm:mx-auto z-50 p-3 sm:p-3 bg-base-300 text-base-content text-start flex items-center justify-between rounded-xl shadow-xl text-[11px] md:text-sm font-normal sm:font-bold gap-2">
+            class="fixed bottom-18 sm:bottom-30 left-4 right-4 sm:max-w-lg sm:mx-auto z-50 p-3 sm:p-3 bg-base-300 text-base-content text-start flex items-center justify-between rounded-xl shadow-xl text-[11px] md:text-sm font-normal sm:font-bold gap-2">
             {{-- Tambahkan 'relative' di sini --}}
             <span>Masuk / Daftar untuk akses fitur lengkap...</span>
             <div class="flex gap-2">
