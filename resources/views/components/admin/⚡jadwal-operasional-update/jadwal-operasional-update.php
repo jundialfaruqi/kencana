@@ -200,12 +200,12 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
             $this->httpStatus = $response->status();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => (string) ($result['message'] ?? 'Jadwal operasional berhasil diperbarui'),
                     'type' => 'success',
                 ]);
-                $this->fetch();
+                $this->redirect('/manajemen-jadwal-operasional', navigate: true);
                 return;
             }
             $flatMessages = [];

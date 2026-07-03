@@ -90,15 +90,12 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
             $this->httpStatus = $response->status();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => (string) ($result['message'] ?? 'Jadwal operasional berhasil dibuat'),
                     'type' => 'success',
                 ]);
-                $this->lapangan_id = null;
-                $this->hari = null;
-                $this->buka = null;
-                $this->tutup = null;
+                $this->redirect('/manajemen-jadwal-operasional', navigate: true);
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
