@@ -148,24 +148,12 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
 
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->reset([
-                    'nama_lapangan',
-                    'deskripsi',
-                    'alamat',
-                    'gmap',
-                    'no_tlp',
-                    'status',
-                    'latitude',
-                    'longitude',
-                    'image_cover',
-                    'images'
-                ]);
-                $this->dispatch('form-reset');
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => $result['message'] ?? 'Data lapangan berhasil dibuat',
                     'type' => 'success',
                 ]);
+                $this->redirect('/manajemen-lapangan', navigate: true);
                 return;
             }
 

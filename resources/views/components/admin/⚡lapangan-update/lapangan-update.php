@@ -71,10 +71,10 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
         ];
     }
 
-    public function load(): void
+    public function mount(): void
     {
-        $this->fetch();
         $this->ready = true;
+        $this->fetch();
     }
 
     protected function fetch(): void
@@ -219,14 +219,12 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
 
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => $result['message'] ?? 'Data lapangan berhasil diperbarui',
                     'type' => 'success',
                 ]);
-                $this->image_cover = null;
-                $this->images = [];
-                $this->fetch();
+                $this->redirect('/manajemen-lapangan', navigate: true);
                 return;
             }
 

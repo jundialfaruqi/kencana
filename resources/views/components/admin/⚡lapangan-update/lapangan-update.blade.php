@@ -1,4 +1,4 @@
-<div id="lapangan-update-root" wire:init="load">
+<div id="lapangan-update-root">
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-xl font-bold">Update Lapangan</h1>
@@ -25,7 +25,7 @@
     @endif
 
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
-        <div class="card bg-base-100 border-2 border-dashed border-base-300 md:col-span-3">
+        <div class="card bg-base-100 md:col-span-3">
             <div class="card-body">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <label class="form-control w-full md:col-span-2">
@@ -76,37 +76,53 @@
                     <div class="md:col-span-2 bg-base-200/50 border border-base-300 rounded-xl p-4 space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-bold text-base">Informasi Lokasi</h3>
-                            <button type="button" @click="$dispatch('open-map-picker')" class="btn btn-sm btn-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            <button type="button" @click="$dispatch('open-map-picker')"
+                                class="btn btn-sm btn-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                 </svg>
                                 Pilih Maps
                             </button>
                         </div>
-                        
+
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text">Alamat</span></div>
-                            <input type="text" class="input input-bordered w-full mt-1.5" placeholder="Alamat lengkap" wire:model.live="alamat" />
-                            @error('alamat')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
+                            <input type="text" class="input input-bordered w-full mt-1.5"
+                                placeholder="Alamat lengkap" wire:model.live="alamat" />
+                            @error('alamat')
+                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                            @enderror
                         </label>
-                        
+
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text">Link Google Maps</span></div>
-                            <input type="url" class="input input-bordered w-full mt-1.5" placeholder="https://maps.google.com/..." wire:model.live="gmap" />
-                            @error('gmap')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
+                            <input type="url" class="input input-bordered w-full mt-1.5"
+                                placeholder="https://maps.google.com/..." wire:model.live="gmap" />
+                            @error('gmap')
+                                <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                            @enderror
                         </label>
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <label class="form-control w-full">
                                 <div class="label"><span class="label-text">Latitude</span></div>
-                                <input type="number" step="any" class="input input-bordered w-full mt-1.5" placeholder="-0.12345" wire:model.live="latitude" />
-                                @error('latitude')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
+                                <input type="number" step="any" class="input input-bordered w-full mt-1.5"
+                                    placeholder="-0.12345" wire:model.live="latitude" />
+                                @error('latitude')
+                                    <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                                @enderror
                             </label>
                             <label class="form-control w-full">
                                 <div class="label"><span class="label-text">Longitude</span></div>
-                                <input type="number" step="any" class="input input-bordered w-full mt-1.5" placeholder="101.12345" wire:model.live="longitude" />
-                                @error('longitude')<p class="text-warning italic text-xs mt-1">*{{ $message }}</p>@enderror
+                                <input type="number" step="any" class="input input-bordered w-full mt-1.5"
+                                    placeholder="101.12345" wire:model.live="longitude" />
+                                @error('longitude')
+                                    <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
+                                @enderror
                             </label>
                         </div>
                     </div>
@@ -117,7 +133,7 @@
                     <button class="btn btn-ghost" wire:click="cancel" wire:loading.attr="disabled"
                         wire:loading.class="btn-disabled pointer-events-none opacity-50"
                         wire:target="cancel">Kembali</button>
-                    <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
+                    <button class="btn btn-accent" wire:click="submit" wire:loading.attr="disabled"
                         wire:target="submit">
                         <span wire:loading.remove wire:target="submit">Simpan</span>
                         <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
@@ -127,7 +143,7 @@
 
         </div>
 
-        <div class="card bg-base-100 border-2 border-dashed border-base-300 md:col-span-2">
+        <div class="card bg-base-100 md:col-span-2">
             <div class="card-body">
                 <div class="grid grid-cols-1 gap-4">
                     <div class="form-control w-full">
@@ -157,7 +173,7 @@
                         <div class="label mb-2">
                             <span class="label-text">Galeri</span>
                             @if (count($images) < 4)
-                                <button type="button" class="btn btn-xs btn-primary ml-auto"
+                                <button type="button" class="btn btn-xs btn-secondary ml-auto"
                                     wire:click="addImageField" wire:loading.attr="disabled"
                                     wire:target="addImageField">
                                     <span class="inline-flex items-center gap-1">

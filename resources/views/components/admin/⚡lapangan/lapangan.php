@@ -22,10 +22,10 @@ new #[Title('Manajamen Lapangan')] #[Layout('layouts::admin.app')] class extends
     public array $slice = [];
     public array $links = [];
 
-    public function load()
+    public function mount()
     {
-        $this->fetch();
         $this->ready = true;
+        $this->fetch();
     }
 
     protected function fetch(): void

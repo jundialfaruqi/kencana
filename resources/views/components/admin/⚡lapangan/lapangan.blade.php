@@ -13,16 +13,13 @@
         </div>
     </div>
     <div class="flex items-center justify-start mb-3">
-        <a wire:navigate href="/lapangan-create" class="btn btn-primary btn-sm shadow">
+        <a wire:navigate href="/lapangan-create" class="btn btn-secondary btn-sm shadow">
             Tambah Lapangan
         </a>
     </div>
-    <div class="card" wire:init="load">
+    <div class="card">
 
-        <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-            <span class="loading loading-spinner loading-md"></span>
-        </div>
-        <div wire:loading.remove wire:target="load">
+        <div>
             @if ($error)
                 <div class="alert alert-error mb-4">
                     <span>{{ $error }}</span>
@@ -30,37 +27,63 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @forelse ($slice as $lp)
-                        <div class="card border-2 border-dashed border-base-300 bg-base-100">
-                            <div class="card-body">
-                                <div class="flex items-start justify-between">
-                                    <h2 class="card-title">{{ $lp['nama_lapangan'] ?? '-' }}</h2>
-                                    <span
-                                        class="{{ ($lp['status'] ?? '') === 'open' ? 'bg-success text-success-content' : 'bg-warning text-warning-content' }} rounded-full text-center text-[11px] md:text-xs px-2 md:px-3 py-0.5 md:py-1">
-                                        {{ $lp['status_label'] ?? ucfirst($lp['status'] ?? '-') }}
-                                    </span>
-                                </div>
-                                <p class="text-sm text-base-content/70">{{ $lp['deskripsi'] ?? '-' }}</p>
-                                <div class="mt-2 text-sm">
-                                    <div
-                                        class="flex items-center gap-2 bg-base-200 border border-base-300 border-dashed p-2 rounded-lg">
+                        <div class="card border border-base-300 bg-base-100 shadow-sm overflow-hidden">
+                            <div class="card-body flex flex-row gap-4 p-4 items-start">
+                                <!-- Cover Image -->
+                                @php
+                                    $imageBase = rtrim((string) config('services.api.image_base_url'), '/');
+                                    $cover = data_get($lp, 'image_cover');
+                                    $coverUrl = null;
+                                    if (!empty($cover)) {
+                                        $p = ltrim((string) $cover, '/');
+                                        if (preg_match('/^https?:\/\//', $p)) {
+                                            $coverUrl = $p;
+                                        } else {
+                                            $coverUrl = $imageBase . '/' . $p;
+                                        }
+                                    }
+                                @endphp
+                                <div
+                                    class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-base-200 border border-base-300 overflow-hidden shrink-0 flex items-center justify-center">
+                                    @if ($coverUrl)
+                                        <img src="{{ $coverUrl }}" class="w-full h-full object-cover"
+                                            alt="{{ $lp['nama_lapangan'] ?? 'Lapangan' }}">
+                                    @else
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            class="w-4 h-4 shrink-0 flex-none" stroke="currentColor" stroke-width="1.5">
+                                            stroke-width="1.5" stroke="currentColor"
+                                            class="w-8 h-8 text-base-content/40">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 10.5c0 7.5-7.5 10.5-7.5 10.5S4.5 18 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                                d="m2.25 15.75 5.159-5.159a4.125 4.125 0 0 1 5.857 0L18.25 16.5m-1.5-1.5 3.093-3.093a4.125 4.125 0 0 1 5.857 0L21.75 15.75M9 10.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                                         </svg>
-                                        <span class="flex-1 min-w-0 truncate">{{ $lp['alamat'] ?? '-' }}</span>
+                                    @endif
+                                </div>
+
+                                <!-- Field Details -->
+                                <div class="flex-1 min-w-0">
+                                    <!-- Status (Moved under description) -->
+                                    <div class="mb-1">
+                                        @php $is_open = ($lp['status'] ?? '') === 'open'; @endphp
+                                        <span
+                                            class="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold uppercase {{ $is_open ? 'bg-warning/15 text-warning' : 'bg-success/15 text-success' }}">
+                                            {{ $lp['status_label'] ?? ucfirst($lp['status'] ?? '-') }}
+                                        </span>
+                                    </div>
+                                    <h2 class="font-bold text-sm sm:text-base text-base-content truncate">
+                                        {{ $lp['nama_lapangan'] ?? '-' }}</h2>
+                                    <p
+                                        class="text-xs sm:text-sm text-base-content/70 mt-1 line-clamp-2 leading-relaxed">
+                                        {{ $lp['deskripsi'] ?? '-' }}</p>
+
+                                    <!-- Author -->
+                                    <div class="mt-2 text-[10px] sm:text-xs text-base-content/50">
+                                        <span>Author: {{ data_get($lp, 'admin.name', '-') }}</span>
                                     </div>
                                 </div>
-                                <div class="mt-2 text-xs text-base-content/60">
-                                    <span>Admin: {{ data_get($lp, 'admin.name', '-') }}</span>
-                                </div>
                             </div>
-                            <div class="card-footer p-3">
-                                <div class="flex items-center justify-center gap-2">
+                            <div class="card-footer px-4 pb-4 pt-0">
+                                <div class="flex items-center justify-end gap-2">
                                     <a wire:navigate href="/lapangan-detail?id={{ $lp['id'] ?? 0 }}"
-                                        class="btn btn-sm btn-primary">
+                                        class="btn btn-sm btn-secondary">
                                         Detail
                                     </a>
                                     <a wire:navigate href="/lapangan-update?id={{ $lp['id'] ?? 0 }}"
@@ -92,7 +115,7 @@
                             @php $lbl = $link['label'] ?? ''; @endphp
                             @if ($link['url'])
                                 <a wire:navigate href="{{ $link['url'] }}"
-                                    class="join-item btn btn-sm @if ($link['active']) btn-primary @endif">
+                                    class="join-item btn btn-sm @if ($link['active']) btn-secondary @endif">
                                     @if ($lbl === 'Prev')
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="3" stroke="currentColor" class="size-2">

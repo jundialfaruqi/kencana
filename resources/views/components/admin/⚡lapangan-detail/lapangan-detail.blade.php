@@ -18,11 +18,8 @@
         </div>
     </div>
 
-    <div class="card" wire:init="load">
-        <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-            <span class="loading loading-spinner loading-md"></span>
-        </div>
-        <div wire:loading.remove wire:target="load">
+    <div class="card">
+        <div>
             @if ($error)
                 <div
                     class="alert bg-warning/20 border border-warning text-white shadow-lg py-2 text-xs font-bold italic uppercase tracking-wider">

@@ -186,7 +186,9 @@
                     } catch (_) {
                         payloadObj = pending;
                     }
-                    showToast(payloadObj);
+                    setTimeout(function() {
+                        showToast(payloadObj);
+                    }, 500);
                 }
             } catch (_) {}
         }

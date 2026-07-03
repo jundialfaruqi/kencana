@@ -18,10 +18,10 @@ new #[Title('Detail Lapangan')] #[Layout('layouts::admin.app')] class extends Co
     public $coverUrl = null;
     public $galleryUrls = [];
 
-    public function load()
+    public function mount()
     {
-        $this->fetch();
         $this->ready = true;
+        $this->fetch();
     }
 
     protected function fetch(): void
