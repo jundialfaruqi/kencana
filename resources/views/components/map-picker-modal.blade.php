@@ -72,12 +72,33 @@
                 isOpen: false,
                 map: null,
                 marker: null,
+                _teleportedDialog: null,
                 searchQuery: '',
                 isSearching: false,
                 searchResults: [],
                 selectedLat: '',
                 selectedLng: '',
                 selectedAddress: '',
+
+                init() {
+                    // Clean up any orphaned teleported dialogs from previous navigations
+                    document.querySelectorAll('body > dialog#map_picker_modal').forEach(el => {
+                        el.remove();
+                    });
+                },
+
+                destroy() {
+                    // Clean up Leaflet map instance
+                    if (this.map) {
+                        try { this.map.off(); this.map.remove(); } catch (e) {}
+                        this.map = null;
+                        this.marker = null;
+                    }
+                    // Remove the teleported dialog from body to prevent orphans
+                    document.querySelectorAll('body > dialog#map_picker_modal').forEach(el => {
+                        el.remove();
+                    });
+                },
 
                 openModal() {
                     this.isOpen = true;
@@ -96,16 +117,34 @@
 
                     setTimeout(() => {
                         this.initMap(initialLat, initialLng);
-                    }, 100);
+                    }, 150);
                 },
 
                 closeModal() {
                     this.isOpen = false;
+                    // Destroy the Leaflet map so re-opening creates a fresh one
+                    if (this.map) {
+                        try { this.map.off(); this.map.remove(); } catch (e) {}
+                        this.map = null;
+                        this.marker = null;
+                    }
                 },
 
                 initMap(lat, lng) {
+                    // Find the container scoped to the active teleported dialog
+                    const container = document.getElementById('map-picker-container');
+                    if (!container) return;
+
+                    // If this container already has a Leaflet instance, reset it
+                    if (container._leaflet_id) {
+                        container._leaflet_id = null;
+                        container.innerHTML = '';
+                        this.map = null;
+                        this.marker = null;
+                    }
+
                     if (!this.map) {
-                        this.map = new L.Map('map-picker-container').setView([lat, lng], 13);
+                        this.map = new L.Map(container).setView([lat, lng], 13);
                         new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             attribution: '© OpenStreetMap contributors',
                             maxZoom: 19
@@ -230,10 +269,5 @@
                 }
             }));
         });
-
-        // Ensure registration happens if Alpine is already initialized (e.g. during Livewire navigate)
-        if (window.Alpine) {
-            document.dispatchEvent(new CustomEvent('alpine:init'));
-        }
     </script>
 </div>
