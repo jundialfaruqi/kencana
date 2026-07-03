@@ -18,8 +18,7 @@
         </div>
     </div>
 
-    <div wire:init="load">
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start" wire:loading.remove wire:target="load">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
             <div class="card bg-base-100 md:col-span-3 border-2 border-base-300 border-dashed">
                 <div class="card-body">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -148,8 +147,4 @@
                 </div>
             </div>
         </div>
-        <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-            <span class="loading loading-spinner loading-md"></span>
-        </div>
-    </div>
 </div>

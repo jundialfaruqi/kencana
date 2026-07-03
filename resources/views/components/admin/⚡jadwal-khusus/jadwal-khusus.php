@@ -14,7 +14,6 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
 {
     use WithPagination;
 
-    public bool $ready = false;
     public array $items = [];
     public ?string $error = null;
     public array $links = [];
@@ -34,13 +33,10 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
     public ?string $exportPath = null;
     public ?string $exportMessage = null;
 
-    public function load(): void
+    public function mount(): void
     {
-        $this->ready = false;
         $this->fetchItems();
-        $this->ready = true;
     }
-
     protected function fetchItems(): void
     {
         try {
@@ -101,7 +97,6 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
     public function goToUrl(?string $url): void
     {
         if (!$url) return;
-        $this->ready = false;
         $page = 1;
         try {
             $parts = parse_url((string) $url);
@@ -114,12 +109,10 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
         }
         $this->page = max(1, (int) $page);
         $this->fetchItems();
-        $this->ready = true;
     }
 
     public function deleteJadwal(int $id): void
     {
-        $this->ready = false;
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
@@ -135,7 +128,6 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
                     'type' => 'success',
                 ]);
                 $this->fetchItems();
-                $this->ready = true;
                 return;
             }
             $this->error = (string) ((is_array($result) ? ($result['message'] ?? null) : null) ?: 'Gagal menghapus jadwal khusus');
@@ -153,7 +145,6 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
             ]);
         }
         $this->fetchItems();
-        $this->ready = true;
     }
 
     public function openExportModal()

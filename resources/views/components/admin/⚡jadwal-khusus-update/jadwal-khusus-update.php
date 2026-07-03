@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Session;
 new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Component
 {
     public int $id = 0;
-    public bool $ready = false;
     public ?string $error = null;
 
     public array $arenas = [];
@@ -24,14 +23,8 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
     public function mount(int $id): void
     {
         $this->id = (int) $id;
-    }
-
-    public function load(): void
-    {
-        $this->ready = false;
         $this->fetchArenas();
         $this->fetchDetail();
-        $this->ready = true;
     }
 
     protected function fetchArenas(): void
@@ -167,7 +160,6 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
 
     public function submit(): void
     {
-        $this->ready = false;
         $this->resetValidation();
         $validated = $this->validate();
         try {
@@ -188,13 +180,13 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->asForm()->accept('application/json')->post($url, $payload);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => (string) ($result['message'] ?? 'Jadwal khusus berhasil diperbarui'),
                     'type' => 'success',
                 ]);
                 $this->error = null;
-                $this->ready = true;
+                $this->redirect('/jadwal-khusus', navigate: true);
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
@@ -220,6 +212,5 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
                 'type' => 'error',
             ]);
         }
-        $this->ready = true;
     }
 };

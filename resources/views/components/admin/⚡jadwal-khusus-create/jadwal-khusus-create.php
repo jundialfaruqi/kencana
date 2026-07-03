@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Session;
 new #[Title('Buat Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Component
 {
     public ?string $error = null;
-    public bool $ready = false;
 
     public array $arenas = [];
     public ?string $lapangan_id = null;
@@ -20,10 +19,9 @@ new #[Title('Buat Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends
     public ?string $keterangan = null;
     public ?int $httpStatus = null;
 
-    public function load(): void
+    public function mount(): void
     {
         $this->fetchArenas();
-        $this->ready = true;
     }
 
     protected function fetchArenas(): void
@@ -115,17 +113,12 @@ new #[Title('Buat Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends
             $this->httpStatus = $response->status();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => (string) ($result['message'] ?? 'Jadwal khusus berhasil dibuat'),
                     'type' => 'success',
                 ]);
-                $this->lapangan_id = null;
-                $this->tanggal = null;
-                $this->tipe = null;
-                $this->buka = null;
-                $this->tutup = null;
-                $this->keterangan = null;
+                $this->redirect('/jadwal-khusus', navigate: true);
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
