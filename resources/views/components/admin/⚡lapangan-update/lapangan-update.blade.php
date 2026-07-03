@@ -306,7 +306,7 @@
     <!-- Map Picker Modal -->
     <x-map-picker-modal />
 
-    <!-- FE WebP Image Compression and Upload Script -->
+    <!-- FE JPEG Image Compression and Upload Script -->
     <script>
         (function() {
             function compressAndUpload(file, fieldName, statusEl, progressBar, onComplete, onError) {
@@ -364,9 +364,9 @@
                                     if (statusEl) statusEl.textContent = 'Mengunggah...';
 
                                     const newName = file.name.substring(0, file.name.lastIndexOf('.')) +
-                                        '.webp';
+                                        '.jpg';
                                     const compressedFile = new File([blob], newName, {
-                                        type: 'image/webp',
+                                        type: 'image/jpeg',
                                         lastModified: Date.now()
                                     });
 
@@ -396,7 +396,7 @@
                                     quality -= 0.05;
                                     attemptCompress();
                                 }
-                            }, 'image/webp', quality);
+                            }, 'image/jpeg', quality);
                         }
                         attemptCompress();
                     };
