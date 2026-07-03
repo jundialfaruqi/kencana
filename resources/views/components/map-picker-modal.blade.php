@@ -72,7 +72,7 @@
                 isOpen: false,
                 map: null,
                 marker: null,
-                _teleportedDialog: null,
+                _cleanupFn: null,
                 searchQuery: '',
                 isSearching: false,
                 searchResults: [],
@@ -81,23 +81,29 @@
                 selectedAddress: '',
 
                 init() {
-                    // Clean up any orphaned teleported dialogs from previous navigations
-                    document.querySelectorAll('body > dialog#map_picker_modal').forEach(el => {
-                        el.remove();
-                    });
+                    // Register cleanup BEFORE Livewire swaps the page
+                    // This is the correct timing — livewire:navigating fires before DOM swap
+                    this._cleanupFn = () => {
+                        if (this.map) {
+                            try { this.map.off(); this.map.remove(); } catch (e) {}
+                            this.map = null;
+                            this.marker = null;
+                        }
+                        // Remove teleported dialogs that will be orphaned after swap
+                        document.querySelectorAll('body > dialog#map_picker_modal').forEach(el => el.remove());
+                    };
+                    document.addEventListener('livewire:navigating', this._cleanupFn);
                 },
 
                 destroy() {
-                    // Clean up Leaflet map instance
+                    if (this._cleanupFn) {
+                        document.removeEventListener('livewire:navigating', this._cleanupFn);
+                    }
                     if (this.map) {
                         try { this.map.off(); this.map.remove(); } catch (e) {}
                         this.map = null;
                         this.marker = null;
                     }
-                    // Remove the teleported dialog from body to prevent orphans
-                    document.querySelectorAll('body > dialog#map_picker_modal').forEach(el => {
-                        el.remove();
-                    });
                 },
 
                 openModal() {
@@ -115,14 +121,17 @@
                     this.selectedLng = lngInput ? lngInput.value : '';
                     this.selectedAddress = addrInput ? addrInput.value : '';
 
-                    setTimeout(() => {
-                        this.initMap(initialLat, initialLng);
-                    }, 150);
+                    // Wait for teleported DOM to settle, then init map
+                    requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            this.initMap(initialLat, initialLng);
+                        }, 200);
+                    });
                 },
 
                 closeModal() {
                     this.isOpen = false;
-                    // Destroy the Leaflet map so re-opening creates a fresh one
+                    // Destroy map on close so re-opening creates a fresh instance
                     if (this.map) {
                         try { this.map.off(); this.map.remove(); } catch (e) {}
                         this.map = null;
@@ -131,48 +140,38 @@
                 },
 
                 initMap(lat, lng) {
-                    // Find the container scoped to the active teleported dialog
-                    const container = document.getElementById('map-picker-container');
-                    if (!container) return;
+                    let container = document.getElementById('map-picker-container');
+                    if (!container || !container.parentNode) return;
 
-                    // If this container already has a Leaflet instance, reset it
+                    // If the container has a stale Leaflet instance (from an orphaned map),
+                    // clone the node to get a fresh element with zero event listeners
                     if (container._leaflet_id) {
-                        container._leaflet_id = null;
-                        container.innerHTML = '';
+                        const fresh = container.cloneNode(false);
+                        container.parentNode.replaceChild(fresh, container);
+                        container = fresh;
                         this.map = null;
                         this.marker = null;
                     }
 
-                    if (!this.map) {
-                        this.map = new L.Map(container).setView([lat, lng], 13);
-                        new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '© OpenStreetMap contributors',
-                            maxZoom: 19
-                        }).addTo(this.map);
+                    this.map = new L.Map(container).setView([lat, lng], 13);
+                    new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors',
+                        maxZoom: 19
+                    }).addTo(this.map);
 
-                        this.marker = new L.Marker([lat, lng], {
-                            draggable: true
-                        }).addTo(this.map);
+                    this.marker = new L.Marker([lat, lng], {
+                        draggable: true
+                    }).addTo(this.map);
 
-                        this.marker.on('dragend', (e) => {
-                            const position = this.marker.getLatLng();
-                            this.updatePosition(position.lat, position.lng);
-                        });
+                    this.marker.on('dragend', (e) => {
+                        const position = this.marker.getLatLng();
+                        this.updatePosition(position.lat, position.lng);
+                    });
 
-                        this.map.on('click', (e) => {
-                            this.marker.setLatLng(e.latlng);
-                            this.updatePosition(e.latlng.lat, e.latlng.lng);
-                        });
-                    } else {
-                        this.map.invalidateSize();
-                        if (this.selectedLat && this.selectedLng) {
-                            this.map.setView([this.selectedLat, this.selectedLng], 15);
-                            this.marker.setLatLng([this.selectedLat, this.selectedLng]);
-                        } else {
-                            this.map.setView([lat, lng], 13);
-                            this.marker.setLatLng([lat, lng]);
-                        }
-                    }
+                    this.map.on('click', (e) => {
+                        this.marker.setLatLng(e.latlng);
+                        this.updatePosition(e.latlng.lat, e.latlng.lng);
+                    });
                 },
 
                 updatePosition(lat, lng) {
