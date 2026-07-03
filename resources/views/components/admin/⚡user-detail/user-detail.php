@@ -20,7 +20,7 @@ new #[Title('Detail User')] #[Layout('layouts::admin.app')] class extends Compon
     public $showNoWa = false;
     public $createdAtFormatted = null;
 
-    public function load()
+    public function mount(): void
     {
         $this->fetch();
     }

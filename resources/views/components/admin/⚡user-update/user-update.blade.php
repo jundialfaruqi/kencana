@@ -14,12 +14,8 @@
             </ul>
         </div>
     </div>
-    <div wire:init="load">
-        <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-            <span class="loading loading-spinner loading-md"></span>
-        </div>
-        <div wire:loading.remove wire:target="load">
-            @if ($error)
+    <div>
+        @if ($error)
                 <div class="alert alert-error mb-4">
                     <span>{{ $error }}</span>
                 </div>
@@ -176,4 +172,4 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>

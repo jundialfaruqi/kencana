@@ -13,7 +13,7 @@
             </ul>
         </div>
     </div>
-    <div class="card bg-base-100 border border-base-300" wire:init="load">
+    <div class="card bg-base-100 border border-base-300">
         <div class="card-body">
             <div class="flex items-center justify-between gap-2 mb-4">
                 <div class="flex items-center gap-2">
@@ -37,11 +37,7 @@
                     </button>
                 </div>
             </div>
-            <div wire:loading.flex class="items-center justify-center p-10">
-                <span class="loading loading-spinner loading-md"></span>
-            </div>
-            <div wire:loading.remove>
-                @if ($error)
+            @if ($error)
                     <div class="alert alert-error">
                         <span>{{ $error }}</span>
                     </div>
@@ -278,3 +274,6 @@
         </form>
     </dialog>
 </div>
+</div>
+</div>
+

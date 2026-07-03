@@ -104,7 +104,6 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
     public function goToUrl(?string $url): void
     {
         if (!$url) return;
-        $this->readyToLoad = false;
         $page = 1;
         try {
             $parts = parse_url((string) $url);
@@ -117,7 +116,6 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
         }
         $this->page = max(1, (int) $page);
         $this->fetchBanners();
-        $this->readyToLoad = true;
     }
 
     public function deleteBanner(int $id): void

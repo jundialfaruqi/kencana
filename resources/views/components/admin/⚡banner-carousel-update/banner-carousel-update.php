@@ -14,8 +14,8 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
     use WithFileUploads;
 
     public $id = null;
-    public bool $ready = false;
     public ?string $error = null;
+    public ?int $httpStatus = null;
 
     public string $judul = '';
     public string $kategori = '';
@@ -67,9 +67,13 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
         }
     }
 
-    public function load(): void
+    public function mount($id = null): void
     {
-        $this->ready = false;
+        if ($id !== null && $id !== '') {
+            $this->id = $id;
+        } elseif ($this->id === null) {
+            $this->id = request()->query('id');
+        }
         $this->fetchKategoriBanner(); // Panggil fetchKategoriBanner di awal load
         try {
             $token = Session::get('auth_token');
@@ -91,14 +95,12 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
                     $this->selectedKategoriBanner = $this->kategori;
                 }
                 $this->error = null;
-                $this->ready = true;
                 return;
             }
             $this->error = (string) ($json['message'] ?? 'Gagal memuat data banner');
         } catch (\Throwable) {
             $this->error = 'Terjadi kesalahan saat mengambil data banner';
         }
-        $this->ready = true;
     }
 
     public function cancel(): void

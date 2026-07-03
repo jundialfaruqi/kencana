@@ -12,7 +12,6 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
     #[Url(as: 'id')]
     public $id;
 
-    public $ready = false;
     public $error = null;
 
     public $name = '';
@@ -23,10 +22,9 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
     public $password = '';
     public $showPassword = false;
 
-    public function load()
+    public function mount()
     {
         $this->fetch();
-        $this->ready = true;
     }
 
     protected function fetch(): void
@@ -105,11 +103,12 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => $result['message'] ?? 'Data user berhasil diperbarui',
                     'type' => 'success',
                 ]);
+                $this->redirect('/manajemen-user', navigate: true);
                 return;
             }
             $errors = $result['errors'] ?? ($result['data']['errors'] ?? null);

@@ -1,4 +1,4 @@
-<div wire:init="load">
+<div>
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-xl font-bold">Update Banner Berita</h1>
@@ -23,10 +23,7 @@
             <span>{{ $error }}</span>
         </div>
     @endif
-    <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-        <span class="loading loading-spinner loading-md"></span>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start" wire:loading.remove wire:target="load">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
         <div class="card bg-base-100 border-2 border-dashed border-base-300 md:col-span-3">
             <div class="card-body">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

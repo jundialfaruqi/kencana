@@ -18,12 +18,7 @@
         </div>
     </div>
 
-    <div wire:init="load">
         <div>
-            <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-                <span class="loading loading-spinner loading-md"></span>
-            </div>
-            <div wire:loading.remove wire:target="load">
                 @if ($error)
                     <div class="alert alert-error">
                         <span>{{ $error }}</span>
@@ -293,6 +288,4 @@
                     <div class="text-sm text-base-content/60">Data tidak tersedia</div>
                 @endif
             </div>
-        </div>
-    </div>
 </div>

@@ -11,7 +11,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Component
 {
-    public $ready = false;
     public $users = [];
     public $links = [];
     public $currentPage = 1;
@@ -31,10 +30,9 @@ new #[Title('Manajamen User')] #[Layout('layouts::admin.app')] class extends Com
     public ?string $exportPath = null;
     public ?string $exportMessage = null;
 
-    public function load()
+    public function mount()
     {
         $this->fetchUsers(1);
-        $this->ready = true;
     }
 
     public function fetchUsers(int $page = 1)
