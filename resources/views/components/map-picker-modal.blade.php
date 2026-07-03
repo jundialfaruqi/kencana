@@ -166,10 +166,15 @@
         function updatePosition(lat, lng) {
             selectedLat = lat.toFixed(6);
             selectedLng = lng.toFixed(6);
-            // Address will be resolved once via server proxy when user saves
             selectedAddress = '';
             updateDisplay();
             updateSaveBtn();
+
+            // Debounce reverse geocode via server proxy (no CORS / rate-limit in browser)
+            if (window.__mapGeocodeTimer) clearTimeout(window.__mapGeocodeTimer);
+            window.__mapGeocodeTimer = setTimeout(function () {
+                reverseGeocode(lat, lng);
+            }, 800);
         }
 
         // ── Geocode (server-side proxy – no CORS / rate-limit) ────────────
