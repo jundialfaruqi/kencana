@@ -26,7 +26,7 @@
                             alt="{{ $lp['nama_lapangan'] }}" />
                         @if (($lp['status'] ?? '') === 'coming_soon')
                             <div
-                                class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+                                class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/60 z-10 flex items-center justify-center">
                             </div>
                         @endif
                         <div
