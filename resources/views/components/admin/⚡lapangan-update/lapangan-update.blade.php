@@ -76,7 +76,7 @@
                     <div class="md:col-span-2 bg-base-200/50 border border-base-300 rounded-xl p-4 space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-bold text-base">Informasi Lokasi</h3>
-                            <button type="button" @click="$dispatch('open-map-picker')"
+                            <button type="button" onclick="window.__mapPicker && window.__mapPicker.open()"
                                 class="btn btn-sm btn-secondary">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2" stroke="currentColor" class="size-4">

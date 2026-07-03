@@ -1,276 +1,370 @@
-<div x-data="mapPickerHandler()" @open-map-picker.window="openModal()" class="relative z-50">
+<div id="map-picker-wrapper">
+    <dialog id="map_picker_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-lg mb-4">Pilih Lokasi Lapangan</h3>
 
-    <template x-teleport="body">
-        <dialog id="map_picker_modal" class="modal" :class="{ 'modal-open': isOpen }">
-            <div class="modal-box w-11/12 max-w-5xl">
-                <h3 class="font-bold text-lg mb-4">Pilih Lokasi Lapangan</h3>
-
-                <div class="relative mb-4">
-                    <div class="flex gap-2">
-                        <input type="text" x-model="searchQuery" @input.debounce.500ms="liveSearch"
-                            @keydown.enter.prevent="searchLocation"
-                            placeholder="Cari nama jalan, daerah, atau tempat..." class="input input-bordered w-full" />
-                        <button type="button" @click="searchLocation" class="btn btn-secondary"
-                            :disabled="isSearching">
-                            <span x-show="!isSearching">Cari</span>
-                            <span x-show="isSearching" class="loading loading-spinner loading-xs"></span>
-                        </button>
-                    </div>
-
-                    <!-- Dropdown Live Search Results -->
-                    <ul x-show="searchResults.length > 0" x-transition @click.outside="searchResults = []"
-                        class="menu bg-base-100 border border-base-300 w-full rounded-box absolute top-full left-0 mt-1 z-100 max-h-60 overflow-y-auto shadow-2xl"
-                        style="display: none;">
-                        <template x-for="result in searchResults" :key="result.place_id">
-                            <li>
-                                <button type="button" @click="selectSearchResult(result)"
-                                    class="text-left py-2 hover:bg-base-200 block w-full whitespace-normal">
-                                    <span class="block font-bold text-sm"
-                                        x-text="result.name || result.display_name.split(',')[0]"></span>
-                                    <span class="block text-xs text-base-content/60"
-                                        x-text="result.display_name"></span>
-                                </button>
-                            </li>
-                        </template>
-                    </ul>
+            <div class="relative mb-4">
+                <div class="flex gap-2">
+                    <input type="text" id="map-search-input"
+                        placeholder="Cari nama jalan, daerah, atau tempat..."
+                        class="input input-bordered w-full" />
+                    <button type="button" id="map-search-btn" class="btn btn-secondary">
+                        <span id="map-search-text">Cari</span>
+                        <span id="map-search-spinner" class="loading loading-spinner loading-xs hidden"></span>
+                    </button>
                 </div>
 
-                <div id="map-picker-container"
-                    class="w-full h-[50vh] bg-base-200 rounded-xl z-0 mb-4 border border-base-300 relative">
-                    <div x-show="!map" class="absolute inset-0 flex items-center justify-center">
-                        <span class="loading loading-spinner loading-md"></span>
-                    </div>
-                </div>
+                <!-- Dropdown Live Search Results -->
+                <ul id="map-search-results"
+                    class="menu bg-base-100 border border-base-300 w-full rounded-box absolute top-full left-0 mt-1 z-[100] max-h-60 overflow-y-auto shadow-2xl hidden">
+                </ul>
+            </div>
 
-                <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4 bg-base-200 p-4 rounded-xl border border-base-300">
-                    <div>
-                        <span class="font-bold text-base-content/70 block mb-1">Koordinat Terpilih:</span>
-                        <span x-text="(selectedLat && selectedLng) ? selectedLat + ', ' + selectedLng : '-'"></span>
-                    </div>
-                    <div>
-                        <span class="font-bold text-base-content/70 block mb-1">Alamat Terpilih:</span>
-                        <span x-text="selectedAddress || '-'"></span>
-                    </div>
-                </div>
-
-                <div class="modal-action">
-                    <button type="button" class="btn btn-ghost" @click="closeModal">Batal</button>
-                    <button type="button" class="btn btn-accent" @click="saveLocation"
-                        :disabled="!selectedLat || !selectedLng">Simpan Lokasi</button>
+            <div id="map-picker-container"
+                class="w-full h-[50vh] bg-base-200 rounded-xl z-0 mb-4 border border-base-300 relative">
+                <div id="map-spinner" class="absolute inset-0 flex items-center justify-center">
+                    <span class="loading loading-spinner loading-md"></span>
                 </div>
             </div>
-            <form method="dialog" class="modal-backdrop">
-                <button type="button" @click="closeModal">close</button>
-            </form>
-        </dialog>
-    </template>
 
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('mapPickerHandler', () => ({
-                isOpen: false,
-                map: null,
-                marker: null,
-                _cleanupFn: null,
-                searchQuery: '',
-                isSearching: false,
-                searchResults: [],
-                selectedLat: '',
-                selectedLng: '',
-                selectedAddress: '',
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4 bg-base-200 p-4 rounded-xl border border-base-300">
+                <div>
+                    <span class="font-bold text-base-content/70 block mb-1">Koordinat Terpilih:</span>
+                    <span id="map-coords-display">-</span>
+                </div>
+                <div>
+                    <span class="font-bold text-base-content/70 block mb-1">Alamat Terpilih:</span>
+                    <span id="map-address-display">-</span>
+                </div>
+            </div>
 
-                init() {
-                    // Register cleanup BEFORE Livewire swaps the page
-                    // This is the correct timing — livewire:navigating fires before DOM swap
-                    this._cleanupFn = () => {
-                        if (this.map) {
-                            try { this.map.off(); this.map.remove(); } catch (e) {}
-                            this.map = null;
-                            this.marker = null;
-                        }
-                        // Remove teleported dialogs that will be orphaned after swap
-                        document.querySelectorAll('body > dialog#map_picker_modal').forEach(el => el.remove());
-                    };
-                    document.addEventListener('livewire:navigating', this._cleanupFn);
-                },
-
-                destroy() {
-                    if (this._cleanupFn) {
-                        document.removeEventListener('livewire:navigating', this._cleanupFn);
-                    }
-                    if (this.map) {
-                        try { this.map.off(); this.map.remove(); } catch (e) {}
-                        this.map = null;
-                        this.marker = null;
-                    }
-                },
-
-                openModal() {
-                    this.isOpen = true;
-
-                    let latInput = document.querySelector('[wire\\:model\\.live="latitude"]');
-                    let lngInput = document.querySelector('[wire\\:model\\.live="longitude"]');
-                    let addrInput = document.querySelector('[wire\\:model\\.live="alamat"]');
-
-                    let initialLat = latInput && latInput.value ? parseFloat(latInput.value) : 0.507068;
-                    let initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) :
-                        101.445107;
-
-                    this.selectedLat = latInput ? latInput.value : '';
-                    this.selectedLng = lngInput ? lngInput.value : '';
-                    this.selectedAddress = addrInput ? addrInput.value : '';
-
-                    // Wait for teleported DOM to settle, then init map
-                    requestAnimationFrame(() => {
-                        setTimeout(() => {
-                            this.initMap(initialLat, initialLng);
-                        }, 200);
-                    });
-                },
-
-                closeModal() {
-                    this.isOpen = false;
-                    // Destroy map on close so re-opening creates a fresh instance
-                    if (this.map) {
-                        try { this.map.off(); this.map.remove(); } catch (e) {}
-                        this.map = null;
-                        this.marker = null;
-                    }
-                },
-
-                initMap(lat, lng) {
-                    let container = document.getElementById('map-picker-container');
-                    if (!container || !container.parentNode) return;
-
-                    // If the container has a stale Leaflet instance (from an orphaned map),
-                    // clone the node to get a fresh element with zero event listeners
-                    if (container._leaflet_id) {
-                        const fresh = container.cloneNode(false);
-                        container.parentNode.replaceChild(fresh, container);
-                        container = fresh;
-                        this.map = null;
-                        this.marker = null;
-                    }
-
-                    this.map = new L.Map(container).setView([lat, lng], 13);
-                    new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors',
-                        maxZoom: 19
-                    }).addTo(this.map);
-
-                    this.marker = new L.Marker([lat, lng], {
-                        draggable: true
-                    }).addTo(this.map);
-
-                    this.marker.on('dragend', (e) => {
-                        const position = this.marker.getLatLng();
-                        this.updatePosition(position.lat, position.lng);
-                    });
-
-                    this.map.on('click', (e) => {
-                        this.marker.setLatLng(e.latlng);
-                        this.updatePosition(e.latlng.lat, e.latlng.lng);
-                    });
-                },
-
-                updatePosition(lat, lng) {
-                    this.selectedLat = lat.toFixed(6);
-                    this.selectedLng = lng.toFixed(6);
-                    // Debounce reverse geocode to avoid Nominatim 429 rate limit (max 1 req/sec)
-                    if (this._geocodeTimer) clearTimeout(this._geocodeTimer);
-                    this._geocodeTimer = setTimeout(() => {
-                        this.reverseGeocode(lat, lng);
-                    }, 1500);
-                },
-
-                async reverseGeocode(lat, lng) {
-                    try {
-                        const response = await fetch(
-                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
-                        );
-                        const data = await response.json();
-                        if (data && data.display_name) {
-                            this.selectedAddress = data.display_name;
-                        }
-                    } catch (error) {
-                        console.error('Error fetching address:', error);
-                    }
-                },
-
-                async searchLocation() {
-                    if (!this.searchQuery) return;
-
-                    this.isSearching = true;
-                    try {
-                        const response = await fetch(
-                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}`
-                        );
-                        const data = await response.json();
-
-                        if (data && data.length > 0) {
-                            const result = data[0];
-                            this.selectSearchResult(result);
-                        } else {
-                            alert('Lokasi tidak ditemukan');
-                        }
-                    } catch (error) {
-                        console.error('Search error:', error);
-                        alert('Terjadi kesalahan saat mencari lokasi');
-                    } finally {
-                        this.isSearching = false;
-                    }
-                },
-
-                liveSearch() {
-                    if (!this.searchQuery || this.searchQuery.trim().length < 3) {
-                        this.searchResults = [];
-                        return;
-                    }
-                    this.isSearching = true;
-                    fetch(
-                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}&limit=5`
-                        )
-                        .then(res => res.json())
-                        .then(data => {
-                            this.searchResults = data || [];
-                        })
-                        .catch(err => {
-                            console.error('Live search error:', err);
-                            this.searchResults = [];
-                        })
-                        .finally(() => {
-                            this.isSearching = false;
-                        });
-                },
-
-                selectSearchResult(result) {
-                    const lat = parseFloat(result.lat);
-                    const lng = parseFloat(result.lon);
-
-                    this.map.setView([lat, lng], 15);
-                    this.marker.setLatLng([lat, lng]);
-
-                    this.selectedLat = lat.toFixed(6);
-                    this.selectedLng = lng.toFixed(6);
-                    this.selectedAddress = result.display_name;
-
-                    this.searchResults = [];
-                    this.searchQuery = result.name || result.display_name.split(',')[0];
-                },
-
-                saveLocation() {
-                    const gmapUrl =
-                        `https://maps.google.com/?q=${this.selectedLat},${this.selectedLng}`;
-
-                    this.$wire.set('latitude', this.selectedLat);
-                    this.$wire.set('longitude', this.selectedLng);
-                    this.$wire.set('alamat', this.selectedAddress);
-                    this.$wire.set('gmap', gmapUrl);
-
-                    this.closeModal();
-                }
-            }));
-        });
-    </script>
+            <div class="modal-action">
+                <button type="button" class="btn btn-ghost" onclick="window.__mapPicker.close()">Batal</button>
+                <button type="button" id="map-save-btn" class="btn btn-accent" disabled
+                    onclick="window.__mapPicker.save()">Simpan Lokasi</button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button type="button" onclick="window.__mapPicker.close()">close</button>
+        </form>
+    </dialog>
 </div>
+
+<script>
+    (function () {
+        // Tear down previous instance if navigating back
+        if (window.__mapPicker) {
+            try { window.__mapPicker._teardown(); } catch (e) {}
+        }
+
+        var map = null;
+        var marker = null;
+        var selectedLat = '';
+        var selectedLng = '';
+        var selectedAddress = '';
+        var geocodeTimer = null;
+        var searchDebounce = null;
+
+        // ── Helpers ──────────────────────────────────────────
+        function getDialog() { return document.getElementById('map_picker_modal'); }
+
+        function updateDisplay() {
+            var coordsEl = document.getElementById('map-coords-display');
+            var addrEl = document.getElementById('map-address-display');
+            if (coordsEl) coordsEl.textContent = (selectedLat && selectedLng) ? selectedLat + ', ' + selectedLng : '-';
+            if (addrEl) addrEl.textContent = selectedAddress || '-';
+        }
+
+        function updateSaveBtn() {
+            var btn = document.getElementById('map-save-btn');
+            if (btn) btn.disabled = !(selectedLat && selectedLng);
+        }
+
+        // ── Open / Close ─────────────────────────────────────
+        function openModal() {
+            var dialog = getDialog();
+            if (!dialog) return;
+            dialog.classList.add('modal-open');
+
+            // Read existing Livewire input values
+            var latInput = document.querySelector('[wire\\:model\\.live="latitude"]');
+            var lngInput = document.querySelector('[wire\\:model\\.live="longitude"]');
+            var addrInput = document.querySelector('[wire\\:model\\.live="alamat"]');
+
+            var initialLat = latInput && latInput.value ? parseFloat(latInput.value) : 0.507068;
+            var initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) : 101.445107;
+
+            selectedLat = latInput ? latInput.value : '';
+            selectedLng = lngInput ? lngInput.value : '';
+            selectedAddress = addrInput ? addrInput.value : '';
+
+            updateDisplay();
+            updateSaveBtn();
+
+            // Wait for DOM to be ready (dialog visible) then init map
+            requestAnimationFrame(function () {
+                setTimeout(function () { initMap(initialLat, initialLng); }, 200);
+            });
+        }
+
+        function closeModal() {
+            var dialog = getDialog();
+            if (dialog) dialog.classList.remove('modal-open');
+            destroyMap();
+            // Clear search
+            var si = document.getElementById('map-search-input');
+            var sr = document.getElementById('map-search-results');
+            if (si) si.value = '';
+            if (sr) { sr.innerHTML = ''; sr.classList.add('hidden'); }
+        }
+
+        function destroyMap() {
+            if (map) {
+                try { map.off(); map.remove(); } catch (e) {}
+                map = null;
+                marker = null;
+            }
+        }
+
+        // ── Leaflet Map ──────────────────────────────────────
+        function initMap(lat, lng) {
+            var container = document.getElementById('map-picker-container');
+            if (!container || !container.parentNode) return;
+
+            // If the container has a stale Leaflet instance, clone to get a fresh node
+            if (container._leaflet_id) {
+                var fresh = container.cloneNode(false);
+                container.parentNode.replaceChild(fresh, container);
+                container = fresh;
+                map = null;
+                marker = null;
+            }
+
+            map = new L.Map(container).setView([lat, lng], 13);
+            new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            marker = new L.Marker([lat, lng], { draggable: true }).addTo(map);
+
+            marker.on('dragend', function () {
+                var pos = marker.getLatLng();
+                updatePosition(pos.lat, pos.lng);
+            });
+
+            map.on('click', function (e) {
+                marker.setLatLng(e.latlng);
+                updatePosition(e.latlng.lat, e.latlng.lng);
+            });
+
+            // Hide spinner
+            var spinner = document.getElementById('map-spinner');
+            if (spinner) spinner.classList.add('hidden');
+        }
+
+        function updatePosition(lat, lng) {
+            selectedLat = lat.toFixed(6);
+            selectedLng = lng.toFixed(6);
+            updateDisplay();
+            updateSaveBtn();
+
+            // Debounce reverse geocode – Nominatim allows max 1 req/sec
+            if (geocodeTimer) clearTimeout(geocodeTimer);
+            geocodeTimer = setTimeout(function () { reverseGeocode(lat, lng); }, 1500);
+        }
+
+        // ── Geocode ──────────────────────────────────────────
+        function reverseGeocode(lat, lng) {
+            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1')
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data && data.display_name) {
+                        selectedAddress = data.display_name;
+                        updateDisplay();
+                    }
+                })
+                .catch(function (err) {
+                    console.warn('Reverse geocode error:', err);
+                });
+        }
+
+        // ── Search ───────────────────────────────────────────
+        function searchLocation() {
+            var input = document.getElementById('map-search-input');
+            var query = input ? input.value.trim() : '';
+            if (!query) return;
+
+            setSearchLoading(true);
+            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query))
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data && data.length > 0) {
+                        selectResult(data[0]);
+                    } else {
+                        alert('Lokasi tidak ditemukan');
+                    }
+                })
+                .catch(function () {
+                    alert('Terjadi kesalahan saat mencari lokasi');
+                })
+                .finally(function () { setSearchLoading(false); });
+        }
+
+        function liveSearch() {
+            var input = document.getElementById('map-search-input');
+            var query = input ? input.value.trim() : '';
+            var resultsList = document.getElementById('map-search-results');
+
+            if (query.length < 3) {
+                if (resultsList) { resultsList.innerHTML = ''; resultsList.classList.add('hidden'); }
+                return;
+            }
+
+            if (searchDebounce) clearTimeout(searchDebounce);
+            searchDebounce = setTimeout(function () {
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query) + '&limit=5')
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        renderResults(data || []);
+                    })
+                    .catch(function () {
+                        if (resultsList) { resultsList.innerHTML = ''; resultsList.classList.add('hidden'); }
+                    });
+            }, 500);
+        }
+
+        function renderResults(results) {
+            var list = document.getElementById('map-search-results');
+            if (!list) return;
+            list.innerHTML = '';
+
+            if (results.length === 0) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            results.forEach(function (r) {
+                var li = document.createElement('li');
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'text-left py-2 hover:bg-base-200 block w-full whitespace-normal';
+                btn.innerHTML = '<span class="block font-bold text-sm">' + (r.name || r.display_name.split(',')[0]) + '</span>'
+                    + '<span class="block text-xs text-base-content/60">' + r.display_name + '</span>';
+                btn.addEventListener('click', function () { selectResult(r); });
+                li.appendChild(btn);
+                list.appendChild(li);
+            });
+            list.classList.remove('hidden');
+        }
+
+        function selectResult(result) {
+            var lat = parseFloat(result.lat);
+            var lng = parseFloat(result.lon);
+
+            if (map) map.setView([lat, lng], 15);
+            if (marker) marker.setLatLng([lat, lng]);
+
+            selectedLat = lat.toFixed(6);
+            selectedLng = lng.toFixed(6);
+            selectedAddress = result.display_name;
+            updateDisplay();
+            updateSaveBtn();
+
+            // Clear search results
+            var list = document.getElementById('map-search-results');
+            if (list) { list.innerHTML = ''; list.classList.add('hidden'); }
+            var si = document.getElementById('map-search-input');
+            if (si) si.value = result.name || result.display_name.split(',')[0];
+        }
+
+        function setSearchLoading(loading) {
+            var txt = document.getElementById('map-search-text');
+            var spin = document.getElementById('map-search-spinner');
+            var btn = document.getElementById('map-search-btn');
+            if (txt) txt.classList.toggle('hidden', loading);
+            if (spin) spin.classList.toggle('hidden', !loading);
+            if (btn) btn.disabled = loading;
+        }
+
+        // ── Save ─────────────────────────────────────────────
+        function saveLocation() {
+            var gmapUrl = 'https://maps.google.com/?q=' + selectedLat + ',' + selectedLng;
+
+            // Find the parent Livewire component and set values
+            var wrapper = document.getElementById('map-picker-wrapper');
+            var wireEl = wrapper ? wrapper.closest('[wire\\:id]') : null;
+            if (wireEl && window.Livewire) {
+                var cid = wireEl.getAttribute('wire:id');
+                var component = window.Livewire.find(cid);
+                if (component) {
+                    component.set('latitude', selectedLat);
+                    component.set('longitude', selectedLng);
+                    component.set('alamat', selectedAddress);
+                    component.set('gmap', gmapUrl);
+                }
+            }
+
+            closeModal();
+        }
+
+        // ── Event Bindings ───────────────────────────────────
+        function onOpenEvent() { openModal(); }
+
+        function onNavigating() {
+            destroyMap();
+            // Remove the dialog to prevent orphans
+            var dialog = getDialog();
+            if (dialog) dialog.classList.remove('modal-open');
+        }
+
+        function onSearchInput(e) {
+            if (e.key === 'Enter') { e.preventDefault(); searchLocation(); return; }
+            liveSearch();
+        }
+
+        function onSearchBtnClick() { searchLocation(); }
+
+        function onClickOutsideResults(e) {
+            var list = document.getElementById('map-search-results');
+            if (list && !list.contains(e.target) && e.target.id !== 'map-search-input') {
+                list.innerHTML = '';
+                list.classList.add('hidden');
+            }
+        }
+
+        // Register listeners
+        window.addEventListener('open-map-picker', onOpenEvent);
+        document.addEventListener('livewire:navigating', onNavigating);
+        document.addEventListener('click', onClickOutsideResults);
+
+        var searchInput = document.getElementById('map-search-input');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', onSearchInput);
+        }
+
+        var searchBtn = document.getElementById('map-search-btn');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', onSearchBtnClick);
+        }
+
+        // ── Teardown (called before re-init on navigate) ────
+        function teardown() {
+            destroyMap();
+            window.removeEventListener('open-map-picker', onOpenEvent);
+            document.removeEventListener('livewire:navigating', onNavigating);
+            document.removeEventListener('click', onClickOutsideResults);
+            if (searchInput) searchInput.removeEventListener('keyup', onSearchInput);
+            if (searchBtn) searchBtn.removeEventListener('click', onSearchBtnClick);
+        }
+
+        // ── Public API (used by onclick handlers in HTML) ────
+        window.__mapPicker = {
+            open: openModal,
+            close: closeModal,
+            save: saveLocation,
+            _teardown: teardown
+        };
+    })();
+</script>
