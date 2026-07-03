@@ -10,7 +10,8 @@
                         <input type="text" x-model="searchQuery" @input.debounce.500ms="liveSearch"
                             @keydown.enter.prevent="searchLocation"
                             placeholder="Cari nama jalan, daerah, atau tempat..." class="input input-bordered w-full" />
-                        <button type="button" @click="searchLocation" class="btn btn-primary" :disabled="isSearching">
+                        <button type="button" @click="searchLocation" class="btn btn-secondary"
+                            :disabled="isSearching">
                             <span x-show="!isSearching">Cari</span>
                             <span x-show="isSearching" class="loading loading-spinner loading-xs"></span>
                         </button>
@@ -55,7 +56,7 @@
 
                 <div class="modal-action">
                     <button type="button" class="btn btn-ghost" @click="closeModal">Batal</button>
-                    <button type="button" class="btn btn-primary" @click="saveLocation"
+                    <button type="button" class="btn btn-accent" @click="saveLocation"
                         :disabled="!selectedLat || !selectedLng">Simpan Lokasi</button>
                 </div>
             </div>
@@ -86,7 +87,8 @@
                     let addrInput = document.querySelector('[wire\\:model\\.live="alamat"]');
 
                     let initialLat = latInput && latInput.value ? parseFloat(latInput.value) : 0.507068;
-                    let initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) : 101.445107;
+                    let initialLng = lngInput && lngInput.value ? parseFloat(lngInput.value) :
+                        101.445107;
 
                     this.selectedLat = latInput ? latInput.value : '';
                     this.selectedLng = lngInput ? lngInput.value : '';
@@ -185,8 +187,8 @@
                     }
                     this.isSearching = true;
                     fetch(
-                        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}&limit=5`
-                    )
+                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}&limit=5`
+                        )
                         .then(res => res.json())
                         .then(data => {
                             this.searchResults = data || [];
@@ -216,7 +218,8 @@
                 },
 
                 saveLocation() {
-                    const gmapUrl = `https://maps.google.com/?q=${this.selectedLat},${this.selectedLng}`;
+                    const gmapUrl =
+                        `https://maps.google.com/?q=${this.selectedLat},${this.selectedLng}`;
 
                     this.$wire.set('latitude', this.selectedLat);
                     this.$wire.set('longitude', this.selectedLng);
