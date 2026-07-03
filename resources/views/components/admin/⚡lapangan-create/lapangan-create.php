@@ -151,6 +151,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
 
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
+                $this->dispatch('form-reset');
                 $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => $result['message'] ?? 'Data lapangan berhasil dibuat',
