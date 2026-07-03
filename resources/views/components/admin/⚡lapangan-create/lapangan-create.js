@@ -5,11 +5,18 @@
     'deskripsi',
     'alamat',
     'gmap',
-    'no_telp',
+    'no_tlp',
     'status',
     'latitude',
     'longitude'
   ];
+
+  // Match whichever wire:model modifier is in use
+  function findEl(root, field) {
+    return root.querySelector('[wire\\:model\\.blur="' + field + '"]')
+        || root.querySelector('[wire\\:model\\.live="' + field + '"]')
+        || root.querySelector('[wire\\:model="' + field + '"]');
+  }
 
   function getRoot() {
     return document.getElementById('lapangan-create-root');
@@ -42,19 +49,14 @@
   function restoreValues(root) {
     var store = readStore();
     FIELDS.forEach(function (field) {
-      var selector = '[wire\\:model\\.live="' + field + '"]';
-      var el = root.querySelector(selector);
+      var el = findEl(root, field);
       if (!el) return;
       if (el.type && el.type.toLowerCase() === 'file') return;
       var val = store[field];
       if (val === undefined || val === null) return;
       try {
         el.value = String(val);
-        if (el.tagName === 'SELECT') {
-          el.dispatchEvent(new Event('change', { bubbles: true }));
-        } else {
-          el.dispatchEvent(new Event('input', { bubbles: true }));
-        }
+        // Do NOT dispatch input/change events — that would trigger Livewire updates
       } catch (_) {}
     });
   }
@@ -62,8 +64,7 @@
   function bindInputs(root) {
     var store = readStore();
     FIELDS.forEach(function (field) {
-      var selector = '[wire\\:model\\.live="' + field + '"]';
-      var el = root.querySelector(selector);
+      var el = findEl(root, field);
       if (!el) return;
       if (el.type && el.type.toLowerCase() === 'file') return;
       var handler = function () {
@@ -91,39 +92,27 @@
     }
   }
 
+  var _initialized = false;
+
   function initCreateLapangan() {
+    if (_initialized) return;
     var root = getRoot();
     if (!root) return;
+    _initialized = true;
     restoreValues(root);
     bindInputs(root);
     bindActions(root);
   }
 
-  function scheduleInit(count) {
-    try {
-      initCreateLapangan();
-    } catch (e) {
-      if (count < 10) {
-        setTimeout(function () { scheduleInit(count + 1); }, 100);
-      }
-    }
-  }
-
+  // Run once on page load / SPA navigation — NOT on every Livewire commit
   document.addEventListener('livewire:navigated', function () {
-    setTimeout(function () { scheduleInit(0); }, 100);
-  });
-
-  document.addEventListener('livewire:init', function () {
-    if (window.Livewire && window.Livewire.hook) {
-      window.Livewire.hook('commit', function ({ succeed }) {
-        succeed(function () { setTimeout(function () { scheduleInit(0); }, 100); });
-      });
-    }
+    _initialized = false;
+    setTimeout(initCreateLapangan, 150);
   });
 
   if (document.readyState !== 'loading') {
-    scheduleInit(0);
+    initCreateLapangan();
   } else {
-    document.addEventListener('DOMContentLoaded', function () { scheduleInit(0); }, { once: true });
+    document.addEventListener('DOMContentLoaded', initCreateLapangan, { once: true });
   }
 })();
