@@ -18,7 +18,7 @@
             <div class="w-full lg:col-span-2">
                 <div
                     class="card bg-base-100 border border-base-200 mx-auto rounded-2xl items-center py-10 flex flex-col min-h-196">
-                    <h2 class="text-lg font-bold text-center mb-2 text-base-content">
+                    <h2 class="text-lg uppercase text-center mb-2 text-base-content">
                         Cek Kode Booking
                     </h2>
 

@@ -46,11 +46,10 @@ new class extends Component
     #[Title('Booking Master')]
     #[Layout('layouts::admin.app')]
 
-    public function load(): void
+    public function mount(): void
     {
-        $this->ready = false;
-        $this->fetchBookings();
         $this->ready = true;
+        $this->fetchBookings();
     }
 
     public function applyFilter(): void

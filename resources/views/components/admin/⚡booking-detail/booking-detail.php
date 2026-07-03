@@ -17,11 +17,10 @@ new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Com
     public array $detail = [];
     public ?string $jamFmt = null;
 
-    public function load(): void
+    public function mount(): void
     {
-        $this->ready = false;
-        $this->fetchDetail();
         $this->ready = true;
+        $this->fetchDetail();
     }
 
     protected function fetchDetail(): void

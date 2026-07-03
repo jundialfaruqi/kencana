@@ -18,7 +18,7 @@
             </ul>
         </div>
     </div>
-    <div class="card bg-base-100 border border-base-300" wire:init="load">
+    <div class="card bg-base-100 border border-base-300">
         <div class="card-body">
             <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
                 <div class="w-full sm:w-xs">
@@ -47,8 +47,7 @@
                     </div>
                 </div>
                 <div class="sm:flex items-center gap-2 w-full sm:w-auto justify-end">
-                    <button type="button"
-                        class="btn btn-primary btn-sm w-full sm:w-auto mt-2 sm:mt-0 shadow-lg text-white font-bold italic tracking-wider uppercase"
+                    <button type="button" class="btn btn-secondary w-full sm:w-auto mt-2 sm:mt-0 text-white"
                         wire:click="openExportModal" wire:loading.attr="disabled">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" class="w-4 h-4 mr-1">
@@ -78,12 +77,12 @@
                     </label>
                 </div>
             </div>
-            <div wire:loading.flex wire:target="load,applyFilter,goToPage,executeCancelBooking"
+            <div wire:loading.flex wire:target="applyFilter,goToPage,executeCancelBooking"
                 class="items-center
                 justify-center p-10">
                 <span class="loading loading-spinner loading-md"></span>
             </div>
-            <div wire:loading.remove wire:target="load,applyFilter,goToPage,executeCancelBooking">
+            <div wire:loading.remove wire:target="applyFilter,goToPage,executeCancelBooking">
                 @if ($error)
                     <div class="alert alert-error">
                         <span>{{ $error }}</span>
@@ -128,7 +127,7 @@
                                         <td>{{ $b['jumlah_pemain'] ?? '-' }}</td>
                                         <td>{{ $b['kategori_pemain'] ?? '-' }}</td>
                                         <td>{{ $b['jenis_permainan'] ?? '-' }}</td>
-                                        <td class="uppercase font-bold italic">
+                                        <td class="uppercase font-bold">
                                             @php $st = $b['status'] ?? '-'; @endphp
                                             @if ($st === 'dipesan')
                                                 <span class="badge badge-xs badge-info">Dipesan</span>
@@ -163,8 +162,9 @@
                                                     @if (in_array($b['status'] ?? '', ['dibatalkan', 'selesai'])) disabled @endif
                                                     wire:click="openCancelModal({{ $b['id'] ?? 0 }})"
                                                     wire:loading.class="pointer-events-none opacity-50"
-                                                    wire:target="openCancelModal">
-                                                    <span wire:loading.remove wire:target="openCancelModal">
+                                                    wire:target="openCancelModal({{ $b['id'] ?? 0 }})">
+                                                    <span wire:loading.remove
+                                                        wire:target="openCancelModal({{ $b['id'] ?? 0 }})">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="2"
                                                             stroke="currentColor" class="size-5">
@@ -173,7 +173,7 @@
                                                         </svg>
                                                     </span>
                                                     <span class="loading loading-spinner loading-xs" wire:loading
-                                                        wire:target="openCancelModal"></span>
+                                                        wire:target="openCancelModal({{ $b['id'] ?? 0 }})"></span>
                                                 </button>
                                             </div>
                                         </td>
@@ -194,7 +194,7 @@
                         <div class="join justify-center sm:justify-end">
                             @foreach ($links as $link)
                                 <button
-                                    class="join-item btn btn-sm @if ($link['active']) btn-primary @endif"
+                                    class="join-item btn btn-sm @if ($link['active']) btn-secondary @endif"
                                     @if (!$link['url'] || !($link['page'] ?? null)) disabled @endif
                                     wire:click="goToPage({{ $link['page'] ?? 1 }})" wire:loading.attr="disabled"
                                     wire:target="goToPage">
@@ -210,29 +210,36 @@
     <dialog id="cancelModal" class="modal modal-bottom sm:modal-middle backdrop-blur-sm" wire:ignore>
         <div class="modal-box">
             <h3 class="font-bold text-lg">Masukkan Alasan Pembatalan Booking</h3>
-            <div class="mt-2 text-xs text-base-content/70 grid grid-cols-1 sm:grid-cols-2 gap-2" id="cancelInfo">
-                <div class="flex items-center justify-between rounded-lg border border-base-300 px-3 py-2">
-                    <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70">Kode
-                    </span>
-                    <span id="cancelInfoKode" class="text-xs px-2 py-1 font-mono font-bold italic">-</span>
-                </div>
-                <div class="flex items-center justify-between rounded-lg border border-base-300 px-3 py-2">
-                    <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70">Tanggal</span>
-                    <span id="cancelInfoTanggal" class="text-xs px-2 py-1">-</span>
-                </div>
-                <div
-                    class="flex items-center justify-between rounded-lg border border-base-300 px-3 py-2 sm:col-span-2">
-                    <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70">Jam</span>
-                    <span id="cancelInfoJam" class="text-xs px-2 py-1 font-mono">-</span>
-                </div>
-                <div class="flex items-center justify-between rounded-lg border border-base-300 px-3 py-2">
-                    <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70">Pemesan</span>
-                    <span id="cancelInfoUser" class="text-xs px-2 py-1">-</span>
-                </div>
-                <div class="flex items-center justify-between rounded-lg border border-base-300 px-3 py-2">
+            <div class="mt-4 space-y-2.5 text-xs text-base-content/70" id="cancelInfo">
+                <div class="flex items-end justify-between w-full">
                     <span
-                        class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70">Lapangan</span>
-                    <span id="cancelInfoLapangan" class="text-xs px-2 py-1">-</span>
+                        class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70 shrink-0">Kode</span>
+                    <div class="grow border-b border-dashed border-base-content/25 mx-2 mb-1"></div>
+                    <span id="cancelInfoKode" class="text-xs font-mono font-bold italic shrink-0 text-right">-</span>
+                </div>
+                <div class="flex items-end justify-between w-full">
+                    <span
+                        class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70 shrink-0">Tanggal</span>
+                    <div class="grow border-b border-dashed border-base-content/25 mx-2 mb-1"></div>
+                    <span id="cancelInfoTanggal" class="text-xs font-bold shrink-0 text-right">-</span>
+                </div>
+                <div class="flex items-end justify-between w-full">
+                    <span
+                        class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70 shrink-0">Jam</span>
+                    <div class="grow border-b border-dashed border-base-content/25 mx-2 mb-1"></div>
+                    <span id="cancelInfoJam" class="text-xs font-mono font-bold shrink-0 text-right">-</span>
+                </div>
+                <div class="flex items-end justify-between w-full">
+                    <span
+                        class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70 shrink-0">Pemesan</span>
+                    <div class="grow border-b border-dashed border-base-content/25 mx-2 mb-1"></div>
+                    <span id="cancelInfoUser" class="text-xs font-bold shrink-0 text-right">-</span>
+                </div>
+                <div class="flex items-end justify-between w-full">
+                    <span
+                        class="font-semibold text-[11px] uppercase tracking-wide text-base-content/70 shrink-0">Lapangan</span>
+                    <div class="grow border-b border-dashed border-base-content/25 mx-2 mb-1"></div>
+                    <span id="cancelInfoLapangan" class="text-xs font-bold shrink-0 text-right">-</span>
                 </div>
             </div>
             <div class="mt-3">
@@ -282,7 +289,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                 </svg>
-                <span class="italic uppercase tracking-wider">Export Data Booking</span>
+                <span class="uppercase">Export Data Booking</span>
             </h3>
 
             <div class="mt-4">
@@ -336,9 +343,7 @@
                     </div>
                     <p class="font-bold text-secondary">
                         {{ $exportMessage }}</p>
-                    <button
-                        class="btn btn-primary text-white mt-4 w-full shadow-lg font-bold italic tracking-widest uppercase"
-                        wire:click="downloadExport">
+                    <button class="btn btn-secondary text-white mt-4 w-full uppercase" wire:click="downloadExport">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="2.5" stroke="currentColor" class="w-5 h-5 mr-1">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -353,8 +358,8 @@
                 <button type="button" class="btn btn-ghost btn-sm" wire:click="closeExportModal"
                     wire:loading.attr="disabled">Tutup</button>
                 @if (!$exportMessage)
-                    <button class="btn btn-primary btn-sm text-white font-bold italic uppercase tracking-widest"
-                        wire:click="processExport" wire:loading.attr="disabled" wire:target="processExport">
+                    <button class="btn btn-secondary btn-sm text-white uppercase" wire:click="processExport"
+                        wire:loading.attr="disabled" wire:target="processExport">
                         <span wire:loading.remove wire:target="processExport">Proses Export</span>
                         <span class="loading loading-spinner loading-xs" wire:loading
                             wire:target="processExport"></span>
