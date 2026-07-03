@@ -9,7 +9,6 @@ use Livewire\Attributes\Url;
 
 new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends Component
 {
-    public bool $ready = false;
     public array $jadwal = [];
     public ?string $error = null;
     public array $links = [];
@@ -21,12 +20,9 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
-    public function load(): void
+    public function mount(): void
     {
-        $this->ready = false;
         $this->fetchJadwal();
-        $this->dispatch('jadwal-loaded');
-        $this->ready = true;
     }
 
     private function fetchJadwal(): void
@@ -96,7 +92,6 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
     public function goToUrl(?string $url): void
     {
         if (!$url) return;
-        $this->ready = false;
         $page = 1;
         try {
             $parts = parse_url((string) $url);
@@ -109,7 +104,6 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
         }
         $this->page = max(1, (int) $page);
         $this->fetchJadwal();
-        $this->ready = true;
     }
 
     public function deleteJadwal(int $id): void

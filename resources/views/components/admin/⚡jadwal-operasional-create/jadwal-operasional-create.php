@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Session;
 new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends Component
 {
     public ?string $error = null;
-    public bool $ready = false;
 
     public array $arenas = [];
     public ?string $lapangan_id = null;
@@ -18,10 +17,9 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
     public ?string $tutup = null;
     public ?int $httpStatus = null;
 
-    public function load(): void
+    public function mount(): void
     {
         $this->fetchArenas();
-        $this->ready = true;
     }
 
     protected function fetchArenas(): void

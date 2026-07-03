@@ -28,13 +28,8 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
         if ($id !== null) {
             $this->id = $id;
         }
-    }
-
-    public function load(): void
-    {
         $this->fetchArenas();
         $this->fetch();
-        $this->ready = true;
     }
 
     protected function fetch(): void
