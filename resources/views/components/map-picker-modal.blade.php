@@ -63,7 +63,6 @@
         var selectedLat = '';
         var selectedLng = '';
         var selectedAddress = '';
-        var geocodeTimer = null;
         var searchDebounce = null;
 
         // ── Helpers ──────────────────────────────────────────
@@ -167,26 +166,26 @@
         function updatePosition(lat, lng) {
             selectedLat = lat.toFixed(6);
             selectedLng = lng.toFixed(6);
+            // Address will be resolved once via server proxy when user saves
+            selectedAddress = '';
             updateDisplay();
             updateSaveBtn();
-
-            // Debounce reverse geocode – Nominatim allows max 1 req/sec
-            if (geocodeTimer) clearTimeout(geocodeTimer);
-            geocodeTimer = setTimeout(function () { reverseGeocode(lat, lng); }, 1500);
         }
 
-        // ── Geocode ──────────────────────────────────────────
+        // ── Geocode (server-side proxy – no CORS / rate-limit) ────────────
         function reverseGeocode(lat, lng) {
-            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1')
+            return fetch('/api/geocode/reverse?lat=' + lat + '&lng=' + lng)
                 .then(function (r) { return r.json(); })
                 .then(function (data) {
                     if (data && data.display_name) {
                         selectedAddress = data.display_name;
                         updateDisplay();
                     }
+                    return selectedAddress;
                 })
                 .catch(function (err) {
                     console.warn('Reverse geocode error:', err);
+                    return '';
                 });
         }
 
@@ -197,7 +196,7 @@
             if (!query) return;
 
             setSearchLoading(true);
-            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query))
+            fetch('/api/geocode/search?q=' + encodeURIComponent(query) + '&limit=1')
                 .then(function (r) { return r.json(); })
                 .then(function (data) {
                     if (data && data.length > 0) {
@@ -224,7 +223,7 @@
 
             if (searchDebounce) clearTimeout(searchDebounce);
             searchDebounce = setTimeout(function () {
-                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query) + '&limit=5')
+                fetch('/api/geocode/search?q=' + encodeURIComponent(query) + '&limit=5')
                     .then(function (r) { return r.json(); })
                     .then(function (data) {
                         renderResults(data || []);
@@ -290,23 +289,37 @@
 
         // ── Save ─────────────────────────────────────────────
         function saveLocation() {
-            var gmapUrl = 'https://maps.google.com/?q=' + selectedLat + ',' + selectedLng;
+            var btn = document.getElementById('map-save-btn');
+            if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
 
-            // Find the parent Livewire component and set values
-            var wrapper = document.getElementById('map-picker-wrapper');
-            var wireEl = wrapper ? wrapper.closest('[wire\\:id]') : null;
-            if (wireEl && window.Livewire) {
-                var cid = wireEl.getAttribute('wire:id');
-                var component = window.Livewire.find(cid);
-                if (component) {
-                    component.set('latitude', selectedLat);
-                    component.set('longitude', selectedLng);
-                    component.set('alamat', selectedAddress);
-                    component.set('gmap', gmapUrl);
+            var doSave = function (address) {
+                var gmapUrl = 'https://maps.google.com/?q=' + selectedLat + ',' + selectedLng;
+
+                // Find the active Livewire component (lapangan-create or lapangan-update)
+                var wireEl = document.querySelector('[wire\\:id]');
+                if (wireEl && window.Livewire) {
+                    var cid = wireEl.getAttribute('wire:id');
+                    var component = window.Livewire.find(cid);
+                    if (component) {
+                        component.set('latitude', selectedLat);
+                        component.set('longitude', selectedLng);
+                        component.set('alamat', address);
+                        component.set('gmap', gmapUrl);
+                    }
                 }
+
+                closeModal();
+            };
+
+            // If address already known (user searched), save immediately
+            if (selectedAddress) {
+                doSave(selectedAddress);
+                return;
             }
 
-            closeModal();
+            // Otherwise fetch address once via server proxy, then save
+            reverseGeocode(parseFloat(selectedLat), parseFloat(selectedLng))
+                .then(function (address) { doSave(address); });
         }
 
         // ── Event Bindings ───────────────────────────────────

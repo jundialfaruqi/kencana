@@ -1,6 +1,45 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+
+// Nominatim Proxy — server-side to avoid browser CORS & rate-limit issues
+Route::get('/api/geocode/reverse', function () {
+    $lat = request('lat');
+    $lng = request('lng');
+
+    if (! $lat || ! $lng) {
+        return response()->json(['error' => 'Missing lat/lng'], 422);
+    }
+
+    $response = Http::withHeaders(['User-Agent' => config('app.name').' geocoder'])
+        ->get('https://nominatim.openstreetmap.org/reverse', [
+            'format' => 'json',
+            'lat' => $lat,
+            'lon' => $lng,
+            'zoom' => 18,
+            'addressdetails' => 1,
+        ]);
+
+    return response()->json($response->json(), $response->status());
+})->name('geocode.reverse');
+
+Route::get('/api/geocode/search', function () {
+    $query = request('q');
+
+    if (! $query) {
+        return response()->json(['error' => 'Missing query'], 422);
+    }
+
+    $response = Http::withHeaders(['User-Agent' => config('app.name').' geocoder'])
+        ->get('https://nominatim.openstreetmap.org/search', [
+            'format' => 'json',
+            'q' => $query,
+            'limit' => request('limit', 5),
+        ]);
+
+    return response()->json($response->json(), $response->status());
+})->name('geocode.search');
 
 // Public Route
 Route::livewire('/login', 'auth::login')
@@ -33,16 +72,17 @@ Route::middleware(['api.auth'])->group(function () {
 Route::middleware(['api.auth:admin'])->group(function () {
     // Protected APK Download Route
     Route::get('/admin/apk-download/{filename}', function ($filename) {
-        $path = storage_path('app/private/apk-download/' . $filename);
-        if (!file_exists($path)) {
+        $path = storage_path('app/private/apk-download/'.$filename);
+        if (! file_exists($path)) {
             abort(404);
         }
+
         return response()->download($path);
     })->name('admin.apk-download');
 
     Route::livewire('/dashboard', 'admin::dashboard')
         ->name('dashboard');
-        
+
     Route::livewire('/statistik-analitik', 'admin::statistik-analitik')
         ->name('statistik-analitik');
 
