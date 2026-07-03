@@ -25,6 +25,11 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
     public $image_cover = null;
     public $images = [];
 
+    public function mount(): void
+    {
+        $this->images = [null, null, null, null];
+    }
+
     protected function rules(): array
     {
         return [
@@ -36,9 +41,9 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
             'status' => ['required', 'in:open,coming_soon'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
-            'image_cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
+            'image_cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2000'],
             'images' => ['nullable', 'array', 'max:4'],
-            'images.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
+            'images.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2000'],
         ];
     }
 
@@ -54,30 +59,20 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
             'latitude.numeric' => 'Latitude harus berupa angka',
             'longitude.numeric' => 'Longitude harus berupa angka',
             'image_cover.image' => 'Cover harus berupa gambar',
-            'image_cover.mimes' => 'Cover harus bertipe JPG, JPEG, atau PNG',
+            'image_cover.mimes' => 'Cover harus bertipe JPG, JPEG, PNG, atau WEBP',
             'image_cover.max' => 'Ukuran cover maksimal 2MB',
             'images.array' => 'Galeri harus berupa daftar gambar',
             'images.max' => 'Maksimum 4 gambar galeri',
             'images.*.image' => 'Setiap gambar galeri harus berupa gambar',
-            'images.*.mimes' => 'Gambar galeri harus bertipe JPG, JPEG, atau PNG',
+            'images.*.mimes' => 'Gambar galeri harus bertipe JPG, JPEG, PNG, atau WEBP',
             'images.*.max' => 'Ukuran setiap gambar maksimal 2MB',
         ];
-    }
-
-    public function addImageField(): void
-    {
-        if (count((array)$this->images) >= 4) {
-            $this->addError('images', 'Maksimum 4 gambar di galeri');
-            return;
-        }
-        $this->images[] = null;
     }
 
     public function removeImage(int $index): void
     {
         if (array_key_exists($index, $this->images)) {
-            unset($this->images[$index]);
-            $this->images = array_values($this->images);
+            $this->images[$index] = null;
         }
     }
 
