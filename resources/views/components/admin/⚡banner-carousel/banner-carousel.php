@@ -10,7 +10,6 @@ use Livewire\Attributes\Url;
 
 new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Component
 {
-    public bool $readyToLoad = false;
     public ?string $error = null;
     public array $banners = [];
     public array $links = [];
@@ -22,14 +21,13 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
-    public function load()
+    public function mount()
     {
         if (!Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
             return;
         }
         $this->fetchBanners();
-        $this->readyToLoad = true;
         $this->dispatch('admin-banner-carousel-loaded');
     }
     protected function fetchBanners(): void

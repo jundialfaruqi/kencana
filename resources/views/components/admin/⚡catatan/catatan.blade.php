@@ -21,18 +21,14 @@
             Buat Catatan
         </a>
     </div>
-    <div class="card bg-base-100 border border-base-300" wire:init="load">
+    <div class="card bg-base-100 border border-base-300">
         <div class="card-body">
-            <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-                <span class="loading loading-spinner loading-md"></span>
-            </div>
-            <div wire:loading.remove wire:target="load">
-                @if ($error)
-                    <div class="alert alert-error">
-                        <span>{{ $error }}</span>
-                    </div>
-                @else
-                    <div class="overflow-x-auto">
+            @if ($error)
+                <div class="alert alert-error">
+                    <span>{{ $error }}</span>
+                </div>
+            @else
+                <div class="overflow-x-auto">
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
@@ -156,7 +152,6 @@
                         </div>
                     </div>
                 @endif
-            </div>
         </div>
     </div>
 </div>

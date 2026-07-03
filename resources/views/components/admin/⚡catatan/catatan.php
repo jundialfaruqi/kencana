@@ -12,7 +12,6 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
 {
     use WithPagination;
 
-    public bool $ready = false;
     public array $catatans = [];
     public ?string $error = null;
     public array $links = [];
@@ -24,11 +23,9 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
-    public function load(): void
+    public function mount(): void
     {
-        $this->ready = false;
         $this->fetchCatatan();
-        $this->ready = true;
     }
 
     protected function fetchCatatan(): void
@@ -91,7 +88,6 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
     public function goToUrl(?string $url): void
     {
         if (!$url) return;
-        $this->ready = false;
         $page = 1;
         try {
             $parts = parse_url((string) $url);
@@ -104,8 +100,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
         }
         $this->page = max(1, (int) $page);
         $this->fetchCatatan();
-        $this->ready = true;
-    }
+     }
 
     public function deleteCatatan(?int $id): void
     {
@@ -132,9 +127,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
                     'message' => (string) ($result['message'] ?? 'Catatan berhasil dihapus'),
                     'type' => 'success',
                 ]);
-                $this->ready = false;
                 $this->fetchCatatan();
-                $this->ready = true;
                 return;
             }
             $this->error = (string) ($result['message'] ?? 'Gagal menghapus catatan');

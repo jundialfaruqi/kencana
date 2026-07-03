@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Session;
 new #[Title('Buat Catatan')] #[Layout('layouts::admin.app')] class extends Component
 {
     public ?string $error = null;
-    public bool $ready = false;
 
     public array $arenas = [];
     public ?string $lapangan_id = null;
@@ -19,11 +18,10 @@ new #[Title('Buat Catatan')] #[Layout('layouts::admin.app')] class extends Compo
     public array $availableKategoriCatatan = [];
     public ?string $selectedKategoriCatatan = null;
 
-    public function load(): void
+    public function mount(): void
     {
         $this->fetchArenas();
         $this->fetchKategoriCatatan();
-        $this->ready = true;
     }
 
     protected function fetchKategoriCatatan(): void
@@ -122,15 +120,12 @@ new #[Title('Buat Catatan')] #[Layout('layouts::admin.app')] class extends Compo
             $this->httpStatus = $response->status();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => (string) ($result['message'] ?? 'Catatan berhasil dibuat'),
                     'type' => 'success',
                 ]);
-                $this->lapangan_id = null;
-                $this->kategori_catatan = null;
-                $this->catatan = null;
-                $this->fetchKategoriCatatan(); // Panggil ulang untuk memperbarui daftar kategori
+                $this->redirect('/catatan', navigate: true);
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);

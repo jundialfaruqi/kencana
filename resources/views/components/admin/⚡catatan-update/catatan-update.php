@@ -12,7 +12,6 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
     public $id;
 
     public ?string $error = null;
-    public bool $ready = false;
     public ?int $httpStatus = null;
 
     public array $arenas = [];
@@ -30,14 +29,9 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
         } elseif ($this->id === null) {
             $this->id = request()->query('id');
         }
-    }
-
-    public function load(): void
-    {
         $this->fetchArenas();
         $this->fetchKategoriCatatan();
         $this->fetchNote();
-        $this->ready = true;
     }
 
     protected function fetchArenas(): void
@@ -160,13 +154,12 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
             $this->httpStatus = $response->status();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->error = null;
-                $this->dispatch('toast', [
+                $this->dispatch('set-pending-toast', [
                     'title' => 'Berhasil',
                     'message' => (string) ($result['message'] ?? 'Catatan berhasil diperbarui'),
                     'type' => 'success',
                 ]);
-                $this->fetchKategoriCatatan();
-                $this->fetchNote();
+                $this->redirect('/catatan', navigate: true);
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
