@@ -177,7 +177,11 @@
                 updatePosition(lat, lng) {
                     this.selectedLat = lat.toFixed(6);
                     this.selectedLng = lng.toFixed(6);
-                    this.reverseGeocode(lat, lng);
+                    // Debounce reverse geocode to avoid Nominatim 429 rate limit (max 1 req/sec)
+                    if (this._geocodeTimer) clearTimeout(this._geocodeTimer);
+                    this._geocodeTimer = setTimeout(() => {
+                        this.reverseGeocode(lat, lng);
+                    }, 1500);
                 },
 
                 async reverseGeocode(lat, lng) {
