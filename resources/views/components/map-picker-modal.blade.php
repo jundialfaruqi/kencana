@@ -300,16 +300,13 @@
             var doSave = function (address) {
                 var gmapUrl = 'https://maps.google.com/?q=' + selectedLat + ',' + selectedLng;
 
-                // Find the active Livewire component (lapangan-create or lapangan-update)
+                // Find the active Livewire component and call a single action
                 var wireEl = document.querySelector('[wire\\:id]');
                 if (wireEl && window.Livewire) {
                     var cid = wireEl.getAttribute('wire:id');
                     var component = window.Livewire.find(cid);
                     if (component) {
-                        component.set('latitude', selectedLat);
-                        component.set('longitude', selectedLng);
-                        component.set('alamat', address);
-                        component.set('gmap', gmapUrl);
+                        component.call('setLocation', selectedLat, selectedLng, address, gmapUrl);
                     }
                 }
 

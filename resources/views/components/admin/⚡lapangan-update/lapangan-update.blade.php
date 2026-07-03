@@ -33,7 +33,7 @@
                             <span class="label-text">Nama Lapangan</span>
                         </div>
                         <input type="text" class="input input-bordered w-full mt-1.5" placeholder="Contoh: Arena A"
-                            wire:model.live="nama_lapangan" />
+                            wire:model.blur="nama_lapangan" />
                         @error('nama_lapangan')
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
@@ -43,7 +43,7 @@
                             <span class="label-text">Deskripsi</span>
                         </div>
                         <textarea class="textarea textarea-bordered w-full mt-1.5" rows="4" placeholder="Deskripsi singkat"
-                            wire:model.live="deskripsi"></textarea>
+                            wire:model.blur="deskripsi"></textarea>
                         @error('deskripsi')
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
@@ -54,7 +54,7 @@
                                 <span class="label-text">No. Telepon</span>
                             </div>
                             <input type="tel" class="input input-bordered w-full mt-1.5" placeholder="08123456789"
-                                wire:model.live="no_tlp" />
+                                wire:model.blur="no_tlp" />
                             @error('no_tlp')
                                 <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                             @enderror
@@ -92,7 +92,7 @@
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text">Alamat</span></div>
                             <input type="text" class="input input-bordered w-full mt-1.5"
-                                placeholder="Alamat lengkap" wire:model.live="alamat" />
+                                placeholder="Alamat lengkap" wire:model="alamat" />
                             @error('alamat')
                                 <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                             @enderror
@@ -101,7 +101,7 @@
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text">Link Google Maps</span></div>
                             <input type="url" class="input input-bordered w-full mt-1.5"
-                                placeholder="https://maps.google.com/..." wire:model.live="gmap" />
+                                placeholder="https://maps.google.com/..." wire:model="gmap" />
                             @error('gmap')
                                 <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                             @enderror
@@ -111,7 +111,7 @@
                             <label class="form-control w-full">
                                 <div class="label"><span class="label-text">Latitude</span></div>
                                 <input type="number" step="any" class="input input-bordered w-full mt-1.5"
-                                    placeholder="-0.12345" wire:model.live="latitude" />
+                                    placeholder="-0.12345" wire:model="latitude" />
                                 @error('latitude')
                                     <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                                 @enderror
@@ -119,7 +119,7 @@
                             <label class="form-control w-full">
                                 <div class="label"><span class="label-text">Longitude</span></div>
                                 <input type="number" step="any" class="input input-bordered w-full mt-1.5"
-                                    placeholder="101.12345" wire:model.live="longitude" />
+                                    placeholder="101.12345" wire:model="longitude" />
                                 @error('longitude')
                                     <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                                 @enderror

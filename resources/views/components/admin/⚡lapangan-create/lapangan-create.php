@@ -76,6 +76,14 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
         }
     }
 
+    public function setLocation(string $lat, string $lng, string $alamat, string $gmap): void
+    {
+        $this->latitude = $lat;
+        $this->longitude = $lng;
+        $this->alamat = $alamat;
+        $this->gmap = $gmap;
+    }
+
     public function cancel(): mixed
     {
         $this->reset([
