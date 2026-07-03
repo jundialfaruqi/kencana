@@ -130,8 +130,8 @@
 
                                 <!-- Status Overlay for coming soon or special states -->
                                 @if (!$isOpen)
-                                    <div
-                                        class="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+                                    <div class="absolute inset-0 bg-black/60"></div>
+                                    <div class="absolute top-4 left-4">
                                         <span
                                             class="px-3 py-1.5 text-[10px] font-black tracking-widest uppercase bg-warning text-warning-content rounded-lg shadow-md -skew-x-12">
                                             {{ data_get($lp, 'status_label', ucfirst($status)) }}
