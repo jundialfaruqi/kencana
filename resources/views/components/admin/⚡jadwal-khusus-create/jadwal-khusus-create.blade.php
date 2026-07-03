@@ -102,7 +102,7 @@
                             wire:target="submit">
                             Kembali
                         </a>
-                        <button type="button" class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
+                        <button type="button" class="btn btn-accent" wire:click="submit" wire:loading.attr="disabled"
                             wire:target="submit">
                             <span wire:loading.remove wire:target="submit">Simpan Jadwal Khusus</span>
                             <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>

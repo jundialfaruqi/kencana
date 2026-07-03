@@ -27,7 +27,7 @@
                 </div>
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                    <div class="card border-2 border-dashed border-base-300 bg-base-100">
+                    <div class="card bg-base-100">
                         <div class="card-body">
                             <div class="flex items-start justify-between gap-4">
                                 <div>
