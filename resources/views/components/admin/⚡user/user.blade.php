@@ -51,7 +51,7 @@
                     <table class="table table-zebra">
                         <thead>
                             <tr>
-                                {{-- <th>No</th> --}}
+                                <th>No</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Role</th>
@@ -64,7 +64,7 @@
                         <tbody>
                             @forelse ($this->filteredUsers as $u)
                                 <tr>
-                                    {{-- <td>{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td> --}}
+                                    <td class="font-bold text-base-content/75">{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td>
                                     <td class="font-bold">{{ $u['name'] ?? '-' }}</td>
                                     <td x-data="{ showEmail: false }">
                                         <div class="flex items-center gap-2 font-mono">
@@ -208,7 +208,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">Tidak ada data</td>
+                                    <td colspan="8" class="text-center">Tidak ada data</td>
                                 </tr>
                             @endforelse
                         </tbody>

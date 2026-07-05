@@ -23,9 +23,39 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
+    public array $arenas = [];
+    #[Url(as: 'lapangan', history: true)]
+    public string $selectedLapanganId = 'all';
+
     public function mount(): void
     {
+        $this->fetchArenas();
         $this->fetchCatatan();
+    }
+
+    public function updatedSelectedLapanganId(): void
+    {
+        $this->page = 1;
+        $this->fetchCatatan();
+    }
+
+    private function fetchArenas(): void
+    {
+        try {
+            $token = Session::get('auth_token');
+            $base = rtrim((string) config('services.api.base_url'), '/');
+            $url = $base . '/v1/master/lapangan';
+            /** @var \Illuminate\Http\Client\Response $response */
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
+                ->accept('application/json')
+                ->get($url);
+            $result = $response->json();
+            if ($response->successful() && ($result['success'] ?? false)) {
+                $this->arenas = (array) ($result['data'] ?? []);
+            }
+        } catch (\Throwable) {
+            //
+        }
     }
 
     protected function fetchCatatan(): void
@@ -39,6 +69,23 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
             $result = json_decode((string) $response->body(), true);
             if (is_array($result) && ($result['success'] ?? false)) {
                 $all = (array) ($result['data'] ?? []);
+                if ($this->selectedLapanganId && $this->selectedLapanganId !== 'all') {
+                    $all = array_filter($all, function($item) {
+                        return (string) (data_get($item, 'lapangan_id') ?? data_get($item, 'lapangan.id')) === (string) $this->selectedLapanganId;
+                    });
+                }
+
+                usort($all, function($a, $b) {
+                    $arenaA = (string) (data_get($a, 'nama_lapangan') ?? '');
+                    $arenaB = (string) (data_get($b, 'nama_lapangan') ?? '');
+                    if ($arenaA !== $arenaB) {
+                        return strcmp($arenaA, $arenaB);
+                    }
+                    $katA = (string) (data_get($a, 'kategori_catatan') ?? '');
+                    $katB = (string) (data_get($b, 'kategori_catatan') ?? '');
+                    return strcmp($katA, $katB);
+                });
+
                 $this->total = count($all);
                 $this->lastPage = max(1, (int) ceil(($this->total ?: 0) / $this->perPage));
                 $this->currentPage = min(max((int) $this->page, 1), $this->lastPage);

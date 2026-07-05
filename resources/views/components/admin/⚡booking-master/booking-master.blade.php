@@ -92,6 +92,7 @@
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Kode Booking</th>
                                     <th>Tanggal</th>
                                     <th>Jam</th>
@@ -108,6 +109,7 @@
                             <tbody>
                                 @forelse ($bookings as $b)
                                     <tr>
+                                        <td class="font-bold text-base-content/75">{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td>
                                         <td class="whitespace-nowrap font-mono font-bold">
                                             <span class="copy-booking-code cursor-pointer"
                                                 data-booking-code="{{ $b['kode_booking'] ?? '' }}">
@@ -180,7 +182,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="10" class="text-center">Tidak ada data</td>
+                                        <td colspan="12" class="text-center">Tidak ada data</td>
                                     </tr>
                                 @endforelse
                             </tbody>

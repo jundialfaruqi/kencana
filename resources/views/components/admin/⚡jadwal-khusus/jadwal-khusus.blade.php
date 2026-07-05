@@ -16,19 +16,31 @@
             </ul>
         </div>
     </div>
-    <div class="flex items-center justify-start gap-2 mb-3">
-        <a wire:navigate href="/jadwal-khusus-create" class="btn btn-secondary btn-sm shadow">
-            Buat Jadwal Khusus
-        </a>
-        <button type="button" class="btn btn-secondary btn-sm text-white" wire:click="openExportModal"
-            wire:loading.attr="disabled">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                stroke="currentColor" class="w-4 h-4 mr-1">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-            </svg>
-            Export Data
-        </button>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <div class="flex items-center gap-2">
+            <a wire:navigate href="/jadwal-khusus-create" class="btn btn-secondary btn-sm shadow">
+                Buat Jadwal Khusus
+            </a>
+            <button type="button" class="btn btn-secondary btn-sm text-white shadow" wire:click="openExportModal"
+                wire:loading.attr="disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="w-4 h-4 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                </svg>
+                Export Data
+            </button>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+            <span class="text-xs font-bold uppercase text-base-content/60 whitespace-nowrap">Filter Arena:</span>
+            <select wire:model.live="selectedLapanganId" class="select select-bordered w-full sm:w-64 rounded-xl">
+                <option value="all">Semua Arena</option>
+                @foreach ($arenas as $arena)
+                    <option value="{{ data_get($arena, 'id') }}">{{ data_get($arena, 'nama_lapangan') }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
     <div class="card bg-base-100 border border-base-300">
         <div class="card-body">
@@ -38,22 +50,42 @@
                 </div>
             @else
                 <div class="overflow-x-auto">
-                        <table class="table table-zebra">
-                            <thead>
-                                <tr>
-                                    <th>Tanggal</th>
-                                    <th>Mulai</th>
-                                    <th>Selesai</th>
-                                    <th>Tipe</th>
-                                    <th>Keterangan</th>
-                                    <th>Arena</th>
-                                    <th>Aksi</th>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Mulai</th>
+                                <th>Selesai</th>
+                                <th>Tipe</th>
+                                <th>Keterangan</th>
+                                <th>Arena</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $groupedItems = collect($items)->groupBy(function ($item) {
+                                    return data_get($item, 'lapangan.nama_lapangan') ?? 'Lainnya';
+                                });
+                            @endphp
+
+                            @forelse ($groupedItems as $arenaName => $subItems)
+                                <tr class="bg-base-200/70 border-y border-base-300">
+                                    <td colspan="7"
+                                        class="font-extrabold text-[11px] sm:text-xs uppercase tracking-wider text-primary py-3">
+                                        <div class="flex items-center gap-1.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-primary">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 9h1.5m2.25 0H15m-6 3h1.5m2.25 0H15m-6 3h1.5m2.25 0H15" />
+                                            </svg>
+                                            <span>Arena: {{ $arenaName }}</span>
+                                        </div>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($items as $it)
-                                    <tr>
-                                        <td class="whitespace-nowrap">
+                                @foreach ($subItems as $it)
+                                    <tr class="hover:bg-base-200/30 transition-colors">
+                                        <td class="whitespace-nowrap font-bold">
                                             {{ \Illuminate\Support\Str::of($it['tanggal'] ?? '')->substr(0, 10)->explode('-')->reverse()->implode('-') }}
                                         </td>
                                         <td class="whitespace-nowrap">
@@ -66,7 +98,7 @@
                                             {{ $it['tipe_label'] ?? '-' }}
                                         </td>
                                         <td>{{ $it['keterangan'] ?? '-' }}</td>
-                                        <td class="text-xs font-bold">
+                                        <td class="text-xs font-semibold text-base-content/75">
                                             {{ data_get($it, 'lapangan.nama_lapangan') ?? '-' }}
                                         </td>
                                         <td>
@@ -119,46 +151,47 @@
                                             </dialog>
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center">Tidak ada data</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Tidak ada data</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="join justify-center sm:justify-end text-xs text-base-content/60">
+                        Halaman {{ $currentPage }} dari {{ $lastPage }} • Total {{ $total }}
                     </div>
-                    <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div class="join justify-center sm:justify-end text-xs text-base-content/60">
-                            Halaman {{ $currentPage }} dari {{ $lastPage }} • Total {{ $total }}
-                        </div>
-                        <div class="join justify-center sm:justify-end">
-                            @foreach ($links as $link)
-                                <button
-                                    class="join-item btn btn-sm
+                    <div class="join justify-center sm:justify-end">
+                        @foreach ($links as $link)
+                            <button
+                                class="join-item btn btn-sm
                                 @if ($link['active']) btn-secondary @endif"
-                                    @if (!$link['url']) disabled @endif
-                                    wire:click="goToUrl('{{ $link['url'] }}')">
-                                    @php $lbl = $link['label'] ?? ''; @endphp
-                                    @if ($lbl === 'Prev')
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="3" stroke="currentColor" class="size-2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                                        </svg>
-                                    @endif
-                                    {!! $link['label'] !!}
-                                    @if ($lbl === 'Next')
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="3" stroke="currentColor" class="size-2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                                        </svg>
-                                    @endif
-                                </button>
-                            @endforeach
-                        </div>
+                                @if (!$link['url']) disabled @endif
+                                wire:click="goToUrl('{{ $link['url'] }}')">
+                                @php $lbl = $link['label'] ?? ''; @endphp
+                                @if ($lbl === 'Prev')
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="3" stroke="currentColor" class="size-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                                    </svg>
+                                @endif
+                                {!! $link['label'] !!}
+                                @if ($lbl === 'Next')
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="3" stroke="currentColor" class="size-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                @endif
+                            </button>
+                        @endforeach
                     </div>
-                @endif
+                </div>
+            @endif
         </div>
     </div>
 
