@@ -82,7 +82,39 @@
                             <input type="text" placeholder="Masukkan nama lengkap"
                                 class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full placeholder:text-base-content/50 h-10 @error('name') input-warning @enderror"
                                 wire:model="name" />
+                            <p class="text-[11px] text-base-content/60 mt-1.5 leading-relaxed">
+                                <span class="text-warning">*</span>Sesuai KTP
+                            </p>
                             @error('name')
+                                <label class="label p-0 mt-1">
+                                    <span class="label-text-alt text-warning text-xs">{{ $message }}</span>
+                                </label>
+                            @enderror
+                        </div>
+
+
+                        <!-- NIK -->
+                        <div class="form-control">
+                            <label class="label">
+                                <span
+                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5 text-base-content">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                                    </svg>
+                                    NIK (16 Digit)
+                                </span>
+                            </label>
+                            <input type="tel" placeholder="1234567890123456"
+                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full placeholder:text-base-content/50 h-10 @error('nik') input-warning @enderror"
+                                wire:model="nik" inputmode="numeric" pattern="[0-9]*" maxlength="16"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);" />
+                            <p class="text-[11px] text-base-content/60 mt-1.5 leading-relaxed">
+                                NIK diperlukan hanya untuk mencocokkan identitas pemesan saat verifikasi kedatangan di
+                                lapangan.
+                            </p>
+                            @error('nik')
                                 <label class="label p-0 mt-1">
                                     <span class="label-text-alt text-warning text-xs">{{ $message }}</span>
                                 </label>
@@ -135,38 +167,18 @@
                                 <!-- Phone Number Input -->
                                 <input type="tel" placeholder="8123456789"
                                     class="input input-ghost border-0 bg-transparent focus:outline-none focus:ring-0 font-medium w-full placeholder:text-base-content/50 h-10"
-                                    wire:model.live.debounce.300ms="phone_number" id="no_wa_input" inputmode="numeric"
-                                    pattern="[0-9]*" maxlength="12"
+                                    wire:model.live.debounce.300ms="phone_number" id="no_wa_input"
+                                    inputmode="numeric" pattern="[0-9]*" maxlength="12"
                                     oninput="
                                         // Remove all non-numeric characters and limit to 12 digits
                                         this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);
                                     " />
                             </div>
+                            <p class="text-[11px] text-base-content/60 mt-1.5 leading-relaxed">
+                                Nomor WhatsApp digunakan untuk mengirimkan informasi seputar pemesanan lapangan Anda,
+                                seperti konfirmasi booking, info perubahan jadwal, atau pembatalan.
+                            </p>
                             @error('no_wa')
-                                <label class="label p-0 mt-1">
-                                    <span class="label-text-alt text-warning text-xs">{{ $message }}</span>
-                                </label>
-                            @enderror
-                        </div>
-
-                        <!-- NIK -->
-                        <div class="form-control">
-                            <label class="label">
-                                <span
-                                    class="label-text text-base-content font-bold uppercase tracking-wider text-xs flex items-center gap-2 mb-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-5 text-base-content">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                    </svg>
-                                    NIK (16 Digit)
-                                </span>
-                            </label>
-                            <input type="tel" placeholder="1234567890123456"
-                                class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full placeholder:text-base-content/50 h-10 @error('nik') input-warning @enderror"
-                                wire:model="nik" inputmode="numeric" pattern="[0-9]*" maxlength="16"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);" />
-                            @error('nik')
                                 <label class="label p-0 mt-1">
                                     <span class="label-text-alt text-warning text-xs">{{ $message }}</span>
                                 </label>
