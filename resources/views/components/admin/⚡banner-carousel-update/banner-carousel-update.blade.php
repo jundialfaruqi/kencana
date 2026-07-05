@@ -175,7 +175,7 @@
         </div>
     </div>
 
-    <!-- FE PNG Image Compression and Upload Script -->
+    <!-- FE JPEG Image Compression and Upload Script -->
     <script>
         (function() {
             function compressAndUploadBannerUpdate(file, fieldName, statusEl, progressBar, onComplete, onError) {
@@ -195,7 +195,7 @@
                         progressBar.style.width = '40%';
                         if (statusEl) statusEl.textContent = 'Menyalin...';
 
-                        // PNG is lossless — compress by reducing dimensions iteratively
+                        const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
 
@@ -209,27 +209,29 @@
                                 height = maxDim;
                             }
                         }
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
 
                         progressBar.style.width = '60%';
                         if (statusEl) statusEl.textContent = 'Kompresi...';
 
-                        function attemptCompress() {
-                            const canvas = document.createElement('canvas');
-                            canvas.width = width;
-                            canvas.height = height;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, width, height);
+                        let quality = 0.85;
+                        const minQuality = 0.05;
 
+                        function attemptCompress() {
                             canvas.toBlob(function(blob) {
                                 if (!blob) { onError('Gagal kompresi canvas'); return; }
 
-                                if (blob.size <= maxSizeBytes || width <= 100) {
+                                if (blob.size <= maxSizeBytes || quality <= minQuality) {
                                     progressBar.style.width = '80%';
                                     if (statusEl) statusEl.textContent = 'Mengunggah...';
 
-                                    const newName = file.name.substring(0, file.name.lastIndexOf('.')) + '.png';
+                                    const newName = file.name.substring(0, file.name.lastIndexOf('.')) + '.jpg';
                                     const compressedFile = new File([blob], newName, {
-                                        type: 'image/png',
+                                        type: 'image/jpeg',
                                         lastModified: Date.now()
                                     });
 
@@ -252,12 +254,10 @@
                                         }
                                     );
                                 } else {
-                                    // Reduce dimensions by 80% and retry
-                                    width = Math.round(width * 0.8);
-                                    height = Math.round(height * 0.8);
+                                    quality -= 0.05;
                                     attemptCompress();
                                 }
-                            }, 'image/png');
+                            }, 'image/jpeg', quality);
                         }
                         attemptCompress();
                     };
