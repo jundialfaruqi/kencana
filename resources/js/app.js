@@ -8,16 +8,15 @@ gsap.registerPlugin(TextPlugin);
 window.gsap = gsap;
 window.TextPlugin = TextPlugin;
 
-import '../views/components/admin/⚡lapangan-detail/lapangan-detail.js';
 import '../views/components/admin/⚡lapangan-create/lapangan-create.js';
 import '../views/components/admin/⚡lapangan-update/lapangan-update.js';
-import '../views/components/public/⚡hero-carousel/hero-carousel.js';
-import '../views/components/public/⚡booking/booking.js';
 import '../views/components/admin/⚡booking-master/booking-master.js';
 import '../views/components/admin/⚡dashboard/dashboard.js';
 
 // Public Components
+import '../views/components/public/⚡booking/booking.js';
 import '../views/components/public/⚡auth-status-popup/auth-status-popup.js';
+import '../views/components/public/⚡hero-carousel/hero-carousel.js';
 import '../views/components/public/⚡banner-carousel/banner-carousel.js';
 import '../views/components/public/⚡booking-detail/booking-detail.js';
 import '../views/components/public/⚡location-card/location-card.js';

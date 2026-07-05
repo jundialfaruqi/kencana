@@ -132,6 +132,4 @@ Route::middleware(['api.auth:admin'])->group(function () {
         ->name('banner-carousel-create');
     Route::livewire('/banner-carousel-update/{id}', 'admin::banner-carousel-update')
         ->name('banner-carousel-update');
-    Route::livewire('/banner-carousel-detail/{id}', 'admin::banner-carousel-detail')
-        ->name('banner-carousel-detail');
 });
