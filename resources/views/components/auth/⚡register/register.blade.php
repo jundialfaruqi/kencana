@@ -284,14 +284,13 @@
 
             <!-- Pesan Sukses -->
             <h3 class="text-lg font-bold text-slate-800 mb-2">Pendaftaran Berhasil! 🎉</h3>
-            <p id="register-success-message" class="text-sm text-slate-600 mb-6 leading-relaxed"></p>
+            <p id="register-success-message" class="text-sm text-slate-600 mb-4 leading-relaxed"></p>
 
-            <!-- Countdown Button -->
-            <button
-                class="btn bg-info border-0 text-base-content w-full rounded-2xl py-3 font-semibold text-xs tracking-wider uppercase pointer-events-none">
-                Mohon tunggu sebentar, Anda akan dialihkan dalam <span id="register-countdown"
-                    class="font-black">5</span> detik
-            </button>
+            <!-- Countdown Info -->
+            <p class="text-xs text-slate-500 text-center">
+                Mohon tunggu sebentar, Anda akan dialihkan dalam
+            </p>
+            <span id="register-countdown" class="font-black text-warning text-2xl">5</span>
         </div>
     </div>
 </div>
