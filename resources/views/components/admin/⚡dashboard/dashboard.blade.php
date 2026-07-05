@@ -17,7 +17,7 @@
             <!-- Kolom Cek Kode Booking -->
             <div class="w-full lg:col-span-2">
                 <div
-                    class="card bg-base-100 border border-base-200 mx-auto rounded-2xl items-center py-10 flex flex-col min-h-196">
+                    class="card bg-base-100 border-y sm:border border-x-0 sm:border-base-200 -mx-6 sm:mx-auto rounded-none sm:rounded-2xl items-center py-10 px-4 flex flex-col min-h-196 w-[calc(100%+3rem)] sm:w-full">
                     <h2 class="text-lg uppercase text-center mb-2 text-base-content">
                         Cek Kode Booking
                     </h2>
