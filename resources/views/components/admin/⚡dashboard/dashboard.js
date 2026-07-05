@@ -360,7 +360,7 @@ function initializeInputLogic() {
 
 function registerLivewireListeners() {
     if (window.Livewire && !window.__dashboardListenersBound) {
-                window.Livewire.on('reset-inputs', () => {
+        window.Livewire.on('reset-inputs', () => {
             const inputs = ['input-year-1', 'input-year-2', 'input-year-3', 'input-year-4',
                             'input-month-1', 'input-month-2', 'input-day-1', 'input-day-2',
                             'input-code-1', 'input-code-2', 'input-code-3', 'input-code-4'];
@@ -379,6 +379,11 @@ function registerLivewireListeners() {
         });
         window.__dashboardListenersBound = true;
     }
+
+    // Auto initialize input logic directly
+    setTimeout(() => {
+        initializeInputLogic();
+    }, 50);
 }
 
 document.addEventListener('DOMContentLoaded', registerLivewireListeners);

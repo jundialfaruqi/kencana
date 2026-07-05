@@ -1,4 +1,4 @@
-<div wire:init="load">
+<div>
     <!-- Page Title & Breadcrumbs -->
     {{-- <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
         <div>
@@ -126,19 +126,16 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="w-full">
-                        <div wire:loading.flex wire:target="load" class="items-center justify-center p-10">
-                            <span class="loading loading-spinner loading-md"></span>
-                        </div>
-                        <div wire:loading.remove wire:target="load">
+                        <div>
+
                             @if ($error)
                                 <div class="alert bg-red-500">
                                     <span>{{ $error }}</span>
                                 </div>
                             @else
                                 <div wire:loading.flex wire:target="searchBooking"
-                                    class="items-center justify-center p-10">
-                                    <span class="loading loading-spinner loading-md"></span>
+                                    class="flex flex-col items-center justify-center text-center p-10 mt-40">
+                                    <span class="loading loading-spinner loading-lg text-primary"></span>
                                 </div>
 
                                 <div wire:loading.remove wire:target="searchBooking">
@@ -399,8 +396,6 @@
                                 </div>
                             @endif
                         </div>
-
-                    </div>
                 </div>
             </div>
 
@@ -494,7 +489,7 @@
                 <!-- Header -->
                 <div class="bg-primary text-primary-content p-4 flex justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2.5" stroke="currentColor" class="size-5 text-white">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -504,7 +499,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="font-black italic uppercase tracking-tighter text-lg text-white">
+                            <h4 class="font-black uppercase text-lg tex-base-content">
                                 Scan Barcode Booking
                             </h4>
                         </div>
@@ -531,10 +526,6 @@
                         <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
                             <div
                                 class="w-40 h-40 border-2 border-dashed border-info rounded-xl flex items-center justify-center bg-info/5">
-                                <span
-                                    class="text-[9px] uppercase tracking-widest text-info font-black bg-base-100/90 px-2.5 py-1 rounded shadow-md">
-                                    Sejajarkan QR
-                                </span>
                             </div>
                         </div>
                         <!-- Scanning indicator overlay line -->

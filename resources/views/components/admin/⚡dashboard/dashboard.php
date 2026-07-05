@@ -16,11 +16,6 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
     public ?string $searchError = null;
     public ?string $error = null;
 
-    public function load(): void
-    {
-        $this->error = null;
-        $this->dispatch('inputs-ready');
-    }
 
     protected function rules(): array
     {
