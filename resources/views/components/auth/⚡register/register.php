@@ -28,27 +28,29 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
 
     public $phone_number = '';
 
-    // Format phone number when it's updated
     public function updatedPhoneNumber($value)
     {
         // Remove all non-numeric characters
         $value = preg_replace('/[^0-9]/', '', $value);
 
-        // Remove leading 0 for API
-        $apiValue = $value;
-        if (str_starts_with($apiValue, '0')) {
-            $apiValue = substr($apiValue, 1);
+        // Strip leading '0'
+        while (str_starts_with($value, '0')) {
+            $value = substr($value, 1);
         }
 
-        // For display: only remove leading 0
-        $displayValue = $value;
-        if (str_starts_with($displayValue, '0')) {
-            $displayValue = substr($displayValue, 1);
+        // Strip leading '62' if present
+        if (str_starts_with($value, '62')) {
+            $value = substr($value, 2);
+        }
+
+        // Strip leading '0' again just in case (e.g. if it was 0620812...)
+        while (str_starts_with($value, '0')) {
+            $value = substr($value, 1);
         }
 
         // Update properties
-        $this->phone_number = $displayValue;
-        $this->no_wa = '+62' . $apiValue;
+        $this->phone_number = $value;
+        $this->no_wa = '+62' . $value;
     }
 
     #[Validate]
@@ -108,6 +110,9 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
 
     public function register()
     {
+        // Normalize the phone number before validation
+        $this->updatedPhoneNumber($this->phone_number);
+
         $this->validate();
 
         // Rate limiting: Max 100 registrations per day
