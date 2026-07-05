@@ -33,6 +33,10 @@
             var body = document.body;
             var saved = localStorage.getItem('adminTheme');
             var current = saved || body.getAttribute('data-theme') || 'colorghost';
+            if (current !== 'colorghost' && current !== 'chaotictoast') {
+                current = 'colorghost';
+                localStorage.setItem('adminTheme', 'colorghost');
+            }
             body.setAttribute('data-theme', current);
             setIcons(current);
             var btn = document.getElementById('theme-toggle');
