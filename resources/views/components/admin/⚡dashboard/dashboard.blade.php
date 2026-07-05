@@ -126,7 +126,7 @@
                             </svg>
                         </button>
                     </div>
-                    <div>
+                    <div class="w-full">
 
                         @if ($error)
                             <div class="alert bg-red-500">
@@ -138,7 +138,7 @@
                                 <span class="loading loading-spinner loading-lg text-primary"></span>
                             </div>
 
-                            <div wire:loading.remove wire:target="searchBooking">
+                            <div wire:loading.remove wire:target="searchBooking" class="w-full">
                                 @if ($searchError)
                                     <div class="alert bg-red-500 mb-4 mx-4 mt-4 text-white">
                                         <span>{{ $searchError }}</span>
@@ -177,12 +177,13 @@
                                         }
                                     </style>
 
-                                    <div class="relative w-full max-w-xl mx-auto">
+                                    <div class="relative w-full max-w-xl sm:max-w-3xl lg:max-w-4xl mx-auto">
                                         <!-- Card Tiket -->
                                         <div
                                             class="w-full rounded-2xl border border-base-300 shadow-lg flex flex-col sm:flex-row relative overflow-hidden dashboard-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]">
                                             <!-- Left Section (Main Details) -->
-                                            <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0 bg-base-100 rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+                                            <div
+                                                class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0 bg-base-100 rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
                                                 <!-- Header -->
                                                 <div
                                                     class="flex flex-row justify-between items-center mb-2 sm:mb-4 gap-2">
@@ -260,64 +261,109 @@
 
                                                     <!-- Tim/Nama -->
                                                     @php
-                                                        $team = data_get($bookingDetail, 'nama_komunitas') ?? data_get($bookingDetail, 'pemesan.nama_komunitas');
-                                                        $name = data_get($bookingDetail, 'user.name') ?? data_get($bookingDetail, 'pemesan.user.name') ?? data_get($bookingDetail, 'pemesan.nama');
-                                                        $nik = data_get($bookingDetail, 'user.nik') ?? data_get($bookingDetail, 'pemesan.user.nik') ?? data_get($bookingDetail, 'pemesan.nik');
-                                                        $email = data_get($bookingDetail, 'user.email') ?? data_get($bookingDetail, 'pemesan.user.email') ?? data_get($bookingDetail, 'pemesan.email');
-                                                        $jumlahPemain = data_get($bookingDetail, 'jumlah_pemain') ?? data_get($bookingDetail, 'detail.jumlah_pemain');
-                                                        $kategori = data_get($bookingDetail, 'kategori_pemain') ?? data_get($bookingDetail, 'detail.kategori');
-                                                        $jenis = data_get($bookingDetail, 'jenis_permainan') ?? data_get($bookingDetail, 'detail.jenis');
+                                                        $team =
+                                                            data_get($bookingDetail, 'nama_komunitas') ??
+                                                            data_get($bookingDetail, 'pemesan.nama_komunitas');
+                                                        $name =
+                                                            data_get($bookingDetail, 'user.name') ??
+                                                            (data_get($bookingDetail, 'pemesan.user.name') ??
+                                                                data_get($bookingDetail, 'pemesan.nama'));
+                                                        $nik =
+                                                            data_get($bookingDetail, 'user.nik') ??
+                                                            (data_get($bookingDetail, 'pemesan.user.nik') ??
+                                                                data_get($bookingDetail, 'pemesan.nik'));
+                                                        $email =
+                                                            data_get($bookingDetail, 'user.email') ??
+                                                            (data_get($bookingDetail, 'pemesan.user.email') ??
+                                                                data_get($bookingDetail, 'pemesan.email'));
+                                                        $jumlahPemain =
+                                                            data_get($bookingDetail, 'jumlah_pemain') ??
+                                                            data_get($bookingDetail, 'detail.jumlah_pemain');
+                                                        $kategori =
+                                                            data_get($bookingDetail, 'kategori_pemain') ??
+                                                            data_get($bookingDetail, 'detail.kategori');
+                                                        $jenis =
+                                                            data_get($bookingDetail, 'jenis_permainan') ??
+                                                            data_get($bookingDetail, 'detail.jenis');
                                                     @endphp
 
                                                     <!-- Details List (Tim, Pemesan, NIK, Email, Pemain, Kategori, Jenis) -->
                                                     <div class="col-span-2 mt-4 space-y-2.5">
                                                         <!-- Tim -->
                                                         <div class="flex items-end justify-between w-full">
-                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Tim</span>
-                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
-                                                            <span class="text-xs font-bold text-warning uppercase shrink-0 text-right">{{ $team ?: '-' }}</span>
+                                                            <span
+                                                                class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Tim</span>
+                                                            <div
+                                                                class="grow border-b border-dashed border-base-content/20 mx-2 mb-1">
+                                                            </div>
+                                                            <span
+                                                                class="text-xs font-bold text-warning uppercase shrink-0 text-right">{{ $team ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- Pemesan -->
                                                         <div class="flex items-end justify-between w-full">
-                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Pemesan</span>
-                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
-                                                            <span class="text-xs font-bold text-base-content/85 uppercase shrink-0 text-right">{{ $name ?: '-' }}</span>
+                                                            <span
+                                                                class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Pemesan</span>
+                                                            <div
+                                                                class="grow border-b border-dashed border-base-content/20 mx-2 mb-1">
+                                                            </div>
+                                                            <span
+                                                                class="text-xs font-bold text-base-content/85 uppercase shrink-0 text-right">{{ $name ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- NIK -->
                                                         <div class="flex items-end justify-between w-full">
-                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">NIK</span>
-                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
-                                                            <span class="text-xs font-mono font-bold text-info shrink-0 text-right">{{ $nik ?: '-' }}</span>
+                                                            <span
+                                                                class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">NIK</span>
+                                                            <div
+                                                                class="grow border-b border-dashed border-base-content/20 mx-2 mb-1">
+                                                            </div>
+                                                            <span
+                                                                class="text-xs font-mono font-bold text-base-content shrink-0 text-right">{{ $nik ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- Email -->
                                                         <div class="flex items-end justify-between w-full">
-                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Email</span>
-                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
-                                                            <span class="text-xs font-mono font-bold text-base-content/65 shrink-0 text-right">{{ $email ?: '-' }}</span>
+                                                            <span
+                                                                class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Email</span>
+                                                            <div
+                                                                class="grow border-b border-dashed border-base-content/20 mx-2 mb-1">
+                                                            </div>
+                                                            <span
+                                                                class="text-xs font-mono font-bold text-base-content/65 shrink-0 text-right">{{ $email ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- Pemain -->
                                                         <div class="flex items-end justify-between w-full">
-                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Pemain</span>
-                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
-                                                            <span class="text-xs font-bold shrink-0 text-right font-mono">{{ $jumlahPemain ?: '-' }}</span>
+                                                            <span
+                                                                class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Pemain</span>
+                                                            <div
+                                                                class="grow border-b border-dashed border-base-content/20 mx-2 mb-1">
+                                                            </div>
+                                                            <span
+                                                                class="text-xs font-bold shrink-0 text-right font-mono">{{ $jumlahPemain ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- Kategori -->
                                                         <div class="flex items-end justify-between w-full">
-                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Kategori</span>
-                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
-                                                            <span class="text-xs font-bold shrink-0 text-right uppercase">{{ $kategori ?: '-' }}</span>
+                                                            <span
+                                                                class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Kategori</span>
+                                                            <div
+                                                                class="grow border-b border-dashed border-base-content/20 mx-2 mb-1">
+                                                            </div>
+                                                            <span
+                                                                class="text-xs font-bold shrink-0 text-right uppercase">{{ $kategori ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- Jenis -->
                                                         <div class="flex items-end justify-between w-full">
-                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Jenis</span>
-                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
-                                                            <span class="text-xs font-bold shrink-0 text-right uppercase">{{ $this->getJenisPermainanAlias($jenis) ?: '-' }}</span>
+                                                            <span
+                                                                class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Jenis</span>
+                                                            <div
+                                                                class="grow border-b border-dashed border-base-content/20 mx-2 mb-1">
+                                                            </div>
+                                                            <span
+                                                                class="text-xs font-bold shrink-0 text-right uppercase">{{ $this->getJenisPermainanAlias($jenis) ?: '-' }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -368,7 +414,7 @@
 
                                     @if (!empty(data_get($bookingDetail, 'keterangan')))
                                         <div
-                                            class="mt-4 max-w-xl mx-auto rounded-2xl border border-base-300 bg-base-100 shadow-sm p-4">
+                                            class="mt-4 max-w-xl sm:max-w-3xl lg:max-w-4xl mx-auto rounded-2xl border border-base-300 bg-base-100 p-4">
                                             <div class="flex items-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
