@@ -6,6 +6,7 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends Component
 {
@@ -69,6 +70,18 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
                     return preg_match('/^https?:\/\//', $p) ? $p : $imageBase . '/' . $p;
                 }, $images);
                 $this->error = null;
+
+                $namaLapangan = (string) ($data['nama_lapangan'] ?? 'Detail Lapangan');
+                $deskripsi = (string) ($data['deskripsi'] ?? '');
+                $coverImage = $this->coverUrl;
+
+                seo()->for(new SEOData(
+                    title: $namaLapangan,
+                    description: $deskripsi ?: "Lihat detail, fasilitas, dan jadwal booking lapangan {$namaLapangan} di Kencana Arena Pekanbaru.",
+                    image: $coverImage,
+                    url: url()->current(),
+                ));
+
                 return;
             }
             $this->error = (string) ($json['message'] ?? 'Gagal memuat detail lapangan');
