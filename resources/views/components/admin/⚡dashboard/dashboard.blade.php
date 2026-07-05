@@ -126,276 +126,351 @@
                             </svg>
                         </button>
                     </div>
-                        <div>
+                    <div>
 
-                            @if ($error)
-                                <div class="alert bg-red-500">
-                                    <span>{{ $error }}</span>
-                                </div>
-                            @else
-                                <div wire:loading.flex wire:target="searchBooking"
-                                    class="flex flex-col items-center justify-center text-center p-10 mt-40">
-                                    <span class="loading loading-spinner loading-lg text-primary"></span>
-                                </div>
+                        @if ($error)
+                            <div class="alert bg-red-500">
+                                <span>{{ $error }}</span>
+                            </div>
+                        @else
+                            <div wire:loading.flex wire:target="searchBooking"
+                                class="flex flex-col items-center justify-center text-center p-10 mt-40">
+                                <span class="loading loading-spinner loading-lg text-primary"></span>
+                            </div>
 
-                                <div wire:loading.remove wire:target="searchBooking">
-                                    @if ($searchError)
-                                        <div class="alert bg-red-500 mb-4 mx-4 mt-4 text-white">
-                                            <span>{{ $searchError }}</span>
-                                        </div>
-                                    @elseif ($bookingDetail)
-                                        <h2 class="text-center mb-2 mt-6 font-bold"> Hasil Pencarian Kode Booking:
-                                            <span class="underline">
-                                                {{ data_get($bookingDetail, 'kode_booking') }}
-                                            </span>
-                                        </h2>
-                                        <div class="card max-w-xl mx-auto bg-black rounded-2xl overflow-hidden">
-                                            <div class="bp-header bg-blue-600 text-white px-4 py-3 sm:px-6 sm:py-4">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="text-[10px] font-bold uppercase opacity-80">Kode
-                                                        Booking</div>
-                                                    <div class="text-[10px] font-bold uppercase opacity-80">
-                                                        {{ data_get($bookingDetail, 'status') ?? '-' }}</div>
-                                                </div>
+                            <div wire:loading.remove wire:target="searchBooking">
+                                @if ($searchError)
+                                    <div class="alert bg-red-500 mb-4 mx-4 mt-4 text-white">
+                                        <span>{{ $searchError }}</span>
+                                    </div>
+                                @elseif ($bookingDetail)
+                                    <h2 class="text-center mb-2 mt-6 font-bold"> Hasil Pencarian Kode Booking:
+                                        <span class="underline">
+                                            {{ data_get($bookingDetail, 'kode_booking') }}
+                                        </span>
+                                    </h2>
+                                    <style>
+                                        .dashboard-ticket-mask {
+                                            mask-image: radial-gradient(circle 10px at 0 calc(100% - var(--cut-pos)), transparent 10px, black 10.5px),
+                                                radial-gradient(circle 10px at 100% calc(100% - var(--cut-pos)), transparent 10px, black 10.5px);
+                                            mask-size: 51% 100%;
+                                            mask-position: left, right;
+                                            mask-repeat: no-repeat;
+                                            -webkit-mask-image: radial-gradient(circle 10px at 0 calc(100% - var(--cut-pos)), transparent 10px, black 10.5px),
+                                                radial-gradient(circle 10px at 100% calc(100% - var(--cut-pos)), transparent 10px, black 10.5px);
+                                            -webkit-mask-size: 51% 100%;
+                                            -webkit-mask-position: left, right;
+                                            -webkit-mask-repeat: no-repeat;
+                                        }
+
+                                        @media (min-width: 640px) {
+                                            .dashboard-ticket-mask {
+                                                mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px),
+                                                    radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px);
+                                                mask-size: 100% 51%;
+                                                mask-position: top, bottom;
+                                                -webkit-mask-image: radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 0, transparent 10px, black 10.5px),
+                                                    radial-gradient(circle 10px at calc(100% - var(--cut-pos)) 100%, transparent 10px, black 10.5px);
+                                                -webkit-mask-size: 100% 51%;
+                                                -webkit-mask-position: top, bottom;
+                                            }
+                                        }
+                                    </style>
+
+                                    <div
+                                        class="w-full max-w-xl mx-auto bg-base-100 rounded-2xl border border-base-300 shadow-lg flex flex-col sm:flex-row relative overflow-hidden dashboard-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]">
+                                        <!-- Left Section (Main Details) -->
+                                        <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0">
+                                            <!-- Header -->
+                                            <div class="flex flex-row justify-between items-center mb-2 sm:mb-4 gap-2">
+                                                <!-- Status Badge -->
                                                 <div
-                                                    class="text-1xl sm:text-3xl font-black italic uppercase tracking-widest">
-                                                    {{ data_get($bookingDetail, 'kode_booking') ?? '-' }}
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider {{ (data_get($bookingDetail, 'status') ?? '') === 'dipesan' ? 'bg-info/10 text-info' : ((data_get($bookingDetail, 'status') ?? '') === 'dibatalkan' ? 'bg-error/10 text-error' : 'bg-success/10 text-success') }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                        fill="currentColor" class="w-4 h-4">
+                                                        <path fill-rule="evenodd"
+                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                    {{ data_get($bookingDetail, 'status') ?? '-' }}
                                                 </div>
+
+                                                <!-- Created Date -->
+                                                <span class="text-[10px] sm:text-xs font-medium text-base-content/50">
+                                                    Dibuat:
+                                                    {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'created_at'))->format('d M Y H:i') ?? '-' }}
+                                                </span>
                                             </div>
-                                            <div class="bp-body p-4 sm:p-6">
-                                                <div class="flex items-center justify-between">
-                                                    <h4 class="text-white sm:text-lg font-black italic uppercase">
-                                                        {{ data_get($bookingDetail, 'lapangan.nama_lapangan') ?? '-' }}
-                                                    </h4>
+
+                                            <!-- Title -->
+                                            <h4
+                                                class="text-sm sm:text-xl font-extrabold text-base-content mb-4 sm:mb-6 leading-tight truncate">
+                                                {{ data_get($bookingDetail, 'lapangan.nama_lapangan') ?? '-' }}
+                                            </h4>
+
+                                            <!-- Details Grid -->
+                                            <div class="grid grid-cols-2 gap-y-3 gap-x-3 sm:gap-y-4 sm:gap-x-4">
+                                                <!-- Date -->
+                                                <div>
+                                                    <div
+                                                        class="text-[9px] sm:text-[10px] font-bold text-base-content/50 uppercase mb-1 sm:mb-1.5">
+                                                        Tanggal
+                                                    </div>
+                                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                                        </svg>
+                                                        <span class="text-xs sm:text-sm font-medium leading-none">
+                                                            {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'tanggal'))->format('d M Y') ?? '-' }}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div class="mt-4 grid grid-cols-3 gap-4 items-start">
-                                                    <div>
-                                                        <div
-                                                            class="text-2xl sm:text-3xl font-black tracking-tight text-warning">
+
+                                                <!-- Time -->
+                                                <div>
+                                                    <div
+                                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                                        Jam
+                                                    </div>
+                                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        <span class="text-xs sm:text-sm font-medium leading-none">
                                                             {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'jam_mulai'))->format('H:i') ?? '-' }}
-                                                        </div>
-                                                        <div
-                                                            class="text-[10px] font-bold uppercase text-gray-400 mt-1">
-                                                            {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'tanggal'))->format('d M Y') ?? '-' }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex items-center justify-center">
-                                                        <div
-                                                            class="h-8 sm:h-10 border-l-2 border-dashed border-base-300">
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-right">
-                                                        <div
-                                                            class="text-2xl sm:text-3xl font-black tracking-tight text-warning">
+                                                            -
                                                             {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'jam_selesai'))->format('H:i') ?? '-' }}
-                                                        </div>
-                                                        <div
-                                                            class="text-[10px] font-bold uppercase text-gray-400 mt-1">
-                                                            {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'tanggal'))->format('d M Y') ?? '-' }}
-                                                        </div>
+                                                        </span>
                                                     </div>
                                                 </div>
-                                                <div class="bp-divider my-4"></div>
-                                                <div class="grid grid-cols-3 gap-2">
-                                                    <div class="col-span-2">
-                                                        <div class="text-[10px] font-bold uppercase text-gray-400">
-                                                            Tim
-                                                            / Nama</div>
-                                                        <div class="mt-1 flex flex-col">
-                                                            @php
-                                                                $sessionName = data_get(
-                                                                    Session::get('user_data'),
-                                                                    'name',
-                                                                );
-                                                                $apiTeam =
-                                                                    data_get($bookingDetail, 'nama_komunitas') ??
-                                                                    data_get($bookingDetail, 'pemesan.nama_komunitas');
-                                                                $apiName =
-                                                                    data_get($bookingDetail, 'user.name') ??
-                                                                    data_get($bookingDetail, 'pemesan.user.name');
-                                                                $pemesanNama = data_get($bookingDetail, 'pemesan.nama');
 
-                                                                $team = null;
-                                                                $name = null;
+                                                <!-- Tim/Nama -->
+                                                <div class="col-span-2">
+                                                    <div
+                                                        class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                                        Tim / Pemesan
+                                                    </div>
+                                                    <div class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                        @php
+                                                            $sessionName = data_get(Session::get('user_data'), 'name');
+                                                            $apiTeam =
+                                                                data_get($bookingDetail, 'nama_komunitas') ??
+                                                                data_get($bookingDetail, 'pemesan.nama_komunitas');
+                                                            $apiName =
+                                                                data_get($bookingDetail, 'user.name') ??
+                                                                data_get($bookingDetail, 'pemesan.user.name');
+                                                            $pemesanNama = data_get($bookingDetail, 'pemesan.nama');
 
-                                                                if (filled($apiTeam)) {
-                                                                    $team = $apiTeam;
-                                                                }
-                                                                if (filled($apiName)) {
-                                                                    $name = $apiName;
-                                                                }
+                                                            $team = null;
+                                                            $name = null;
 
-                                                                if (filled($pemesanNama)) {
-                                                                    if (filled($name)) {
-                                                                        if (blank($team)) {
-                                                                            $team = $pemesanNama;
-                                                                        }
+                                                            if (filled($apiTeam)) {
+                                                                $team = $apiTeam;
+                                                            }
+                                                            if (filled($apiName)) {
+                                                                $name = $apiName;
+                                                            }
+
+                                                            if (filled($pemesanNama)) {
+                                                                if (filled($name)) {
+                                                                    if (blank($team)) {
+                                                                        $team = $pemesanNama;
+                                                                    }
+                                                                } else {
+                                                                    if (
+                                                                        filled($sessionName) &&
+                                                                        strcasecmp(
+                                                                            trim((string) $pemesanNama),
+                                                                            trim((string) $sessionName),
+                                                                        ) !== 0
+                                                                    ) {
+                                                                        $team = $pemesanNama;
+                                                                        $name = $sessionName;
                                                                     } else {
-                                                                        if (
-                                                                            filled($sessionName) &&
-                                                                            strcasecmp(
-                                                                                trim((string) $pemesanNama),
-                                                                                trim((string) $sessionName),
-                                                                            ) !== 0
-                                                                        ) {
-                                                                            $team = $pemesanNama;
-                                                                            $name = $sessionName;
-                                                                        } else {
-                                                                            $name = $pemesanNama;
-                                                                        }
+                                                                        $name = $pemesanNama;
                                                                     }
                                                                 }
+                                                            }
 
-                                                                if (blank($name)) {
-                                                                    $name = $sessionName;
-                                                                }
-                                                            @endphp
+                                                            if (blank($name)) {
+                                                                $name = $sessionName;
+                                                            }
+                                                        @endphp
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                                        </svg>
+                                                        <span
+                                                            class="text-xs sm:text-sm font-bold uppercase leading-none">
+                                                            {{ $team ?: '-' }}
                                                             <span
-                                                                class="font-black text-white italic uppercase text-xs sm:text-sm">
-                                                                {{ $team ?: '-' }}
-                                                            </span>
+                                                                class="text-[10px] sm:text-xs font-normal text-base-content/60 normal-case">({{ $name ?: '-' }})</span>
+                                                        </span>
+                                                    </div>
+                                                    @php
+                                                        $nik =
+                                                            data_get($bookingDetail, 'user.nik') ??
+                                                            (data_get($bookingDetail, 'pemesan.user.nik') ??
+                                                                data_get($bookingDetail, 'pemesan.nik'));
+                                                    @endphp
+                                                    @if (filled($nik))
+                                                        <div
+                                                            class="text-[10px] sm:text-xs text-info font-bold mt-1 block">
+                                                            NIK: {{ $nik }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <!-- 3-Column Info -->
+                                                <div class="col-span-2 grid grid-cols-3 gap-2 sm:gap-4">
+                                                    <!-- Pemain -->
+                                                    <div>
+                                                        <div
+                                                            class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                                            Pemain
+                                                        </div>
+                                                        <div
+                                                            class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 24 24" stroke-width="1.5"
+                                                                stroke="currentColor"
+                                                                class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                                                            </svg>
                                                             <span
-                                                                class="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase mt-0.5">
-                                                                {{ $name ?: '-' }}
+                                                                class="text-[10px] sm:text-sm font-semibold leading-none">
+                                                                {{ data_get($bookingDetail, 'jumlah_pemain') ?? '-' }}
                                                             </span>
-                                                            @php
-                                                                $nik =
-                                                                    data_get($bookingDetail, 'user.nik') ??
-                                                                    (data_get($bookingDetail, 'pemesan.user.nik') ??
-                                                                        data_get($bookingDetail, 'pemesan.nik'));
-                                                            @endphp
-                                                            @if (filled($nik))
-                                                                <span
-                                                                    class="text-[10px] sm:text-xs text-info font-bold uppercase mt-0.5">
-                                                                    NIK: {{ $nik }}
-                                                                </span>
-                                                            @endif
-                                                        </div>
-                                                        <div class="mt-3 grid grid-cols-3 gap-3">
-                                                            <div>
-                                                                <div
-                                                                    class="text-[10px] font-bold uppercase text-gray-400">
-                                                                    Pemain
-                                                                </div>
-                                                                <div
-                                                                    class="mt-1 font-black italic uppercase text-xs md:text-sm text-white">
-                                                                    {{ data_get($bookingDetail, 'jumlah_pemain') ?? '-' }}
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div
-                                                                    class="text-[10px] font-bold uppercase text-gray-400">
-                                                                    Kategori
-                                                                </div>
-                                                                <div
-                                                                    class="mt-1 font-black italic uppercase text-xs md:text-sm text-white">
-                                                                    {{ data_get($bookingDetail, 'kategori_pemain') ?? '-' }}
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div
-                                                                    class="text-[10px] font-bold uppercase text-gray-400">
-                                                                    Jenis
-                                                                </div>
-                                                                <div
-                                                                    class="mt-1 font-black italic uppercase text-xs md:text-sm text-white">
-                                                                    {{ $this->getJenisPermainanAlias(data_get($bookingDetail, 'jenis_permainan')) ?? '-' }}
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-span-1 flex items-center justify-center">
-                                                        <div
-                                                            class="relative w-12 h-12 sm:w-23 sm:h-23 rounded-full bg-blue-500/10 flex items-center justify-center">
 
-                                                            <!-- LOGO -->
-                                                            <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}"
-                                                                alt="Logo Kencana Arena"
-                                                                class="w-full h-full object-contain p-1.5 sm:p-3 opacity-20 grayscale" />
+                                                    <!-- Kategori -->
+                                                    <div>
+                                                        <div
+                                                            class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                                            Kategori
+                                                        </div>
+                                                        <div
+                                                            class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 24 24" stroke-width="1.5"
+                                                                stroke="currentColor"
+                                                                class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    d="M6 6h.008v.008H6V6z" />
+                                                            </svg>
+                                                            <span
+                                                                class="text-[10px] sm:text-sm font-semibold leading-none">
+                                                                {{ data_get($bookingDetail, 'kategori_pemain') ?? '-' }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
 
-                                                            <!-- OVERLAY VERIFIED (1 BARIS) -->
-                                                            <div class="absolute flex items-center justify-between">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" stroke-width="2"
-                                                                    stroke="currentColor"
-                                                                    class="size-4 sm:size-7 text-white">
-                                                                    <path stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                                                </svg>
-                                                                <div
-                                                                    class="text-blue-500 font-black uppercase italic tracking-widest text-[10px] sm:text-[20px] text-center leading-none">
-                                                                    Verified
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="bp-divider my-4"></div>
-                                                <div class="grid grid-cols-3 gap-3">
+                                                    <!-- Jenis -->
                                                     <div>
-                                                        <div class="text-[10px] font-bold uppercase text-gray-400">
-                                                            Dibuat
-                                                        </div>
-                                                        <div class="mt-1 text-xs text-white">
-                                                            {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'created_at'))->format('d M Y H:i') ?? '-' }}
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="text-[10px] font-bold uppercase text-gray-400">
-                                                            Status
+                                                        <div
+                                                            class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
+                                                            Jenis
                                                         </div>
                                                         <div
-                                                            class="mt-1 text-xs font-black italic uppercase {{ (data_get($bookingDetail, 'status') ?? '') === 'dipesan' ? 'text-info' : 'text-warning' }}">
-                                                            {{ data_get($bookingDetail, 'status') ?? '-' }}
+                                                            class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 24 24" stroke-width="1.5"
+                                                                stroke="currentColor"
+                                                                class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                                                            </svg>
+                                                            <span
+                                                                class="text-[10px] sm:text-sm font-semibold leading-none">
+                                                                {{ $this->getJenisPermainanAlias(data_get($bookingDetail, 'jenis_permainan')) ?? '-' }}
+                                                            </span>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        <div class="text-[10px] font-bold uppercase text-gray-400">
-                                                            Kode
-                                                        </div>
-                                                        <div
-                                                            class="mt-1 text-xs font-black italic uppercase text-white">
-                                                            {{ data_get($bookingDetail, 'kode_booking') ?? '-' }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="mt-4 rounded-xl bg-base-200 border border-dashed border-base-300 p-3">
-                                                    <div class="text-[10px] font-bold uppercase text-gray-400">
-                                                        Keterangan
-                                                    </div>
-                                                    <div class="mt-1 text-sm italic">
-                                                        {{ data_get($bookingDetail, 'keterangan') ?? '-' }}</div>
-                                                </div>
-                                            </div>
-                                            <div class="bp-footer bg-blue-600 text-info-content px-4 py-3 sm:px-6">
-                                                <div
-                                                    class="text-center text-[10px] sm:text-xs font-black italic uppercase tracking-widest">
-                                                    {{ data_get($bookingDetail, 'lapangan.nama_lapangan') ?? '-' }}
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
+
+                                        <!-- Perforated Line -->
                                         <div
-                                            class="flex flex-col items-center justify-center text-center p-10 opacity-50 mt-40">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-20 mb-4 text-base-content">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
-                                            </svg>
-                                            <h3 class="text-xl font-black italic uppercase text-base-content mb-2">
-                                                Belum Ada Pencarian</h3>
-                                            <p class="text-sm font-semibold text-base-content/60 max-w-xs">
-                                                Masukkan kode booking atau scan QR Code untuk melihat detail tiket di
-                                                sini.
-                                            </p>
+                                            class="flex sm:flex-col justify-center items-center relative h-6 sm:h-auto w-full sm:w-6 shrink-0">
+                                            <div
+                                                class="border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-base-300 h-px sm:h-auto w-full sm:w-px grow mx-4 my-2 sm:mx-0 sm:my-6">
+                                            </div>
+                                        </div>
+
+                                        <!-- Right Section (QR) -->
+                                        <div
+                                            class="w-full sm:w-40 h-54 sm:h-auto p-4 shrink-0 flex flex-col justify-center items-center bg-base-100">
+                                            @if (data_get($bookingDetail, 'kode_booking'))
+                                                <div
+                                                    class="p-2 bg-white mb-2 sm:mb-4 rounded-xl border border-base-300 shadow-sm">
+                                                    <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG(data_get($bookingDetail, 'kode_booking'), 'QRCODE', 4, 4) }}"
+                                                        alt="QR Code" class="w-32 h-32 sm:w-24 sm:h-24"
+                                                        style="image-rendering: pixelated;" />
+                                                </div>
+                                            @endif
+                                            <div
+                                                class="text-[10px] sm:text-xs font-black uppercase tracking-widest text-base-content text-center">
+                                                {{ data_get($bookingDetail, 'kode_booking') }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if (!empty(data_get($bookingDetail, 'keterangan')))
+                                        <div
+                                            class="mt-4 max-w-xl mx-auto rounded-2xl border border-base-300 bg-base-100 shadow-sm p-4">
+                                            <div class="flex items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                    class="w-5 h-5 text-warning">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                </svg>
+                                                <h4
+                                                    class="text-xs sm:text-sm font-bold uppercase text-base-content/60">
+                                                    Catatan Booking</h4>
+                                            </div>
+                                            <div
+                                                class="mt-2 text-sm italic font-medium text-base-content leading-relaxed">
+                                                "{{ data_get($bookingDetail, 'keterangan') }}"
+                                            </div>
                                         </div>
                                     @endif
-                                </div>
-                            @endif
-                        </div>
+                                @else
+                                    <div
+                                        class="flex flex-col items-center justify-center text-center p-10 opacity-50 mt-40">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor"
+                                            class="size-20 mb-4 text-base-content">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+                                        </svg>
+                                        <h3 class="text-xl font-black italic uppercase text-base-content mb-2">
+                                            Belum Ada Pencarian</h3>
+                                        <p class="text-sm font-semibold text-base-content/60 max-w-xs">
+                                            Masukkan kode booking atau scan QR Code untuk melihat detail tiket di
+                                            sini.
+                                        </p>
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 
