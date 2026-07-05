@@ -104,31 +104,217 @@
         <div class="card bg-base-100 md:col-span-2">
             <div class="card-body">
                 <div class="grid grid-cols-1 gap-4">
+                    <!-- Banner Image Upload Slot -->
                     <div class="form-control w-full">
                         <div class="label">
                             <span class="label-text">Gambar Banner</span>
                         </div>
-                        <input type="file" accept="image/png,image/jpeg"
-                            class="file-input file-input-bordered w-full mt-1.5" wire:model.live="image" />
+                        <div class="mt-2 relative group aspect-video w-full rounded-2xl border-2 border-dashed border-base-300 bg-base-200 hover:border-accent overflow-hidden flex flex-col items-center justify-center cursor-pointer transition-all"
+                            id="banner-update-slot" onclick="document.getElementById('banner-update-input').click()">
+
+                            <!-- Hidden input -->
+                            <input type="file" id="banner-update-input" class="hidden" accept="image/*"
+                                onchange="handleBannerUpdateUpload(this)">
+
+                            <!-- Empty State -->
+                            <div class="flex flex-col items-center justify-center text-center p-4"
+                                id="banner-update-empty"
+                                style="{{ ($image || $imageUrl) ? 'display: none;' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor"
+                                    class="w-8 h-8 text-base-content/40 mb-1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                <span class="text-xs font-semibold text-base-content/60">Tambah Gambar Banner</span>
+                            </div>
+
+                            <!-- Preview State -->
+                            @if ($image instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile)
+                                <img src="{{ $image->temporaryUrl() }}"
+                                    class="w-full h-full object-cover absolute inset-0" id="banner-update-preview">
+                            @elseif ($imageUrl)
+                                <img src="{{ $imageUrl }}" class="w-full h-full object-cover absolute inset-0"
+                                    id="banner-update-preview" alt="Banner Image">
+                            @else
+                                <img class="w-full h-full object-cover absolute inset-0 hidden"
+                                    id="banner-update-preview">
+                            @endif
+
+                            <!-- Loading State -->
+                            <div class="absolute inset-0 bg-base-300/80 flex flex-col items-center justify-center p-4 hidden"
+                                id="banner-update-loading">
+                                <span class="loading loading-spinner loading-md text-accent"></span>
+                                <span
+                                    class="text-xs font-bold uppercase tracking-wider text-base-content/70 mt-2 text-center"
+                                    id="banner-update-status">Mengompresi</span>
+                                <div class="w-full bg-base-100 rounded-full h-1.5 mt-2 overflow-hidden">
+                                    <div class="bg-accent h-full transition-all duration-300"
+                                        id="banner-update-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Close Button -->
+                            <button type="button"
+                                class="btn btn-circle btn-xs btn-error text-white absolute top-2 right-2 z-10 {{ ($image || $imageUrl) ? '' : 'hidden' }}"
+                                id="banner-update-close"
+                                onclick="event.stopPropagation(); removeBannerUpdateImage()">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-base-content/60 mt-2">Format: PNG, JPG, JPEG • Maks. 100KB setelah
+                            kompresi otomatis</p>
                         @error('image')
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
-                        <div class="mt-2 rounded-xl overflow-hidden bg-base-200 aspect-video border border-base-300">
-                            @if ($image instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile)
-                                <img src="{{ $image->temporaryUrl() }}" class="w-full h-full object-cover"
-                                    alt="Preview Banner">
-                            @elseif ($imageUrl)
-                                <img src="{{ $imageUrl }}" class="w-full h-full object-cover" alt="Banner Image">
-                            @else
-                                <div class="w-full h-full flex items-center justify-center">
-                                    <span class="text-base-content/60 text-sm">no-image</span>
-                                </div>
-                            @endif
-                        </div>
-                        <p class="text-[11px] text-base-content/60 mt-1">Format: PNG, JPG, JPEG • Maks. 2MB</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- FE JPEG Image Compression and Upload Script -->
+    <script>
+        (function() {
+            function compressAndUploadBannerUpdate(file, fieldName, statusEl, progressBar, onComplete, onError) {
+                const maxSizeBytes = 100 * 1024;
+                progressBar.style.width = '10%';
+                if (statusEl) statusEl.textContent = 'Membaca...';
+
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function(event) {
+                    progressBar.style.width = '25%';
+                    if (statusEl) statusEl.textContent = 'Memuat...';
+
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = function() {
+                        progressBar.style.width = '40%';
+                        if (statusEl) statusEl.textContent = 'Menyalin...';
+
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        const maxDim = 1000;
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        progressBar.style.width = '60%';
+                        if (statusEl) statusEl.textContent = 'Kompresi...';
+
+                        let quality = 0.85;
+                        const minQuality = 0.05;
+
+                        function attemptCompress() {
+                            canvas.toBlob(function(blob) {
+                                if (!blob) { onError('Gagal kompresi canvas'); return; }
+
+                                if (blob.size <= maxSizeBytes || quality <= minQuality) {
+                                    progressBar.style.width = '80%';
+                                    if (statusEl) statusEl.textContent = 'Mengunggah...';
+
+                                    const newName = file.name.substring(0, file.name.lastIndexOf('.')) + '.jpg';
+                                    const compressedFile = new File([blob], newName, {
+                                        type: 'image/jpeg',
+                                        lastModified: Date.now()
+                                    });
+
+                                    const root = document.querySelector('[wire\\:id]');
+                                    const componentId = root.getAttribute('wire:id');
+                                    const component = window.Livewire.find(componentId);
+
+                                    component.upload(
+                                        fieldName,
+                                        compressedFile,
+                                        function() {
+                                            progressBar.style.width = '100%';
+                                            if (statusEl) statusEl.textContent = 'Selesai!';
+                                            onComplete(compressedFile);
+                                        },
+                                        function(err) { onError('Gagal upload: ' + (err || 'Koneksi error')); },
+                                        function(progressEvent) {
+                                            const p = Math.round(80 + (progressEvent.detail.progress / 100) * 20);
+                                            progressBar.style.width = p + '%';
+                                        }
+                                    );
+                                } else {
+                                    quality -= 0.05;
+                                    attemptCompress();
+                                }
+                            }, 'image/jpeg', quality);
+                        }
+                        attemptCompress();
+                    };
+                    img.onerror = function() { onError('Format gambar rusak'); };
+                };
+                reader.onerror = function() { onError('Gagal membaca file'); };
+            }
+
+            window.handleBannerUpdateUpload = function(input) {
+                const file = input.files[0];
+                if (!file) return;
+
+                const emptyWrap = document.getElementById('banner-update-empty');
+                const previewImg = document.getElementById('banner-update-preview');
+                const loadingWrap = document.getElementById('banner-update-loading');
+                const statusText = document.getElementById('banner-update-status');
+                const progressBar = document.getElementById('banner-update-bar');
+                const closeBtn = document.getElementById('banner-update-close');
+
+                emptyWrap.style.display = 'none';
+                previewImg.classList.add('hidden');
+                loadingWrap.classList.remove('hidden');
+                progressBar.style.width = '0%';
+                closeBtn.classList.add('hidden');
+
+                compressAndUploadBannerUpdate(file, 'image', statusText, progressBar,
+                    function(compFile) {
+                        loadingWrap.classList.add('hidden');
+                        const url = URL.createObjectURL(compFile);
+                        previewImg.src = url;
+                        previewImg.classList.remove('hidden');
+                        closeBtn.classList.remove('hidden');
+                    },
+                    function(err) {
+                        loadingWrap.classList.add('hidden');
+                        emptyWrap.style.display = 'flex';
+                        alert(err);
+                    }
+                );
+            };
+
+            window.removeBannerUpdateImage = function() {
+                const emptyWrap = document.getElementById('banner-update-empty');
+                const previewImg = document.getElementById('banner-update-preview');
+                const closeBtn = document.getElementById('banner-update-close');
+                const input = document.getElementById('banner-update-input');
+
+                input.value = '';
+                previewImg.src = '';
+                previewImg.classList.add('hidden');
+                emptyWrap.style.display = 'flex';
+                closeBtn.classList.add('hidden');
+
+                const root = document.querySelector('[wire\\:id]');
+                const componentId = root.getAttribute('wire:id');
+                window.Livewire.find(componentId).set('image', null);
+            };
+        })();
+    </script>
 </div>
