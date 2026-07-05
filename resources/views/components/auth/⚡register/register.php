@@ -16,6 +16,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
     public $ready = false;
     public $registrationSuccess = false;
     public $successMessage = '';
+    public $redirectUrl = '';
 
     #[Validate]
     public $name = '';
@@ -49,6 +50,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
         }
 
         // Update properties
+        $value = substr($value, 0, 11);
         $this->phone_number = $value;
         $this->no_wa = '+62' . $value;
     }
@@ -167,12 +169,18 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
                     $defaultUrl = in_array($role, ['admin', 'superadmin']) ? '/dashboard' : '/';
                     $intendedUrl = Session::pull('url.intended', $defaultUrl);
 
-                    return $this->redirect($intendedUrl, navigate: true);
+                    $this->dispatch('registration-success',
+                        redirectUrl: $intendedUrl,
+                        message: 'Selamat, akun Anda berhasil dibuat dan Anda telah masuk otomatis.',
+                    );
+                    return;
                 }
 
                 // Tampilkan pesan sukses jika auto-login gagal untuk alasan apapun
-                $this->registrationSuccess = true;
-                $this->successMessage = $result['message'];
+                $this->dispatch('registration-success',
+                    redirectUrl: route('login'),
+                    message: $result['message'] ?? 'Pendaftaran berhasil, silakan masuk ke akun Anda.',
+                );
                 return;
             }
 

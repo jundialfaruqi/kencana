@@ -5,45 +5,7 @@
 
         @if ($ready)
             @if ($registrationSuccess)
-                <!-- Registration Success Message -->
-                <div class="card-body p-8 text-center" wire:key="register-success-container">
-                    <div class="flex flex-col items-center justify-center">
-                        <!-- Success Icon -->
-                        <div class="mb-4">
-                            <div class="w-16 h-16 rounded-full bg-blue-300 flex items-center justify-center mx-auto">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <!-- Success Message -->
-                        <h3 class="font-black tracking-tighter text-base-content mb-4">
-                            Berhasil membuat akun
-                        </h3>
-
-                        <!-- User Data -->
-                        <div class="bg-base-200/50 rounded-lg p-4 mb-8 w-full max-w-md">
-                            <p class="text-sm font-medium text-base-content">
-                                <span class="font-bold">{{ $successMessage }}</span>
-                            </p>
-                        </div>
-
-                        <!-- Action Button -->
-                        <a href="{{ route('login') }}" wire:navigate
-                            class="btn btn-info text-[10px] -skew-x-12 sm:text-xs font-black uppercase tracking-widest shadow-lg group h-12 px-8 flex items-center justify-center">
-                            <span>Login Sekarang</span>
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+                {{-- Modal ditampilkan via JS event 'registration-success' --}}
             @else
                 <!-- Registration Form -->
                 <div class="card-body p-8" wire:key="register-form-container">
@@ -167,11 +129,11 @@
                                 <!-- Phone Number Input -->
                                 <input type="tel" placeholder="8123456789"
                                     class="input input-ghost border-0 bg-transparent focus:outline-none focus:ring-0 font-medium w-full placeholder:text-base-content/50 h-10"
-                                    wire:model.live.debounce.300ms="phone_number" id="no_wa_input"
-                                    inputmode="numeric" pattern="[0-9]*" maxlength="12"
+                                    wire:model.live.debounce.300ms="phone_number" id="no_wa_input" inputmode="numeric"
+                                    pattern="[0-9]*" maxlength="11"
                                     oninput="
-                                        // Remove all non-numeric characters and limit to 12 digits
-                                        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);
+                                        // Remove all non-numeric characters and limit to 11 digits
+                                        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
                                     " />
                             </div>
                             <p class="text-[11px] text-base-content/60 mt-1.5 leading-relaxed">
@@ -301,5 +263,35 @@
                 </div>
             @endif
         @endif
+    </div>
+
+    <!-- Registration Success Popup Modal (persistent, dikendalikan via JS) -->
+    <div id="register-success-modal"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl flex flex-col items-center">
+            <!-- Logo Kencana -->
+            <div class="shrink-0 mb-3">
+                <img src="{{ asset('assets/images/logo/logo-kencana-mini-soccer.webp') }}" alt="Logo"
+                    class="h-16 w-16 object-contain mx-auto">
+            </div>
+
+            <!-- Teks Kencana Arena -->
+            <div class="flex flex-col leading-none mb-4 items-center">
+                <span class="text-2xl font-black italic tracking-tighter uppercase text-slate-800">Kencana</span>
+                <span
+                    class="text-[12px] font-black uppercase text-amber-500 tracking-[0.2em] transform -skew-x-12">Arena</span>
+            </div>
+
+            <!-- Pesan Sukses -->
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Pendaftaran Berhasil! 🎉</h3>
+            <p id="register-success-message" class="text-sm text-slate-600 mb-6 leading-relaxed"></p>
+
+            <!-- Countdown Button -->
+            <button
+                class="btn bg-info border-0 text-base-content w-full rounded-2xl py-3 font-semibold text-xs tracking-wider uppercase pointer-events-none">
+                Mohon tunggu sebentar, Anda akan dialihkan dalam <span id="register-countdown"
+                    class="font-black">5</span> detik
+            </button>
+        </div>
     </div>
 </div>
