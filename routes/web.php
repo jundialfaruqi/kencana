@@ -41,6 +41,52 @@ Route::get('/api/geocode/search', function () {
     return response()->json($response->json(), $response->status());
 })->name('geocode.search');
 
+// Dynamic Sitemap Route
+Route::get('/sitemap.xml', function () {
+    $baseUrl = rtrim((string) config('app.url'), '/');
+    if (empty($baseUrl)) {
+        $baseUrl = 'https://kencana.pekanbaru.go.id';
+    }
+
+    $sitemap = \Spatie\Sitemap\Sitemap::create();
+
+    // Add static pages
+    $sitemap->add(\Spatie\Sitemap\Tags\Url::create($baseUrl.'/')->setPriority(1.0)->setChangeFrequency(\Spatie\Sitemap\Tags\Url::CHANGE_FREQUENCY_DAILY))
+        ->add(\Spatie\Sitemap\Tags\Url::create($baseUrl.'/lapangan')->setPriority(0.8)->setChangeFrequency(\Spatie\Sitemap\Tags\Url::CHANGE_FREQUENCY_WEEKLY));
+
+    // Add dynamic arena pages
+    try {
+        $token = session()->get('auth_token');
+        $base = rtrim((string) config('services.api.base_url'), '/');
+        $url = $base.'/v1/master/lapangan';
+
+        $req = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)]);
+        if ($token) {
+            $req = $req->withToken($token);
+        }
+        $response = $req->accept('application/json')->get($url);
+        $result = $response->json();
+
+        if ($response->successful() && ($result['success'] ?? false)) {
+            $lapanganList = (array) ($result['data'] ?? []);
+            foreach ($lapanganList as $lapangan) {
+                $slug = data_get($lapangan, 'slug');
+                if ($slug) {
+                    $sitemap->add(
+                        \Spatie\Sitemap\Tags\Url::create($baseUrl.'/detail-lapangan/'.$slug)
+                            ->setPriority(0.9)
+                            ->setChangeFrequency(\Spatie\Sitemap\Tags\Url::CHANGE_FREQUENCY_WEEKLY)
+                    );
+                }
+            }
+        }
+    } catch (\Throwable) {
+        // Fallback
+    }
+
+    return $sitemap->toResponse(request());
+})->name('sitemap');
+
 // Public Route
 Route::livewire('/login', 'auth::login')
     ->name('login');
