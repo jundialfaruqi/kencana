@@ -8,10 +8,13 @@ gsap.registerPlugin(TextPlugin);
 window.gsap = gsap;
 window.TextPlugin = TextPlugin;
 
+// Admin Components
 import '../views/components/admin/⚡lapangan-create/lapangan-create.js';
 import '../views/components/admin/⚡lapangan-update/lapangan-update.js';
 import '../views/components/admin/⚡booking-master/booking-master.js';
 import '../views/components/admin/⚡dashboard/dashboard.js';
+import '../views/components/admin/⚡banner-carousel-create/banner-carousel-create.js';
+import '../views/components/admin/⚡banner-carousel-update/banner-carousel-update.js';
 
 // Public Components
 import '../views/components/public/⚡booking/booking.js';
