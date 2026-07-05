@@ -259,161 +259,65 @@
                                                     </div>
 
                                                     <!-- Tim/Nama -->
-                                                    <div class="col-span-2">
-                                                        <div
-                                                            class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
-                                                            Tim / Pemesan
+                                                    @php
+                                                        $team = data_get($bookingDetail, 'nama_komunitas') ?? data_get($bookingDetail, 'pemesan.nama_komunitas');
+                                                        $name = data_get($bookingDetail, 'user.name') ?? data_get($bookingDetail, 'pemesan.user.name') ?? data_get($bookingDetail, 'pemesan.nama');
+                                                        $nik = data_get($bookingDetail, 'user.nik') ?? data_get($bookingDetail, 'pemesan.user.nik') ?? data_get($bookingDetail, 'pemesan.nik');
+                                                        $email = data_get($bookingDetail, 'user.email') ?? data_get($bookingDetail, 'pemesan.user.email') ?? data_get($bookingDetail, 'pemesan.email');
+                                                        $jumlahPemain = data_get($bookingDetail, 'jumlah_pemain') ?? data_get($bookingDetail, 'detail.jumlah_pemain');
+                                                        $kategori = data_get($bookingDetail, 'kategori_pemain') ?? data_get($bookingDetail, 'detail.kategori');
+                                                        $jenis = data_get($bookingDetail, 'jenis_permainan') ?? data_get($bookingDetail, 'detail.jenis');
+                                                    @endphp
+
+                                                    <!-- Details List (Tim, Pemesan, NIK, Email, Pemain, Kategori, Jenis) -->
+                                                    <div class="col-span-2 mt-4 space-y-2.5">
+                                                        <!-- Tim -->
+                                                        <div class="flex items-end justify-between w-full">
+                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Tim</span>
+                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
+                                                            <span class="text-xs font-bold text-warning uppercase shrink-0 text-right">{{ $team ?: '-' }}</span>
                                                         </div>
-                                                        <div
-                                                            class="flex items-center gap-1.5 sm:gap-2 text-base-content">
-                                                            @php
-                                                                $sessionName = data_get(
-                                                                    Session::get('user_data'),
-                                                                    'name',
-                                                                );
-                                                                $apiTeam =
-                                                                    data_get($bookingDetail, 'nama_komunitas') ??
-                                                                    data_get($bookingDetail, 'pemesan.nama_komunitas');
-                                                                $apiName =
-                                                                    data_get($bookingDetail, 'user.name') ??
-                                                                    data_get($bookingDetail, 'pemesan.user.name');
-                                                                $pemesanNama = data_get($bookingDetail, 'pemesan.nama');
 
-                                                                $team = null;
-                                                                $name = null;
-
-                                                                if (filled($apiTeam)) {
-                                                                    $team = $apiTeam;
-                                                                }
-                                                                if (filled($apiName)) {
-                                                                    $name = $apiName;
-                                                                }
-
-                                                                if (filled($pemesanNama)) {
-                                                                    if (filled($name)) {
-                                                                        if (blank($team)) {
-                                                                            $team = $pemesanNama;
-                                                                        }
-                                                                    } else {
-                                                                        if (
-                                                                            filled($sessionName) &&
-                                                                            strcasecmp(
-                                                                                trim((string) $pemesanNama),
-                                                                                trim((string) $sessionName),
-                                                                            ) !== 0
-                                                                        ) {
-                                                                            $team = $pemesanNama;
-                                                                            $name = $sessionName;
-                                                                        } else {
-                                                                            $name = $pemesanNama;
-                                                                        }
-                                                                    }
-                                                                }
-
-                                                                if (blank($name)) {
-                                                                    $name = $sessionName;
-                                                                }
-                                                            @endphp
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor"
-                                                                class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                                            </svg>
-                                                            <span
-                                                                class="text-xs sm:text-sm font-bold uppercase leading-none">
-                                                                {{ $team ?: '-' }}
-                                                                <span
-                                                                    class="text-[10px] sm:text-xs font-normal text-base-content/60 normal-case">({{ $name ?: '-' }})</span>
-                                                            </span>
+                                                        <!-- Pemesan -->
+                                                        <div class="flex items-end justify-between w-full">
+                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Pemesan</span>
+                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
+                                                            <span class="text-xs font-bold text-base-content/85 uppercase shrink-0 text-right">{{ $name ?: '-' }}</span>
                                                         </div>
-                                                        @php
-                                                            $nik =
-                                                                data_get($bookingDetail, 'user.nik') ??
-                                                                (data_get($bookingDetail, 'pemesan.user.nik') ??
-                                                                    data_get($bookingDetail, 'pemesan.nik'));
-                                                        @endphp
-                                                        @if (filled($nik))
-                                                            <div
-                                                                class="text-[10px] sm:text-xs text-info font-bold mt-1 block">
-                                                                NIK: {{ $nik }}
-                                                            </div>
-                                                        @endif
-                                                    </div>
 
-                                                    <!-- 3-Column Info -->
-                                                    <div class="col-span-2 grid grid-cols-3 gap-2 sm:gap-4">
+                                                        <!-- NIK -->
+                                                        <div class="flex items-end justify-between w-full">
+                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">NIK</span>
+                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
+                                                            <span class="text-xs font-mono font-bold text-info shrink-0 text-right">{{ $nik ?: '-' }}</span>
+                                                        </div>
+
+                                                        <!-- Email -->
+                                                        <div class="flex items-end justify-between w-full">
+                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Email</span>
+                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
+                                                            <span class="text-xs font-mono font-bold text-base-content/65 shrink-0 text-right">{{ $email ?: '-' }}</span>
+                                                        </div>
+
                                                         <!-- Pemain -->
-                                                        <div>
-                                                            <div
-                                                                class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
-                                                                Pemain
-                                                            </div>
-                                                            <div
-                                                                class="flex items-center gap-1.5 sm:gap-2 text-base-content">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" stroke-width="1.5"
-                                                                    stroke="currentColor"
-                                                                    class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
-                                                                    <path stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                                                                </svg>
-                                                                <span
-                                                                    class="text-[10px] sm:text-sm font-semibold leading-none">
-                                                                    {{ data_get($bookingDetail, 'jumlah_pemain') ?? '-' }}
-                                                                </span>
-                                                            </div>
+                                                        <div class="flex items-end justify-between w-full">
+                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Pemain</span>
+                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
+                                                            <span class="text-xs font-bold shrink-0 text-right font-mono">{{ $jumlahPemain ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- Kategori -->
-                                                        <div>
-                                                            <div
-                                                                class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
-                                                                Kategori
-                                                            </div>
-                                                            <div
-                                                                class="flex items-center gap-1.5 sm:gap-2 text-base-content">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" stroke-width="1.5"
-                                                                    stroke="currentColor"
-                                                                    class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
-                                                                    <path stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
-                                                                    <path stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        d="M6 6h.008v.008H6V6z" />
-                                                                </svg>
-                                                                <span
-                                                                    class="text-[10px] sm:text-sm font-semibold leading-none">
-                                                                    {{ data_get($bookingDetail, 'kategori_pemain') ?? '-' }}
-                                                                </span>
-                                                            </div>
+                                                        <div class="flex items-end justify-between w-full">
+                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Kategori</span>
+                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
+                                                            <span class="text-xs font-bold shrink-0 text-right uppercase">{{ $kategori ?: '-' }}</span>
                                                         </div>
 
                                                         <!-- Jenis -->
-                                                        <div>
-                                                            <div
-                                                                class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
-                                                                Jenis
-                                                            </div>
-                                                            <div
-                                                                class="flex items-center gap-1.5 sm:gap-2 text-base-content">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" stroke-width="1.5"
-                                                                    stroke="currentColor"
-                                                                    class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
-                                                                    <path stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-                                                                </svg>
-                                                                <span
-                                                                    class="text-[10px] sm:text-sm font-semibold leading-none">
-                                                                    {{ $this->getJenisPermainanAlias(data_get($bookingDetail, 'jenis_permainan')) ?? '-' }}
-                                                                </span>
-                                                            </div>
+                                                        <div class="flex items-end justify-between w-full">
+                                                            <span class="font-semibold text-[11px] uppercase tracking-wide text-base-content/50 shrink-0">Jenis</span>
+                                                            <div class="grow border-b border-dashed border-base-content/20 mx-2 mb-1"></div>
+                                                            <span class="text-xs font-bold shrink-0 text-right uppercase">{{ $this->getJenisPermainanAlias($jenis) ?: '-' }}</span>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -133,48 +133,8 @@
                         </div>
 
                         @php
-                            $sessionName = data_get(Session::get('user_data'), 'name');
-                            $apiTeam =
-                                data_get($detail, 'nama_komunitas') ??
-                                data_get($detail, 'pemesan.nama_komunitas');
-                            $apiName =
-                                data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name');
-                            $pemesanNama = data_get($detail, 'pemesan.nama');
-
-                            $team = null;
-                            $name = null;
-
-                            if (filled($apiTeam)) {
-                                $team = $apiTeam;
-                            }
-                            if (filled($apiName)) {
-                                $name = $apiName;
-                            }
-
-                            if (filled($pemesanNama)) {
-                                if (filled($name)) {
-                                    if (blank($team)) {
-                                        $team = $pemesanNama;
-                                    }
-                                } else {
-                                    if (
-                                        filled($sessionName) &&
-                                        strcasecmp(
-                                            trim((string) $pemesanNama),
-                                            trim((string) $sessionName),
-                                        ) !== 0
-                                    ) {
-                                        $team = $pemesanNama;
-                                        $name = $sessionName;
-                                    } else {
-                                        $name = $pemesanNama;
-                                    }
-                                }
-                            }
-
-                            if (blank($name)) {
-                                $name = $sessionName;
-                            }
+                            $team = data_get($detail, 'detail.nama_komunitas') ?? data_get($detail, 'nama_komunitas') ?? data_get($detail, 'pemesan.nama_komunitas');
+                            $name = data_get($detail, 'user.name') ?? data_get($detail, 'pemesan.user.name') ?? data_get($detail, 'pemesan.nama');
                         @endphp
 
                         <!-- Details List (Tim, Pemesan, Email, Pemain, Kategori, Jenis) -->
