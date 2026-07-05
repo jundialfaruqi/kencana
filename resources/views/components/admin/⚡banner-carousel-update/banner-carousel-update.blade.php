@@ -175,7 +175,7 @@
         </div>
     </div>
 
-    <!-- FE JPEG Image Compression and Upload Script -->
+    <!-- FE PNG Image Compression and Upload Script -->
     <script>
         (function() {
             function compressAndUploadBannerUpdate(file, fieldName, statusEl, progressBar, onComplete, onError) {
@@ -195,7 +195,7 @@
                         progressBar.style.width = '40%';
                         if (statusEl) statusEl.textContent = 'Menyalin...';
 
-                        const canvas = document.createElement('canvas');
+                        // PNG is lossless — compress by reducing dimensions iteratively
                         let width = img.width;
                         let height = img.height;
 
@@ -209,29 +209,27 @@
                                 height = maxDim;
                             }
                         }
-                        canvas.width = width;
-                        canvas.height = height;
-
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
 
                         progressBar.style.width = '60%';
                         if (statusEl) statusEl.textContent = 'Kompresi...';
 
-                        let quality = 0.85;
-                        const minQuality = 0.05;
-
                         function attemptCompress() {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
                             canvas.toBlob(function(blob) {
                                 if (!blob) { onError('Gagal kompresi canvas'); return; }
 
-                                if (blob.size <= maxSizeBytes || quality <= minQuality) {
+                                if (blob.size <= maxSizeBytes || width <= 100) {
                                     progressBar.style.width = '80%';
                                     if (statusEl) statusEl.textContent = 'Mengunggah...';
 
-                                    const newName = file.name.substring(0, file.name.lastIndexOf('.')) + '.jpg';
+                                    const newName = file.name.substring(0, file.name.lastIndexOf('.')) + '.png';
                                     const compressedFile = new File([blob], newName, {
-                                        type: 'image/jpeg',
+                                        type: 'image/png',
                                         lastModified: Date.now()
                                     });
 
@@ -254,10 +252,12 @@
                                         }
                                     );
                                 } else {
-                                    quality -= 0.05;
+                                    // Reduce dimensions by 80% and retry
+                                    width = Math.round(width * 0.8);
+                                    height = Math.round(height * 0.8);
                                     attemptCompress();
                                 }
-                            }, 'image/jpeg', quality);
+                            }, 'image/png');
                         }
                         attemptCompress();
                     };
