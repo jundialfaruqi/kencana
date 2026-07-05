@@ -149,6 +149,44 @@
                                             {{ data_get($bookingDetail, 'kode_booking') }}
                                         </span>
                                     </h2>
+
+                                    @php
+                                        $tanggal = data_get($bookingDetail, 'tanggal');
+                                        $jamMulai = data_get($bookingDetail, 'jam_mulai');
+                                        $jamSelesai = data_get($bookingDetail, 'jam_selesai');
+                                        $status = data_get($bookingDetail, 'status');
+                                        $isExpired = false;
+
+                                        if ($tanggal && $jamSelesai) {
+                                            try {
+                                                $dateOnly = \Carbon\Carbon::parse($tanggal)->format('Y-m-d');
+                                                $dateTimeSelesai = \Carbon\Carbon::parse($dateOnly . ' ' . $jamSelesai);
+                                                $isExpired = $dateTimeSelesai->isPast();
+                                            } catch (\Exception $e) {
+                                                //
+                                            }
+                                        }
+
+                                        $warningMessage = null;
+                                        if ($status === 'dibatalkan') {
+                                            $warningMessage =
+                                                'Tiket anda sudah tidak berlaku karena sudah dibatalkan. Lihat keterangan alasan pembatalan pada Catatan Booking di bawah.';
+                                        } elseif ($status === 'selesai') {
+                                            $warningMessage = 'Tiket anda tidak berlaku karena sudah digunakan.';
+                                        } elseif ($status === 'dipesan' && $isExpired) {
+                                            $formattedDate = \Carbon\Carbon::parse($tanggal)->format('d M Y');
+                                            $formattedMulai = \Carbon\Carbon::parse($jamMulai)->format('H:i');
+                                            $formattedSelesai = \Carbon\Carbon::parse($jamSelesai)->format('H:i');
+                                            $warningMessage = "Tiket anda tanggal {$formattedDate} dan jam {$formattedMulai}-{$formattedSelesai} sudah tidak berlaku.";
+                                        }
+                                    @endphp
+
+                                    @if ($warningMessage)
+                                        <div class="text-xs text-error font-bold text-center mt-1 mb-4">
+                                            {{ $warningMessage }}
+                                        </div>
+                                    @endif
+
                                     <style>
                                         .dashboard-ticket-mask {
                                             mask-image: radial-gradient(circle 10px at 0 calc(100% - var(--cut-pos)), transparent 10px, black 10.5px),
