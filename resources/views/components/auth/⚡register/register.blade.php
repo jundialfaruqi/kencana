@@ -68,7 +68,7 @@
                                     NIK (16 Digit)
                                 </span>
                             </label>
-                            <input type="tel" placeholder="1234567890123456"
+                            <input type="tel" placeholder="1471567890123456"
                                 class="input input-bordered focus:input-info bg-base-200/50 font-medium w-full placeholder:text-base-content/50 h-10 @error('nik') input-warning @enderror"
                                 wire:model="nik" inputmode="numeric" pattern="[0-9]*" maxlength="16"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);" />
