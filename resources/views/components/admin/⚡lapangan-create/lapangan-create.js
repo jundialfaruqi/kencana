@@ -92,6 +92,22 @@
     }
   }
 
+  function setupAutoResizeTextarea(root) {
+    var textarea = root.querySelector('textarea[wire\\:model\\.blur="deskripsi"]');
+    if (!textarea) return;
+
+    function resize() {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    textarea.addEventListener('input', resize);
+    textarea.addEventListener('focus', resize);
+    window.addEventListener('resize', resize);
+
+    setTimeout(resize, 100);
+  }
+
   var _initialized = false;
 
   function initCreateLapangan() {
@@ -102,6 +118,7 @@
     restoreValues(root);
     bindInputs(root);
     bindActions(root);
+    setupAutoResizeTextarea(root);
   }
 
   // Run once on page load / SPA navigation — NOT on every Livewire commit
