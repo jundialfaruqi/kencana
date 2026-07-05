@@ -32,14 +32,14 @@
         function init() {
             var body = document.body;
             var saved = localStorage.getItem('adminTheme');
-            var current = saved || body.getAttribute('data-theme') || 'goldcandy';
+            var current = saved || body.getAttribute('data-theme') || 'colorghost';
             body.setAttribute('data-theme', current);
             setIcons(current);
             var btn = document.getElementById('theme-toggle');
             if (btn && !btn.__bound) {
                 btn.addEventListener('click', function() {
-                    var now = body.getAttribute('data-theme') || 'goldcandy';
-                    var next = now === 'goldcandy' ? 'chaotictoast' : 'goldcandy';
+                    var now = body.getAttribute('data-theme') || 'colorghost';
+                    var next = now === 'colorghost' ? 'chaotictoast' : 'colorghost';
                     body.setAttribute('data-theme', next);
                     localStorage.setItem('adminTheme', next);
                     setIcons(next);

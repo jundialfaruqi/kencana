@@ -15,7 +15,7 @@
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
-  name: "goldcandy";
+  name: "colorghost";
   default: false;
   prefersdark: false;
   color-scheme: "light";

@@ -1,4 +1,4 @@
-<div data-theme="goldcandy" wire:init="load" x-data="{ showPassword: false }"
+<div data-theme="colorghost" wire:init="load" x-data="{ showPassword: false }"
     class="min-h-screen flex items-center justify-center bg-base-300 p-4 font-sans transition-colors duration-500 overflow-hidden relative">
 
     <div wire:key="login-card" class="card w-full max-w-md bg-base-200 overflow-hidden relative z-10">
