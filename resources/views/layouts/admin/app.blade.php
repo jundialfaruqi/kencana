@@ -30,6 +30,15 @@
 </head>
 
 <body class="bg-base-200 font-inter text-base-content">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('adminTheme') || 'colorghost';
+            if (saved !== 'colorghost' && saved !== 'chaotictoast') {
+                saved = 'colorghost';
+            }
+            document.body.setAttribute('data-theme', saved);
+        })();
+    </script>
 
     <div class="drawer lg:drawer-open">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
