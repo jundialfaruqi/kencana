@@ -19,132 +19,132 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
-            <div class="card bg-base-100 md:col-span-3 border-2 border-base-300 border-dashed">
-                <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <label class="form-control w-full">
-                            <div class="label">
-                                <span class="label-text">Nama Lapangan</span>
-                            </div>
-                            <input type="text"
-                                class="input text-base-content italic font-black border-2 border-dashed border-base-300 input-bordered w-full mt-1.5"
-                                value="{{ $lapangan_nama ?: '-' }}" disabled />
-                            @error('lapangan_id')
-                                <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}</p>
-                            @enderror
-                        </label>
-                        <label class="form-control w-full">
-                            <div class="label">
-                                <span class="label-text">Tanggal</span>
-                            </div>
-                            <input type="date" class="input input-bordered w-full mt-1.5" placeholder="2026-02-10"
-                                wire:model="tanggal">
-                            @error('tanggal')
-                                <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}</p>
-                            @enderror
-                        </label>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-2">
-                            <label class="form-control w-full col-span-2 md:col-span-1">
-                                <div class="label">
-                                    <span class="label-text">Tipe</span>
-                                </div>
-                                <select class="select select-bordered w-full mt-1.5" wire:model.live="tipe">
-                                    <option value="">Pilih tipe</option>
-                                    <option value="libur">Libur</option>
-                                    <option value="event">Event / Block</option>
-                                    <option value="tambahan">Jam Tambahan</option>
-                                </select>
-                                @error('tipe')
-                                    <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}
-                                    </p>
-                                @enderror
-                            </label>
-                            <label class="form-control w-full">
-                                <div class="label">
-                                    <span class="label-text">Jam Mulai</span>
-                                </div>
-                                <input type="time" class="input input-bordered w-full mt-1.5" placeholder="08:00"
-                                    wire:model="buka" @disabled($tipe === 'libur')>
-                                @error('buka')
-                                    <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}
-                                    </p>
-                                @enderror
-                            </label>
-                            <label class="form-control w-full">
-                                <div class="label">
-                                    <span class="label-text">Jam Selesai</span>
-                                </div>
-                                <input type="time" class="input input-bordered w-full mt-1.5" placeholder="21:00"
-                                    wire:model="tutup" @disabled($tipe === 'libur')>
-                                @error('tutup')
-                                    <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}
-                                    </p>
-                                @enderror
-                            </label>
+        <div class="card bg-base-100 md:col-span-3">
+            <div class="card-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="form-control w-full">
+                        <div class="label">
+                            <span class="label-text">Nama Lapangan</span>
                         </div>
-                        <label class="form-control w-full md:col-span-2">
+                        <input type="text"
+                            class="input text-base-content italic font-black input-bordered w-full mt-1.5"
+                            value="{{ $lapangan_nama ?: '-' }}" disabled />
+                        @error('lapangan_id')
+                            <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}</p>
+                        @enderror
+                    </label>
+                    <label class="form-control w-full">
+                        <div class="label">
+                            <span class="label-text">Tanggal</span>
+                        </div>
+                        <input type="date" class="input input-bordered w-full mt-1.5" placeholder="2026-02-10"
+                            wire:model="tanggal">
+                        @error('tanggal')
+                            <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}</p>
+                        @enderror
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-2">
+                        <label class="form-control w-full col-span-2 md:col-span-1">
                             <div class="label">
-                                <span class="label-text">Keterangan</span>
+                                <span class="label-text">Tipe</span>
                             </div>
-                            <textarea class="textarea textarea-bordered w-full mt-1.5" rows="3" placeholder="Ada event tournament"
-                                wire:model="keterangan"></textarea>
-                            @error('keterangan')
-                                <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}</p>
+                            <select class="select select-bordered w-full mt-1.5" wire:model.live="tipe">
+                                <option value="">Pilih tipe</option>
+                                <option value="libur">Libur</option>
+                                <option value="event">Event / Block</option>
+                                <option value="tambahan">Jam Tambahan</option>
+                            </select>
+                            @error('tipe')
+                                <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}
+                                </p>
+                            @enderror
+                        </label>
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text">Jam Mulai</span>
+                            </div>
+                            <input type="time" class="input input-bordered w-full mt-1.5" placeholder="08:00"
+                                wire:model="buka" @disabled($tipe === 'libur')>
+                            @error('buka')
+                                <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}
+                                </p>
+                            @enderror
+                        </label>
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text">Jam Selesai</span>
+                            </div>
+                            <input type="time" class="input input-bordered w-full mt-1.5" placeholder="21:00"
+                                wire:model="tutup" @disabled($tipe === 'libur')>
+                            @error('tutup')
+                                <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}
+                                </p>
                             @enderror
                         </label>
                     </div>
-                    <div class="mt-6 flex items-center justify-end gap-2">
-                        <a wire:navigate href="/jadwal-khusus" class="btn btn-ghost" wire:loading.attr="disabled"
-                            wire:target="submit">
-                            Kembali
-                        </a>
-                        <button type="button" class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
-                            wire:target="submit">
-                            <span wire:loading.remove wire:target="submit">Simpan Jadwal Khusus</span>
-                            <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
-                        </button>
-                    </div>
+                    <label class="form-control w-full md:col-span-2">
+                        <div class="label">
+                            <span class="label-text">Keterangan</span>
+                        </div>
+                        <textarea class="textarea textarea-bordered w-full mt-1.5" rows="3" placeholder="Ada event tournament"
+                            wire:model="keterangan"></textarea>
+                        @error('keterangan')
+                            <p class="text-[10px] text-warning italic mt-1 font-bold uppercase">*{{ $message }}</p>
+                        @enderror
+                    </label>
+                </div>
+                <div class="mt-6 flex items-center justify-end gap-2">
+                    <a wire:navigate href="/jadwal-khusus" class="btn btn-ghost" wire:loading.attr="disabled"
+                        wire:target="submit">
+                        Kembali
+                    </a>
+                    <button type="button" class="btn btn-accent" wire:click="submit" wire:loading.attr="disabled"
+                        wire:target="submit">
+                        <span wire:loading.remove wire:target="submit">Simpan Jadwal Khusus</span>
+                        <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
+                    </button>
                 </div>
             </div>
-            <div class="md:col-span-2">
-                <div class="card bg-base-100 border-2 border-dashed border-base-300">
-                    <div class="card-body">
-                        <h3 class="text-sm font-semibold mb-2">Informasi</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <h4 class="text-xs font-semibold mb-1">Tanggal dan Jam</h4>
-                                <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
-                                    <li class="pl-2">Tanggal: format YYYY-MM-DD</li>
-                                    <li class="pl-2">Format jam: HH:MM (contoh 08:00)</li>
-                                    <li class="pl-2">Jam menggunakan format 24 jam, tanpa detik</li>
-                                    <li class="pl-2">Gunakan 00:00 untuk tengah malam; 24:00 tidak valid</li>
-                                    <li class="pl-2">Disarankan jam selesai lebih besar dari jam mulai di hari yang
-                                        sama
-                                    </li>
-                                </ol>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-semibold mb-1">Tipe</h4>
-                                <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
-                                    <li class="pl-2">Libur: input Jam Mulai/Selesai akan nonaktif</li>
-                                    <li class="pl-2">Event / Block: isi jam jika perlu</li>
-                                    <li class="pl-2">Jam Tambahan: isi jam tambahan</li>
-                                </ol>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-semibold mb-1">Keterangan</h4>
-                                <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
-                                    <li class="pl-2">Isi keterangan jadwal tersebut</li>
-                                </ol>
-                            </div>
-                            @if ($error)
-                                <div class="alert alert-error">
-                                    <span>{{ $error }}</span>
-                                </div>
-                            @endif
+        </div>
+        <div class="md:col-span-2">
+            <div class="card bg-base-100">
+                <div class="card-body">
+                    <h3 class="text-sm font-semibold mb-2">Informasi</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="text-xs font-semibold mb-1">Tanggal dan Jam</h4>
+                            <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
+                                <li class="pl-2">Tanggal: format YYYY-MM-DD</li>
+                                <li class="pl-2">Format jam: HH:MM (contoh 08:00)</li>
+                                <li class="pl-2">Jam menggunakan format 24 jam, tanpa detik</li>
+                                <li class="pl-2">Gunakan 00:00 untuk tengah malam; 24:00 tidak valid</li>
+                                <li class="pl-2">Disarankan jam selesai lebih besar dari jam mulai di hari yang
+                                    sama
+                                </li>
+                            </ol>
                         </div>
+                        <div>
+                            <h4 class="text-xs font-semibold mb-1">Tipe</h4>
+                            <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
+                                <li class="pl-2">Libur: input Jam Mulai/Selesai akan nonaktif</li>
+                                <li class="pl-2">Event / Block: isi jam jika perlu</li>
+                                <li class="pl-2">Jam Tambahan: isi jam tambahan</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-semibold mb-1">Keterangan</h4>
+                            <ol class="list-decimal list-inside text-xs text-base-content/70 space-y-1">
+                                <li class="pl-2">Isi keterangan jadwal tersebut</li>
+                            </ol>
+                        </div>
+                        @if ($error)
+                            <div class="alert alert-error">
+                                <span>{{ $error }}</span>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>

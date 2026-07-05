@@ -24,7 +24,7 @@
         </div>
     @endif
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
-        <div class="card bg-base-100 border-2 border-dashed border-base-300 md:col-span-3">
+        <div class="card bg-base-100 md:col-span-3">
             <div class="card-body">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <label class="form-control w-full md:col-span-2">
@@ -37,16 +37,15 @@
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror
                     </label>
-                    <div
-                        class="card md:col-span-2 p-4 border-2 border-dashed border-base-200 bg-blue-200 text-primary-content mt-1">
+                    <div class="card md:col-span-2 p-4 bg-base-200 text-base-content mt-1">
                         <div class="form-control w-full md:col-span-2 mb-4">
                             <div>
-                                <span class="label-text font-bold">Pilih Kategori yang Sudah Ada</span>
+                                <span class="label-text font-medium">Pilih Kategori yang Sudah Ada</span>
                             </div>
                             <div class="flex flex-wrap gap-2 mt-1.5" wire:ignore.self>
                                 @foreach ($availableKategoriBanner as $kategori)
                                     <button type="button" wire:key="{{ $kategori }}"
-                                        class="btn btn-sm {{ $selectedKategoriBanner === $kategori ? 'btn-primary' : 'btn-outline' }}"
+                                        class="btn btn-sm {{ $selectedKategoriBanner === $kategori ? 'btn-secondary' : 'btn-outline' }}"
                                         wire:click="selectKategoriBanner('{{ $kategori }}')">
                                         {{ $kategori }}
                                     </button>
@@ -55,7 +54,8 @@
                         </div>
                         <label class="form-control w-full md:col-span-2">
                             <div class="label">
-                                <span class="label-text font-semibold">Atau Ketik Kategori Banner Baru</span>
+                                <span class="label-text font-medium text-base-content">Atau Ketik Kategori Banner
+                                    Baru</span>
                             </div>
                             <label class="input input-bordered flex items-center w-full gap-2 mt-1.5">
                                 <input type="text"
@@ -93,7 +93,7 @@
                     <button class="btn btn-ghost" wire:click="cancel" wire:loading.attr="disabled"
                         wire:loading.class="btn-disabled pointer-events-none opacity-50"
                         wire:target="cancel">Kembali</button>
-                    <button class="btn btn-primary" wire:click="submit" wire:loading.attr="disabled"
+                    <button class="btn btn-accent" wire:click="submit" wire:loading.attr="disabled"
                         wire:target="submit">
                         <span wire:loading.remove wire:target="submit">Simpan</span>
                         <span class="loading loading-spinner loading-xs" wire:loading wire:target="submit"></span>
@@ -101,7 +101,7 @@
                 </div>
             </div>
         </div>
-        <div class="card bg-base-100 border-2 border-dashed border-base-300 md:col-span-2">
+        <div class="card bg-base-100 md:col-span-2">
             <div class="card-body">
                 <div class="grid grid-cols-1 gap-4">
                     <div class="form-control w-full">
