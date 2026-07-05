@@ -17,7 +17,7 @@
             <!-- Kolom Cek Kode Booking -->
             <div class="w-full lg:col-span-2">
                 <div
-                    class="card bg-base-100 border-y sm:border border-x-0 sm:border-base-200 -mx-6 sm:mx-auto rounded-none sm:rounded-2xl items-center py-10 px-4 flex flex-col min-h-196 w-[calc(100%+3rem)] sm:w-full">
+                    class="card bg-base-100 -mx-6 sm:mx-auto rounded-none sm:rounded-2xl items-center py-10 px-4 flex flex-col min-h-196 w-[calc(100%+3rem)] sm:w-full">
                     <h2 class="text-lg uppercase text-center mb-2 text-base-content">
                         Cek Kode Booking
                     </h2>
@@ -184,7 +184,8 @@
                                             <!-- Left Section (Main Details) -->
                                             <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0">
                                                 <!-- Header -->
-                                                <div class="flex flex-row justify-between items-center mb-2 sm:mb-4 gap-2">
+                                                <div
+                                                    class="flex flex-row justify-between items-center mb-2 sm:mb-4 gap-2">
                                                     <!-- Status Badge -->
                                                     <div
                                                         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider {{ (data_get($bookingDetail, 'status') ?? '') === 'dipesan' ? 'bg-info/10 text-info' : ((data_get($bookingDetail, 'status') ?? '') === 'dibatalkan' ? 'bg-error/10 text-error' : 'bg-success/10 text-success') }}">
@@ -198,7 +199,8 @@
                                                     </div>
 
                                                     <!-- Created Date -->
-                                                    <span class="text-[10px] sm:text-xs font-medium text-base-content/50">
+                                                    <span
+                                                        class="text-[10px] sm:text-xs font-medium text-base-content/50">
                                                         Dibuat:
                                                         {{ \Carbon\Carbon::parse(data_get($bookingDetail, 'created_at'))->format('d M Y H:i') ?? '-' }}
                                                     </span>
@@ -218,7 +220,8 @@
                                                             class="text-[9px] sm:text-[10px] font-bold text-base-content/50 uppercase mb-1 sm:mb-1.5">
                                                             Tanggal
                                                         </div>
-                                                        <div class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                        <div
+                                                            class="flex items-center gap-1.5 sm:gap-2 text-base-content">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke-width="1.5"
                                                                 stroke="currentColor"
@@ -238,7 +241,8 @@
                                                             class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
                                                             Jam
                                                         </div>
-                                                        <div class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                        <div
+                                                            class="flex items-center gap-1.5 sm:gap-2 text-base-content">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke-width="1.5"
                                                                 stroke="currentColor"
@@ -260,9 +264,13 @@
                                                             class="text-[9px] sm:text-[10px] font-bold uppercase text-base-content/50 mb-1 sm:mb-1.5">
                                                             Tim / Pemesan
                                                         </div>
-                                                        <div class="flex items-center gap-1.5 sm:gap-2 text-base-content">
+                                                        <div
+                                                            class="flex items-center gap-1.5 sm:gap-2 text-base-content">
                                                             @php
-                                                                $sessionName = data_get(Session::get('user_data'), 'name');
+                                                                $sessionName = data_get(
+                                                                    Session::get('user_data'),
+                                                                    'name',
+                                                                );
                                                                 $apiTeam =
                                                                     data_get($bookingDetail, 'nama_komunitas') ??
                                                                     data_get($bookingDetail, 'pemesan.nama_komunitas');
@@ -348,7 +356,8 @@
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
                                                                     stroke="currentColor"
                                                                     class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
                                                                         d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                                                 </svg>
                                                                 <span
@@ -370,9 +379,11 @@
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
                                                                     stroke="currentColor"
                                                                     class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
                                                                         d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
                                                                         d="M6 6h.008v.008H6V6z" />
                                                                 </svg>
                                                                 <span
@@ -394,7 +405,8 @@
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
                                                                     stroke="currentColor"
                                                                     class="w-4 h-4 sm:w-5 sm:h-5 text-base-content/50 shrink-0">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
                                                                         d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                                                                 </svg>
                                                                 <span
@@ -434,12 +446,20 @@
                                         </div>
 
                                         <!-- Border circles for cuts (Desktop) -->
-                                        <div class="hidden sm:block absolute top-0 right-[10.75rem] translate-x-1/2 w-5 h-2.5 rounded-b-full bg-transparent border-b border-l border-r border-t-0 border-base-300 pointer-events-none z-10"></div>
-                                        <div class="hidden sm:block absolute bottom-0 right-[10.75rem] translate-x-1/2 w-5 h-2.5 rounded-t-full bg-transparent border-t border-l border-r border-b-0 border-base-300 pointer-events-none z-10"></div>
+                                        <div
+                                            class="hidden sm:block absolute top-0 right-[10.75rem] translate-x-1/2 w-5 h-2.5 rounded-b-full bg-transparent border-b border-l border-r border-t-0 border-base-300 pointer-events-none z-10">
+                                        </div>
+                                        <div
+                                            class="hidden sm:block absolute bottom-0 right-[10.75rem] translate-x-1/2 w-5 h-2.5 rounded-t-full bg-transparent border-t border-l border-r border-b-0 border-base-300 pointer-events-none z-10">
+                                        </div>
 
                                         <!-- Border circles for cuts (Mobile) -->
-                                        <div class="block sm:hidden absolute left-0 bottom-[14.25rem] translate-y-1/2 w-2.5 h-5 rounded-r-full bg-transparent border-t border-b border-r border-l-0 border-base-300 pointer-events-none z-10"></div>
-                                        <div class="block sm:hidden absolute right-0 bottom-[14.25rem] translate-y-1/2 w-2.5 h-5 rounded-l-full bg-transparent border-t border-b border-l border-r-0 border-base-300 pointer-events-none z-10"></div>
+                                        <div
+                                            class="block sm:hidden absolute left-0 bottom-[14.25rem] translate-y-1/2 w-2.5 h-5 rounded-r-full bg-transparent border-t border-b border-r border-l-0 border-base-300 pointer-events-none z-10">
+                                        </div>
+                                        <div
+                                            class="block sm:hidden absolute right-0 bottom-[14.25rem] translate-y-1/2 w-2.5 h-5 rounded-l-full bg-transparent border-t border-b border-l border-r-0 border-base-300 pointer-events-none z-10">
+                                        </div>
                                     </div>
 
                                     @if (!empty(data_get($bookingDetail, 'keterangan')))
