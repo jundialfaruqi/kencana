@@ -180,9 +180,9 @@
                                     <div class="relative w-full max-w-xl mx-auto">
                                         <!-- Card Tiket -->
                                         <div
-                                            class="w-full bg-base-100 rounded-2xl border border-base-300 shadow-lg flex flex-col sm:flex-row relative overflow-hidden dashboard-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]">
+                                            class="w-full rounded-2xl border border-base-300 shadow-lg flex flex-col sm:flex-row relative overflow-hidden dashboard-ticket-mask [--cut-pos:14.25rem] sm:[--cut-pos:10.75rem]">
                                             <!-- Left Section (Main Details) -->
-                                            <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0">
+                                            <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between min-w-0 bg-base-100 rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
                                                 <!-- Header -->
                                                 <div
                                                     class="flex flex-row justify-between items-center mb-2 sm:mb-4 gap-2">
@@ -429,7 +429,7 @@
 
                                             <!-- Right Section (QR) -->
                                             <div
-                                                class="w-full sm:w-40 h-54 sm:h-auto p-4 shrink-0 flex flex-col justify-center items-center bg-base-100">
+                                                class="w-full sm:w-40 h-54 sm:h-auto p-4 shrink-0 flex flex-col justify-center items-center bg-base-100 rounded-b-2xl sm:rounded-r-2xl sm:rounded-bl-none">
                                                 @if (data_get($bookingDetail, 'kode_booking'))
                                                     <div
                                                         class="p-2 bg-white mb-2 sm:mb-4 rounded-xl border border-base-300 shadow-sm">
