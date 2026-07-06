@@ -28,3 +28,4 @@ import '../views/components/public/⚡detail-lapangan/detail-lapangan.js';
 // Auth Components
 import '../views/components/auth/⚡login/login.js';
 import '../views/components/auth/⚡register/register.js';
+import '../views/components/auth/⚡admin-login/admin-login.js';

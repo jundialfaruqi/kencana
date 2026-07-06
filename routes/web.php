@@ -86,6 +86,8 @@ Route::get('/sitemap.xml', function () {
 // Public Route
 Route::livewire('/login', 'auth::login')
     ->name('login');
+Route::livewire('/admin/login', 'auth::admin-login')
+    ->name('admin.login');
 Route::livewire('/register', 'auth::register')
     ->name('register');
 Route::livewire('/store', 'public::public.store');
