@@ -46,17 +46,22 @@
                         <p class="text-[10px] sm:text-[11px] text-base-content/70 leading-relaxed line-clamp-2">
                             {{ $lp['alamat'] }}
                         </p>
-                        <div class="mt-auto pt-2 sm:pt-3">
+                        <div class="mt-auto pt-2 sm:pt-3 flex gap-2">
+                            <a href="/detail-lapangan/{{ \Illuminate\Support\Str::slug($lp['nama_lapangan'] ?? '') }}"
+                                wire:navigate
+                                class="btn btn-outline btn-info btn-sm w-1/3 italic font-black uppercase -skew-x-12">
+                                <span class="skew-x-12">Detail</span>
+                            </a>
                             @if (($lp['status'] ?? '') === 'open')
                                 <a href="/booking?lapangan={{ \Illuminate\Support\Str::slug($lp['nama_lapangan'] ?? '') }}"
                                     wire:navigate
-                                    class="btn btn-info btn-xs sm:btn-sm w-full italic font-black uppercase -skew-x-12">
-                                    <span class="skew-x-12">Pesan Sekarang</span>
+                                    class="btn btn-info btn-sm w-2/3 italic font-black uppercase -skew-x-12">
+                                    <span class="skew-x-12">Pesan</span>
                                 </a>
                             @else
                                 <button disabled
-                                    class="btn btn-neutral btn-xs sm:btn-sm w-full italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
-                                    <span class="skew-x-12">{{ $lp['status_label'] ?: 'Segera Dibuka' }}</span>
+                                    class="btn btn-neutral btn-sm w-2/3 italic font-black uppercase -skew-x-12 opacity-80 cursor-not-allowed">
+                                    <span class="skew-x-12">{{ $lp['status_label'] ?: 'Tutup' }}</span>
                                 </button>
                             @endif
                         </div>
