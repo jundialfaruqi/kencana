@@ -82,6 +82,8 @@
             <main class="grow container-xl px-4 pt-21 pb-18 sm:pt-22 sm:px-12 md:px-24 lg:px-48 xl:px-70 sm:pb-25">
                 {{ $slot }}
             </main>
+            
+            <x-public.footer />
 
             <div
                 class="dock dock-md sm:dock-xl bg-base-200 border-t border-info/5 h-16 sm:h-20 pb-safe z-50 transition-all duration-1000 sm:bottom-6 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:w-max sm:rounded-full sm:border sm:border-base-300 sm:shadow-2xl sm:px-8 sm:pb-0 gap-2 sm:gap-6">
