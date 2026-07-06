@@ -17,6 +17,7 @@
         "milon/barcode": "^13.1",
         "phpoffice/phpspreadsheet": "^5.8",
         "ralphjsmit/laravel-seo": "^1.8",
+        "spatie/laravel-csp": "^3.26",
         "spatie/laravel-sitemap": "^8.0"
     },
     "require-dev": {
