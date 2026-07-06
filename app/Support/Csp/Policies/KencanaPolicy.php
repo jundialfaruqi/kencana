@@ -24,7 +24,9 @@ class KencanaPolicy extends Policy
         // 1. Script Sources
         $this->add(Directive::SCRIPT, 'https://cdn.jsdelivr.net')
              ->add(Directive::SCRIPT, 'https://unpkg.com')
-             ->add(Directive::SCRIPT, Keyword::UNSAFE_EVAL); // Needed for Alpine.js/Livewire 3/4
+             ->add(Directive::SCRIPT, 'https://www.google-analytics.com')
+             ->add(Directive::SCRIPT, Keyword::UNSAFE_EVAL) // Needed for Alpine.js/Livewire 3/4
+             ->add(Directive::SCRIPT, Keyword::UNSAFE_INLINE); // Force inline fallback if nonce disabled
 
         // 2. Style Sources
         $this->add(Directive::STYLE, 'https://fonts.googleapis.com')
@@ -44,6 +46,8 @@ class KencanaPolicy extends Policy
             'https://a.tile.openstreetmap.org',
             'https://b.tile.openstreetmap.org',
             'https://c.tile.openstreetmap.org',
+            'https://kencana-api.pekanbaru.go.id',
+            'https://www.google-analytics.com',
             config('services.api.base_url'), // Sometimes images share the same origin as API
             config('services.api.image_base_url', config('services.api.base_url')),
             'data:' // For inline images like base64 logo/SVG
@@ -51,6 +55,8 @@ class KencanaPolicy extends Policy
 
         // 5. Connect Sources (AJAX, Vite HMR, API)
         $this->add(Directive::CONNECT, config('services.api.base_url'));
+        $this->add(Directive::CONNECT, 'https://kencana-api.pekanbaru.go.id');
+        $this->add(Directive::CONNECT, 'https://www.google-analytics.com');
         
         // Hanya izinkan koneksi Vite port 5173 saat mode lokal/development
         if (app()->isLocal()) {
