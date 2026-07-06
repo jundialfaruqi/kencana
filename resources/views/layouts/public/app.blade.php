@@ -13,26 +13,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="google-site-verification" content="Bn93juVNIvjO_a6AIb2ksOz6_xMRvtMPHRpvULah1Rw" />
-    
-    @if(request()->routeIs('login'))
-        <meta name="robots" content="noindex, nofollow">
-    @endif
 
     {!! seo() !!}
-
-    <!-- Google Site Name Structured Data -->
-    <script type="application/ld+json">
-    {!! json_encode([
-        '@context' => 'https://schema.org',
-        '@type' => 'WebSite',
-        'name' => 'Kencana Arena',
-        'alternateName' => ['Kencana Arena Pekanbaru'],
-        'url' => url('/')
-    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
-    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -86,7 +69,7 @@
             <main class="grow container-xl px-4 pt-21 pb-18 sm:pt-22 sm:px-12 md:px-24 lg:px-48 xl:px-70 sm:pb-25">
                 {{ $slot }}
             </main>
-            
+
             <x-public.footer />
 
             <div

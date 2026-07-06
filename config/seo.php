@@ -23,7 +23,7 @@ return [
      * to the root domain and not relative to the current URL. The `spatie/laravel-sitemap` package
      * is a great package to generate sitemaps for your application.
      */
-    'sitemap' => null,
+    'sitemap' => '/sitemap.xml',
 
     /**
      * Use this setting to specify whether you want self-referencing `<link rel="canonical" href="$url">` tags to
@@ -59,7 +59,7 @@ return [
      *
      * You can use the following filetypes: ico, png, gif, jpeg, svg.
      */
-    'favicon' => null,
+    'favicon' => 'favicon.ico',
 
     'title' => [
         /**
@@ -91,7 +91,7 @@ return [
          * where we don't have a description set via an associated ->seo model or via
          * the ->getDynamicSEOData() method.
          */
-        'fallback' => 'Kencana Arena adalah platform booking lapangan olahraga online di Pekanbaru. Pesan lapangan futsal, badminton, basket, dan lainnya secara mudah dan cepat.',
+        'fallback' => 'Kencana Arena adalah platform booking lapangan olahraga online di Pekanbaru. Pesan lapangan minisoccer, badminton, basket, dan lainnya secara mudah dan cepat.',
     ],
 
     'image' => [
@@ -109,7 +109,7 @@ return [
          * Use this setting to specify a fallback author, which will be used on places where you
          * don't have an author set via an associated ->seo model or via the ->getDynamicSEOData() method.
          */
-        'fallback' => 'DISKOMINFOTIKSAN Kota Pekanbaru',
+        'fallback' => 'Pemerintah Kota Pekanbaru',
     ],
 
     'twitter' => [
