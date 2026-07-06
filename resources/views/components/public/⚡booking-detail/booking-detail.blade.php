@@ -261,6 +261,16 @@
                     </div>
                 </div>
 
+                <div class="mt-4 rounded-2xl border-2 border-base-200 bg-base-100 shadow-sm p-4">
+                    <h4 class="text-xs sm:text-sm font-bold uppercase text-base-content/60">Informasi</h4>
+                    <div class="mt-2 text-sm font-medium text-base-content leading-relaxed">
+                        Silakan tangkap layar (screenshot) halaman ini untuk ditunjukkan kepada petugas di
+                        lapangan. Booking yang sudah lewat dari tanggal dan jam serta booking yang sudah dibatalkan
+                        tidak
+                        akan berlaku.
+                    </div>
+                </div>
+
                 @if (!empty(data_get($detail, 'keterangan')))
                     <div class="mt-4 rounded-2xl border-2 border-base-200 bg-base-100 shadow-sm p-4">
                         <div class="flex items-center gap-2">

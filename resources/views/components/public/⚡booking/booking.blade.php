@@ -626,21 +626,19 @@
             <div class="fixed inset-0 z-50 grid place-items-center p-4">
                 <div class="absolute inset-0 bg-base-100/80 backdrop-blur-sm"></div>
                 <div
-                    class="relative w-full max-w-sm sm:max-w-md mx-4 sm:mx-0 rounded-2xl sm:rounded-3xl border-2 border-info bg-base-100 shadow-2xl overflow-hidden">
-                    <div class="bg-info p-4 sm:p-6">
+                    class="relative w-full max-w-sm sm:max-w-md mx-4 sm:mx-0 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+                    <div class="bg-base-100/80 backdrop-blur-sm p-4 sm:p-6">
                         <div class="flex items-center gap-2 sm:gap-3">
-                            <div
-                                class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-info-content/20 flex items-center justify-center">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="size-5 sm:size-6 text-info-content">
+                                    class="size-5 sm:size-6 text-base-content">
                                     <path fill-rule="evenodd"
                                         d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.94a.75.75 0 1 0-1.22-.86l-3.864 5.497-2.064-2.064a.75.75 0 1 0-1.06 1.06l2.667 2.667a.75.75 0 0 0 1.177-.127l4.427-6.173Z"
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div>
-                                <h4
-                                    class="text-info-content font-black italic uppercase tracking-tighter text-lg sm:text-xl">
+                                <h4 class="text-base-content font-black uppercase tracking-tighter text-lg sm:text-xl">
                                     Booking Berhasil
                                 </h4>
                                 <div class="text-[9px] sm:text-[10px] font-bold uppercase text-info-content/70">
@@ -690,6 +688,18 @@
                                 <div class="mt-2 text-xs font-mono font-bold tracking-widest text-black">
                                     {{ $bookingCode }}
                                 </div>
+                            </div>
+
+                            <div
+                                class="text-[11px] sm:text-xs bg-base-content text-base-100 p-3 rounded-xl flex items-start gap-2 shadow-sm font-semibold mt-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.5" stroke="currentColor"
+                                    class="size-4 shrink-0 text-warning mt-0.5 animate-pulse">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                                <span>Silakan tangkap layar (screenshot) halaman ini untuk ditunjukkan kepada petugas di
+                                    lapangan.</span>
                             </div>
                         @endif
 
