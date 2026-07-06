@@ -43,10 +43,7 @@ Route::get('/api/geocode/search', function () {
 
 // Dynamic Sitemap Route
 Route::get('/sitemap.xml', function () {
-    $baseUrl = rtrim((string) config('app.url'), '/');
-    if (empty($baseUrl)) {
-        $baseUrl = 'https://kencana.pekanbaru.go.id';
-    }
+    $baseUrl = rtrim(request()->getSchemeAndHttpHost(), '/');
 
     $sitemap = \Spatie\Sitemap\Sitemap::create();
 
@@ -56,22 +53,21 @@ Route::get('/sitemap.xml', function () {
 
     // Add dynamic arena pages
     try {
-        $token = session()->get('auth_token');
         $base = rtrim((string) config('services.api.base_url'), '/');
-        $url = $base.'/v1/master/lapangan';
+        $url = $base.'/v1/lapangan';
 
-        $req = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)]);
-        if ($token) {
-            $req = $req->withToken($token);
-        }
-        $response = $req->accept('application/json')->get($url);
+        $response = Http::withOptions([
+            'verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN),
+        ])->accept('application/json')->get($url);
+
         $result = $response->json();
 
         if ($response->successful() && ($result['success'] ?? false)) {
             $lapanganList = (array) ($result['data'] ?? []);
             foreach ($lapanganList as $lapangan) {
-                $slug = data_get($lapangan, 'slug');
-                if ($slug) {
+                $nama = data_get($lapangan, 'nama_lapangan');
+                if ($nama) {
+                    $slug = \Illuminate\Support\Str::slug($nama);
                     $sitemap->add(
                         \Spatie\Sitemap\Tags\Url::create($baseUrl.'/detail-lapangan/'.$slug)
                             ->setPriority(0.9)
