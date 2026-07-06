@@ -22,6 +22,17 @@
 
     {!! seo() !!}
 
+    <!-- Google Site Name Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Kencana Arena",
+      "alternateName": ["Kencana Arena Pekanbaru"],
+      "url": "{{ url('/') }}"
+    }
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles
