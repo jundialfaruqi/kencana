@@ -16,6 +16,10 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="google-site-verification" content="Bn93juVNIvjO_a6AIb2ksOz6_xMRvtMPHRpvULah1Rw" />
+    
+    @if(request()->routeIs('login'))
+        <meta name="robots" content="noindex, nofollow">
+    @endif
 
     {!! seo() !!}
 
