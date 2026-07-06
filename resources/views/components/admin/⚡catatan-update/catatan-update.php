@@ -1,25 +1,29 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
-use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
 new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Component
 {
     public $id;
 
     public ?string $error = null;
+
     public ?int $httpStatus = null;
 
     public array $arenas = [];
+
     public array $availableKategoriCatatan = [];
+
     public ?string $selectedKategoriCatatan = null;
 
     public ?string $lapangan_id = null;
+
     public ?string $kategori_catatan = null;
+
     public ?string $catatan = null;
 
     public function mount($id = null): void
@@ -39,13 +43,14 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan';
+            $url = $base.'/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->arenas = (array) ($result['data'] ?? []);
                 $this->error = null;
+
                 return;
             }
             $this->arenas = [];
@@ -61,7 +66,7 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/catatan';
+            $url = $base.'/v1/master/catatan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
@@ -69,6 +74,7 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
                 $categories = collect($result['data'] ?? [])->pluck('kategori_catatan')->unique()->sort()->values()->all();
                 $this->availableKategoriCatatan = $categories;
                 $this->error = null;
+
                 return;
             }
             $this->availableKategoriCatatan = [];
@@ -84,7 +90,7 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/catatan/' . $this->id;
+            $url = $base.'/v1/master/catatan/'.$this->id;
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
@@ -95,6 +101,7 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
                 $this->catatan = (string) ($data['catatan'] ?? '');
                 $this->selectedKategoriCatatan = null;
                 $this->error = null;
+
                 return;
             }
             $this->error = (string) ($result['message'] ?? 'Gagal memuat detail catatan');
@@ -140,7 +147,7 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/catatan/' . $this->id;
+            $url = $base.'/v1/master/catatan/'.$this->id;
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
@@ -160,6 +167,7 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
                     'type' => 'success',
                 ]);
                 $this->redirect('/catatan', navigate: true);
+
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
@@ -171,7 +179,7 @@ new #[Title('Ubah Catatan')] #[Layout('layouts::admin.app')] class extends Compo
                 }
             }
             $this->error = (string) ($result['message'] ?? 'Gagal memperbarui catatan');
-            $toastMessage = trim($this->error . (count($flatMessages) ? ' — ' . implode('; ', $flatMessages) : ''));
+            $toastMessage = trim($this->error.(count($flatMessages) ? ' — '.implode('; ', $flatMessages) : ''));
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $toastMessage,

@@ -1,11 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 
 new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Component
 {
@@ -15,11 +15,17 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
     public $error = null;
 
     public $name = '';
+
     public $email = '';
+
     public $nik = '';
+
     public $no_wa = '';
+
     public $phone_number = '';
+
     public $password = '';
+
     public $showPassword = false;
 
     public function mount()
@@ -32,16 +38,16 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
         try {
             $token = Session::get('auth_token');
             $base = rtrim(config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/user/' . $this->id;
+            $url = $base.'/v1/master/user/'.$this->id;
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = $result['data'] ?? [];
-                $this->name = (string)($data['name'] ?? '');
-                $this->email = (string)($data['email'] ?? '');
-                $this->nik = (string)($data['nik'] ?? '');
-                $this->no_wa = (string)($data['no_wa'] ?? '');
+                $this->name = (string) ($data['name'] ?? '');
+                $this->email = (string) ($data['email'] ?? '');
+                $this->nik = (string) ($data['nik'] ?? '');
+                $this->no_wa = (string) ($data['no_wa'] ?? '');
                 $digits = preg_replace('/\D/', '', $this->no_wa);
                 if (str_starts_with($digits, '62')) {
                     $this->phone_number = substr($digits, 2);
@@ -51,6 +57,7 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
                     $this->phone_number = $digits;
                 }
                 $this->error = null;
+
                 return;
             }
             $this->error = $result['message'] ?? 'Gagal memuat data user';
@@ -61,7 +68,7 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
 
     public function updatedPhoneNumber($value): void
     {
-        $value = preg_replace('/[^0-9]/', '', (string)$value);
+        $value = preg_replace('/[^0-9]/', '', (string) $value);
         $apiValue = $value;
         if (str_starts_with($apiValue, '0')) {
             $apiValue = substr($apiValue, 1);
@@ -71,12 +78,12 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
             $displayValue = substr($displayValue, 1);
         }
         $this->phone_number = $displayValue;
-        $this->no_wa = '+62' . $apiValue;
+        $this->no_wa = '+62'.$apiValue;
     }
 
     public function toggleShowPassword(): void
     {
-        $this->showPassword = !$this->showPassword;
+        $this->showPassword = ! $this->showPassword;
     }
 
     public function submit(): void
@@ -84,13 +91,13 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
         try {
             $token = Session::get('auth_token');
             $base = rtrim(config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/user/' . $this->id;
-            $sanitized = preg_replace('/[^0-9]/', '', (string)$this->phone_number);
+            $url = $base.'/v1/master/user/'.$this->id;
+            $sanitized = preg_replace('/[^0-9]/', '', (string) $this->phone_number);
             $apiNumber = $sanitized;
             if (str_starts_with($apiNumber, '0')) {
                 $apiNumber = substr($apiNumber, 1);
             }
-            $this->no_wa = '+62' . $apiNumber;
+            $this->no_wa = '+62'.$apiNumber;
             $payload = [
                 'name' => $this->name,
                 'email' => $this->email,
@@ -109,6 +116,7 @@ new #[Title('Update User')] #[Layout('layouts::admin.app')] class extends Compon
                     'type' => 'success',
                 ]);
                 $this->redirect('/manajemen-user', navigate: true);
+
                 return;
             }
             $errors = $result['errors'] ?? ($result['data']['errors'] ?? null);

@@ -1,21 +1,24 @@
 <?php
 
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Client\Response;
 
 new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Component
 {
     // Search Booking properties
     public string $searchQuery = '';
-    public bool $isLoading = false;
-    public ?array $bookingDetail = null;
-    public ?string $searchError = null;
-    public ?string $error = null;
 
+    public bool $isLoading = false;
+
+    public ?array $bookingDetail = null;
+
+    public ?string $searchError = null;
+
+    public ?string $error = null;
 
     protected function rules(): array
     {
@@ -34,7 +37,6 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
         };
     }
 
-    
     public function resetSearch(): void
     {
         $this->searchQuery = '';
@@ -56,7 +58,7 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/bookings?search=' . $this->searchQuery;
+            $url = $base.'/v1/master/bookings?search='.$this->searchQuery;
 
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->get($url);
@@ -64,7 +66,7 @@ new #[Title('Dashboard')] #[Layout('layouts::admin.app')] class extends Componen
 
             if ($response->successful() && ($json['success'] ?? false)) {
                 $nestedData = (array) ($json['data']['data'][0] ?? []);
-                if (!empty($nestedData) && isset($nestedData['kode_booking'])) {
+                if (! empty($nestedData) && isset($nestedData['kode_booking'])) {
                     $this->bookingDetail = $nestedData;
                 } else {
                     $this->searchError = 'Kode booking tidak ditemukan.';

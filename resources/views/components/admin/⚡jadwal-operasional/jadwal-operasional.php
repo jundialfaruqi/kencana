@@ -1,26 +1,35 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
-use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
+use Livewire\Component;
 
 new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends Component
 {
     public array $jadwal = [];
+
     public ?string $error = null;
+
     public array $links = [];
+
     public int $currentPage = 1;
+
     public int $lastPage = 1;
+
     public int $perPage = 10;
+
     public int $total = 0;
+
     public ?string $path = '/manajemen-jadwal-operasional';
+
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
     public array $arenas = [];
+
     #[Url(as: 'lapangan', history: true)]
     public string $selectedLapanganId = 'all';
 
@@ -41,7 +50,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan';
+            $url = $base.'/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
@@ -58,7 +67,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
     private function fetchJadwal(): void
     {
         $base = config('services.api.base_url');
-        $url = rtrim((string) $base, '/') . '/v1/master/jadwal';
+        $url = rtrim((string) $base, '/').'/v1/master/jadwal';
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
@@ -69,12 +78,12 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
             if ($response->successful() && ($json['success'] ?? false)) {
                 $all = (array) ($json['data'] ?? []);
                 if ($this->selectedLapanganId && $this->selectedLapanganId !== 'all') {
-                    $all = array_filter($all, function($item) {
+                    $all = array_filter($all, function ($item) {
                         return (string) (data_get($item, 'lapangan_id') ?? data_get($item, 'lapangan.id')) === (string) $this->selectedLapanganId;
                     });
                 }
 
-                usort($all, function($a, $b) {
+                usort($all, function ($a, $b) {
                     $arenaA = (string) (data_get($a, 'lapangan.nama_lapangan') ?? '');
                     $arenaB = (string) (data_get($b, 'lapangan.nama_lapangan') ?? '');
                     if ($arenaA !== $arenaB) {
@@ -82,6 +91,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
                     }
                     $hariA = (int) (data_get($a, 'hari') ?? 0);
                     $hariB = (int) (data_get($b, 'hari') ?? 0);
+
                     return $hariA <=> $hariB;
                 });
 
@@ -92,6 +102,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
                 $this->jadwal = array_slice($all, $offset, $this->perPage);
                 $this->links = $this->buildLinks();
                 $this->error = null;
+
                 return;
             }
             $this->jadwal = [];
@@ -118,27 +129,30 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
         $path = (string) ($this->path ?: '/manajemen-jadwal-operasional');
         $links[] = [
             'label' => 'Prev',
-            'url' => $curr > 1 ? ($path . '?page=' . ($curr - 1)) : null,
+            'url' => $curr > 1 ? ($path.'?page='.($curr - 1)) : null,
             'active' => false,
         ];
         for ($p = 1; $p <= $last; $p++) {
             $links[] = [
                 'label' => (string) $p,
-                'url' => $path . '?page=' . $p,
+                'url' => $path.'?page='.$p,
                 'active' => ($p === $curr),
             ];
         }
         $links[] = [
             'label' => 'Next',
-            'url' => $curr < $last ? ($path . '?page=' . ($curr + 1)) : null,
+            'url' => $curr < $last ? ($path.'?page='.($curr + 1)) : null,
             'active' => false,
         ];
+
         return $links;
     }
 
     public function goToUrl(?string $url): void
     {
-        if (!$url) return;
+        if (! $url) {
+            return;
+        }
         $page = 1;
         try {
             $parts = parse_url((string) $url);
@@ -156,7 +170,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
     public function deleteJadwal(int $id): void
     {
         $base = config('services.api.base_url');
-        $url = rtrim((string) $base, '/') . '/v1/master/jadwal/' . $id;
+        $url = rtrim((string) $base, '/').'/v1/master/jadwal/'.$id;
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
@@ -171,6 +185,7 @@ new #[Title('Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends
                     'message' => (string) ($json['message'] ?? 'Jadwal operasional berhasil dihapus'),
                     'type' => 'success',
                 ]);
+
                 return;
             }
             $this->error = (string) ($json['message'] ?? 'Gagal menghapus jadwal operasional');

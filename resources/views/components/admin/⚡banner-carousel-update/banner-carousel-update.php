@@ -1,28 +1,35 @@
 <?php
 
-use Livewire\Component;
-use Livewire\WithFileUploads;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Client\Response;
-
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class extends Component
 {
     use WithFileUploads;
 
     public $id = null;
+
     public ?string $error = null;
+
     public ?int $httpStatus = null;
 
     public string $judul = '';
+
     public string $kategori = '';
+
     public string $deskripsi = '';
+
     public $image = null;
+
     public ?string $imageUrl = null;
+
     public array $availableKategoriBanner = [];
+
     public ?string $selectedKategoriBanner = null;
 
     protected function rules(): array
@@ -40,7 +47,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider';
+            $url = $base.'/v1/master/slider';
 
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->get($url);
@@ -78,7 +85,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider/' . (int) $this->id;
+            $url = $base.'/v1/master/slider/'.(int) $this->id;
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $json = $response->json();
@@ -89,12 +96,13 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
                 $this->deskripsi = (string) ($data['deskripsi'] ?? '');
                 $img = (string) ($data['image'] ?? '');
                 $img = ltrim($img, '/');
-                $this->imageUrl = $img ? rtrim((string) config('services.api.image_base_url'), '/') . '/' . $img : null;
+                $this->imageUrl = $img ? rtrim((string) config('services.api.image_base_url'), '/').'/'.$img : null;
                 // Set selectedKategoriBanner jika kategori sudah ada
-                if (!empty($this->kategori) && in_array($this->kategori, $this->availableKategoriBanner)) {
+                if (! empty($this->kategori) && in_array($this->kategori, $this->availableKategoriBanner)) {
                     $this->selectedKategoriBanner = $this->kategori;
                 }
                 $this->error = null;
+
                 return;
             }
             $this->error = (string) ($json['message'] ?? 'Gagal memuat data banner');
@@ -115,7 +123,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider/' . (int) $this->id;
+            $url = $base.'/v1/master/slider/'.(int) $this->id;
             $request = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->asMultipart()->withToken($token)->accept('application/json');
             if ($this->image) {
                 $request = $request->attach(
@@ -140,6 +148,7 @@ new #[Title('Update Banner Carousel')] #[Layout('layouts::admin.app')] class ext
                 $this->dispatch('set-pending-toast', $payload);
                 $this->redirect('/banner-carousel', navigate: true);
                 $this->fetchKategoriBanner(); // Panggil setelah berhasil menyimpan
+
                 return;
             }
             $errors = (array) ($json['errors'] ?? []);

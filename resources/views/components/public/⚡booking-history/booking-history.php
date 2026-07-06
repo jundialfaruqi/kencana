@@ -1,27 +1,30 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 
 new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends Component
 {
     public array $items = [];
 
     public ?string $error = null;
+
     public ?string $status = 'dipesan';
 
     public int $currentPage = 1;
-    public int $lastPage = 1;
-    public int $perPage = 0;
 
+    public int $lastPage = 1;
+
+    public int $perPage = 0;
 
     public function mount()
     {
-        if (!Session::has('auth_token')) {
+        if (! Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
+
             return;
         }
         $this->fetchHistory(1);
@@ -30,14 +33,14 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
     protected function fetchHistory(int $page = 1): void
     {
         $base = config('services.api.base_url');
-        $url = rtrim((string) $base, '/') . '/v1/lapangan/historyBooking';
+        $url = rtrim((string) $base, '/').'/v1/lapangan/historyBooking';
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
                 ->accept('application/json')
-                ->post($url . '?page=' . intval($page), [
+                ->post($url.'?page='.intval($page), [
                     'status' => (string) ($this->status ?? ''),
                 ]);
             $json = $response->json();
@@ -45,8 +48,9 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
                 $data = (array) ($json['data'] ?? []);
                 $items = (array) ($data['data'] ?? []);
                 usort($items, function ($a, $b) {
-                    $timeA = isset($a['dibuat_pada']) ? strtotime((string)$a['dibuat_pada']) : 0;
-                    $timeB = isset($b['dibuat_pada']) ? strtotime((string)$b['dibuat_pada']) : 0;
+                    $timeA = isset($a['dibuat_pada']) ? strtotime((string) $a['dibuat_pada']) : 0;
+                    $timeB = isset($b['dibuat_pada']) ? strtotime((string) $b['dibuat_pada']) : 0;
+
                     return $timeB <=> $timeA;
                 });
                 $this->items = $items;
@@ -77,7 +81,9 @@ new #[Title('Booking History')] #[Layout('layouts::public.app')] class extends C
 
     public function goToPage(?int $page): void
     {
-        if (!$page) return;
+        if (! $page) {
+            return;
+        }
         $this->fetchHistory(intval($page));
     }
 

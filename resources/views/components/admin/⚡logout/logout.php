@@ -1,8 +1,8 @@
 <?php
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 
 new class extends Component
 {
@@ -16,7 +16,7 @@ new class extends Component
 
             if ($token) {
                 Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
-                    ->post(config('services.api.base_url') . '/logout');
+                    ->post(config('services.api.base_url').'/logout');
             }
         } catch (\Exception $e) {
             // Tetap lanjut logout lokal jika API gagal

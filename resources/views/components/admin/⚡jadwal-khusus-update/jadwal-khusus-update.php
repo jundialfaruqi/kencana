@@ -1,23 +1,31 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
 new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Component
 {
     public int $id = 0;
+
     public ?string $error = null;
 
     public array $arenas = [];
+
     public ?string $lapangan_id = null;
+
     public ?string $lapangan_nama = null;
+
     public ?string $tanggal = null;
+
     public ?string $tipe = null;
+
     public ?string $buka = null;
+
     public ?string $tutup = null;
+
     public ?string $keterangan = null;
 
     public function mount(int $id): void
@@ -32,13 +40,14 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan';
+            $url = $base.'/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->arenas = (array) ($result['data'] ?? []);
                 $this->error = null;
+
                 return;
             }
             $this->arenas = [];
@@ -54,7 +63,7 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/jadwalKhusus';
+            $url = $base.'/v1/master/jadwalKhusus';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
@@ -80,9 +89,11 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
                         $this->fetchArenaById($this->lapangan_id);
                     }
                     $this->error = null;
+
                     return;
                 }
                 $this->error = 'Data tidak ditemukan';
+
                 return;
             }
             $this->error = (string) ($result['message'] ?? 'Gagal memuat data');
@@ -96,7 +107,7 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan/' . $id;
+            $url = $base.'/v1/master/lapangan/'.$id;
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
@@ -110,9 +121,10 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
                         break;
                     }
                 }
-                if (!$exists && !empty($data)) {
+                if (! $exists && ! empty($data)) {
                     $this->arenas[] = $data;
                 }
+
                 return;
             }
         } catch (\Throwable) {
@@ -124,6 +136,7 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
         $isLibur = ($this->tipe ?? '') === 'libur';
         $bukaRule = $isLibur ? ['nullable'] : ['required', 'date_format:H:i'];
         $tutupRule = $isLibur ? ['nullable'] : ['required', 'date_format:H:i'];
+
         return [
             'lapangan_id' => ['required'],
             'tanggal' => ['required', 'date_format:Y-m-d'],
@@ -165,7 +178,7 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/jadwalKhusus/' . $this->id;
+            $url = $base.'/v1/master/jadwalKhusus/'.$this->id;
             $payload = [
                 'lapangan_id' => (string) ($validated['lapangan_id'] ?? ''),
                 'tanggal' => (string) ($validated['tanggal'] ?? ''),
@@ -187,6 +200,7 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
                 ]);
                 $this->error = null;
                 $this->redirect('/jadwal-khusus', navigate: true);
+
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
@@ -198,7 +212,7 @@ new #[Title('Update Jadwal Khusus')] #[Layout('layouts::admin.app')] class exten
                 }
             }
             $this->error = (string) ($result['message'] ?? 'Gagal memperbarui jadwal khusus');
-            $toastMessage = trim($this->error . (count($flatMessages) ? ' — ' . implode('; ', $flatMessages) : ''));
+            $toastMessage = trim($this->error.(count($flatMessages) ? ' — '.implode('; ', $flatMessages) : ''));
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $toastMessage,

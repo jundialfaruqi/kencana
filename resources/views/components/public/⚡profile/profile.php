@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Illuminate\Support\Facades\Session;
 
 new #[Layout('layouts::public.app')] #[Title('Profil Saya')] class extends Component
 {
@@ -12,7 +12,7 @@ new #[Layout('layouts::public.app')] #[Title('Profil Saya')] class extends Compo
     public function mount()
     {
         // Proteksi Auth: Jika tidak ada token, lempar ke login
-        if (!Session::has('auth_token')) {
+        if (! Session::has('auth_token')) {
             return $this->redirect('/login', navigate: true);
         }
 

@@ -1,12 +1,12 @@
 <?php
 
-use Livewire\Component;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
@@ -15,21 +15,34 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
     use WithFileUploads;
 
     public $error = null;
+
     #[Url(as: 'id')]
     public $id = null;
+
     public $ready = false;
+
     public $coverUrl = null;
+
     public $galleryUrls = [];
 
     public $nama_lapangan = '';
+
     public $deskripsi = '';
+
     public $alamat = '';
+
     public $gmap = '';
+
     public $no_tlp = '';
+
     public $status = 'open';
+
     public $latitude = null;
+
     public $longitude = null;
+
     public $image_cover = null;
+
     public $images = [];
 
     protected function rules(): array
@@ -87,42 +100,45 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             $id = intval($this->id ?? 0);
             if ($id <= 0) {
                 $this->error = 'ID lapangan tidak valid';
+
                 return;
             }
-            $url = $base . '/v1/master/lapangan/' . $id;
+            $url = $base.'/v1/master/lapangan/'.$id;
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $data = $result['data'] ?? [];
-                $this->nama_lapangan = (string)($data['nama_lapangan'] ?? '');
-                $this->deskripsi = (string)($data['deskripsi'] ?? '');
-                $this->alamat = (string)($data['alamat'] ?? '');
-                $this->gmap = (string)($data['gmap'] ?? '');
-                $this->no_tlp = (string)($data['no_tlp'] ?? '');
-                $this->status = (string)($data['status'] ?? 'open');
+                $this->nama_lapangan = (string) ($data['nama_lapangan'] ?? '');
+                $this->deskripsi = (string) ($data['deskripsi'] ?? '');
+                $this->alamat = (string) ($data['alamat'] ?? '');
+                $this->gmap = (string) ($data['gmap'] ?? '');
+                $this->no_tlp = (string) ($data['no_tlp'] ?? '');
+                $this->status = (string) ($data['status'] ?? 'open');
                 $this->latitude = $data['latitude'] ?? null;
                 $this->longitude = $data['longitude'] ?? null;
                 $cover = data_get($data, 'image_cover');
-                if (!empty($cover)) {
-                    $p = ltrim((string)$cover, '/');
+                if (! empty($cover)) {
+                    $p = ltrim((string) $cover, '/');
                     if (preg_match('/^https?:\/\//', $p)) {
                         $this->coverUrl = $p;
                     } else {
-                        $this->coverUrl = $imageBase . '/' . $p;
+                        $this->coverUrl = $imageBase.'/'.$p;
                     }
                 } else {
                     $this->coverUrl = null;
                 }
                 $images = (array) data_get($data, 'images', []);
                 $this->galleryUrls = array_map(function ($img) use ($imageBase) {
-                    $p = ltrim((string)$img, '/');
+                    $p = ltrim((string) $img, '/');
                     if (preg_match('/^https?:\/\//', $p)) {
                         return $p;
                     }
-                    return $imageBase . '/' . $p;
+
+                    return $imageBase.'/'.$p;
                 }, $images);
                 $this->error = null;
+
                 return;
             }
             $this->error = $result['message'] ?? 'Gagal memuat data lapangan';
@@ -165,9 +181,10 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             'latitude',
             'longitude',
             'image_cover',
-            'images'
+            'images',
         ]);
         $this->dispatch('form-reset');
+
         return $this->redirect('/manajemen-lapangan', navigate: true);
     }
 
@@ -182,17 +199,18 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             $id = intval($this->id ?? 0);
             if ($id <= 0) {
                 $this->error = 'ID lapangan tidak valid';
+
                 return;
             }
-            $url = $base . '/v1/master/lapangan/' . $id;
+            $url = $base.'/v1/master/lapangan/'.$id;
 
             $payload = [
-                'nama_lapangan' => (string)($validated['nama_lapangan'] ?? ''),
-                'deskripsi' => (string)($validated['deskripsi'] ?? ''),
-                'alamat' => (string)($validated['alamat'] ?? ''),
-                'gmap' => (string)($validated['gmap'] ?? ''),
-                'no_tlp' => (string)($validated['no_tlp'] ?? ''),
-                'status' => (string)($validated['status'] ?? 'open'),
+                'nama_lapangan' => (string) ($validated['nama_lapangan'] ?? ''),
+                'deskripsi' => (string) ($validated['deskripsi'] ?? ''),
+                'alamat' => (string) ($validated['alamat'] ?? ''),
+                'gmap' => (string) ($validated['gmap'] ?? ''),
+                'no_tlp' => (string) ($validated['no_tlp'] ?? ''),
+                'status' => (string) ($validated['status'] ?? 'open'),
                 'latitude' => $validated['latitude'] ?? null,
                 'longitude' => $validated['longitude'] ?? null,
             ];
@@ -231,6 +249,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
                     'type' => 'success',
                 ]);
                 $this->redirect('/manajemen-lapangan', navigate: true);
+
                 return;
             }
 
@@ -238,7 +257,7 @@ new #[Title('Update Lapangan')] #[Layout('layouts::admin.app')] class extends Co
             if (is_array($errors)) {
                 foreach ($errors as $field => $messages) {
                     foreach ((array) $messages as $msg) {
-                        $this->addError((string)$field, (string)$msg);
+                        $this->addError((string) $field, (string) $msg);
                     }
                 }
                 $this->error = null;

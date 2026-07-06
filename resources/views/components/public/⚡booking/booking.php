@@ -1,15 +1,15 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Session as LivewireSession;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Session as LivewireSession;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Component
@@ -26,7 +26,6 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     #[Url(as: 'lapangan')]
     public ?string $lapanganSlug = null;
 
-
     #[LivewireSession]
     public string $tanggal = '';
 
@@ -34,8 +33,11 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public string $namaLapangan = '';
 
     public array $timeSlots = [];
+
     public ?string $error = null;
+
     public array $arenas = [];
+
     public bool $isLoadingArenas = false;
 
     #[LivewireSession]
@@ -55,38 +57,62 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     #[LivewireSession]
     public ?string $keterangan = null;
+
     public bool $showCancelConfirm = false;
+
     public bool $showSuccessModal = false;
+
     public bool $showErrorModal = false;
+
     public ?string $bookingMessage = null;
+
     public ?string $bookingCode = null;
+
     public ?string $successNamaLapangan = null;
+
     public ?string $successTanggal = null;
+
     public ?array $successSelectedSlot = null;
+
     public bool $showTermsModal = false;
+
     public bool $termsAgreed = false;
+
     public array $catatan = [];
+
     public $calCurrLabel;
+
     public $calNextLabel;
+
     public $calCurrDays;
+
     public $calNextDays;
+
     public $calCurrStartDow;
+
     public $calNextStartDow;
+
     public $calCurrMonth;
+
     public $calNextMonth;
+
     public string $todayDate = '';
+
     public string $maxDate = '';
+
     public array $carouselDates = [];
+
     public ?string $listJadwalStatus = null;
 
     public function mount()
     {
-        if (!Session::has('auth_token')) {
+        if (! Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
+
             return;
         }
 
-        if ($this->lapanganParam && !$this->lapanganId) {
+        if ($this->lapanganParam && ! $this->lapanganId) {
             $decoded = null;
             try {
                 $decoded = Crypt::decryptString((string) $this->lapanganParam);
@@ -96,7 +122,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             $this->lapanganId = (string) $decoded;
         }
 
-        if (!$this->lapanganId && $this->lapanganSlug) {
+        if (! $this->lapanganId && $this->lapanganSlug) {
             $this->fetchArenas();
             $match = null;
             foreach ((array) $this->arenas as $item) {
@@ -118,7 +144,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         }
 
         Carbon::setLocale('id');
-        if (!$this->tanggal) {
+        if (! $this->tanggal) {
             $this->tanggal = Carbon::now()->toDateString();
         }
         $today = Carbon::now();
@@ -140,7 +166,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             $this->carouselDates[] = $d->toDateString();
         }
         if ($this->lapanganId) {
-            if (!$this->isArenaOpen((string) $this->lapanganId)) {
+            if (! $this->isArenaOpen((string) $this->lapanganId)) {
                 $this->error = 'Arena belum dibuka';
                 $this->lapanganId = null;
                 $this->lapanganParam = null;
@@ -173,16 +199,17 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public function nextStep(): void
     {
         if ($this->currentStep === 1) {
-            if (!$this->tanggal) {
+            if (! $this->tanggal) {
                 $this->dispatch('toast', [
                     'title' => 'Gagal',
                     'message' => 'Pilih tanggal terlebih dahulu',
                     'type' => 'error',
                 ]);
+
                 return;
             }
             $this->currentStep = 2;
-            if (!$this->lapanganId) {
+            if (! $this->lapanganId) {
                 if (empty($this->arenas)) {
                     $this->fetchArenas();
                 }
@@ -191,20 +218,22 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 $this->fetchJadwal();
             }
         } elseif ($this->currentStep === 2) {
-            if (!$this->lapanganId) {
+            if (! $this->lapanganId) {
                 $this->dispatch('toast', [
                     'title' => 'Gagal',
                     'message' => 'Pilih arena terlebih dahulu',
                     'type' => 'error',
                 ]);
+
                 return;
             }
-            if (!$this->selectedSlot || empty($this->selectedSlot['mulai'])) {
+            if (! $this->selectedSlot || empty($this->selectedSlot['mulai'])) {
                 $this->dispatch('toast', [
                     'title' => 'Gagal',
                     'message' => 'Pilih jam terlebih dahulu',
                     'type' => 'error',
                 ]);
+
                 return;
             }
             $this->currentStep = 3;
@@ -226,6 +255,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         if ($this->currentStep === 2) {
             return 'Pilih Arena & Jam';
         }
+
         return 'Konfirmasi Booking';
     }
 
@@ -254,7 +284,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
             'jenisPermainan',
             'keterangan',
         ]);
-        
+
         $this->showCancelConfirm = false;
 
         return $this->redirect('/', navigate: true);
@@ -267,26 +297,28 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     protected function fetchJadwal(): void
     {
-        if (!$this->lapanganId) {
+        if (! $this->lapanganId) {
             $this->timeSlots = [];
             $this->namaLapangan = '';
             $this->listJadwalStatus = null;
             $this->error = null;
             $this->dispatch('booking-loaded');
+
             return;
         }
-        if (!$this->isArenaOpen((string) $this->lapanganId)) {
+        if (! $this->isArenaOpen((string) $this->lapanganId)) {
             $this->error = 'Arena belum dibuka';
             $this->timeSlots = [];
             $this->namaLapangan = '';
             $this->listJadwalStatus = 'libur';
             $this->lapanganId = null;
             $this->dispatch('booking-loaded');
+
             return;
         }
 
         $base = config('services.api.base_url');
-        $url = rtrim((string) $base, '/') . '/v1/lapangan/listJadwal';
+        $url = rtrim((string) $base, '/').'/v1/lapangan/listJadwal';
 
         try {
             $token = Session::get('auth_token');
@@ -310,10 +342,11 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     $mulai = (string) ($s['mulai'] ?? ($s['jam_mulai'] ?? ''));
                     $selesai = (string) ($s['selesai'] ?? ($s['jam_selesai'] ?? ''));
                     $status = (string) ($s['status'] ?? '');
+
                     return ['mulai' => $mulai, 'selesai' => $selesai, 'status' => $status] + (array) $s;
                 }, $slots);
-                if (!$this->listJadwalStatus) {
-                    $allUnavailable = count($this->timeSlots) > 0 && count(array_filter($this->timeSlots, fn($s) => ($s['status'] ?? '') === 'tersedia')) === 0;
+                if (! $this->listJadwalStatus) {
+                    $allUnavailable = count($this->timeSlots) > 0 && count(array_filter($this->timeSlots, fn ($s) => ($s['status'] ?? '') === 'tersedia')) === 0;
                     $this->listJadwalStatus = $allUnavailable ? 'libur' : 'open';
                 }
                 $this->error = null;
@@ -387,8 +420,8 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 break;
             }
         }
-        
-        if (!$match || (string) ($match['status'] ?? '') !== 'tersedia' || !$this->slotIsAvailable($match)) {
+
+        if (! $match || (string) ($match['status'] ?? '') !== 'tersedia' || ! $this->slotIsAvailable($match)) {
             $this->selectedSlot = null;
             $msg = (string) ($match['message'] ?? ($match['status_label'] ?? ($this->error ?? 'Jam tidak tersedia')));
             $this->dispatch('toast', [
@@ -404,7 +437,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     protected function fetchArenas(): void
     {
         $base = config('services.api.base_url');
-        $url = rtrim((string) $base, '/') . '/v1/lapangan';
+        $url = rtrim((string) $base, '/').'/v1/lapangan';
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
@@ -433,7 +466,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
         foreach ((array) $this->arenas as $item) {
             if ((string) ($item['id'] ?? '') === (string) $id) {
-                return (($item['status'] ?? '') === 'open');
+                return ($item['status'] ?? '') === 'open';
             }
         }
 
@@ -442,7 +475,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function arenaIsComing(array $arena): bool
     {
-        return (($arena['status'] ?? '') === 'coming_soon');
+        return ($arena['status'] ?? '') === 'coming_soon';
     }
 
     public function arenaIsSelected(array $arena): bool
@@ -457,13 +490,14 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         if ($this->currentTimeStrCache === null) {
             $this->currentTimeStrCache = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i');
         }
+
         return $this->currentTimeStrCache;
     }
 
     public function slotIsAvailable(array $slot): bool
     {
         $isAvailableByStatus = (($slot['status'] ?? '') === 'tersedia');
-        if (!$isAvailableByStatus) {
+        if (! $isAvailableByStatus) {
             return false;
         }
 
@@ -521,6 +555,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         if ($this->jenisPermainan === 'turnamen_kecil') {
             return 'TURNAMEN KECIL';
         }
+
         return 'Pilih jenis';
     }
 
@@ -556,30 +591,34 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function confirmBooking(): void
     {
-        if (!Session::has('auth_token')) {
+        if (! Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
+
             return;
         }
-        if (!$this->lapanganId) {
+        if (! $this->lapanganId) {
             $this->error = 'Arena belum dipilih, pilih arenanya dulu!';
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $this->error,
                 'type' => 'error',
             ]);
+
             return;
         }
-        if (!$this->tanggal) {
+        if (! $this->tanggal) {
             $this->error = 'Tanggal belum dipilih, pilih tanggalnya dulu!';
+
             return;
         }
-        if (!$this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
+        if (! $this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
             $this->error = 'Jam belum dipilih, pilih jamnya dulu!';
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $this->error,
                 'type' => 'error',
             ]);
+
             return;
         }
         $this->error = null;
@@ -591,7 +630,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->catatan = [];
         try {
             $base = config('services.api.base_url');
-            $url = rtrim((string) $base, '/') . '/v1/catatan/' . (string) $this->lapanganId;
+            $url = rtrim((string) $base, '/').'/v1/catatan/'.(string) $this->lapanganId;
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
@@ -611,21 +650,24 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
     public function finalizeBooking(): void
     {
-        if (!$this->termsAgreed) {
+        if (! $this->termsAgreed) {
             $this->dispatch('toast', [
                 'title' => 'Perlu persetujuan',
                 'message' => 'Ceklist setuju syarat dan ketentuan terlebih dahulu',
                 'type' => 'error',
             ]);
+
             return;
         }
         $this->showTermsModal = false;
-        if (!Session::has('auth_token')) {
+        if (! Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
+
             return;
         }
-        if (!$this->lapanganId || !$this->tanggal || !$this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
+        if (! $this->lapanganId || ! $this->tanggal || ! $this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
             $this->error = 'Data booking tidak lengkap';
+
             return;
         }
 
@@ -649,7 +691,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     break;
                 }
             }
-            if (!$match || (string) ($match['status'] ?? '') !== 'tersedia') {
+            if (! $match || (string) ($match['status'] ?? '') !== 'tersedia') {
                 $this->selectedSlot = null;
                 $msg = (string) ($match['message'] ?? ($match['status_label'] ?? ($this->error ?? 'Jam sudah dibooking oleh pengguna lain')));
                 $this->dispatch('toast', [
@@ -657,12 +699,13 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     'message' => $msg,
                     'type' => 'error',
                 ]);
+
                 return;
             }
         } catch (\Throwable) {
         }
         $base = config('services.api.base_url');
-        $url = rtrim((string) $base, '/') . '/v1/lapangan/bookingLapangan';
+        $url = rtrim((string) $base, '/').'/v1/lapangan/bookingLapangan';
         try {
             $token = Session::get('auth_token');
             /** @var \Illuminate\Http\Client\Response $response */
@@ -690,7 +733,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                     $code = (string) ($m[0] ?? null);
                 }
                 $this->bookingCode = $code;
-                
+
                 // Save values for display in success modal
                 $this->successNamaLapangan = $this->namaLapangan;
                 $this->successTanggal = $this->tanggal;
@@ -713,6 +756,7 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
                 ]);
 
                 $this->showSuccessModal = true;
+
                 return;
             }
             $this->error = $result['message'] ?? 'Gagal melakukan booking';

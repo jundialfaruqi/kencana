@@ -1,20 +1,25 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
 new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends Component
 {
     public ?string $error = null;
 
     public array $arenas = [];
+
     public ?string $lapangan_id = null;
+
     public ?string $hari = null;
+
     public ?string $buka = null;
+
     public ?string $tutup = null;
+
     public ?int $httpStatus = null;
 
     public function mount(): void
@@ -27,13 +32,14 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
         try {
             $token = Session::get('auth_token');
             $base = rtrim(config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan';
+            $url = $base.'/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 $this->arenas = (array) ($result['data'] ?? []);
                 $this->error = null;
+
                 return;
             }
             $this->arenas = [];
@@ -75,7 +81,7 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
         try {
             $token = Session::get('auth_token');
             $base = rtrim(config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/jadwal';
+            $url = $base.'/v1/master/jadwal';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
@@ -96,6 +102,7 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
                     'type' => 'success',
                 ]);
                 $this->redirect('/manajemen-jadwal-operasional', navigate: true);
+
                 return;
             }
             $errors = (array) ($result['errors'] ?? []);
@@ -107,7 +114,7 @@ new #[Title('Buat Jadwal Operasional')] #[Layout('layouts::admin.app')] class ex
                 }
             }
             $this->error = (string) ($result['message'] ?? 'Gagal membuat jadwal operasional');
-            $toastMessage = trim($this->error . (count($flatMessages) ? ' — ' . implode('; ', $flatMessages) : ''));
+            $toastMessage = trim($this->error.(count($flatMessages) ? ' — '.implode('; ', $flatMessages) : ''));
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $toastMessage,

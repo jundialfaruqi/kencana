@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 
 new class extends Component
 {
@@ -18,7 +18,7 @@ new class extends Component
 
     public function checkAuthStatus()
     {
-        $this->showPopup = !Session::has('auth_token');
+        $this->showPopup = ! Session::has('auth_token');
     }
 
     public function refreshAuthStatus()

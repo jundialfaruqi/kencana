@@ -1,22 +1,28 @@
 <?php
 
-use Livewire\Component;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
+use Livewire\Component;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends Component
 {
     #[Url(as: 'id')]
     public ?int $id = null;
+
     public ?string $slug = null;
+
     public bool $isLoading = false;
+
     public ?string $error = null;
+
     public ?array $lapangan = null;
+
     public ?string $coverUrl = null;
+
     public array $galleryUrls = [];
 
     public function mount(?string $slug = null): void
@@ -31,9 +37,9 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
             $apiBase = rtrim((string) config('services.api.base_url'), '/');
             $imageBase = rtrim((string) config('services.api.image_base_url'), '/');
             $id = intval($this->id ?? 0);
-            if ($id <= 0 && !empty($this->slug)) {
+            if ($id <= 0 && ! empty($this->slug)) {
                 /** @var \Illuminate\Http\Client\Response $response */
-                $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($apiBase . '/v1/lapangan');
+                $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($apiBase.'/v1/lapangan');
                 $json = $response->json() ?? [];
                 $ok = $response->successful();
                 if ($ok && ($json['success'] ?? false)) {
@@ -49,25 +55,27 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
             }
             if ($id <= 0) {
                 $this->error = 'ID lapangan tidak valid';
+
                 return;
             }
             /** @var \Illuminate\Http\Client\Response $response */
-            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($apiBase . '/v1/lapangan/' . $id);
+            $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->accept('application/json')->get($apiBase.'/v1/lapangan/'.$id);
             $json = $response->json() ?? [];
             $ok = $response->successful();
             if ($ok && ($json['success'] ?? false)) {
                 $data = (array) ($json['data'] ?? []);
                 $this->lapangan = $data;
                 $cover = ltrim((string) ($data['image_cover'] ?? ''), '/');
-                if (!empty($cover)) {
-                    $this->coverUrl = preg_match('/^https?:\/\//', $cover) ? $cover : $imageBase . '/' . $cover;
+                if (! empty($cover)) {
+                    $this->coverUrl = preg_match('/^https?:\/\//', $cover) ? $cover : $imageBase.'/'.$cover;
                 } else {
                     $this->coverUrl = null;
                 }
                 $images = (array) ($data['images'] ?? []);
                 $this->galleryUrls = array_map(function ($img) use ($imageBase) {
                     $p = ltrim((string) $img, '/');
-                    return preg_match('/^https?:\/\//', $p) ? $p : $imageBase . '/' . $p;
+
+                    return preg_match('/^https?:\/\//', $p) ? $p : $imageBase.'/'.$p;
                 }, $images);
                 $this->error = null;
 
@@ -81,7 +89,7 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
                     image: $coverImage,
                     url: url()->current(),
                 );
-                
+
                 // Share to view so the layout can access it dynamically
                 view()->share('SEOData', $seoData);
 

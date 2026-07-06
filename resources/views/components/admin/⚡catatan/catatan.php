@@ -1,29 +1,38 @@
 <?php
 
-use Livewire\Component;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
+use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 
 new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
 {
     use WithPagination;
 
     public array $catatans = [];
+
     public ?string $error = null;
+
     public array $links = [];
+
     public int $currentPage = 1;
+
     public int $lastPage = 1;
+
     public int $perPage = 10;
+
     public int $total = 0;
+
     public ?string $path = '/catatan';
+
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
     public array $arenas = [];
+
     #[Url(as: 'lapangan', history: true)]
     public string $selectedLapanganId = 'all';
 
@@ -44,7 +53,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan';
+            $url = $base.'/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->accept('application/json')
@@ -63,19 +72,19 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/catatan';
+            $url = $base.'/v1/master/catatan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = json_decode((string) $response->body(), true);
             if (is_array($result) && ($result['success'] ?? false)) {
                 $all = (array) ($result['data'] ?? []);
                 if ($this->selectedLapanganId && $this->selectedLapanganId !== 'all') {
-                    $all = array_filter($all, function($item) {
+                    $all = array_filter($all, function ($item) {
                         return (string) (data_get($item, 'lapangan_id') ?? data_get($item, 'lapangan.id')) === (string) $this->selectedLapanganId;
                     });
                 }
 
-                usort($all, function($a, $b) {
+                usort($all, function ($a, $b) {
                     $arenaA = (string) (data_get($a, 'nama_lapangan') ?? '');
                     $arenaB = (string) (data_get($b, 'nama_lapangan') ?? '');
                     if ($arenaA !== $arenaB) {
@@ -83,6 +92,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
                     }
                     $katA = (string) (data_get($a, 'kategori_catatan') ?? '');
                     $katB = (string) (data_get($b, 'kategori_catatan') ?? '');
+
                     return strcmp($katA, $katB);
                 });
 
@@ -93,6 +103,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
                 $this->catatans = array_slice($all, $offset, $this->perPage);
                 $this->links = $this->buildLinks();
                 $this->error = null;
+
                 return;
             }
             $this->catatans = [];
@@ -112,29 +123,32 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
         // Prev
         $links[] = [
             'label' => 'Prev',
-            'url' => $curr > 1 ? ($path . '?page=' . ($curr - 1)) : null,
+            'url' => $curr > 1 ? ($path.'?page='.($curr - 1)) : null,
             'active' => false,
         ];
         // Pages
         for ($p = 1; $p <= $last; $p++) {
             $links[] = [
                 'label' => (string) $p,
-                'url' => $path . '?page=' . $p,
+                'url' => $path.'?page='.$p,
                 'active' => ($p === $curr),
             ];
         }
         // Next
         $links[] = [
             'label' => 'Next',
-            'url' => $curr < $last ? ($path . '?page=' . ($curr + 1)) : null,
+            'url' => $curr < $last ? ($path.'?page='.($curr + 1)) : null,
             'active' => false,
         ];
+
         return $links;
     }
 
     public function goToUrl(?string $url): void
     {
-        if (!$url) return;
+        if (! $url) {
+            return;
+        }
         $page = 1;
         try {
             $parts = parse_url((string) $url);
@@ -147,23 +161,24 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
         }
         $this->page = max(1, (int) $page);
         $this->fetchCatatan();
-     }
+    }
 
     public function deleteCatatan(?int $id): void
     {
-        if (!$id) {
+        if (! $id) {
             $this->error = 'ID catatan tidak valid';
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $this->error,
                 'type' => 'error',
             ]);
+
             return;
         }
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/catatan/' . urlencode((string) $id);
+            $url = $base.'/v1/master/catatan/'.urlencode((string) $id);
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->delete($url);
             $result = $response->json();
@@ -175,6 +190,7 @@ new #[Title('Catatan')] #[Layout('layouts::admin.app')] class extends Component
                     'type' => 'success',
                 ]);
                 $this->fetchCatatan();
+
                 return;
             }
             $this->error = (string) ($result['message'] ?? 'Gagal menghapus catatan');

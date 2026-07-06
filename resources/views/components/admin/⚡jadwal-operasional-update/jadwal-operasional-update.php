@@ -1,26 +1,35 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 
 new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class extends Component
 {
     public $id = null;
 
     public bool $ready = false;
+
     public ?string $error = null;
+
     public ?int $httpStatus = null;
 
     public ?string $lapangan_nama = null;
+
     public ?string $lapangan_id = null;
+
     public ?string $hari_label = null;
+
     public ?string $hari = null;
+
     public ?string $buka = null;
+
     public ?string $tutup = null;
+
     public bool $is_active = true;
+
     public array $arenas = [];
 
     public function mount(?string $id = null): void
@@ -40,9 +49,10 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
             $id = intval($this->id ?? 0);
             if ($id <= 0) {
                 $this->error = 'ID jadwal tidak valid';
+
                 return;
             }
-            $detailUrl = $base . '/v1/master/jadwal/' . $id;
+            $detailUrl = $base.'/v1/master/jadwal/'.$id;
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($detailUrl);
             $json = $response->json();
@@ -74,10 +84,11 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
                     $this->tutup = substr((string) ($item['tutup'] ?? ''), 0, 5);
                     $this->is_active = (bool) ($item['is_active'] ?? true);
                     $this->error = null;
+
                     return;
                 }
             }
-            $listUrl = $base . '/v1/master/jadwal';
+            $listUrl = $base.'/v1/master/jadwal';
             /** @var \Illuminate\Http\Client\Response $listResp */
             $listResp = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($listUrl);
             $listJson = $listResp->json();
@@ -94,6 +105,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
                         $this->tutup = substr((string) ($it['tutup'] ?? ''), 0, 5);
                         $this->is_active = (bool) ($it['is_active'] ?? true);
                         $this->error = null;
+
                         return;
                     }
                 }
@@ -109,12 +121,13 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
         try {
             $token = Session::get('auth_token');
             $base = rtrim(config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan';
+            $url = $base.'/v1/master/lapangan';
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $json = $response->json();
             if ($response->successful() && ($json['success'] ?? false)) {
                 $this->arenas = (array) ($json['data'] ?? []);
+
                 return;
             }
             $this->arenas = [];
@@ -151,6 +164,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
         $this->hari = $key;
         $this->hari_label = $map[$key] ?? $this->hari_label;
     }
+
     protected function rules(): array
     {
         return [
@@ -182,9 +196,10 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
             $id = intval($this->id ?? 0);
             if ($id <= 0) {
                 $this->error = 'ID jadwal tidak valid';
+
                 return;
             }
-            $url = $base . '/v1/master/jadwal/' . $id;
+            $url = $base.'/v1/master/jadwal/'.$id;
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)
                 ->asForm()
@@ -206,6 +221,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
                     'type' => 'success',
                 ]);
                 $this->redirect('/manajemen-jadwal-operasional', navigate: true);
+
                 return;
             }
             $flatMessages = [];
@@ -216,7 +232,7 @@ new #[Title('Update Jadwal Operasional')] #[Layout('layouts::admin.app')] class 
                 }
             }
             $this->error = (string) ($result['message'] ?? 'Gagal memperbarui jadwal operasional');
-            $toastMessage = trim($this->error . (count($flatMessages) ? ' — ' . implode('; ', $flatMessages) : ''));
+            $toastMessage = trim($this->error.(count($flatMessages) ? ' — '.implode('; ', $flatMessages) : ''));
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $toastMessage,

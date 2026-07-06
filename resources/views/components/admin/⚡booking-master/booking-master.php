@@ -1,51 +1,75 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
+use Livewire\Component;
 
 new class extends Component
 {
     public bool $ready = false;
+
     public array $bookings = [];
+
     public array $links = [];
+
     public int $currentPage = 1;
+
     public int $lastPage = 1;
+
     public int $perPage = 10;
+
     public int $total = 0;
+
     public ?string $nextPageUrl = null;
+
     public ?string $prevPageUrl = null;
+
     public ?string $path = null;
+
     public ?string $error = null;
+
     public ?string $status = null;
+
     public ?string $search = null;
+
     public ?string $from = null;
+
     public ?string $to = null;
+
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
     public bool $showCancelModal = false;
+
     public ?int $cancelBookingId = null;
+
     public ?string $cancelReason = null;
+
     public ?string $cancelError = null;
+
     public ?string $cancelMessage = null;
 
     public bool $showExportModal = false;
+
     public ?string $exportFrom = null;
+
     public ?string $exportTo = null;
+
     public string $exportFormat = 'pdf';
+
     public bool $isExporting = false;
+
     public ?string $exportPath = null;
+
     public ?string $exportMessage = null;
 
     #[Title('Booking Master')]
     #[Layout('layouts::admin.app')]
-
     public function mount(): void
     {
         $this->ready = true;
@@ -93,7 +117,9 @@ new class extends Component
 
     public function goToUrl(?string $url): void
     {
-        if (!$url) return;
+        if (! $url) {
+            return;
+        }
         $this->ready = false;
         $this->fetchByUrl((string) $url);
         $this->ready = true;
@@ -104,16 +130,16 @@ new class extends Component
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/bookings';
+            $url = $base.'/v1/master/bookings';
             $params = array_filter([
                 'status' => $this->status ? (string) $this->status : null,
                 'search' => $this->search ? (string) $this->search : null,
                 'from' => $this->from ? (string) $this->from : null,
                 'to' => $this->to ? (string) $this->to : null,
                 'page' => $this->page ? intval($this->page) : null,
-            ], fn($v) => $v !== null && $v !== '');
-            if (!empty($params)) {
-                $url .= '?' . http_build_query($params);
+            ], fn ($v) => $v !== null && $v !== '');
+            if (! empty($params)) {
+                $url .= '?'.http_build_query($params);
             }
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
@@ -131,6 +157,7 @@ new class extends Component
                 $this->prevPageUrl = (string) ($data['prev_page_url'] ?? '');
                 $this->path = (string) ($data['path'] ?? '');
                 $this->error = null;
+
                 return;
             }
             $this->bookings = [];
@@ -145,7 +172,9 @@ new class extends Component
 
     public function goToPage(?int $page): void
     {
-        if (!$page) return;
+        if (! $page) {
+            return;
+        }
         $this->page = intval($page);
         $this->ready = false;
         $this->fetchBookings();
@@ -160,7 +189,7 @@ new class extends Component
             try {
                 $token = Session::get('auth_token');
                 $base = rtrim((string) config('services.api.base_url'), '/');
-                $url = $base . '/v1/master/bookings/' . urlencode((string) $this->cancelBookingId);
+                $url = $base.'/v1/master/bookings/'.urlencode((string) $this->cancelBookingId);
                 /** @var \Illuminate\Http\Client\Response $response */
                 $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
                 $result = $response->json();
@@ -178,30 +207,33 @@ new class extends Component
             }
         }
         $this->dispatch('modal-cancel-open', $payload);
+
         return $this->skipRender();
     }
 
     public function closeCancelModal()
     {
         $this->dispatch('modal-cancel-close');
+
         return $this->skipRender();
     }
 
     public function executeCancelBooking(): void
     {
-        if (!$this->cancelBookingId) {
+        if (! $this->cancelBookingId) {
             $this->cancelError = 'ID booking tidak valid';
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => $this->cancelError,
                 'type' => 'error',
             ]);
+
             return;
         }
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/bookings/' . urlencode((string) $this->cancelBookingId) . '/cancel';
+            $url = $base.'/v1/master/bookings/'.urlencode((string) $this->cancelBookingId).'/cancel';
             $ket = trim((string) ($this->cancelReason ?? ''));
             $payload = [];
             if ($ket !== '') {
@@ -225,6 +257,7 @@ new class extends Component
                     'message' => $this->cancelMessage,
                     'type' => 'success',
                 ]);
+
                 return;
             }
             $this->cancelError = (string) ($result['message'] ?? 'Gagal membatalkan booking');
@@ -262,6 +295,7 @@ new class extends Component
                 $this->prevPageUrl = (string) ($data['prev_page_url'] ?? '');
                 $this->path = (string) ($data['path'] ?? '');
                 $this->error = null;
+
                 return;
             }
             $this->error = (string) ($result['message'] ?? 'Gagal memuat data booking');
@@ -280,6 +314,7 @@ new class extends Component
         $this->exportMessage = null;
         $this->isExporting = false;
         $this->dispatch('modal-export-open');
+
         return $this->skipRender();
     }
 
@@ -292,6 +327,7 @@ new class extends Component
         $this->exportPath = null;
         $this->isExporting = false;
         $this->dispatch('modal-export-close');
+
         return $this->skipRender();
     }
 
@@ -304,7 +340,7 @@ new class extends Component
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/bookings';
+            $url = $base.'/v1/master/bookings';
 
             $allBookings = [];
             $currentPage = 1;
@@ -316,11 +352,11 @@ new class extends Component
                     'to' => $this->exportTo ? (string) $this->exportTo : null,
                     'page' => $currentPage,
                     'per_page' => 100,
-                ], fn($v) => $v !== null && $v !== '');
+                ], fn ($v) => $v !== null && $v !== '');
 
                 $requestUrl = $url;
-                if (!empty($params)) {
-                    $requestUrl .= '?' . http_build_query($params);
+                if (! empty($params)) {
+                    $requestUrl .= '?'.http_build_query($params);
                 }
 
                 $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($requestUrl);
@@ -342,7 +378,7 @@ new class extends Component
                 $title = 'Data Booking Kencana Arena';
                 $fromStr = $this->exportFrom ? \Carbon\Carbon::parse($this->exportFrom)->format('d M Y') : '';
                 $toStr = $this->exportTo ? \Carbon\Carbon::parse($this->exportTo)->format('d M Y') : '';
-                
+
                 $period = 'Keseluruhan';
                 if ($fromStr && $toStr) {
                     $period = "$fromStr - $toStr";
@@ -351,12 +387,12 @@ new class extends Component
                 } elseif ($toStr) {
                     $period = "Hingga $toStr";
                 }
-                
+
                 $metadata = [
                     'Periode' => $period,
                     'Dicetak Pada' => \Carbon\Carbon::now()->format('d M Y H:i:s'),
                 ];
-                
+
                 $headers = [
                     'No',
                     'Kode Booking',
@@ -366,19 +402,19 @@ new class extends Component
                     'Komunitas',
                     'Lapangan',
                     'Status',
-                    'Pemain'
+                    'Pemain',
                 ];
-                
+
                 $rows = [];
                 foreach ($allBookings as $index => $b) {
                     $tanggal = \Carbon\Carbon::parse(data_get($b, 'tanggal'))->format('d M Y');
-                    $jam = substr(data_get($b, 'jam_mulai', ''), 0, 5) . ' - ' . substr(data_get($b, 'jam_selesai', ''), 0, 5);
+                    $jam = substr(data_get($b, 'jam_mulai', ''), 0, 5).' - '.substr(data_get($b, 'jam_selesai', ''), 0, 5);
                     $pemesan = data_get($b, 'user.name') ?? data_get($b, 'pemesan.nama', '-');
                     $komunitas = data_get($b, 'nama_komunitas') ?? data_get($b, 'pemesan.nama_komunitas', '-');
                     $lapangan = data_get($b, 'lapangan.nama_lapangan') ?? data_get($b, 'lapangan.nama', '-');
                     $status = data_get($b, 'status', '-');
-                    $pemain = data_get($b, 'jumlah_pemain', '-') . ' org';
-                    
+                    $pemain = data_get($b, 'jumlah_pemain', '-').' org';
+
                     $rows[] = [
                         $index + 1,
                         data_get($b, 'kode_booking', '-'),
@@ -388,10 +424,10 @@ new class extends Component
                         $komunitas,
                         $lapangan,
                         $status,
-                        $pemain
+                        $pemain,
                     ];
                 }
-                
+
                 $formats = [
                     'A' => 'center',
                     'B' => 'center',
@@ -400,23 +436,23 @@ new class extends Component
                     'H' => 'center',
                     'I' => 'center',
                 ];
-                
+
                 $spreadsheet = \App\Services\ExcelExportService::generate($title, $metadata, $headers, $rows, $formats);
-                
-                $filename = 'Export_Booking_' . time() . '.xlsx';
-                $path = 'exports/' . $filename;
-                
+
+                $filename = 'Export_Booking_'.time().'.xlsx';
+                $path = 'exports/'.$filename;
+
                 $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-                
-                if (!Storage::disk('local')->exists('exports')) {
+
+                if (! Storage::disk('local')->exists('exports')) {
                     Storage::disk('local')->makeDirectory('exports');
                 }
-                
+
                 $tempFile = tempnam(sys_get_temp_dir(), 'excel');
                 $writer->save($tempFile);
                 Storage::disk('local')->put($path, fopen($tempFile, 'r'));
                 unlink($tempFile);
-                
+
                 $this->exportPath = $path;
                 $this->exportMessage = 'File Excel sudah siap di download.';
             } else {
@@ -428,9 +464,9 @@ new class extends Component
                 ]);
 
                 // Save to local storage
-                $filename = 'Export_Booking_' . time() . '.pdf';
-                $path = 'exports/' . $filename;
-                
+                $filename = 'Export_Booking_'.time().'.pdf';
+                $path = 'exports/'.$filename;
+
                 Storage::disk('local')->put($path, $pdf->output());
 
                 $this->exportPath = $path;
@@ -439,7 +475,7 @@ new class extends Component
         } catch (\Throwable $th) {
             $this->dispatch('toast', [
                 'title' => 'Gagal',
-                'message' => 'Terjadi kesalahan saat memproses export: ' . $th->getMessage(),
+                'message' => 'Terjadi kesalahan saat memproses export: '.$th->getMessage(),
                 'type' => 'error',
             ]);
         } finally {
@@ -451,7 +487,8 @@ new class extends Component
     {
         if ($this->exportPath && Storage::disk('local')->exists($this->exportPath)) {
             $ext = pathinfo($this->exportPath, PATHINFO_EXTENSION);
-            $filename = 'Export_Booking_' . date('Ymd_His') . '.' . $ext;
+            $filename = 'Export_Booking_'.date('Ymd_His').'.'.$ext;
+
             return response()->streamDownload(function () {
                 echo Storage::disk('local')->get($this->exportPath);
             }, $filename);

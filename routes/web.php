@@ -99,6 +99,9 @@ Route::livewire('/detail-lapangan', 'public::public.detail-lapangan')
 Route::livewire('/detail-lapangan/{slug}', 'public::public.detail-lapangan')
     ->name('detail-lapangan.slug');
 
+Route::livewire('/info/{slug}', 'public::public.info')
+    ->name('info.slug');
+
 // Protected Public Route
 Route::middleware(['api.auth'])->group(function () {
     // Profile

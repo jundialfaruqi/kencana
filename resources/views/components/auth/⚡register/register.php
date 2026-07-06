@@ -1,21 +1,25 @@
 <?php
 
-use Livewire\Component;
-use Livewire\WithFileUploads;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
-new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component {
+new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component
+{
     use WithFileUploads;
 
     public $ready = false;
+
     public $registrationSuccess = false;
+
     public $successMessage = '';
+
     public $redirectUrl = '';
 
     #[Validate]
@@ -52,7 +56,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
         // Update properties
         $value = substr($value, 0, 11);
         $this->phone_number = $value;
-        $this->no_wa = '+62' . $value;
+        $this->no_wa = '+62'.$value;
     }
 
     #[Validate]
@@ -63,7 +67,6 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
 
     #[Validate]
     public $password_confirmation = '';
-
 
     protected function rules()
     {
@@ -100,7 +103,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
             $user = Session::get('user_data');
             $defaultUrl = ($user && in_array($user['role'], ['admin', 'superadmin'])) ? '/dashboard' : '/';
             $intendedUrl = Session::pull('url.intended', $defaultUrl);
-            
+
             return $this->redirect($intendedUrl, navigate: true);
         }
     }
@@ -119,11 +122,12 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
 
         // Rate limiting: Max 100 registrations per day
         $dailyLimit = 100;
-        $cacheKey = 'daily_registrations_' . Carbon::now()->format('Y-m-d');
+        $cacheKey = 'daily_registrations_'.Carbon::now()->format('Y-m-d');
         $currentCount = Cache::get($cacheKey, 0);
 
         if ($currentCount >= $dailyLimit) {
             $this->addError('registerError', 'Batas registrasi harian telah tercapai. Silakan coba lagi besok.');
+
             return;
         }
 
@@ -138,13 +142,12 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
                 'no_wa' => $this->no_wa,
             ];
 
-
             $verifySsl = filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN);
 
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::asMultipart()
                 ->withOptions(['verify' => $verifySsl])
-                ->post(config('services.api.base_url') . '/v1/daftarAkun', $formData);
+                ->post(config('services.api.base_url').'/v1/daftarAkun', $formData);
 
             $result = $response->json();
 
@@ -154,7 +157,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
 
                 // Auto Login
                 $loginResponse = Http::withOptions(['verify' => $verifySsl])
-                    ->post(config('services.api.base_url') . '/login', [
+                    ->post(config('services.api.base_url').'/login', [
                         'email' => $this->email,
                         'password' => $this->password,
                     ]);
@@ -173,6 +176,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
                         redirectUrl: $intendedUrl,
                         message: 'Selamat, akun Anda berhasil dibuat dan Anda telah masuk otomatis.',
                     );
+
                     return;
                 }
 
@@ -181,6 +185,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
                     redirectUrl: route('login'),
                     message: $result['message'] ?? 'Pendaftaran berhasil, silakan masuk ke akun Anda.',
                 );
+
                 return;
             }
 
@@ -191,6 +196,7 @@ new #[Layout('layouts::auth.app')] #[Title('Register')] class extends Component 
                         $this->addError($key, $message);
                     }
                 }
+
                 return;
             }
 

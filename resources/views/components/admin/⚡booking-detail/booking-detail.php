@@ -1,11 +1,11 @@
 <?php
 
-use Livewire\Component;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 
 new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Component
 {
@@ -13,8 +13,11 @@ new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Com
     public $id;
 
     public bool $ready = false;
+
     public ?string $error = null;
+
     public array $detail = [];
+
     public ?string $jamFmt = null;
 
     public function mount(): void
@@ -28,7 +31,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Com
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/bookings/' . urlencode((string) $this->id);
+            $url = $base.'/v1/master/bookings/'.urlencode((string) $this->id);
             /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->get($url);
             $result = $response->json();
@@ -36,6 +39,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Com
                 $this->detail = (array) ($result['data'] ?? []);
                 $this->jamFmt = $this->formatJam((string) data_get($this->detail, 'jam', ''));
                 $this->error = null;
+
                 return;
             }
             $this->detail = [];
@@ -57,7 +61,9 @@ new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Com
         $parts = array_map('trim', explode('-', $jam));
         $fmtParts = [];
         foreach ($parts as $p) {
-            if ($p === '') continue;
+            if ($p === '') {
+                continue;
+            }
             $seg = explode(':', $p);
             if (count($seg) >= 2) {
                 $fmtParts[] = sprintf('%02d:%02d', intval($seg[0]), intval($seg[1]));
@@ -68,6 +74,7 @@ new #[Title('Booking Detail')] #[Layout('layouts::admin.app')] class extends Com
         if (empty($fmtParts)) {
             return null;
         }
+
         return implode(' ', $fmtParts);
     }
 };

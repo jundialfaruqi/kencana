@@ -1,12 +1,12 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
-use Livewire\WithFileUploads;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Client\Response;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class extends Component
 {
@@ -15,10 +15,15 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
     public ?string $error = null;
 
     public string $judul = '';
+
     public string $kategori = '';
+
     public string $deskripsi = '';
+
     public $image = null;
+
     public array $availableKategoriBanner = [];
+
     public ?string $selectedKategoriBanner = null;
 
     public function mount(): void
@@ -41,7 +46,7 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider';
+            $url = $base.'/v1/master/slider';
 
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->get($url);
@@ -81,7 +86,7 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider';
+            $url = $base.'/v1/master/slider';
 
             $request = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->asMultipart()->withToken($token)->accept('application/json');
             if ($this->image) {
@@ -108,6 +113,7 @@ new #[Title('Banner Carousel Create')] #[Layout('layouts::admin.app')] class ext
                 $this->dispatch('set-pending-toast', $payload);
                 $this->redirect('/banner-carousel', navigate: true);
                 $this->fetchKategoriBanner(); // Panggil setelah berhasil menyimpan
+
                 return;
             }
             $this->error = (string) ($json['message'] ?? 'Gagal membuat banner');

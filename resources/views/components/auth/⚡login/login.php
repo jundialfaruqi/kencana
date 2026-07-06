@@ -1,14 +1,15 @@
 <?php
 
-use Livewire\Component;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
+use Livewire\Component;
 
-new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
+new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component
+{
     public $ready = false;
 
     #[Validate]
@@ -40,7 +41,7 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
             $user = Session::get('user_data');
             $defaultUrl = ($user && in_array($user['role'], ['admin', 'superadmin'])) ? '/dashboard' : '/';
             $intendedUrl = Session::pull('url.intended', $defaultUrl);
-            
+
             return $this->redirect($intendedUrl, navigate: true);
         }
     }
@@ -57,8 +58,8 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
         // Rate limiting implementation
         $maxAttempts = 5;
         $lockoutMinutes = 1;
-        $attemptsKey = 'login_failed_attempts_' . md5($this->email);
-        $lockoutKey = 'login_lockout_until_' . md5($this->email);
+        $attemptsKey = 'login_failed_attempts_'.md5($this->email);
+        $lockoutKey = 'login_lockout_until_'.md5($this->email);
 
         // Check if user is locked out
         $lockoutUntil = Session::get($lockoutKey);
@@ -69,6 +70,7 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
                 // Konversi ke detik bulat untuk kemudahan user
                 $remainingSeconds = ceil($remainingSeconds);
                 $this->addError('loginError', "Terlalu banyak upaya gagal. Silakan coba lagi dalam {$remainingSeconds} detik.");
+
                 return;
             } else {
                 // Reset lockout jika waktu sudah habis
@@ -80,13 +82,13 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
         try {
             $verifySsl = filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN);
             $response = Http::withOptions(['verify' => $verifySsl])
-                ->post(config('services.api.base_url') . '/login', [
+                ->post(config('services.api.base_url').'/login', [
                     'email' => $this->email,
                     'password' => $this->password,
                 ]);
 
             $result = $response->json();
-            
+
             if ($response->successful() && $result['success']) {
                 // Reset failed attempts on success
                 Session::forget($attemptsKey);
@@ -112,13 +114,14 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
                         $this->addError($key, $message);
                     }
                 }
+
                 return;
             }
 
             // Check if user is already locked out before incrementing attempts
             $existingLockout = Session::get($lockoutKey);
             $isLockedOut = $existingLockout && Carbon::now()->lessThan($existingLockout);
-            if (!$isLockedOut) {
+            if (! $isLockedOut) {
                 // Handle failed login (increment attempts) only if not locked out
                 $failedAttempts = Session::get($attemptsKey, 0) + 1;
                 Session::put($attemptsKey, $failedAttempts);
@@ -127,6 +130,7 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component {
                 if ($failedAttempts >= $maxAttempts) {
                     Session::put($lockoutKey, Carbon::now()->addMinutes($lockoutMinutes));
                     $this->addError('loginError', "Terlalu banyak upaya gagal. Silakan coba lagi dalam {$lockoutMinutes} menit.");
+
                     return;
                 }
 

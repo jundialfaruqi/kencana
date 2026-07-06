@@ -1,39 +1,49 @@
 <?php
 
-use Livewire\Component;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Client\Response;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
+use Livewire\Component;
 
 new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Component
 {
     public ?string $error = null;
+
     public array $banners = [];
+
     public array $links = [];
+
     public int $currentPage = 1;
+
     public int $lastPage = 1;
+
     public int $perPage = 10;
+
     public int $total = 0;
+
     public ?string $path = '/banner-carousel';
+
     #[Url(as: 'page', history: true)]
     public int $page = 1;
 
     public function mount()
     {
-        if (!Session::has('auth_token')) {
+        if (! Session::has('auth_token')) {
             $this->redirect('/login', navigate: true);
+
             return;
         }
         $this->fetchBanners();
         $this->dispatch('admin-banner-carousel-loaded');
     }
+
     protected function fetchBanners(): void
     {
         $base = config('services.api.base_url');
-        $url = rtrim((string) $base, '/') . '/v1/master/slider';
+        $url = rtrim((string) $base, '/').'/v1/master/slider';
         try {
             $token = Session::get('auth_token');
             /** @var Response $response */
@@ -63,6 +73,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
                 }, $slice);
                 $this->links = $this->buildLinks();
                 $this->error = null;
+
                 return;
             }
             $this->banners = [];
@@ -83,27 +94,30 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
         $path = (string) ($this->path ?: '/banner-carousel');
         $links[] = [
             'label' => 'Prev',
-            'url' => $curr > 1 ? ($path . '?page=' . ($curr - 1)) : null,
+            'url' => $curr > 1 ? ($path.'?page='.($curr - 1)) : null,
             'active' => false,
         ];
         for ($p = 1; $p <= $last; $p++) {
             $links[] = [
                 'label' => (string) $p,
-                'url' => $path . '?page=' . $p,
+                'url' => $path.'?page='.$p,
                 'active' => ($p === $curr),
             ];
         }
         $links[] = [
             'label' => 'Next',
-            'url' => $curr < $last ? ($path . '?page=' . ($curr + 1)) : null,
+            'url' => $curr < $last ? ($path.'?page='.($curr + 1)) : null,
             'active' => false,
         ];
+
         return $links;
     }
 
     public function goToUrl(?string $url): void
     {
-        if (!$url) return;
+        if (! $url) {
+            return;
+        }
         $page = 1;
         try {
             $parts = parse_url((string) $url);
@@ -126,12 +140,13 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
                 'message' => 'ID banner tidak valid',
                 'type' => 'error',
             ]);
+
             return;
         }
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider/' . $id;
+            $url = $base.'/v1/master/slider/'.$id;
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->delete($url);
             $result = $response->json();
@@ -142,6 +157,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
                     'type' => 'success',
                 ]);
                 $this->fetchBanners();
+
                 return;
             }
             $msg = (string) ((is_array($result) ? ($result['message'] ?? null) : null) ?: 'Gagal menghapus banner');
@@ -167,19 +183,20 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
                 'message' => 'ID banner tidak valid',
                 'type' => 'error',
             ]);
+
             return;
         }
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider/' . $id . '/status';
+            $url = $base.'/v1/master/slider/'.$id.'/status';
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->withToken($token)->accept('application/json')->post($url);
             $result = $response->json();
             if ($response->successful() && ($result['success'] ?? false)) {
                 foreach ($this->banners as &$b) {
                     if (($b['id'] ?? null) === $id) {
-                        $b['is_active'] = !((bool) ($b['is_active'] ?? false));
+                        $b['is_active'] = ! ((bool) ($b['is_active'] ?? false));
                         break;
                     }
                 }
@@ -189,6 +206,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
                     'message' => (string) ($result['message'] ?? 'Status banner berhasil diubah'),
                     'type' => 'success',
                 ]);
+
                 return;
             }
             $msg = (string) ((is_array($result) ? ($result['message'] ?? null) : null) ?: 'Gagal mengubah status banner');
@@ -208,18 +226,19 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
 
     public function updateOrder(int $id, string $direction): void
     {
-        if ($id <= 0 || !in_array($direction, ['up', 'down'], true)) {
+        if ($id <= 0 || ! in_array($direction, ['up', 'down'], true)) {
             $this->dispatch('toast', [
                 'title' => 'Gagal',
                 'message' => 'Parameter urutan tidak valid',
                 'type' => 'error',
             ]);
+
             return;
         }
         try {
             $token = Session::get('auth_token');
             $base = rtrim((string) config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/slider/' . $id . '/urutan';
+            $url = $base.'/v1/master/slider/'.$id.'/urutan';
             /** @var Response $response */
             $response = Http::withOptions(['verify' => filter_var(config('services.api.verify_ssl', true), FILTER_VALIDATE_BOOLEAN)])->asForm()->withToken($token)->accept('application/json')->post($url, [
                 'direction' => $direction,
@@ -232,6 +251,7 @@ new #[Title('Banner Carousel')] #[Layout('layouts::admin.app')] class extends Co
                     'type' => 'success',
                 ]);
                 $this->fetchBanners();
+
                 return;
             }
             $msg = (string) ((is_array($result) ? ($result['message'] ?? null) : null) ?: 'Gagal memperbarui urutan banner');

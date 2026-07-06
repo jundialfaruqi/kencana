@@ -1,10 +1,10 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
@@ -15,14 +15,23 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
     public $error = null;
 
     public $nama_lapangan = '';
+
     public $deskripsi = '';
+
     public $alamat = '';
+
     public $gmap = '';
+
     public $no_tlp = '';
+
     public $status = 'open';
+
     public $latitude = null;
+
     public $longitude = null;
+
     public $image_cover = null;
+
     public $images = [];
 
     public function mount(): void
@@ -96,9 +105,10 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
             'latitude',
             'longitude',
             'image_cover',
-            'images'
+            'images',
         ]);
         $this->dispatch('form-reset');
+
         return $this->redirect('/manajemen-lapangan', navigate: true);
     }
 
@@ -110,15 +120,15 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
         try {
             $token = Session::get('auth_token');
             $base = rtrim(config('services.api.base_url'), '/');
-            $url = $base . '/v1/master/lapangan';
+            $url = $base.'/v1/master/lapangan';
 
             $payload = [
-                'nama_lapangan' => (string)($validated['nama_lapangan'] ?? ''),
-                'deskripsi' => (string)($validated['deskripsi'] ?? ''),
-                'alamat' => (string)($validated['alamat'] ?? ''),
-                'gmap' => (string)($validated['gmap'] ?? ''),
-                'no_tlp' => (string)($validated['no_tlp'] ?? ''),
-                'status' => (string)($validated['status'] ?? 'open'),
+                'nama_lapangan' => (string) ($validated['nama_lapangan'] ?? ''),
+                'deskripsi' => (string) ($validated['deskripsi'] ?? ''),
+                'alamat' => (string) ($validated['alamat'] ?? ''),
+                'gmap' => (string) ($validated['gmap'] ?? ''),
+                'no_tlp' => (string) ($validated['no_tlp'] ?? ''),
+                'status' => (string) ($validated['status'] ?? 'open'),
                 'latitude' => $validated['latitude'] ?? null,
                 'longitude' => $validated['longitude'] ?? null,
             ];
@@ -158,6 +168,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
                     'type' => 'success',
                 ]);
                 $this->redirect('/manajemen-lapangan', navigate: true);
+
                 return;
             }
 
@@ -165,7 +176,7 @@ new #[Title('Buat Lapangan')] #[Layout('layouts::admin.app')] class extends Comp
             if (is_array($errors)) {
                 foreach ($errors as $field => $messages) {
                     foreach ((array) $messages as $msg) {
-                        $this->addError((string)$field, (string)$msg);
+                        $this->addError((string) $field, (string) $msg);
                     }
                 }
                 $this->error = null;
