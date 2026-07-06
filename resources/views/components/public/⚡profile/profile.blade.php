@@ -80,7 +80,5 @@
                 </svg>
             </button>
         </div>
-
-        <livewire:admin::logout />
     </div>
 </div>

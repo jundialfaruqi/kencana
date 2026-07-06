@@ -104,6 +104,11 @@ new #[Layout('layouts::auth.app')] #[Title('Login')] class extends Component
                 $defaultUrl = in_array($role, ['admin', 'superadmin']) ? '/dashboard' : '/';
                 $intendedUrl = Session::pull('url.intended', $defaultUrl);
 
+                $this->dispatch('set-pending-toast', [
+                    'type' => 'success',
+                    'message' => 'Login Berhasil!',
+                ]);
+
                 return $this->redirect($intendedUrl, navigate: true);
             }
 

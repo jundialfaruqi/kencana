@@ -63,17 +63,64 @@
 
                 <div class="navbar-end">
                     <div class="flex items-center gap-2">
-                        <a href="/booking" wire:navigate
-                            class="btn btn-ghost btn-xs sm:btn-sm uppercase font-bold px-4 sm:px-6 shadow-lg">
-                            <span class="flex items-center gap-1.5">
+                        @if (Session::has('auth_token'))
+                            @php
+                                $user = Session::get('user_data', []);
+                                $name = trim($user['name'] ?? 'User');
+                                $firstName = explode(' ', $name)[0];
+                                $parts = preg_split('/\s+/', $name);
+                                $initials = '';
+                                foreach (array_slice($parts, 0, 2) as $part) {
+                                    $initials .= strtoupper(mb_substr($part, 0, 1));
+                                }
+                            @endphp
+                            <div class="dropdown dropdown-end">
+                                <div tabindex="0" role="button"
+                                    class="flex items-center gap-2 sm:gap-2.5 p-1 pr-3 sm:pr-4 bg-base-300 border border-base-content/20 hover:bg-base-300/80 rounded-full shadow-sm transition-all cursor-pointer">
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-info text-info-content flex items-center justify-center shadow-sm">
+                                        <span
+                                            class="font-black text-[10px] sm:text-[12px] uppercase tracking-widest">{{ $initials }}</span>
+                                    </div>
+                                    <span
+                                        class="font-bold text-xs sm:text-sm text-base-content inline-block sm:hidden capitalize">{{ $firstName }}</span>
+                                    <span
+                                        class="font-bold text-sm text-base-content hidden sm:inline-block capitalize">{{ $name }}</span>
+                                </div>
+                                <ul tabindex="0"
+                                    class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 border border-base-200">
+                                    <li class="menu-title px-4 py-2">
+                                        <span class="text-[10px] sm:text-xs opacity-50 block font-normal">Masuk
+                                            sebagai</span>
+                                        <span
+                                            class="font-bold text-base-content block text-sm capitalize">{{ $name }}</span>
+                                    </li>
+                                    <li><a href="/profile" wire:navigate class="hover:text-info font-medium"><svg
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                            </svg> Profil</a></li>
+                                    <li><button type="button" onclick="logout_modal_profile.showModal()"
+                                            class="text-error hover:bg-error/10 font-medium"><svg
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.25 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                                            </svg> Keluar</button></li>
+                                </ul>
+                            </div>
+                        @else
+                            <a href="/login" wire:navigate
+                                class="btn btn-ghost btn-xs sm:btn-sm font-bold px-4 gap-1.5 sm:gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2.5" stroke="currentColor" class="size-3.5 sm:size-4">
+                                    stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5 sm:w-4 sm:h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                                 </svg>
-                                Pesan
-                            </span>
-                        </a>
+                                Masuk
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -150,6 +197,10 @@
                 </a>
             </div>
         </div>
+
+        @if (Session::has('auth_token'))
+            <livewire:admin::logout />
+        @endif
     </div>
     <livewire:public::public.auth-status-popup />
     <div id="global-toast" class="toast toast-top toast-center z-60 rounded-2xl" wire:ignore>

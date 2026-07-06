@@ -196,12 +196,40 @@
                             showToast(payload);
                         }
                     });
+                    window.Livewire.on('set-pending-toast', function(payload) {
+                        try {
+                            localStorage.setItem('pendingToast', JSON.stringify(payload));
+                        } catch(e) {}
+                    });
                     window.__publicToastLWBound = true;
                 }
                 window.__publicToastBound = true;
+                checkPendingToast();
             }
+
+            function checkPendingToast() {
+                try {
+                    var pending = localStorage.getItem('pendingToast');
+                    if (pending) {
+                        localStorage.removeItem('pendingToast');
+                        var payloadObj = JSON.parse(pending);
+                        if (Array.isArray(payloadObj) && payloadObj.length > 0) {
+                            showToast(payloadObj[0]);
+                        } else if (payloadObj) {
+                            showToast(payloadObj);
+                        }
+                    }
+                } catch(e) {}
+            }
+
             document.addEventListener('DOMContentLoaded', bindToast);
-            document.addEventListener('livewire:navigated', bindToast);
-            if (document.readyState !== 'loading') bindToast();
+            document.addEventListener('livewire:navigated', function() {
+                bindToast();
+                checkPendingToast();
+            });
+            if (document.readyState !== 'loading') {
+                bindToast();
+                checkPendingToast();
+            }
         })();
     </script>

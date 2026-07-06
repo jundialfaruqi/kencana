@@ -24,6 +24,11 @@ new class extends Component
 
         Session::forget(['auth_token', 'user_data']);
 
+        $this->dispatch('set-pending-toast', [
+            'type' => 'success',
+            'message' => 'Berhasil keluar dari aplikasi',
+        ]);
+
         if (in_array($role, ['admin', 'superadmin'])) {
             return $this->redirect('/login', navigate: true);
         }
