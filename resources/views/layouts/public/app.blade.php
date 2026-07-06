@@ -8,11 +8,6 @@
   Date              : Februari 01, 2026
   Url               : kencana.pekanbaru.go.id
 
-  ============================================================================
-  NOTE :
-  Website ini dikembangkan oleh tim DISKOMINFOTIKSAN Kota Pekanbaru.
-  ============================================================================
-
 -->
 
 <head>
