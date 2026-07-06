@@ -39,7 +39,7 @@ new #[Layout('layouts::public.app')] #[Title('Detail Info')] class extends Compo
 
             if ($ok && ($json['success'] ?? false)) {
                 $items = (array) ($json['data'] ?? []);
-                
+
                 // Pisahkan current info dan other banners
                 foreach ($items as $item) {
                     $judul = (string) ($item['judul'] ?? '');
@@ -68,6 +68,7 @@ new #[Layout('layouts::public.app')] #[Title('Detail Info')] class extends Compo
                 }
 
                 $this->error = 'Informasi tidak ditemukan';
+
                 return;
             }
             $this->error = (string) ($json['message'] ?? 'Gagal memuat informasi');

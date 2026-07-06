@@ -1,4 +1,4 @@
-<div>
+<div id="banner-update-root">
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-xl font-bold">Update Banner Berita</h1>
@@ -80,8 +80,8 @@
                         <div class="label">
                             <span class="label-text">Deskripsi</span>
                         </div>
-                        <textarea class="textarea textarea-bordered w-full mt-1.5" rows="4" placeholder="Deskripsi singkat"
-                            wire:model.live="deskripsi"></textarea>
+                        <textarea class="textarea textarea-bordered w-full mt-1.5 min-h-36 resize-none overflow-hidden" rows="20" placeholder="Deskripsi singkat"
+                            wire:model.blur="deskripsi" wire:ignore></textarea>
                         @error('deskripsi')
                             <p class="text-warning italic text-xs mt-1">*{{ $message }}</p>
                         @enderror

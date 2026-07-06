@@ -16,10 +16,10 @@
                             <div
                                 class="absolute inset-0 flex flex-col justify-end px-6 sm:px-12 py-6 sm:py-12 gap-1 sm:gap-2">
                                 <span
-                                    class="bg-info text-info-content text-[10px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit shadow-lg">{{ $banner['kategori'] ?? '' }}</span>
+                                    class="bg-info text-info-content text-[8px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit shadow-lg">{{ $banner['kategori'] ?? '' }}</span>
                                 <h2
-                                    class="text-white text-2xl sm:text-4xl font-black italic uppercase leading-none group-hover/banner:text-info transition-colors duration-300 drop-shadow-lg">
-                                    {{ $banner['judul'] ?? '' }}</h2>
+                                    class="text-white text-md sm:text-4xl italic uppercase leading-none group-hover/banner:text-info transition-colors duration-300 drop-shadow-lg">
+                                    {{ \Illuminate\Support\Str::words($banner['judul'] ?? '', 4, '') }}</h2>
                             </div>
                         </a>
                     </div>

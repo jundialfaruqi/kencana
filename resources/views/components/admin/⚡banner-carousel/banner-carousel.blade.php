@@ -49,7 +49,7 @@
                                             {{ $b['judul'] ?? '-' }}
                                         </div>
                                         <div class="text-xs text-gray-500 mt-1 line-clamp-2">
-                                            {{ $b['deskripsi'] ?? '-' }}
+                                            {{ \Illuminate\Support\Str::limit($b['deskripsi'] ?? '-', 100) }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap text-center font-mono">

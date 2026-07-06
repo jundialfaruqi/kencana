@@ -30,7 +30,7 @@
                 <!-- Deskripsi -->
                 <article class="max-w-none">
                     <p class="text-base-content/80 leading-relaxed sm:leading-loose text-base sm:text-lg font-medium">
-                        {{ data_get($info, 'deskripsi', '') }}</p>
+                        {!! str_replace('. ', '.<br><br>', e(data_get($info, 'deskripsi', ''))) !!}</p>
                 </article>
             </div>
 

@@ -145,4 +145,37 @@
         const componentId = root.closest('[wire\\:id]').getAttribute('wire:id');
         window.Livewire.find(componentId).set('image', null);
     };
+
+    function setupAutoResizeTextarea(root) {
+        var textarea = root.querySelector('textarea[wire\\:model\\.blur="deskripsi"]');
+        if (!textarea) return;
+
+        function resize() {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        textarea.addEventListener('input', resize);
+        textarea.addEventListener('focus', resize);
+        window.addEventListener('resize', resize);
+
+        setTimeout(resize, 100);
+    }
+
+    document.addEventListener('livewire:navigated', function () {
+        setTimeout(function() {
+            var root = document.getElementById('banner-create-root');
+            if (root) setupAutoResizeTextarea(root);
+        }, 150);
+    });
+
+    if (document.readyState !== 'loading') {
+        var root = document.getElementById('banner-create-root');
+        if (root) setupAutoResizeTextarea(root);
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            var root = document.getElementById('banner-create-root');
+            if (root) setupAutoResizeTextarea(root);
+        }, { once: true });
+    }
 })();
