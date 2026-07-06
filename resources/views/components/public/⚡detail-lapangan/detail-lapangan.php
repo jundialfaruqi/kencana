@@ -75,12 +75,15 @@ new #[Layout('layouts::public.app')] #[Title('Detail Lapangan')] class extends C
                 $deskripsi = (string) ($data['deskripsi'] ?? '');
                 $coverImage = $this->coverUrl;
 
-                seo()->for(new SEOData(
+                $seoData = new SEOData(
                     title: $namaLapangan,
-                    description: $deskripsi ?: "Lihat detail, fasilitas, dan jadwal booking lapangan {$namaLapangan} di Kencana Arena Pekanbaru.",
+                    description: Str::limit(strip_tags($deskripsi), 160) ?: "Lihat detail, fasilitas, dan jadwal booking lapangan {$namaLapangan} di Kencana Arena Pekanbaru.",
                     image: $coverImage,
                     url: url()->current(),
-                ));
+                );
+                
+                // Share to view so the layout can access it dynamically
+                view()->share('SEOData', $seoData);
 
                 return;
             }
