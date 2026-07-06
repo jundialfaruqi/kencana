@@ -1,4 +1,4 @@
-<div class="mt-4 sm:mt-8 container-xl mx-auto px-4" x-data>
+<div class="mt-4 sm:mt-8" x-data>
     @if ($error)
         <div class="alert alert-error mb-6">
             <span>{{ $error }}</span>
@@ -10,13 +10,13 @@
                 <div class="mb-6 flex flex-col gap-2 sm:gap-3">
                     <span
                         class="bg-info/10 text-info font-black uppercase px-3 py-1 rounded-md w-fit text-xs sm:text-sm">{{ data_get($info, 'kategori', 'Info') }}</span>
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tighter text-base-content">
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-base-content">
                         {{ data_get($info, 'judul', '-') }}
                     </h1>
                 </div>
 
                 <!-- Gambar Utama -->
-                <figure class="w-full h-auto bg-base-300 rounded-3xl overflow-hidden mb-6 shadow-sm">
+                <figure class="h-auto bg-base-300 overflow-hidden mb-6 shadow-sm -mx-4 sm:mx-0">
                     @if (data_get($info, 'image'))
                         <img src="{{ data_get($info, 'image') }}" class="w-full h-auto object-cover"
                             alt="{{ data_get($info, 'judul') }}" />
@@ -36,7 +36,7 @@
 
             <!-- Kolom Kanan: Banner Lainnya -->
             <div class="w-full lg:w-1/3 flex flex-col gap-6">
-                <h3 class="text-2xl font-bold uppercase text-base-content pb-3">Informasi Lainnya</h3>
+                <h3 class="text-lg font-bold uppercase text-base-content pb-3">Informasi Lainnya</h3>
 
                 <div class="flex flex-col gap-4">
                     @forelse ($otherBanners as $other)
