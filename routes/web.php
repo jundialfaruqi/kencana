@@ -91,6 +91,8 @@ Route::livewire('/admin/login', 'auth::admin-login')
 Route::livewire('/register', 'auth::register')
     ->name('register');
 Route::livewire('/store', 'public::public.store');
+Route::livewire('/tentang-kami', 'public::public.tentang-kami')
+    ->name('tentang-kami');
 Route::livewire('/', 'public::landing-page')
     ->name('home');
 Route::livewire('/lapangan', 'public::public.lapangan')

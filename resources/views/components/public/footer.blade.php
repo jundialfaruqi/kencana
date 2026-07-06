@@ -62,7 +62,7 @@
             <div class="flex flex-col gap-5">
                 <h3 class="font-bold text-base-content text-base">Menu Utama</h3>
                 <div class="flex flex-col gap-3">
-                    <a href="#" class="link link-hover text-sm opacity-70">Tentang Kami</a>
+                    <a href="/tentang-kami" wire:navigate class="link link-hover text-sm opacity-70">Tentang Kami</a>
                     <a href="#" class="link link-hover text-sm opacity-70">Kontak Kami</a>
                 </div>
             </div>
