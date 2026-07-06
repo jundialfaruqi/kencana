@@ -18,7 +18,7 @@
                                 <span
                                     class="bg-info text-info-content text-[8px] sm:text-xs font-black uppercase italic px-2 py-1 rounded w-fit shadow-lg">{{ $banner['kategori'] ?? '' }}</span>
                                 <h2
-                                    class="text-white text-md sm:text-4xl italic uppercase leading-none group-hover/banner:text-info transition-colors duration-300 drop-shadow-lg">
+                                    class="text-white text-md sm:text-4xl italic uppercase leading-none group-hover/banner:text-white transition-colors duration-300 drop-shadow-lg">
                                     {{ \Illuminate\Support\Str::words($banner['judul'] ?? '', 4, '') }}</h2>
                             </div>
                         </a>
