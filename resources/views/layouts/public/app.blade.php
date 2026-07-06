@@ -13,9 +13,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="Bn93juVNIvjO_a6AIb2ksOz6_xMRvtMPHRpvULah1Rw" />
 
     {!! seo() !!}
+
+    <meta name="google-site-verification" content="Bn93juVNIvjO_a6AIb2ksOz6_xMRvtMPHRpvULah1Rw" />
+
+    <!-- Google Site Name Structured Data -->
+    <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => 'Kencana Arena',
+        'alternateName' => ['Kencana Arena Pekanbaru'],
+        'url' => url('/')
+    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
