@@ -93,6 +93,16 @@ Route::livewire('/register', 'auth::register')
 Route::livewire('/store', 'public::public.store');
 Route::livewire('/tentang-kami', 'public::public.tentang-kami')
     ->name('tentang-kami');
+Route::livewire('/kebijakan-privasi', 'public::public.kebijakan-privasi')
+    ->name('kebijakan-privasi');
+Route::livewire('/syarat-ketentuan', 'public::public.syarat-ketentuan')
+    ->name('syarat-ketentuan');
+Route::livewire('/kontak-kami', 'public::public.kontak-kami')
+    ->name('kontak-kami');
+Route::livewire('/cara-booking', 'public::public.cara-booking')
+    ->name('cara-booking');
+Route::livewire('/fasilitas', 'public::public.fasilitas')
+    ->name('fasilitas');
 Route::livewire('/', 'public::landing-page')
     ->name('home');
 Route::livewire('/lapangan', 'public::public.lapangan')

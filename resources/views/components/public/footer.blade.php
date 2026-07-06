@@ -63,15 +63,15 @@
                 <h3 class="font-bold text-base-content text-base">Menu Utama</h3>
                 <div class="flex flex-col gap-3">
                     <a href="/tentang-kami" wire:navigate class="link link-hover text-sm opacity-70">Tentang Kami</a>
-                    <a href="#" class="link link-hover text-sm opacity-70">Kontak Kami</a>
+                    <a href="/kontak-kami" wire:navigate class="link link-hover text-sm opacity-70">Kontak Kami</a>
                 </div>
             </div>
             <!-- Bantuan / Info (Opsional, agar mirip referensi yang punya 3 kolom) -->
             <div class="flex flex-col gap-5">
                 <h3 class="font-bold text-base-content text-base">Informasi</h3>
                 <div class="flex flex-col gap-3">
-                    <a href="#" class="link link-hover text-sm opacity-70">Cara Booking</a>
-                    <a href="#" class="link link-hover text-sm opacity-70">Fasilitas</a>
+                    <a href="/cara-booking" wire:navigate class="link link-hover text-sm opacity-70">Cara Booking</a>
+                    <a href="/fasilitas" wire:navigate class="link link-hover text-sm opacity-70">Fasilitas</a>
                 </div>
             </div>
         </div>
@@ -85,8 +85,8 @@
                 © {{ date('Y') }} Kencana Arena. Semua Hak Dilindungi.
             </p>
             <div class="flex gap-6 text-sm opacity-70">
-                <a href="#" class="link link-hover">Kebijakan Privasi</a>
-                <a href="#" class="link link-hover">Syarat & Ketentuan</a>
+                <a href="/kebijakan-privasi" wire:navigate class="link link-hover">Kebijakan Privasi</a>
+                <a href="/syarat-ketentuan" wire:navigate class="link link-hover">Syarat & Ketentuan</a>
             </div>
         </div>
     </div>
