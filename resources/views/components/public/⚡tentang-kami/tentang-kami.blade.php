@@ -37,8 +37,7 @@
                         class="px-3 py-1 rounded-full bg-info text-info-content text-[10px] sm:text-xs font-black uppercase tracking-widest w-fit mb-4 inline-block">
                         Fasilitas Publik Gratis
                     </span>
-                    <h1
-                        class="text-2xl sm:text-4xl font-black italic uppercase tracking-tighter text-white leading-none">
+                    <h1 class="text-2xl sm:text-4xl font-black uppercase tracking-tighter text-white leading-none">
                         Kencana Mini Soccer
                     </h1>
                     <p class="text-xs sm:text-sm font-medium text-white/80 mt-2 max-w-2xl leading-relaxed">
@@ -101,8 +100,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {{-- Aturan 1 --}}
                     <div class="flex gap-4 p-4 bg-base-100 border border-base-300 rounded-2xl shadow-xs">
-                        <div
-                            class="w-10 h-10 text-white flex items-center justify-center shrink-0">
+                        <div class="w-10 h-10 text-white flex items-center justify-center shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2.5" stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -121,8 +119,7 @@
 
                     {{-- Aturan 2 --}}
                     <div class="flex gap-4 p-4 bg-base-100 border border-base-300 rounded-2xl shadow-xs">
-                        <div
-                            class="w-10 h-10 text-white flex items-center justify-center shrink-0">
+                        <div class="w-10 h-10 text-white flex items-center justify-center shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2.5" stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -141,8 +138,7 @@
 
                     {{-- Aturan 3 --}}
                     <div class="flex gap-4 p-4 bg-base-100 border border-base-300 rounded-2xl shadow-xs">
-                        <div
-                            class="w-10 h-10 text-white flex items-center justify-center shrink-0">
+                        <div class="w-10 h-10 text-white flex items-center justify-center shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2.5" stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -161,8 +157,7 @@
 
                     {{-- Aturan 4 --}}
                     <div class="flex gap-4 p-4 bg-base-100 border border-base-300 rounded-2xl shadow-xs">
-                        <div
-                            class="w-10 h-10 text-white flex items-center justify-center shrink-0">
+                        <div class="w-10 h-10 text-white flex items-center justify-center shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2.5" stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -183,8 +178,7 @@
                 {{-- Tentang Aplikasi Booking --}}
                 <div
                     class="bg-base-100 border-2 border-base-300 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center gap-6 shadow-sm">
-                    <div
-                        class="w-16 h-16 sm:w-20 sm:h-20 text-white flex items-center justify-center shrink-0">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 text-white flex items-center justify-center shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" class="w-8 h-8 sm:w-10 sm:h-10">
                             <path stroke-linecap="round" stroke-linejoin="round"
