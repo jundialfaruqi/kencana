@@ -144,7 +144,8 @@
                         @foreach ($carouselDates as $dateStr)
                             <div>
                                 <button type="button" data-date="{{ $dateStr }}"
-                                    class="flex flex-col items-center justify-center w-full h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }}">
+                                    class="flex flex-col items-center justify-center w-full h-20 rounded-xl transition-all {{ $dateStr === $tanggal ? 'bg-info text-info-content shadow-lg shadow-info/20' : 'bg-base-100 hover:bg-base-200 text-base-content/70' }} {{ $dateStr < $todayDate ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}"
+                                    {{ $dateStr < $todayDate ? 'disabled aria-disabled=true' : '' }}>
                                     <span
                                         class="text-[10px] font-bold uppercase">{{ \Carbon\Carbon::parse($dateStr)->locale('id')->translatedFormat('D') }}</span>
                                     <span

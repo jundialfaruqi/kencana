@@ -159,10 +159,13 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         $this->calCurrMonth = $curr->format('Y-m');
         $this->calNextMonth = $next->format('Y-m');
         $this->todayDate = $today->toDateString();
-        $this->maxDate = $today->copy()->addDays(29)->toDateString();
+        $this->maxDate = $today->copy()->endOfMonth()->toDateString();
         $this->carouselDates = [];
-        for ($i = 0; $i < 30; $i++) {
-            $d = $today->copy()->addDays($i);
+        
+        $startOfMonth = $today->copy()->startOfMonth();
+        $daysInMonth = $today->daysInMonth;
+        for ($i = 0; $i < $daysInMonth; $i++) {
+            $d = $startOfMonth->copy()->addDays($i);
             $this->carouselDates[] = $d->toDateString();
         }
         if ($this->lapanganId) {
