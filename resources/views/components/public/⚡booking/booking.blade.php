@@ -237,26 +237,37 @@
                             @else
                                 <div class="relative bg-base-200/40 rounded-2xl p-4 border border-base-200/50 mt-4"
                                     wire:loading.class="opacity-50 pointer-events-none" wire:target="selectDate">
-                                    <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
-                                        @foreach ($timeSlots as $slot)
-                                            <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
-                                                data-time-slot
-                                                wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
-                                                wire:loading.attr="disabled" wire:target="selectTime"
-                                                class="py-2 rounded-lg font-black text-[16px] md:text-[17px] transition-all
-                                                            {{ !$this->slotIsAvailable($slot)
-                                                                ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
-                                                                : ($this->slotIsSelected($slot)
-                                                                    ? 'bg-info text-info-content border border-info/50 shadow-lg shadow-info/20'
-                                                                    : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
-                                                <span class="block">{{ $slot['mulai'] }}</span>
-                                                <span class="block">{{ $slot['selesai'] }}</span>
-                                                <span class="block text-[10px] font-bold uppercase text-warning">
-                                                    {{ $this->getSlotDisplayStatus($slot) }}
-                                                </span>
-                                            </button>
-                                        @endforeach
-                                    </div>
+                                    @if(count($timeSlots) > 0)
+                                        <div class="grid grid-cols-3 lg:grid-cols-9 gap-2">
+                                            @foreach ($timeSlots as $slot)
+                                                <button {{ $this->slotIsAvailable($slot) ? '' : 'disabled' }}
+                                                    data-time-slot
+                                                    wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
+                                                    wire:loading.attr="disabled" wire:target="selectTime"
+                                                    class="py-2 rounded-lg font-black text-[16px] md:text-[17px] transition-all
+                                                                {{ !$this->slotIsAvailable($slot)
+                                                                    ? 'bg-base-300/50 text-base-content/10 cursor-not-allowed line-through'
+                                                                    : ($this->slotIsSelected($slot)
+                                                                        ? 'bg-info text-info-content border border-info/50 shadow-lg shadow-info/20'
+                                                                        : 'bg-base-100 hover:bg-info/10 hover:text-info border border-transparent hover:border-info/20') }}">
+                                                    <span class="block">{{ $slot['mulai'] }}</span>
+                                                    <span class="block">{{ $slot['selesai'] }}</span>
+                                                    <span class="block text-[10px] font-bold uppercase text-warning">
+                                                        {{ $this->getSlotDisplayStatus($slot) }}
+                                                    </span>
+                                                </button>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <div class="py-8 text-center">
+                                            <div class="text-sm font-bold uppercase text-base-content/50">
+                                                Jadwal Tidak Tersedia
+                                            </div>
+                                            <div class="text-[10px] font-medium text-base-content/40 mt-1">
+                                                Silakan pilih tanggal atau arena lain.
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div wire:loading wire:target="selectDate"
                                         class="absolute inset-0 z-10 bg-base-100/40"></div>
                                     <div wire:loading wire:target="selectTime"
