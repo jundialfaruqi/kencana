@@ -193,8 +193,40 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         }
     }
 
+    protected function isDateValid(?string $dateStr): bool
+    {
+        if (empty($dateStr)) {
+            return false;
+        }
+        try {
+            $date = Carbon::parse($dateStr)->startOfDay();
+            $today = Carbon::now()->startOfDay();
+            $endOfMonth = Carbon::now()->endOfMonth()->startOfDay();
+
+            return $date->betweenIncluded($today, $endOfMonth);
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
+    public function updatedTanggal($value): void
+    {
+        if (! $this->isDateValid($value)) {
+            $this->tanggal = Carbon::now()->toDateString();
+            $this->dispatch('toast', [
+                'title' => 'Gagal',
+                'message' => 'Tanggal tidak valid atau di luar rentang',
+                'type' => 'error',
+            ]);
+        }
+        $this->selectedSlot = null;
+    }
+
     public function selectDate(string $date)
     {
+        if (! $this->isDateValid($date)) {
+            return;
+        }
         $this->tanggal = $date;
         $this->selectedSlot = null;
     }
@@ -202,10 +234,10 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
     public function nextStep(): void
     {
         if ($this->currentStep === 1) {
-            if (! $this->tanggal) {
+            if (! $this->tanggal || ! $this->isDateValid($this->tanggal)) {
                 $this->dispatch('toast', [
                     'title' => 'Gagal',
-                    'message' => 'Pilih tanggal terlebih dahulu',
+                    'message' => 'Tanggal tidak valid atau di luar rentang',
                     'type' => 'error',
                 ]);
 
@@ -609,8 +641,8 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
 
             return;
         }
-        if (! $this->tanggal) {
-            $this->error = 'Tanggal belum dipilih, pilih tanggalnya dulu!';
+        if (! $this->tanggal || ! $this->isDateValid($this->tanggal)) {
+            $this->error = 'Tanggal tidak valid atau sudah lewat!';
 
             return;
         }
@@ -670,6 +702,11 @@ new #[Layout('layouts::public.app')] #[Title('Pesan Arena')] class extends Compo
         }
         if (! $this->lapanganId || ! $this->tanggal || ! $this->selectedSlot || empty($this->selectedSlot['mulai']) || empty($this->selectedSlot['selesai'])) {
             $this->error = 'Data booking tidak lengkap';
+
+            return;
+        }
+        if (! $this->isDateValid($this->tanggal)) {
+            $this->error = 'Tanggal tidak valid atau sudah lewat!';
 
             return;
         }
