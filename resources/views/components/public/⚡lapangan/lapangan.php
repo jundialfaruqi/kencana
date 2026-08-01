@@ -65,6 +65,7 @@ new #[Title('Daftar Lapangan')] #[Layout('layouts::public.app')] class extends C
             $this->error = $result['message'] ?? 'Gagal memuat data lapangan';
             $this->lapangan = [];
         } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Fetch lapangan error: ' . $e->getMessage());
             $this->error = 'Terjadi kesalahan saat mengambil data lapangan';
             $this->lapangan = [];
         }

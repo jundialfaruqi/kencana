@@ -1,4 +1,4 @@
-<div class="mt-4 sm:mt-8" id="booking-root" data-step="{{ $currentStep }}" x-data="{ step: @entangle('currentStep') }">
+<div class="mt-4 sm:mt-8" id="booking-root" data-step="{{ $currentStep }}" x-data="{ step: $wire.entangle('currentStep') }">
     <div class="w-full" x-transition>
         <!-- Header Section -->
         <div class="mb-8 px-2 flex items-center gap-4">
