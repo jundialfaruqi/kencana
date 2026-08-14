@@ -35,6 +35,7 @@ return [
         'auth' => resource_path('views/components/auth'),
         'public' => resource_path('views/components'),
         'admin' => resource_path('views/components/admin'),
+        'android-webview' => resource_path('views/components/android-webview')
     ],
 
     /*

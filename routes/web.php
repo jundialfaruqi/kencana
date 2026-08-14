@@ -192,3 +192,44 @@ Route::middleware(['api.auth:admin'])->group(function () {
     Route::livewire('/banner-carousel-update/{id}', 'admin::banner-carousel-update')
         ->name('banner-carousel-update');
 });
+
+// Android Webview Route
+Route::prefix('kencana/web-view')->name('webview.')->group(function () {
+    // Titik masuk SSO — menerima token dari Super App Pekanbaru
+    Route::get('/callback/{token}', [\App\Http\Controllers\AndroidWebviewController::class, 'callback'])
+        ->name('callback');
+
+    // Halaman session expired / token tidak valid
+    Route::get('/expired', [\App\Http\Controllers\AndroidWebviewController::class, 'expired'])
+        ->name('expired');
+
+    // ══════════════════════════════════════════════════════════════════
+    // [DEV ONLY] Route testing — akses UI tanpa SSO
+    // HAPUS atau COMMENT route ini sebelum ke production!
+    //
+    // Cara pakai:
+    //   1. Buka: /kencana/web-view/dev-login
+    //      → Akan inject fake session & redirect ke /menu
+    //   2. Setelah selesai testing, buka: /kencana/web-view/dev-logout
+    //      → Hapus session & redirect ke expired
+    //
+    Route::get('/dev-login', function () {
+        // Inject fake auth_token ke session (pakai token asli milik akun testing kalau mau test API)
+        \Illuminate\Support\Facades\Session::put('auth_token', env('WEBVIEW_DEV_TOKEN', 'dev-testing-token'));
+        \Illuminate\Support\Facades\Session::put('webview_mode', true);
+        return redirect()->route('webview.menu');
+    })->name('dev-login');
+
+    Route::get('/dev-logout', function () {
+        \Illuminate\Support\Facades\Session::forget(['auth_token', 'webview_mode']);
+        return redirect()->route('webview.expired');
+    })->name('dev-logout');
+    // ══════════════════════════════════════════════════════════════════
+
+    // Halaman-halaman yang memerlukan auth session
+    Route::middleware('webview.auth')->group(function () {
+        Route::livewire('/menu',    'android-webview::menu')->name('menu');
+        Route::livewire('/pesan',   'android-webview::pesan')->name('pesan');
+        Route::livewire('/histori', 'android-webview::histori')->name('histori');
+    });
+});

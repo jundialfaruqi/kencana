@@ -88,7 +88,7 @@
                                         class="font-bold text-sm text-base-content hidden sm:inline-block capitalize">{{ $name }}</span>
                                 </div>
                                 <ul tabindex="0"
-                                    class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 border border-base-200">
+                                    class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-52 mt-4 border border-base-200">
                                     <li class="menu-title px-4 py-2">
                                         <span class="text-[10px] sm:text-xs opacity-50 block font-normal">Masuk
                                             sebagai</span>
