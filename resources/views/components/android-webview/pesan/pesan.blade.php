@@ -478,7 +478,7 @@
                     @endforelse
 
                     <label class="flex items-start gap-3 p-3 rounded-xl bg-blue-50 cursor-pointer mt-2">
-                        <input type="checkbox" wire:model="termsAgreed"
+                        <input type="checkbox" wire:model.live="termsAgreed"
                             class="mt-0.5 w-4 h-4 accent-blue-600 rounded">
                         <span class="text-xs font-semibold text-gray-700 leading-relaxed">
                             Saya telah membaca dan <strong>setuju</strong> dengan seluruh syarat dan ketentuan yang
