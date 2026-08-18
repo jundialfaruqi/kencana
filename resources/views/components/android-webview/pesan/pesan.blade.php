@@ -52,7 +52,7 @@
         </div>
 
         {{-- Loading bar --}}
-        <div wire:loading wire:target="selectArena,nextStep,proceedToConfirmation,finalizeBooking"
+        <div wire:loading wire:target="selectArena,nextStep,proceedToConfirmation,prevStep,finalizeBooking"
             class="h-0.5 bg-blue-600 animate-pulse"></div>
     </div>
 
@@ -83,7 +83,8 @@
             {{-- SKELETON LOADER: Hanya untuk konten arena --}}
             <div wire:loading wire:target="fetchArenas" class="flex-1 overflow-y-auto space-y-3 pr-0.5">
                 @for ($i = 0; $i < 4; $i++)
-                    <div class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center gap-3 animate-pulse">
+                    <div
+                        class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center gap-3 animate-pulse">
                         <div class="w-12 h-12 rounded-xl bg-gray-200 shrink-0"></div>
                         <div class="flex-1 min-w-0 space-y-2">
                             <div class="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -113,7 +114,8 @@
                             ? 'bg-white border-gray-100 shadow-sm active:scale-[0.98] hover:border-blue-200 hover:shadow-md cursor-pointer'
                             : 'bg-gray-50 border-gray-100 opacity-60 cursor-not-allowed' }}">
 
-                        <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+                        <div
+                            class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
                             @if ($cover)
                                 <img src="{{ $cover }}" class="w-full h-full object-cover"
                                     alt="{{ $arena['nama_lapangan'] }}" />
@@ -160,34 +162,35 @@
          STEP 1 — PILIH TANGGAL
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($currentStep === 1)
-        <div class="flex-1 px-4 py-5 space-y-5">
-            {{-- Arena terpilih card --}}
-            <div class="flex items-center gap-3 bg-transparent">
-                @php $cover = $this->coverUrl; @endphp
-                <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-                    @if ($cover)
-                        <img src="{{ $cover }}" class="w-full h-full object-cover" alt="{{ $namaLapangan }}" />
-                    @else
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#9ca3af"
-                            stroke-width="2" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
-                        </svg>
-                    @endif
-                </div>
-                <div class="flex-1 min-w-0">
-                    <span
-                        class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena</span>
-                    <span
-                        class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: 'Arena' }}</span>
+        <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
+            {{-- Arena terpilih card (Pinned Top) --}}
+            <div class="px-4 pt-4 pb-3 shrink-0">
+                <div class="flex items-center gap-3 bg-transparent">
+                    @php $cover = $this->coverUrl; @endphp
+                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+                        @if ($cover)
+                            <img src="{{ $cover }}" class="w-full h-full object-cover" alt="{{ $namaLapangan }}" />
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#9ca3af"
+                                stroke-width="2" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
+                            </svg>
+                        @endif
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span
+                            class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena</span>
+                        <span
+                            class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: 'Arena' }}</span>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3">Pilih Tanggal Bermain</p>
-                {{-- Grid date selection with constrained max height --}}
-                <div class="grid grid-cols-4 gap-2 max-h-[46vh] sm:max-h-72 overflow-y-auto pr-0.5"
-                    id="date-scroll-container">
+            {{-- Grid Tanggal (Only this area scrolls, filling remaining height) --}}
+            <div class="flex-1 flex flex-col min-h-0 px-4 pb-2">
+                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3 shrink-0">Pilih Tanggal Bermain</p>
+                <div class="flex-1 overflow-y-auto pr-0.5 grid grid-cols-4 gap-2 min-h-0" id="date-scroll-container">
                     @foreach ($carouselDates as $dateStr)
                         @php
                             $isPast = $dateStr < $todayDate;
@@ -210,10 +213,13 @@
                 <input type="hidden" wire:model="tanggal" id="hidden-tanggal-input">
             </div>
 
-            <div class="pt-2 grid grid-cols-2 gap-3">
-                <button type="button" wire:click="prevStep"
-                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform">
-                    Kembali
+            {{-- Tombol Kembali & Selanjutnya (Pinned Bottom) --}}
+            <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
+                <button type="button" wire:click="prevStep" wire:loading.attr="disabled" wire:target="prevStep"
+                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform disabled:opacity-60 flex items-center justify-center gap-2">
+                    <span wire:loading wire:target="prevStep"
+                        class="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></span>
+                    <span>Kembali</span>
                 </button>
                 <button type="button" wire:click="nextStep" wire:loading.attr="disabled" wire:target="nextStep"
                     class="py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 disabled:opacity-60 flex items-center justify-center gap-2">
@@ -230,10 +236,10 @@
          STEP 2 — PILIH JAM (Client-Side Alpine.js untuk performa instan tanpa glitch)
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($currentStep === 2)
-        <div class="flex-1 px-4 py-5 space-y-4"
-            x-data="{ selectedSlot: '{{ $selectedSlot ? ($selectedSlot['mulai'] . '-' . $selectedSlot['selesai']) : '' }}' }">
-            {{-- Summary card --}}
-            <div class="bg-transparent space-y-3">
+        <div class="flex-1 flex flex-col min-h-0 overflow-hidden"
+            x-data="{ selectedSlot: '{{ $selectedSlot ? $selectedSlot['mulai'] . '-' . $selectedSlot['selesai'] : '' }}' }">
+            {{-- Summary card (Pinned Top) --}}
+            <div class="px-4 pt-4 pb-3 shrink-0 space-y-3">
                 <div class="flex items-center gap-3">
                     @php $cover = $this->coverUrl; @endphp
                     @if ($cover)
@@ -257,11 +263,12 @@
                 </div>
             </div>
 
-            <div>
-                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3">Pilih Jam Bermain</p>
+            {{-- Grid Jam (Only this area scrolls, filling remaining height) --}}
+            <div class="flex-1 flex flex-col min-h-0 px-4 pb-2">
+                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3 shrink-0">Pilih Jam Bermain</p>
 
                 @if ($listJadwalStatus === 'loading')
-                    <div class="grid grid-cols-3 gap-2 max-h-[46vh] sm:max-h-72 overflow-y-auto pr-0.5 animate-pulse">
+                    <div class="grid grid-cols-3 gap-2 flex-1 overflow-y-auto pr-0.5 min-h-0 animate-pulse">
                         @for ($j = 0; $j < 9; $j++)
                             <div
                                 class="flex flex-col items-center justify-center py-3 rounded-2xl bg-gray-50 border border-gray-100 h-18 space-y-1.5">
@@ -272,7 +279,7 @@
                         @endfor
                     </div>
                 @elseif($listJadwalStatus === 'libur')
-                    <div class="py-8 text-center">
+                    <div class="flex-1 flex flex-col items-center justify-center py-8 text-center">
                         <div class="text-4xl mb-3">🚫</div>
                         <div class="text-sm font-black text-gray-700">Hari Ini Libur</div>
                         <div class="text-xs text-gray-400 mt-1">Arena tidak beroperasi pada tanggal ini</div>
@@ -281,24 +288,24 @@
                     <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
                         {{ $error }}</div>
                 @elseif(count($timeSlots) === 0)
-                    <div class="py-8 text-center">
+                    <div class="flex-1 flex flex-col items-center justify-center py-8 text-center">
                         <div class="text-4xl mb-3">📅</div>
                         <div class="text-sm font-black text-gray-700">Tidak Ada Jadwal</div>
                         <div class="text-xs text-gray-400 mt-1">Coba pilih tanggal lain</div>
                     </div>
                 @else
                     {{-- Grid jam dengan scroll internal dan pemilihan client-side instan --}}
-                    <div class="grid grid-cols-3 gap-2 max-h-[46vh] sm:max-h-72 overflow-y-auto pr-0.5">
+                    <div class="grid grid-cols-3 gap-2 flex-1 overflow-y-auto pr-0.5 min-h-0">
                         @foreach ($timeSlots as $slot)
                             @php
                                 $available = $this->slotIsAvailable($slot);
                                 $slotKey = ($slot['mulai'] ?? '') . '-' . ($slot['selesai'] ?? '');
                             @endphp
                             @if ($available)
-                                <button type="button"
-                                    @click="selectedSlot = '{{ $slotKey }}'"
+                                <button type="button" @click="selectedSlot = '{{ $slotKey }}'"
                                     class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] transition-all duration-150 active:scale-95"
-                                    :class="selectedSlot === '{{ $slotKey }}' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
+                                    :class="selectedSlot === '{{ $slotKey }}' ? 'bg-blue-600 text-white' :
+                                        'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
                                     <span>{{ $slot['mulai'] }}</span>
                                     <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
                                     <span>{{ $slot['selesai'] }}</span>
@@ -309,7 +316,8 @@
                                     <span>{{ $slot['mulai'] }}</span>
                                     <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
                                     <span>{{ $slot['selesai'] }}</span>
-                                    <span class="text-[8px] mt-0.5 opacity-60 uppercase font-bold not-italic">Penuh</span>
+                                    <span
+                                        class="text-[8px] mt-0.5 opacity-60 uppercase font-bold not-italic">Dipesan</span>
                                 </button>
                             @endif
                         @endforeach
@@ -317,18 +325,18 @@
                 @endif
             </div>
 
-            {{-- Tombol Kembali & Selanjutnya --}}
-            <div class="pt-2 grid grid-cols-2 gap-3">
-                <button type="button" wire:click="prevStep"
-                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform">
-                    Kembali
+            {{-- Tombol Kembali & Selanjutnya (Pinned Bottom) --}}
+            <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
+                <button type="button" wire:click="prevStep" wire:loading.attr="disabled" wire:target="prevStep"
+                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform disabled:opacity-60 flex items-center justify-center gap-2">
+                    <span wire:loading wire:target="prevStep"
+                        class="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></span>
+                    <span>Kembali</span>
                 </button>
-                <button type="button"
-                    @click="$wire.proceedToConfirmation(selectedSlot)"
-                    wire:loading.attr="disabled" wire:target="proceedToConfirmation"
-                    :disabled="!selectedSlot"
+                <button type="button" @click="$wire.proceedToConfirmation(selectedSlot)"
+                    wire:loading.attr="disabled" wire:target="proceedToConfirmation" :disabled="!selectedSlot"
                     class="py-4 rounded-2xl font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform disabled:opacity-40 flex items-center justify-center gap-2"
-                    :class="selectedSlot ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-gray-200 text-gray-400 cursor-not-allowed'">
+                    :class="selectedSlot ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-400 cursor-not-allowed'">
                     <span wire:loading wire:target="proceedToConfirmation"
                         class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                     <span>Selanjutnya</span>
@@ -346,7 +354,8 @@
             <div class="flex-1 overflow-y-auto px-4 py-5 space-y-5 min-h-0">
                 {{-- Booking summary card --}}
                 <div class="p-4 rounded-2xl bg-blue-600 text-white space-y-2 shadow-lg shadow-blue-200">
-                    <div class="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">Ringkasan Booking</div>
+                    <div class="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">Ringkasan Booking
+                    </div>
                     <div class="flex justify-between items-center py-1.5 border-b border-white/10">
                         <span class="text-xs opacity-70 font-semibold">Arena</span>
                         <span class="text-xs font-black uppercase">{{ $namaLapangan ?: '-' }}</span>
@@ -437,9 +446,11 @@
 
             {{-- Tombol Kembali & Pesan (TETAP DI BAWAH) --}}
             <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
-                <button type="button" wire:click="prevStep"
-                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform">
-                    Kembali
+                <button type="button" wire:click="prevStep" wire:loading.attr="disabled" wire:target="prevStep"
+                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform disabled:opacity-60 flex items-center justify-center gap-2">
+                    <span wire:loading wire:target="prevStep"
+                        class="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></span>
+                    <span>Kembali</span>
                 </button>
                 <button type="button" wire:click="confirmBooking" wire:loading.attr="disabled"
                     wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
