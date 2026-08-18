@@ -1,18 +1,20 @@
-<div class="min-h-dvh bg-white flex flex-col" id="pesan-root" data-step="{{ $currentStep }}">
+<div class="h-dvh overflow-hidden bg-white flex flex-col" id="pesan-root" data-step="{{ $currentStep }}">
 
     {{-- ══════════════════════════════════════════════════════════════════
          TOP BAR
     ══════════════════════════════════════════════════════════════════ --}}
     <div class="sticky top-0 z-30 bg-white border-b border-gray-200">
         <div class="flex items-center gap-3 px-4 py-4">
-            {{-- Back Button --}}
-            <button type="button" wire:click="prevStep"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 active:scale-95 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                    stroke="#374151" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                </svg>
-            </button>
+            {{-- Back Button — hanya step 0 pakai icon, step lain tidak tampil di sini --}}
+            @if ($currentStep === 0)
+                <button type="button" wire:click="prevStep"
+                    class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 active:scale-95 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="#374151" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                    </svg>
+                </button>
+            @endif
 
             <div class="flex-1 min-w-0">
                 <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
@@ -50,7 +52,7 @@
         </div>
 
         {{-- Loading bar --}}
-        <div wire:loading wire:target="selectArena,nextStep,selectTime,finalizeBooking"
+        <div wire:loading wire:target="selectArena,nextStep,proceedToConfirmation,finalizeBooking"
             class="h-0.5 bg-blue-600 animate-pulse"></div>
     </div>
 
@@ -78,55 +80,54 @@
                     {{ $error }}</div>
             @endif
 
-            {{-- Scrollable List Container (Locked Viewport) --}}
-            <div class="flex-1 overflow-y-auto space-y-3 pr-0.5 max-h-[calc(100dvh-130px)]">
-                @if (count($arenas) === 0 && !$error)
-                    @for ($i = 0; $i < 3; $i++)
-                        <div
-                            class="w-full flex items-center gap-4 p-4 rounded-2xl bg-white shadow-md shadow-gray-200/60 animate-pulse">
-                            <div class="w-12 h-12 rounded-xl bg-gray-100 shrink-0"></div>
-                            <div class="flex-1 min-w-0 space-y-2">
-                                <div class="h-4 w-36 bg-gray-200 rounded"></div>
-                                <div class="h-3 w-48 bg-gray-100 rounded"></div>
-                            </div>
+            {{-- SKELETON LOADER: Hanya untuk konten arena --}}
+            <div wire:loading wire:target="fetchArenas" class="flex-1 overflow-y-auto space-y-3 pr-0.5">
+                @for ($i = 0; $i < 4; $i++)
+                    <div class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center gap-3 animate-pulse">
+                        <div class="w-12 h-12 rounded-xl bg-gray-200 shrink-0"></div>
+                        <div class="flex-1 min-w-0 space-y-2">
+                            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                            <div class="h-3 bg-gray-100 rounded w-1/2"></div>
                         </div>
-                    @endfor
-                @endif
+                    </div>
+                @endfor
+            </div>
 
+            {{-- DAFTAR ARENA REAL --}}
+            <div wire:loading.remove wire:target="fetchArenas" class="flex-1 overflow-y-auto space-y-3 pr-0.5">
                 @foreach ($arenas as $arena)
                     @php
-                        $cover = ltrim((string) ($arena['image_cover'] ?? ''), '/');
-                        $coverUrl = !empty($cover)
-                            ? (preg_match('/^https?:\/\//', $cover)
-                                ? $cover
-                                : rtrim(config('services.api.image_base_url'), '/') . '/' . $cover)
-                            : null;
-                        $isOpen = ($arena['status'] ?? '') === 'open';
-                        $isComing = ($arena['status'] ?? '') === 'coming_soon';
+                        $status = strtolower((string) ($arena['status'] ?? ''));
+                        $isOpen = in_array($status, ['open', 'buka', 'aktif']);
+                        $isComing = $status === 'coming_soon';
+                        $cover = $arena['image_cover'] ?? null;
+                        if ($cover && !preg_match('/^https?:\/\//', $cover)) {
+                            $cover = rtrim(config('services.api.image_base_url'), '/') . '/' . ltrim($cover, '/');
+                        }
                     @endphp
                     <button type="button"
-                        @if (!$isComing) wire:click="selectArena('{{ $arena['id'] }}', '{{ addslashes($arena['nama_lapangan'] ?? 'Arena') }}', '{{ addslashes($arena['image_cover'] ?? '') }}')" @endif
-                        {{ $isComing ? 'disabled' : '' }}
-                        class="group w-full flex items-center gap-4 p-4 rounded-2xl transition-all active:scale-[0.98] text-left
-                        {{ $isComing ? 'bg-gray-50 opacity-50 cursor-not-allowed' : 'bg-white shadow-md shadow-gray-200/60 hover:shadow-lg cursor-pointer' }}">
+                        @if ($isOpen) wire:click="selectArena('{{ $arena['id'] }}', '{{ addslashes($arena['nama_lapangan']) }}', '{{ $arena['image_cover'] ?? '' }}')" @endif
+                        {{ !$isOpen ? 'disabled' : '' }}
+                        class="w-full text-left p-4 rounded-2xl border transition-all duration-150 flex items-center gap-3 group
+                        {{ $isOpen
+                            ? 'bg-white border-gray-100 shadow-sm active:scale-[0.98] hover:border-blue-200 hover:shadow-md cursor-pointer'
+                            : 'bg-gray-50 border-gray-100 opacity-60 cursor-not-allowed' }}">
 
-                        {{-- Cover thumbnail --}}
-                        <div
-                            class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-                            @if ($coverUrl)
-                                <img src="{{ $coverUrl }}" class="w-full h-full object-cover"
-                                    alt="{{ $arena['nama_lapangan'] ?? '' }}" />
+                        <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+                            @if ($cover)
+                                <img src="{{ $cover }}" class="w-full h-full object-cover"
+                                    alt="{{ $arena['nama_lapangan'] }}" />
                             @else
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="#9ca3af" stroke-width="2" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5" />
+                                        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
                                 </svg>
                             @endif
                         </div>
 
                         <div class="flex-1 min-w-0">
-                            <div class="text-gray-900 font-black text-base leading-tight truncate">
+                            <div class="text-sm font-black text-gray-900 truncate">
                                 {{ $arena['nama_lapangan'] ?? 'Arena' }}
                             </div>
                             <div class="flex items-center gap-2 mt-1">
@@ -141,7 +142,7 @@
                             </div>
                         </div>
 
-                        @if (!$isComing)
+                        @if ($isOpen)
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2.5" stroke="#9ca3af"
                                 class="w-4 h-4 shrink-0 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all">
@@ -209,12 +210,16 @@
                 <input type="hidden" wire:model="tanggal" id="hidden-tanggal-input">
             </div>
 
-            <div class="pt-2">
+            <div class="pt-2 grid grid-cols-2 gap-3">
+                <button type="button" wire:click="prevStep"
+                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform">
+                    Kembali
+                </button>
                 <button type="button" wire:click="nextStep" wire:loading.attr="disabled" wire:target="nextStep"
-                    class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 disabled:opacity-60 flex items-center justify-center gap-2">
+                    class="py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 disabled:opacity-60 flex items-center justify-center gap-2">
                     <span wire:loading wire:target="nextStep"
                         class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    <span>Pilih Jam Bermain</span>
+                    <span>Selanjutnya</span>
                 </button>
             </div>
         </div>
@@ -222,10 +227,11 @@
 
 
     {{-- ══════════════════════════════════════════════════════════════════
-         STEP 2 — PILIH JAM
+         STEP 2 — PILIH JAM (Client-Side Alpine.js untuk performa instan tanpa glitch)
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($currentStep === 2)
-        <div class="flex-1 px-4 py-5 space-y-4">
+        <div class="flex-1 px-4 py-5 space-y-4"
+            x-data="{ selectedSlot: '{{ $selectedSlot ? ($selectedSlot['mulai'] . '-' . $selectedSlot['selesai']) : '' }}' }">
             {{-- Summary card --}}
             <div class="bg-transparent space-y-3">
                 <div class="flex items-center gap-3">
@@ -251,79 +257,83 @@
                 </div>
             </div>
 
-            <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Pilih Jam Bermain</p>
+            <div>
+                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3">Pilih Jam Bermain</p>
 
-            @if ($listJadwalStatus === 'loading')
-                <div class="grid grid-cols-3 gap-2 animate-pulse">
-                    @for ($j = 0; $j < 9; $j++)
-                        <div
-                            class="flex flex-col items-center justify-center py-3 rounded-2xl bg-gray-50 border border-gray-100 h-18 space-y-1.5">
-                            <div class="h-3.5 w-12 bg-gray-200 rounded"></div>
-                            <div class="h-2 w-6 bg-gray-100 rounded"></div>
-                            <div class="h-3.5 w-12 bg-gray-200 rounded"></div>
-                        </div>
-                    @endfor
-                </div>
-            @elseif($listJadwalStatus === 'libur')
-                <div class="py-12 text-center">
-                    <div class="text-4xl mb-3">🚫</div>
-                    <div class="text-sm font-black text-gray-700">Hari Ini Libur</div>
-                    <div class="text-xs text-gray-400 mt-1">Arena tidak beroperasi pada tanggal ini</div>
-                    <button type="button" wire:click="prevStep"
-                        class="mt-4 px-5 py-2.5 rounded-xl bg-gray-100 text-gray-700 font-bold text-sm">
-                        Ganti Tanggal
-                    </button>
-                </div>
-            @elseif($error && count($timeSlots) === 0)
-                <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
-                    {{ $error }}</div>
-            @elseif(count($timeSlots) === 0)
-                <div class="py-12 text-center">
-                    <div class="text-4xl mb-3">📅</div>
-                    <div class="text-sm font-black text-gray-700">Tidak Ada Jadwal</div>
-                    <div class="text-xs text-gray-400 mt-1">Coba pilih tanggal lain</div>
-                </div>
-            @else
-                <div class="grid grid-cols-3 gap-2" wire:loading.class="opacity-50 pointer-events-none"
-                    wire:target="selectTime">
-                    @foreach ($timeSlots as $slot)
-                        @php
-                            $available = $this->slotIsAvailable($slot);
-                            $selected = $this->slotIsSelected($slot);
-                            $label = $this->getSlotDisplayStatus($slot);
-                        @endphp
-                        <button {{ $available ? '' : 'disabled' }}
-                            wire:click="selectTime('{{ $slot['mulai'] ?? '' }}','{{ $slot['selesai'] ?? '' }}')"
-                            wire:loading.attr="disabled" wire:target="selectTime"
-                            class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] transition-all active:scale-95
-                            {{ !$available
-                                ? 'bg-gray-50 text-gray-300 cursor-not-allowed line-through'
-                                : ($selected
-                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                                    : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600') }}">
-                            <span>{{ $slot['mulai'] }}</span>
-                            <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
-                            <span>{{ $slot['selesai'] }}</span>
-                            @if (!$available)
-                                <span class="text-[8px] mt-0.5 opacity-60 uppercase font-bold not-italic">Penuh</span>
+                @if ($listJadwalStatus === 'loading')
+                    <div class="grid grid-cols-3 gap-2 max-h-[46vh] sm:max-h-72 overflow-y-auto pr-0.5 animate-pulse">
+                        @for ($j = 0; $j < 9; $j++)
+                            <div
+                                class="flex flex-col items-center justify-center py-3 rounded-2xl bg-gray-50 border border-gray-100 h-18 space-y-1.5">
+                                <div class="h-3.5 w-12 bg-gray-200 rounded"></div>
+                                <div class="h-2 w-6 bg-gray-100 rounded"></div>
+                                <div class="h-3.5 w-12 bg-gray-200 rounded"></div>
+                            </div>
+                        @endfor
+                    </div>
+                @elseif($listJadwalStatus === 'libur')
+                    <div class="py-8 text-center">
+                        <div class="text-4xl mb-3">🚫</div>
+                        <div class="text-sm font-black text-gray-700">Hari Ini Libur</div>
+                        <div class="text-xs text-gray-400 mt-1">Arena tidak beroperasi pada tanggal ini</div>
+                    </div>
+                @elseif($error && count($timeSlots) === 0)
+                    <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
+                        {{ $error }}</div>
+                @elseif(count($timeSlots) === 0)
+                    <div class="py-8 text-center">
+                        <div class="text-4xl mb-3">📅</div>
+                        <div class="text-sm font-black text-gray-700">Tidak Ada Jadwal</div>
+                        <div class="text-xs text-gray-400 mt-1">Coba pilih tanggal lain</div>
+                    </div>
+                @else
+                    {{-- Grid jam dengan scroll internal dan pemilihan client-side instan --}}
+                    <div class="grid grid-cols-3 gap-2 max-h-[46vh] sm:max-h-72 overflow-y-auto pr-0.5">
+                        @foreach ($timeSlots as $slot)
+                            @php
+                                $available = $this->slotIsAvailable($slot);
+                                $slotKey = ($slot['mulai'] ?? '') . '-' . ($slot['selesai'] ?? '');
+                            @endphp
+                            @if ($available)
+                                <button type="button"
+                                    @click="selectedSlot = '{{ $slotKey }}'"
+                                    class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] transition-all duration-150 active:scale-95"
+                                    :class="selectedSlot === '{{ $slotKey }}' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
+                                    <span>{{ $slot['mulai'] }}</span>
+                                    <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
+                                    <span>{{ $slot['selesai'] }}</span>
+                                </button>
+                            @else
+                                <button type="button" disabled
+                                    class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] bg-gray-50 text-gray-300 cursor-not-allowed line-through">
+                                    <span>{{ $slot['mulai'] }}</span>
+                                    <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
+                                    <span>{{ $slot['selesai'] }}</span>
+                                    <span class="text-[8px] mt-0.5 opacity-60 uppercase font-bold not-italic">Penuh</span>
+                                </button>
                             @endif
-                        </button>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
 
-                {{-- Legend --}}
-                <div class="flex items-center gap-4 text-[10px] font-bold uppercase text-gray-400 mt-2">
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-3 h-3 rounded bg-blue-600"></div> Dipilih
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-3 h-3 rounded bg-gray-50 border border-gray-200"></div> Tersedia
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-3 h-3 rounded bg-gray-100"></div> Penuh
-                    </div>
-                </div>
-            @endif
+            {{-- Tombol Kembali & Selanjutnya --}}
+            <div class="pt-2 grid grid-cols-2 gap-3">
+                <button type="button" wire:click="prevStep"
+                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform">
+                    Kembali
+                </button>
+                <button type="button"
+                    @click="$wire.proceedToConfirmation(selectedSlot)"
+                    wire:loading.attr="disabled" wire:target="proceedToConfirmation"
+                    :disabled="!selectedSlot"
+                    class="py-4 rounded-2xl font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform disabled:opacity-40 flex items-center justify-center gap-2"
+                    :class="selectedSlot ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-gray-200 text-gray-400 cursor-not-allowed'">
+                    <span wire:loading wire:target="proceedToConfirmation"
+                        class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Selanjutnya</span>
+                </button>
+            </div>
         </div>
     @endif
 
@@ -332,105 +342,113 @@
          STEP 3 — KONFIRMASI FORM
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($currentStep === 3)
-        <div class="flex-1 px-4 py-5 space-y-5">
-            {{-- Booking summary card --}}
-            <div class="p-4 rounded-2xl bg-blue-600 text-white space-y-2 shadow-lg shadow-blue-200">
-                <div class="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">Ringkasan Booking</div>
-                <div class="flex justify-between items-center py-1.5 border-b border-white/10">
-                    <span class="text-xs opacity-70 font-semibold">Arena</span>
-                    <span class="text-xs font-black uppercase">{{ $namaLapangan ?: '-' }}</span>
+        <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
+            <div class="flex-1 overflow-y-auto px-4 py-5 space-y-5 min-h-0">
+                {{-- Booking summary card --}}
+                <div class="p-4 rounded-2xl bg-blue-600 text-white space-y-2 shadow-lg shadow-blue-200">
+                    <div class="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">Ringkasan Booking</div>
+                    <div class="flex justify-between items-center py-1.5 border-b border-white/10">
+                        <span class="text-xs opacity-70 font-semibold">Arena</span>
+                        <span class="text-xs font-black uppercase">{{ $namaLapangan ?: '-' }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-1.5 border-b border-white/10">
+                        <span class="text-xs opacity-70 font-semibold">Tanggal</span>
+                        <span class="text-xs font-black">
+                            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center py-1.5 border-b border-white/10">
+                        <span class="text-xs opacity-70 font-semibold">Jam</span>
+                        <span class="text-xs font-black">
+                            {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' — ' . ($selectedSlot['selesai'] ?? '') : '-' }}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center pt-1">
+                        <span class="text-xs opacity-70 font-semibold">Total Biaya</span>
+                        <span class="text-lg font-black">GRATIS</span>
+                    </div>
                 </div>
-                <div class="flex justify-between items-center py-1.5 border-b border-white/10">
-                    <span class="text-xs opacity-70 font-semibold">Tanggal</span>
-                    <span class="text-xs font-black">
-                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                    </span>
+
+                {{-- Form data pemesanan --}}
+                <div class="space-y-4">
+                    <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Data Pemesanan</p>
+
+                    {{-- Nama Komunitas --}}
+                    <div>
+                        <label class="text-xs font-bold text-gray-700 block mb-1.5">Nama Komunitas / Tim <span
+                                class="text-gray-400 font-normal">(opsional)</span></label>
+                        <input type="text" wire:model="namaKomunitas" placeholder="Contoh: Tim Futsal Garuda"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                        @error('namaKomunitas')
+                            <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Jumlah Pemain --}}
+                    <div>
+                        <label class="text-xs font-bold text-gray-700 block mb-1.5">Jumlah Pemain <span
+                                class="text-red-500">*</span></label>
+                        <input type="number" min="1" wire:model.live="jumlahPemain"
+                            placeholder="Masukkan jumlah pemain"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                        @error('jumlahPemain')
+                            <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Kategori & Jenis --}}
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1.5">Kategori <span
+                                    class="text-red-500">*</span></label>
+                            <select wire:model.live="kategoriPemain"
+                                class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                                <option value="">Pilih</option>
+                                <option value="anak-anak">Anak-anak</option>
+                                <option value="remaja">Remaja</option>
+                                <option value="dewasa">Dewasa</option>
+                            </select>
+                            @error('kategoriPemain')
+                                <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1.5">Jenis Permainan <span
+                                    class="text-red-500">*</span></label>
+                            <select wire:model.live="jenisPermainan"
+                                class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                                <option value="">Pilih</option>
+                                <option value="fun_match">Fun Match</option>
+                                <option value="latihan">Latihan</option>
+                                <option value="turnamen_kecil">Turnamen Kecil</option>
+                            </select>
+                            @error('jenisPermainan')
+                                <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
-                <div class="flex justify-between items-center py-1.5 border-b border-white/10">
-                    <span class="text-xs opacity-70 font-semibold">Jam</span>
-                    <span class="text-xs font-black">
-                        {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' — ' . ($selectedSlot['selesai'] ?? '') : '-' }}
-                    </span>
-                </div>
-                <div class="flex justify-between items-center pt-1">
-                    <span class="text-xs opacity-70 font-semibold">Total Biaya</span>
-                    <span class="text-lg font-black">GRATIS</span>
-                </div>
+
+                @if ($error)
+                    <div class="p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
+                        {{ $error }}</div>
+                @endif
             </div>
 
-            {{-- Form data pemesanan --}}
-            <div class="space-y-4">
-                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Data Pemesanan</p>
-
-                {{-- Nama Komunitas --}}
-                <div>
-                    <label class="text-xs font-bold text-gray-700 block mb-1.5">Nama Komunitas / Tim <span
-                            class="text-gray-400 font-normal">(opsional)</span></label>
-                    <input type="text" wire:model="namaKomunitas" placeholder="Contoh: Tim Futsal Garuda"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-                    @error('namaKomunitas')
-                        <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- Jumlah Pemain --}}
-                <div>
-                    <label class="text-xs font-bold text-gray-700 block mb-1.5">Jumlah Pemain <span
-                            class="text-red-500">*</span></label>
-                    <input type="number" min="1" wire:model.live="jumlahPemain"
-                        placeholder="Masukkan jumlah pemain"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-                    @error('jumlahPemain')
-                        <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- Kategori & Jenis --}}
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="text-xs font-bold text-gray-700 block mb-1.5">Kategori <span
-                                class="text-red-500">*</span></label>
-                        <select wire:model.live="kategoriPemain"
-                            class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
-                            <option value="">Pilih</option>
-                            <option value="anak-anak">Anak-anak</option>
-                            <option value="remaja">Remaja</option>
-                            <option value="dewasa">Dewasa</option>
-                        </select>
-                        @error('kategoriPemain')
-                            <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-gray-700 block mb-1.5">Jenis Permainan <span
-                                class="text-red-500">*</span></label>
-                        <select wire:model.live="jenisPermainan"
-                            class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
-                            <option value="">Pilih</option>
-                            <option value="fun_match">Fun Match</option>
-                            <option value="latihan">Latihan</option>
-                            <option value="turnamen_kecil">Turnamen Kecil</option>
-                        </select>
-                        @error('jenisPermainan')
-                            <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-            @if ($error)
-                <div class="p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
-                    {{ $error }}</div>
-            @endif
-
-            {{-- Submit button --}}
-            <button type="button" wire:click="confirmBooking" wire:loading.attr="disabled"
-                wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
-                class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 disabled:opacity-60 flex items-center justify-center gap-2">
-                <span wire:loading wire:target="confirmBooking"
-                    class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                <span>Konfirmasi Booking</span>
-            </button>
-            <div class="pb-6"></div>
+            {{-- Tombol Kembali & Pesan (TETAP DI BAWAH) --}}
+            <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
+                <button type="button" wire:click="prevStep"
+                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform">
+                    Kembali
+                </button>
+                <button type="button" wire:click="confirmBooking" wire:loading.attr="disabled"
+                    wire:target="confirmBooking" @disabled(($listJadwalStatus ?? '') === 'libur')
+                    class="py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 disabled:opacity-60 flex items-center justify-center gap-2">
+                    <span wire:loading wire:target="confirmBooking"
+                        class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Pesan</span>
+                </button>
+            </div>
         </div>
     @endif
 

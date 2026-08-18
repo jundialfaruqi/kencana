@@ -228,16 +228,21 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
         }
     }
 
-    public function selectDate(string $date): void
+    // Step 2 → 3: konfirmasi jam dari client Alpine.js
+    public function proceedToConfirmation(string $slotKey): void
     {
-        if (! $this->isDateValid($date)) return;
-        $this->tanggal      = $date;
-        $this->selectedSlot = null;
-    }
+        if (empty($slotKey)) {
+            $this->dispatch('toast', ['title' => 'Gagal', 'message' => 'Pilih jam bermain terlebih dahulu', 'type' => 'error']);
+            return;
+        }
 
-    // Step 2 : pilih jam → langsung ke step 3
-    public function selectTime(string $mulai, string $selesai): void
-    {
+        $parts = explode('-', $slotKey, 2);
+        if (count($parts) !== 2) {
+            $this->dispatch('toast', ['title' => 'Gagal', 'message' => 'Format jam tidak valid', 'type' => 'error']);
+            return;
+        }
+
+        [$mulai, $selesai] = $parts;
         $clicked = ['mulai' => $mulai, 'selesai' => $selesai];
         $this->selectedSlot = $clicked;
 
@@ -253,9 +258,17 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
             $this->selectedSlot = null;
             $msg = (string) ($match['message'] ?? ($match['status_label'] ?? ($this->error ?? 'Jam tidak tersedia')));
             $this->dispatch('toast', ['title' => 'Tidak tersedia', 'message' => $msg, 'type' => 'error']);
-        } else {
-            $this->currentStep = 3;
+            return;
         }
+
+        $this->currentStep = 3;
+    }
+
+    public function selectDate(string $date): void
+    {
+        if (! $this->isDateValid($date)) return;
+        $this->tanggal      = $date;
+        $this->selectedSlot = null;
     }
 
     // ── Arena & Jadwal Fetching ────────────────────────────────────────────────
