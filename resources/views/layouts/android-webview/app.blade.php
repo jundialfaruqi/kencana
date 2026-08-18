@@ -24,7 +24,10 @@
         /* ── Clean white base untuk WebView ── */
         html, body {
             background: #ffffff !important;
+            height: 100dvh;
             min-height: 100dvh;
+            max-height: 100dvh;
+            overflow: hidden;
             overscroll-behavior-y: none;
             font-family: Arial, Helvetica, sans-serif !important;
         }
@@ -32,7 +35,12 @@
         #webview-root {
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
-            min-height: 100dvh;
+            height: 100dvh;
+            max-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
         }
         /* ── Custom Primary Color #165dfc ── */
         :root {

@@ -1,10 +1,10 @@
-<div class="h-dvh overflow-hidden bg-white flex flex-col" id="pesan-root" data-step="{{ $currentStep }}">
+<div class="flex-1 flex flex-col min-h-0 overflow-hidden bg-white" id="pesan-root" data-step="{{ $currentStep }}">
 
     {{-- ══════════════════════════════════════════════════════════════════
          TOP BAR
     ══════════════════════════════════════════════════════════════════ --}}
-    <div class="sticky top-0 z-30 bg-white border-b border-gray-200">
-        <div class="flex items-center gap-3 px-4 py-4">
+    <div class="sticky top-0 z-30 bg-white border-b border-gray-200 shrink-0 relative">
+        <div class="flex items-center gap-3 px-4 h-16">
             {{-- Back Button — hanya step 0 pakai icon, step lain tidak tampil di sini --}}
             @if ($currentStep === 0)
                 <button type="button" wire:click="prevStep"
@@ -51,9 +51,9 @@
             </div>
         </div>
 
-        {{-- Loading bar --}}
-        <div wire:loading wire:target="selectArena,nextStep,proceedToConfirmation,prevStep,finalizeBooking"
-            class="h-0.5 bg-blue-600 animate-pulse"></div>
+        {{-- Loading bar (Absolute agar tidak mendorong garis header) --}}
+        <div wire:loading wire:target="selectArena,proceedToTimeSlots,nextStep,proceedToConfirmation,prevStep,finalizeBooking"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 animate-pulse"></div>
     </div>
 
     {{-- Loading overlay --}}
@@ -159,10 +159,11 @@
 
 
     {{-- ══════════════════════════════════════════════════════════════════
-         STEP 1 — PILIH TANGGAL
+         STEP 1 — PILIH TANGGAL (Client-Side Alpine.js untuk performa instan tanpa glitch)
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($currentStep === 1)
-        <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <div class="flex-1 flex flex-col min-h-0 overflow-hidden"
+            x-data="{ selectedDate: '{{ $tanggal }}' }">
             {{-- Arena terpilih card (Pinned Top) --}}
             <div class="px-4 pt-4 pb-3 shrink-0">
                 <div class="flex items-center gap-3 bg-transparent">
@@ -190,27 +191,35 @@
             {{-- Grid Tanggal (Only this area scrolls, filling remaining height) --}}
             <div class="flex-1 flex flex-col min-h-0 px-4 pb-2">
                 <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3 shrink-0">Pilih Tanggal Bermain</p>
-                <div class="flex-1 overflow-y-auto pr-0.5 grid grid-cols-4 gap-2 min-h-0" id="date-scroll-container">
+                <div class="flex-1 overflow-y-auto pr-0.5 grid grid-cols-4 gap-2 min-h-0 content-start" id="date-scroll-container">
                     @foreach ($carouselDates as $dateStr)
                         @php
                             $isPast = $dateStr < $todayDate;
-                            $isSelected = $dateStr === $tanggal;
                             $dt = \Carbon\Carbon::parse($dateStr)->locale('id');
                         @endphp
-                        <button type="button" wire:click="selectDate('{{ $dateStr }}')"
-                            {{ $isPast ? 'disabled' : '' }}
-                            class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl transition-all active:scale-95 text-center
-                            {{ $isSelected ? 'bg-blue-600 text-white' : ($isPast ? 'bg-gray-50 text-gray-300 cursor-not-allowed opacity-60' : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600') }}"
-                            id="{{ $isSelected ? 'date-selected' : '' }}">
-                            <span
-                                class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
-                            <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
-                            <span
-                                class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
-                        </button>
+                        @if ($isPast)
+                            <button type="button" disabled
+                                class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl text-center bg-gray-50 text-gray-300 cursor-not-allowed opacity-60">
+                                <span
+                                    class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
+                                <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
+                                <span
+                                    class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
+                            </button>
+                        @else
+                            <button type="button"
+                                @click="selectedDate = '{{ $dateStr }}'"
+                                class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl transition-all active:scale-95 text-center"
+                                :class="selectedDate === '{{ $dateStr }}' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
+                                <span
+                                    class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
+                                <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
+                                <span
+                                    class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
+                            </button>
+                        @endif
                     @endforeach
                 </div>
-                <input type="hidden" wire:model="tanggal" id="hidden-tanggal-input">
             </div>
 
             {{-- Tombol Kembali & Selanjutnya (Pinned Bottom) --}}
@@ -221,9 +230,13 @@
                         class="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></span>
                     <span>Kembali</span>
                 </button>
-                <button type="button" wire:click="nextStep" wire:loading.attr="disabled" wire:target="nextStep"
-                    class="py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 disabled:opacity-60 flex items-center justify-center gap-2">
-                    <span wire:loading wire:target="nextStep"
+                <button type="button"
+                    @click="$wire.proceedToTimeSlots(selectedDate)"
+                    wire:loading.attr="disabled" wire:target="proceedToTimeSlots,nextStep"
+                    :disabled="!selectedDate"
+                    class="py-4 rounded-2xl font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform disabled:opacity-60 flex items-center justify-center gap-2"
+                    :class="selectedDate ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-gray-200 text-gray-400 cursor-not-allowed'">
+                    <span wire:loading wire:target="proceedToTimeSlots,nextStep"
                         class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                     <span>Selanjutnya</span>
                 </button>
@@ -295,7 +308,7 @@
                     </div>
                 @else
                     {{-- Grid jam dengan scroll internal dan pemilihan client-side instan --}}
-                    <div class="grid grid-cols-3 gap-2 flex-1 overflow-y-auto pr-0.5 min-h-0">
+                    <div class="grid grid-cols-3 gap-2 flex-1 overflow-y-auto pr-0.5 min-h-0 content-start">
                         @foreach ($timeSlots as $slot)
                             @php
                                 $available = $this->slotIsAvailable($slot);

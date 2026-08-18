@@ -214,17 +214,28 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
         return null;
     }
 
-    // Step 1 → 2 : pilih tanggal
-    public function nextStep(): void
+    // Step 1 → 2 : pilih tanggal dari client Alpine.js
+    public function proceedToTimeSlots(?string $date = null): void
+    {
+        if ($date && $this->isDateValid($date)) {
+            $this->tanggal      = $date;
+            $this->selectedSlot = null;
+        }
+
+        if (! $this->tanggal || ! $this->isDateValid($this->tanggal)) {
+            $this->dispatch('toast', ['title' => 'Gagal', 'message' => 'Pilih tanggal yang valid', 'type' => 'error']);
+            return;
+        }
+
+        $this->currentStep = 2;
+        $this->listJadwalStatus = 'loading';
+        $this->dispatch('load-jadwal');
+    }
+
+    public function nextStep(?string $date = null): void
     {
         if ($this->currentStep === 1) {
-            if (! $this->tanggal || ! $this->isDateValid($this->tanggal)) {
-                $this->dispatch('toast', ['title' => 'Gagal', 'message' => 'Pilih tanggal yang valid', 'type' => 'error']);
-                return;
-            }
-            $this->currentStep = 2;
-            $this->listJadwalStatus = 'loading';
-            $this->dispatch('load-jadwal');
+            $this->proceedToTimeSlots($date);
         }
     }
 
