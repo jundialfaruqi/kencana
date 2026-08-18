@@ -269,12 +269,12 @@
 
                 @if ($listJadwalStatus === 'loading')
                     <div class="grid grid-cols-3 gap-2 flex-1 overflow-y-auto pr-0.5 min-h-0 animate-pulse">
-                        @for ($j = 0; $j < 9; $j++)
+                        @for ($j = 0; $j < 12; $j++)
                             <div
-                                class="flex flex-col items-center justify-center py-3 rounded-2xl bg-gray-50 border border-gray-100 h-18 space-y-1.5">
-                                <div class="h-3.5 w-12 bg-gray-200 rounded"></div>
-                                <div class="h-2 w-6 bg-gray-100 rounded"></div>
-                                <div class="h-3.5 w-12 bg-gray-200 rounded"></div>
+                                class="flex flex-col items-center justify-center py-3 rounded-2xl bg-gray-50 border border-gray-100/80 space-y-1.5">
+                                <div class="h-3.5 w-12 bg-gray-200 rounded-md"></div>
+                                <div class="h-2 w-5 bg-gray-200/60 rounded"></div>
+                                <div class="h-3.5 w-12 bg-gray-200 rounded-md"></div>
                             </div>
                         @endfor
                     </div>
