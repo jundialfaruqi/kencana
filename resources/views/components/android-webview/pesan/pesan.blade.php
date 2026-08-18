@@ -417,15 +417,6 @@
                     </div>
                 </div>
 
-                {{-- Keterangan --}}
-                <div>
-                    <label class="text-xs font-bold text-gray-700 block mb-1.5">Keterangan <span
-                            class="text-gray-400 font-normal">(opsional)</span></label>
-                    <textarea wire:model="keterangan" rows="2" placeholder="Tambahan informasi..."
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
-                </div>
-            </div>
-
             @if ($error)
                 <div class="p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
                     {{ $error }}</div>

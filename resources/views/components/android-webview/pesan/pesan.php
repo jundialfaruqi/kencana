@@ -55,8 +55,6 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
     #[LivewireSession]
     public string $jenisPermainan = '';
 
-    #[LivewireSession]
-    public ?string $keterangan = null;
 
     public bool $showSuccessModal = false;
     public bool $showErrorModal = false;
@@ -176,7 +174,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
         $this->reset([
             'currentStep', 'lapanganId', 'tanggal', 'namaLapangan', 'coverLapangan',
             'selectedSlot', 'namaKomunitas', 'jumlahPemain',
-            'kategoriPemain', 'jenisPermainan', 'keterangan',
+            'kategoriPemain', 'jenisPermainan',
         ]);
         $this->showCancelConfirm = false;
         return $this->redirect(route('webview.menu'), navigate: true);
@@ -440,7 +438,6 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
                     'jumlah_pemain'   => intval($validated['jumlahPemain']),
                     'kategori_pemain' => (string) $validated['kategoriPemain'],
                     'jenis_permainan' => (string) $validated['jenisPermainan'],
-                    'keterangan'      => (string) ($this->keterangan ?? ''),
                 ]);
 
             $result = $response->json();
@@ -456,7 +453,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
                 $this->successTanggal        = $this->tanggal;
                 $this->successSelectedSlot   = $this->selectedSlot;
 
-                $this->reset(['currentStep', 'lapanganId', 'tanggal', 'namaLapangan', 'selectedSlot', 'namaKomunitas', 'jumlahPemain', 'kategoriPemain', 'jenisPermainan', 'keterangan']);
+                $this->reset(['currentStep', 'lapanganId', 'tanggal', 'namaLapangan', 'selectedSlot', 'namaKomunitas', 'jumlahPemain', 'kategoriPemain', 'jenisPermainan']);
                 $this->showSuccessModal = true;
                 return;
             }
@@ -470,7 +467,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
 
     public function handleErrorClose(): void
     {
-        $this->reset(['currentStep', 'lapanganId', 'tanggal', 'namaLapangan', 'selectedSlot', 'namaKomunitas', 'jumlahPemain', 'kategoriPemain', 'jenisPermainan', 'keterangan']);
+        $this->reset(['currentStep', 'lapanganId', 'tanggal', 'namaLapangan', 'selectedSlot', 'namaKomunitas', 'jumlahPemain', 'kategoriPemain', 'jenisPermainan']);
         $this->showErrorModal = false;
         $this->redirect(route('webview.menu'), navigate: true);
     }
