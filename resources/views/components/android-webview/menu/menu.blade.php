@@ -10,51 +10,105 @@
         </div>
     </div>
 
-    {{-- ── Menu Cards (Scrollable Area) ── --}}
-    <div class="px-4 flex-1 space-y-3 overflow-y-auto min-h-0 pb-3">
+    {{-- ── Scrollable Body: Banner Carousel + Menu Cards ── --}}
+    <div class="px-4 flex-1 space-y-4 overflow-y-auto min-h-0 pb-4">
 
-        {{-- Pesan Lapangan --}}
-        <a href="{{ route('webview.pesan') }}" wire:navigate
-            class="group flex items-center gap-4 p-4 rounded-2xl bg-white shadow-md shadow-gray-200/60 active:scale-[0.98] transition-all duration-150 cursor-pointer">
-            <div class="shrink-0 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="#165dfc" class="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+        {{-- ── Banner Carousel Slider ── --}}
+        @if (!empty($banners))
+            <div x-data="webviewBannerSlider({{ count($banners) }})" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()" class="relative w-full">
+
+                {{-- Carousel Track --}}
+                <div x-ref="slider" @scroll.debounce.50ms="onScroll($event)"
+                    class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-2xl sm:rounded-3xl shadow-md shadow-gray-200/60 aspect-[16/9] sm:aspect-[21/9] w-full"
+                    style="scrollbar-width: none; -ms-overflow-style: none;">
+                    @foreach ($banners as $idx => $banner)
+                        <div class="snap-start shrink-0 w-full h-full relative overflow-hidden bg-gray-100">
+                            <img src="{{ $banner['image'] ?? '' }}"
+                                class="w-full h-full object-cover"
+                                alt="{{ $banner['judul'] ?? 'Banner' }}" />
+
+                            {{-- Gradient Overlay --}}
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+
+                            {{-- Content --}}
+                            <div class="absolute inset-x-0 bottom-0 p-4 sm:p-7 md:p-8 flex flex-col justify-end gap-1 sm:gap-2 text-left">
+                                @if (!empty($banner['kategori']))
+                                    <span class="bg-blue-600 text-white text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-wider px-2 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg w-fit shadow">
+                                        {{ $banner['kategori'] }}
+                                    </span>
+                                @endif
+                                <h3 class="text-white font-black text-base sm:text-2xl md:text-3xl line-clamp-2 leading-snug drop-shadow-md">
+                                    {{ $banner['judul'] ?? '' }}
+                                </h3>
+                                @if (!empty($banner['deskripsi']))
+                                    <p class="text-gray-200 text-xs sm:text-sm md:text-base line-clamp-2 opacity-90 leading-relaxed max-w-2xl">
+                                        {{ $banner['deskripsi'] }}
+                                    </p>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Dots Indicator --}}
+                @if (count($banners) > 1)
+                    <div class="flex justify-center items-center gap-1.5 sm:gap-2 mt-2.5 sm:mt-3.5">
+                        @foreach ($banners as $idx => $_)
+                            <button type="button" @click="goTo({{ $idx }})"
+                                class="h-1.5 sm:h-2 rounded-full transition-all duration-300"
+                                :class="activeSlide === {{ $idx }} ? 'w-5 sm:w-8 bg-blue-600' : 'w-1.5 sm:w-2 bg-gray-200'"></button>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        @endif
+
+        {{-- ── Menu Cards ── --}}
+        <div class="space-y-3">
+            <div class="text-[11px] text-gray-400 font-bold uppercase tracking-wider">Menu Layanan</div>
+
+            {{-- Pesan Lapangan --}}
+            <a href="{{ route('webview.pesan') }}" wire:navigate
+                class="group flex items-center gap-4 p-4 rounded-2xl bg-white shadow-md shadow-gray-200/60 active:scale-[0.98] transition-all duration-150 cursor-pointer">
+                <div class="shrink-0 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="#165dfc" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                    </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-gray-900 font-black text-base leading-tight">Pesan Lapangan</div>
+                    <div class="text-gray-400 text-xs font-medium mt-1">Booking arena olahraga Kencana</div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="#9ca3af"
+                    class="w-4 h-4 shrink-0 group-hover:text-gray-900 group-hover:translate-x-0.5 transition-all">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
-            </div>
-            <div class="flex-1 min-w-0">
-                <div class="text-gray-900 font-black text-base leading-tight">Pesan Lapangan</div>
-                <div class="text-gray-400 text-xs font-medium mt-1">Booking arena olahraga Kencana</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                stroke="#9ca3af"
-                class="w-4 h-4 shrink-0 group-hover:text-gray-900 group-hover:translate-x-0.5 transition-all">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-        </a>
+            </a>
 
-        {{-- Histori Booking --}}
-        <a href="{{ route('webview.histori') }}" wire:navigate
-            class="group flex items-center gap-4 p-4 rounded-2xl bg-white shadow-md shadow-gray-200/60 active:scale-[0.98] transition-all duration-150 cursor-pointer">
-            <div class="shrink-0 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="#165dfc" class="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            {{-- Histori Booking --}}
+            <a href="{{ route('webview.histori') }}" wire:navigate
+                class="group flex items-center gap-4 p-4 rounded-2xl bg-white shadow-md shadow-gray-200/60 active:scale-[0.98] transition-all duration-150 cursor-pointer">
+                <div class="shrink-0 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="#165dfc" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-gray-900 font-black text-base leading-tight">Histori Booking</div>
+                    <div class="text-gray-400 text-xs font-medium mt-1">Riwayat pemesanan Anda</div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="#9ca3af"
+                    class="w-4 h-4 shrink-0 group-hover:text-gray-700 group-hover:translate-x-0.5 transition-all">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
-            </div>
-            <div class="flex-1 min-w-0">
-                <div class="text-gray-900 font-black text-base leading-tight">Histori Booking</div>
-                <div class="text-gray-400 text-xs font-medium mt-1">Riwayat pemesanan Anda</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                stroke="#9ca3af"
-                class="w-4 h-4 shrink-0 group-hover:text-gray-700 group-hover:translate-x-0.5 transition-all">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-        </a>
-
+            </a>
+        </div>
     </div>
 
     {{-- ── Footer (Pinned Bottom) ── --}}
