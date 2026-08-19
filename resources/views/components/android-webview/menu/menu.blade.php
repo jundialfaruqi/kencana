@@ -1,7 +1,7 @@
-<div class="min-h-dvh bg-white flex flex-col">
+<div class="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
 
-    {{-- ── Hero / Greeting ── --}}
-    <div class="px-4 pt-4 pb-4">
+    {{-- ── Hero / Greeting (Pinned Top) ── --}}
+    <div class="px-4 pt-4 pb-3 shrink-0">
         <div class="text-xl font-black text-gray-900 leading-snug">
             Selamat Datang
         </div>
@@ -10,8 +10,8 @@
         </div>
     </div>
 
-    {{-- ── Menu Cards ── --}}
-    <div class="px-4 flex-1 space-y-3">
+    {{-- ── Menu Cards (Scrollable Area) ── --}}
+    <div class="px-4 flex-1 space-y-3 overflow-y-auto min-h-0 pb-3">
 
         {{-- Pesan Lapangan --}}
         <a href="{{ route('webview.pesan') }}" wire:navigate
@@ -603,8 +603,8 @@
 
     </div>
 
-    {{-- ── Footer ── --}}
-    <div class="px-4 py-6 text-center">
+    {{-- ── Footer (Pinned Bottom) ── --}}
+    <div class="px-4 py-4 text-center shrink-0">
         <div class="text-[11px] text-gray-300 font-medium">
             Kencana Arena &bull; Dispora Kota Pekanbaru
         </div>
