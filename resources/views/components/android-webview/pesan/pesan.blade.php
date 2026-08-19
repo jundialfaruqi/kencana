@@ -5,35 +5,20 @@
     ══════════════════════════════════════════════════════════════════ --}}
     <div class="sticky top-0 z-30 bg-white border-b border-gray-200 shrink-0 relative">
         <div class="flex items-center gap-3 px-4 h-16">
-            {{-- Back Button — hanya step 0 pakai icon, step lain tidak tampil di sini --}}
-            @if ($currentStep === 0)
-                <button type="button" wire:click="prevStep"
-                    class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 active:scale-95 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                        stroke="#374151" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                    </svg>
-                </button>
-            @endif
-
             <div class="flex-1 min-w-0">
                 <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
                     @if ($currentStep === 0)
-                        Langkah 1 dari 4
+                        Langkah 1 dari 3
                     @elseif($currentStep === 1)
-                        Langkah 2 dari 4
-                    @elseif($currentStep === 2)
-                        Langkah 3 dari 4
+                        Langkah 2 dari 3
                     @else
-                        Langkah 4 dari 4
+                        Langkah 3 dari 3
                     @endif
                 </div>
                 <div class="text-sm font-black text-gray-900 truncate">
                     @if ($currentStep === 0)
-                        Pilih Lapangan
-                    @elseif($currentStep === 1)
                         Pilih Tanggal
-                    @elseif($currentStep === 2)
+                    @elseif($currentStep === 1)
                         Pilih Jam
                     @else
                         Konfirmasi Booking
@@ -43,7 +28,7 @@
 
             {{-- Step Dots --}}
             <div class="flex items-center gap-1 shrink-0">
-                @foreach ([0, 1, 2, 3] as $s)
+                @foreach ([0, 1, 2] as $s)
                     <div
                         class="rounded-full transition-all duration-300 {{ $currentStep >= $s ? 'w-6 h-2 bg-blue-600' : 'w-2 h-2 bg-gray-200' }}">
                     </div>
@@ -65,104 +50,14 @@
 
 
     {{-- ══════════════════════════════════════════════════════════════════
-         STEP 0 — PILIH LAPANGAN
+         STEP 0 — PILIH TANGGAL (Client-Side Alpine.js)
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($currentStep === 0)
-        <div class="flex-1 flex flex-col px-4 py-4 min-h-0 overflow-hidden">
-            <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3 shrink-0">Arena Tersedia</p>
-
-            @if ($error && count($arenas) === 0)
-                <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold mb-3">
-                    {{ $error }}</div>
-            @endif
-
-            {{-- SKELETON LOADER: Hanya untuk konten arena --}}
-            <div wire:loading wire:target="fetchArenas" class="flex-1 overflow-y-auto space-y-3 pr-0.5">
-                @for ($i = 0; $i < 4; $i++)
-                    <div
-                        class="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center gap-3 animate-pulse">
-                        <div class="w-12 h-12 rounded-xl bg-gray-200 shrink-0"></div>
-                        <div class="flex-1 min-w-0 space-y-2">
-                            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-                            <div class="h-3 bg-gray-100 rounded w-1/2"></div>
-                        </div>
-                    </div>
-                @endfor
-            </div>
-
-            {{-- DAFTAR ARENA REAL --}}
-            <div wire:loading.remove wire:target="fetchArenas" class="flex-1 overflow-y-auto space-y-3 pr-0.5">
-                @foreach ($arenas as $arena)
-                    @php
-                        $status = strtolower((string) ($arena['status'] ?? ''));
-                        $isOpen = in_array($status, ['open', 'buka', 'aktif']);
-                        $isComing = $status === 'coming_soon';
-                        $cover = $arena['image_cover'] ?? null;
-                        if ($cover && !preg_match('/^https?:\/\//', $cover)) {
-                            $cover = rtrim(config('services.api.image_base_url'), '/') . '/' . ltrim($cover, '/');
-                        }
-                    @endphp
-                    <button type="button"
-                        @if ($isOpen) wire:click="selectArena('{{ $arena['id'] }}', '{{ addslashes($arena['nama_lapangan']) }}', '{{ $arena['image_cover'] ?? '' }}')" @endif
-                        {{ !$isOpen ? 'disabled' : '' }}
-                        class="w-full text-left p-4 rounded-2xl border transition-all duration-150 flex items-center gap-3 group
-                        {{ $isOpen
-                            ? 'bg-white border-gray-100 shadow-sm active:scale-[0.98] hover:border-blue-200 hover:shadow-md cursor-pointer'
-                            : 'bg-gray-50 border-gray-100 opacity-60 cursor-not-allowed' }}">
-
-                        <div
-                            class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-                            @if ($cover)
-                                <img src="{{ $cover }}" class="w-full h-full object-cover"
-                                    alt="{{ $arena['nama_lapangan'] }}" />
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="#9ca3af" stroke-width="2" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
-                                </svg>
-                            @endif
-                        </div>
-
-                        <div class="flex-1 min-w-0">
-                            <div class="text-sm font-black text-gray-900 truncate">
-                                {{ $arena['nama_lapangan'] ?? 'Arena' }}
-                            </div>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span
-                                    class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md whitespace-nowrap shrink-0
-                                {{ $isOpen ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700' }}">
-                                    {{ $arena['status_label'] ?? ucfirst($arena['status'] ?? '-') }}
-                                </span>
-                                @if (!empty($arena['alamat']))
-                                    <span class="text-xs text-gray-400 truncate min-w-0">{{ $arena['alamat'] }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        @if ($isOpen)
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2.5" stroke="#9ca3af"
-                                class="w-4 h-4 shrink-0 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                            </svg>
-                        @endif
-                    </button>
-                @endforeach
-            </div>
-        </div>
-    @endif
-
-
-    {{-- ══════════════════════════════════════════════════════════════════
-         STEP 1 — PILIH TANGGAL (Client-Side Alpine.js untuk performa instan tanpa glitch)
-    ══════════════════════════════════════════════════════════════════ --}}
-    @if ($currentStep === 1)
         <div class="flex-1 flex flex-col min-h-0 overflow-hidden"
             x-data="{ selectedDate: '{{ $tanggal }}' }">
-            {{-- Arena terpilih card (Pinned Top) --}}
-            <div class="px-4 pt-4 pb-3 shrink-0">
-                <div class="flex items-center gap-3 bg-transparent">
+            {{-- Arena terpilih (Flat / Tanpa Card) --}}
+            <div class="px-4 pt-3 pb-3 shrink-0 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
                     @php $cover = $this->coverUrl; @endphp
                     <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
                         @if ($cover)
@@ -175,13 +70,24 @@
                             </svg>
                         @endif
                     </div>
-                    <div class="flex-1 min-w-0">
+                    <div class="min-w-0">
                         <span
-                            class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena</span>
+                            class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena terpilih</span>
                         <span
                             class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: 'Arena' }}</span>
                     </div>
                 </div>
+
+                {{-- Tombol Ubah Lapangan --}}
+                <button type="button" wire:click="openChangeArenaModal"
+                    class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-3.5 h-3.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                    <span>Ubah</span>
+                </button>
             </div>
 
             {{-- Grid Tanggal (Only this area scrolls, filling remaining height) --}}
@@ -218,13 +124,11 @@
                 </div>
             </div>
 
-            {{-- Tombol Kembali & Selanjutnya (Pinned Bottom) --}}
+            {{-- Footer: Batal & Selanjutnya --}}
             <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
-                <button type="button" wire:click="prevStep" wire:loading.attr="disabled" wire:target="prevStep"
-                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform disabled:opacity-60 flex items-center justify-center gap-2">
-                    <span wire:loading wire:target="prevStep"
-                        class="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></span>
-                    <span>Kembali</span>
+                <button type="button" wire:click="prevStep"
+                    class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+                    <span>Batal</span>
                 </button>
                 <button type="button"
                     @click="$wire.proceedToTimeSlots(selectedDate)"
@@ -242,29 +146,49 @@
 
 
     {{-- ══════════════════════════════════════════════════════════════════
-         STEP 2 — PILIH JAM (Client-Side Alpine.js untuk performa instan tanpa glitch)
+         STEP 1 — PILIH JAM (Client-Side Alpine.js)
     ══════════════════════════════════════════════════════════════════ --}}
-    @if ($currentStep === 2)
+    @if ($currentStep === 1)
         <div class="flex-1 flex flex-col min-h-0 overflow-hidden"
             x-data="{ selectedSlot: '{{ $selectedSlot ? $selectedSlot['mulai'] . '-' . $selectedSlot['selesai'] : '' }}' }">
-            {{-- Summary card (Pinned Top) --}}
-            <div class="px-4 pt-4 pb-3 shrink-0 space-y-3">
-                <div class="flex items-center gap-3">
-                    @php $cover = $this->coverUrl; @endphp
-                    @if ($cover)
-                        <div class="w-10 h-10 rounded-xl overflow-hidden shrink-0 bg-gray-100">
-                            <img src="{{ $cover }}" class="w-full h-full object-cover"
-                                alt="{{ $namaLapangan }}" />
+            {{-- Summary Arena & Tanggal (Flat / Tanpa Card) --}}
+            <div class="px-4 pt-3 pb-3 shrink-0 space-y-2.5">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        @php $cover = $this->coverUrl; @endphp
+                        <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+                            @if ($cover)
+                                <img src="{{ $cover }}" class="w-full h-full object-cover"
+                                    alt="{{ $namaLapangan }}" />
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#9ca3af"
+                                    stroke-width="2" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
+                                </svg>
+                            @endif
                         </div>
-                    @endif
-                    <div class="flex-1 min-w-0">
-                        <span
-                            class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena</span>
-                        <span
-                            class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: '-' }}</span>
+                        <div class="min-w-0">
+                            <span
+                                class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena terpilih</span>
+                            <span
+                                class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: '-' }}</span>
+                        </div>
                     </div>
+
+                    {{-- Tombol Ubah Lapangan --}}
+                    <button type="button" wire:click="openChangeArenaModal"
+                        class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        <span>Ubah</span>
+                    </button>
                 </div>
-                <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+
+                <div class="flex justify-between items-center pt-2 border-t border-gray-100">
                     <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Tanggal</span>
                     <span class="text-xs font-black text-gray-800">
                         {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
@@ -356,9 +280,9 @@
 
 
     {{-- ══════════════════════════════════════════════════════════════════
-         STEP 3 — KONFIRMASI FORM
+         STEP 2 — KONFIRMASI FORM
     ══════════════════════════════════════════════════════════════════ --}}
-    @if ($currentStep === 3)
+    @if ($currentStep === 2)
         <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
             <div class="flex-1 overflow-y-auto px-4 py-5 space-y-5 min-h-0">
                 {{-- Booking summary card --}}
@@ -474,10 +398,11 @@
 
 
     {{-- ══════════════════════════════════════════════════════════════════
-         MODAL: Syarat & Ketentuan
+         MODAL: Syarat & Ketentuan (Client-Side Alpine.js)
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($showTermsModal)
-        <div class="fixed inset-0 z-50 flex items-end justify-center" wire:key="terms-modal">
+        <div class="fixed inset-0 z-50 flex items-end justify-center" wire:key="terms-modal"
+            x-data="{ agreed: false }">
             <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" wire:click="$set('showTermsModal', false)">
             </div>
             <div class="relative w-full max-w-lg bg-white rounded-t-3xl shadow-2xl overflow-hidden">
@@ -487,7 +412,57 @@
                     <div class="text-xs text-gray-400 font-medium mt-0.5">Mohon dibaca sebelum konfirmasi</div>
                 </div>
 
-                <div class="overflow-y-auto max-h-[45vh] px-5 py-4 space-y-4">
+                <div class="overflow-y-auto max-h-[60vh] px-5 py-4 space-y-4">
+                    {{-- Ringkasan Booking & Form --}}
+                    <div class="p-3.5 rounded-2xl bg-gray-50 border border-gray-100 space-y-2">
+                        <div class="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-1">Ringkasan Pemesanan</div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-400 font-medium">Arena</span>
+                            <span class="font-bold text-gray-900 text-right uppercase">{{ $namaLapangan ?: '-' }}</span>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-400 font-medium">Tanggal</span>
+                            <span class="font-bold text-gray-900 text-right">
+                                {{ $tanggal ? \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') : '-' }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-400 font-medium">Jam</span>
+                            <span class="font-black text-blue-600 text-right">
+                                {{ ($selectedSlot['mulai'] ?? '') . ' - ' . ($selectedSlot['selesai'] ?? '') }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-400 font-medium">Komunitas / Tim</span>
+                            <span class="font-bold text-gray-900 text-right">{{ $namaKomunitas ?: '-' }}</span>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-400 font-medium">Pemain & Kategori</span>
+                            <span class="font-bold text-gray-900 text-right">
+                                {{ ($jumlahPemain ? $jumlahPemain . ' Orang' : '-') }} • 
+                                {{ match($kategoriPemain) { 'anak-anak' => 'Anak-anak', 'remaja' => 'Remaja', 'dewasa' => 'Dewasa', default => ucfirst($kategoriPemain ?: '-') } }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-400 font-medium">Jenis Permainan</span>
+                            <span class="font-bold text-gray-900 text-right">
+                                {{ match($jenisPermainan) { 'fun_match' => 'Fun Match', 'latihan' => 'Latihan', 'turnamen_kecil' => 'Turnamen Kecil', default => ucwords(str_replace('_', ' ', $jenisPermainan ?: '-')) } }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs pt-1.5 border-t border-gray-200/70">
+                            <span class="text-gray-500 font-semibold">Total Biaya</span>
+                            <span class="font-black text-emerald-600">GRATIS</span>
+                        </div>
+                    </div>
+
+                    {{-- Syarat & Catatan Lapangan --}}
                     @forelse($catatan as $group)
                         <div>
                             <div class="text-xs font-black text-gray-800 uppercase mb-2">
@@ -507,9 +482,9 @@
                     @endforelse
 
                     <label class="flex items-start gap-3 p-3 rounded-xl bg-blue-50 cursor-pointer mt-2">
-                        <input type="checkbox" wire:model.live="termsAgreed"
-                            class="mt-0.5 w-4 h-4 accent-blue-600 rounded">
-                        <span class="text-xs font-semibold text-gray-700 leading-relaxed">
+                        <input type="checkbox" x-model="agreed"
+                            class="mt-0.5 w-4 h-4 accent-blue-600 rounded cursor-pointer">
+                        <span class="text-xs font-semibold text-gray-700 leading-relaxed select-none">
                             Saya telah membaca dan <strong>setuju</strong> dengan seluruh syarat dan ketentuan yang
                             berlaku.
                         </span>
@@ -521,11 +496,12 @@
                         class="py-3.5 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm">
                         Batal
                     </button>
-                    <button type="button" wire:click="finalizeBooking" wire:loading.attr="disabled"
-                        wire:target="finalizeBooking" @disabled(!$termsAgreed)
-                        class="py-3.5 rounded-2xl font-black text-sm transition-all disabled:opacity-40
-                        {{ $termsAgreed ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }}
-                        flex items-center justify-center gap-2">
+                    <button type="button" @click="if (agreed) { $wire.finalizeBooking() }"
+                        wire:loading.attr="disabled"
+                        wire:target="finalizeBooking"
+                        :disabled="!agreed"
+                        class="py-3.5 rounded-2xl font-black text-sm transition-all disabled:opacity-40 flex items-center justify-center gap-2"
+                        :class="agreed ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 cursor-pointer active:scale-[0.98]' : 'bg-gray-200 text-gray-400 cursor-not-allowed'">
                         <span wire:loading wire:target="finalizeBooking"
                             class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                         <span>Konfirmasi</span>
@@ -657,6 +633,132 @@
                         <span wire:loading wire:target="cancelBooking"
                             class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                         <span>Ya, Batalkan</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- ══════════════════════════════════════════════════════════════════
+         MODAL: Ubah / Pilih Lapangan
+    ══════════════════════════════════════════════════════════════════ --}}
+    @if ($showChangeArenaModal)
+        <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+            wire:key="modal-change-arena">
+            {{-- Backdrop --}}
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" wire:click="closeChangeArenaModal"></div>
+
+            {{-- Modal Dialog --}}
+            <div
+                class="relative w-full max-w-lg bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in slide-in-from-bottom duration-200">
+
+                {{-- Modal Header --}}
+                <div class="px-5 pt-5 pb-4 border-b border-gray-100 shrink-0 flex items-center justify-between bg-white">
+                    <div>
+                        <h3 class="text-base font-black text-gray-900 leading-tight">Ubah Lapangan</h3>
+                        <p class="text-xs text-gray-400 font-medium mt-0.5">Pilih arena olahraga yang ingin digunakan</p>
+                    </div>
+                    <button type="button" wire:click="closeChangeArenaModal"
+                        class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 active:scale-95 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                            stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Modal Scrollable Arena List --}}
+                <div class="overflow-y-auto px-5 py-4 space-y-3 flex-1">
+                    @forelse ($arenas as $item)
+                        @php
+                            $isAvail = in_array(strtolower((string) ($item['status'] ?? '')), ['open', 'buka', 'aktif']);
+                            $itemStatus = strtolower((string) ($item['status'] ?? ''));
+                            $itemCover = $item['image_cover'] ?? null;
+                            if ($itemCover && !preg_match('/^https?:\/\//', $itemCover)) {
+                                $itemCover = rtrim(config('services.api.image_base_url'), '/') . '/' . ltrim($itemCover, '/');
+                            }
+                            $itemNama = $item['nama'] ?? ($item['nama_lapangan'] ?? 'Arena');
+                            $isSelected = (string)($item['id'] ?? '') === (string)$lapanganId;
+                        @endphp
+
+                        <div class="p-3.5 rounded-2xl bg-white border {{ $isSelected ? 'border-blue-500 ring-2 ring-blue-100 bg-blue-50/20' : 'border-gray-100' }} shadow-sm flex items-center gap-3.5 transition-all">
+                            {{-- Cover Thumbnail --}}
+                            <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden shrink-0 relative">
+                                @if ($itemCover)
+                                    <img src="{{ $itemCover }}" class="w-full h-full object-cover" alt="{{ $itemNama }}" />
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-gray-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25" />
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+
+                            {{-- Arena Info --}}
+                            <div class="flex-1 min-w-0">
+                                {{-- Status Badge (di atas nama lapangan, tanpa border) --}}
+                                <div class="mb-1">
+                                    @if ($isAvail)
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-emerald-50 text-emerald-700">
+                                            <span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span>
+                                            <span>Buka</span>
+                                        </span>
+                                    @elseif ($itemStatus === 'coming_soon')
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-amber-50 text-amber-700">
+                                            <span>Segera Dibuka</span>
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-red-50 text-red-700">
+                                            <span>Tutup</span>
+                                        </span>
+                                    @endif
+                                </div>
+                                <h4 class="font-black text-gray-900 text-sm truncate leading-tight">
+                                    {{ $itemNama }}
+                                </h4>
+                                <p class="text-[11px] text-gray-500 line-clamp-1 mt-0.5 font-medium flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 shrink-0 text-gray-400">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                    </svg>
+                                    <span class="truncate">{{ $item['alamat'] ?? ($item['lokasi'] ?? ($item['deskripsi'] ?? 'Fasilitas olahraga Kencana')) }}</span>
+                                </p>
+                            </div>
+
+                            {{-- Action Button --}}
+                            <div class="shrink-0">
+                                @if ($isSelected)
+                                    <span class="px-3 py-1.5 rounded-xl bg-blue-50 text-blue-600 font-black text-xs uppercase border border-blue-200">
+                                        Aktif
+                                    </span>
+                                @elseif ($isAvail)
+                                    <button type="button" wire:click="selectNewArena('{{ $item['id'] }}', '{{ addslashes($itemNama) }}', '{{ $item['image_cover'] ?? '' }}')"
+                                        class="px-3.5 py-2 rounded-xl bg-blue-600 text-white font-black text-xs uppercase tracking-wide active:scale-95 transition-transform shadow-md shadow-blue-200">
+                                        Pilih
+                                    </button>
+                                @else
+                                    <button type="button" disabled
+                                        class="px-3 py-2 rounded-xl bg-gray-100 text-gray-400 font-bold text-xs cursor-not-allowed">
+                                        Tutup
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <div class="py-12 text-center text-gray-400 text-xs font-semibold">
+                            Tidak ada lapangan tersedia
+                        </div>
+                    @endforelse
+                </div>
+
+                {{-- Modal Footer --}}
+                <div class="px-5 py-3.5 border-t border-gray-100 bg-gray-50 shrink-0 text-center">
+                    <button type="button" wire:click="closeChangeArenaModal"
+                        class="text-xs font-bold text-gray-500 hover:text-gray-700 py-1">
+                        Tutup
                     </button>
                 </div>
             </div>

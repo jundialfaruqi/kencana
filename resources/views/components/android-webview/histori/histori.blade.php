@@ -123,7 +123,8 @@
                 @endphp
 
                 {{-- Ticket card (tiket sobek style) --}}
-                <div class="w-full bg-white rounded-2xl border-2 border-gray-100 shadow-sm overflow-hidden flex">
+                <a href="{{ route('webview.detail-booking', ['kode_booking' => $it['kode_booking']]) }}" wire:navigate
+                    class="w-full bg-white rounded-2xl border-2 border-gray-100 shadow-sm overflow-hidden flex hover:border-blue-200 active:scale-[0.99] transition-all block">
 
                     {{-- Accent stripe left --}}
                     <div class="w-1.5 shrink-0 {{ $stColor['bg'] }}"></div>
@@ -193,7 +194,7 @@
                             {{ $it['kode_booking'] ?? '-' }}
                         </div>
                     </div>
-                </div>
+                </a>
 
             @empty
                 <div class="py-16 text-center">

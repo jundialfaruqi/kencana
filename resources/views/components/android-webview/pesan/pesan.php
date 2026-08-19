@@ -60,6 +60,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
     public bool $showErrorModal = false;
     public bool $showTermsModal = false;
     public bool $showCancelConfirm = false;
+    public bool $showChangeArenaModal = false;
     public bool $termsAgreed = false;
     public ?string $bookingMessage = null;
     public ?string $bookingCode = null;
@@ -114,12 +115,44 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
             $this->carouselDates[] = $startOfMonth->copy()->addDays($i)->toDateString();
         }
 
-        // Jika sudah ada lapangan terpilih (dari session), langsung muat jadwal
-        if ($this->lapanganId) {
-            $this->fetchJadwal();
-        } else {
-            // Muat daftar arena untuk step 0
+        // Tangkap parameter lapangan_id jika dikirim dari beranda
+        $paramLapanganId = request()->query('lapangan_id') ?: request()->query('lapangan');
+        if ($paramLapanganId) {
+            $isNewArena = ! $this->lapanganId || ((string) $this->lapanganId !== (string) $paramLapanganId);
+            $this->lapanganId = $paramLapanganId;
             $this->fetchArenas();
+            foreach ($this->arenas as $a) {
+                if ((string) ($a['id'] ?? '') === (string) $paramLapanganId) {
+                    $this->namaLapangan  = $a['nama'] ?? ($a['nama_lapangan'] ?? '');
+                    $this->coverLapangan = $a['image_cover'] ?? null;
+                    break;
+                }
+            }
+
+            if ($isNewArena) {
+                // Arena baru dipilih dari menu/URL, mulai dari Step 0 (Pilih Tanggal)
+                $this->currentStep  = 0;
+                $this->selectedSlot = null;
+            }
+        } elseif ($this->lapanganId) {
+            $this->fetchArenas();
+        } else {
+            // Tidak ada lapangan dipilih, redirect ke menu
+            $this->redirect(route('webview.menu'), navigate: true);
+            return;
+        }
+
+        // Validasi state step saat reload agar tidak stuck
+        if ($this->currentStep === 2 && (! $this->selectedSlot || empty($this->selectedSlot['mulai']))) {
+            $this->currentStep = 1;
+        }
+        if ($this->currentStep === 1 && (! $this->tanggal || ! $this->isDateValid($this->tanggal))) {
+            $this->currentStep = 0;
+        }
+
+        // Muat jadwal jika sedang berada di Step 1 (Pilih Jam) atau Step 2 (Konfirmasi)
+        if ($this->currentStep >= 1 && $this->lapanganId) {
+            $this->fetchJadwal();
         }
     }
 
@@ -155,17 +188,48 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
         if ($this->currentStep > 0) {
             $this->currentStep--;
             if ($this->currentStep === 0) {
-                // Kembali ke pilih lapangan — reset pilihan arena & jadwal
-                $this->lapanganId     = null;
-                $this->namaLapangan   = '';
-                $this->coverLapangan  = null;
-                $this->timeSlots      = [];
-                $this->selectedSlot   = null;
-                $this->error          = null;
-                $this->fetchArenas();
+                // Kembali ke step 0 (Pilih Tanggal) — reset pilihan jam
+                $this->timeSlots    = [];
+                $this->selectedSlot = null;
+                $this->error        = null;
             }
         } else {
+            // Step 0: tanya apakah mau batal dan kembali ke menu
             $this->showCancelConfirm = true;
+        }
+    }
+
+    public function openChangeArenaModal(): void
+    {
+        if (empty($this->arenas)) {
+            $this->fetchArenas();
+        }
+        $this->showChangeArenaModal = true;
+    }
+
+    public function closeChangeArenaModal(): void
+    {
+        $this->showChangeArenaModal = false;
+    }
+
+    public function selectNewArena(string $id, string $nama, ?string $cover = null): void
+    {
+        $this->lapanganId     = $id;
+        $this->namaLapangan   = $nama;
+        $this->coverLapangan  = $cover;
+        $this->selectedSlot   = null;
+        $this->timeSlots      = [];
+        $this->error          = null;
+        $this->showChangeArenaModal = false;
+
+        // Jika berada di step 1 (pilih jam) atau step 2 (konfirmasi), muat ulang jadwal
+        if ($this->currentStep === 1) {
+            $this->listJadwalStatus = 'loading';
+            $this->dispatch('load-jadwal');
+        } elseif ($this->currentStep === 2) {
+            $this->currentStep = 1;
+            $this->listJadwalStatus = 'loading';
+            $this->dispatch('load-jadwal');
         }
     }
 
@@ -214,7 +278,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
         return null;
     }
 
-    // Step 1 → 2 : pilih tanggal dari client Alpine.js
+    // Step 0 → 1 : pilih tanggal dari client Alpine.js, maju ke pilih jam
     public function proceedToTimeSlots(?string $date = null): void
     {
         if ($date && $this->isDateValid($date)) {
@@ -227,14 +291,14 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
             return;
         }
 
-        $this->currentStep = 2;
+        $this->currentStep = 1;
         $this->listJadwalStatus = 'loading';
         $this->dispatch('load-jadwal');
     }
 
     public function nextStep(?string $date = null): void
     {
-        if ($this->currentStep === 1) {
+        if ($this->currentStep === 0) {
             $this->proceedToTimeSlots($date);
         }
     }
@@ -272,7 +336,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
             return;
         }
 
-        $this->currentStep = 3;
+        $this->currentStep = 2;
     }
 
     public function selectDate(string $date): void
@@ -436,10 +500,6 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
 
     public function finalizeBooking(): void
     {
-        if (! $this->termsAgreed) {
-            $this->dispatch('toast', ['title' => 'Perlu persetujuan', 'message' => 'Ceklist setuju syarat dan ketentuan terlebih dahulu', 'type' => 'error']);
-            return;
-        }
         $this->showTermsModal = false;
         if (! Session::has('auth_token')) { $this->redirect(route('webview.expired')); return; }
         if (! $this->lapanganId || ! $this->tanggal || ! $this->selectedSlot) { $this->error = 'Data tidak lengkap'; return; }

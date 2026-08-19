@@ -205,8 +205,9 @@ Route::prefix('kencana/web-view')->name('webview.')->group(function () {
 
     // Halaman-halaman yang memerlukan auth session
     Route::middleware('webview.auth')->group(function () {
-        Route::livewire('/menu',    'android-webview::menu')->name('menu');
-        Route::livewire('/pesan',   'android-webview::pesan')->name('pesan');
-        Route::livewire('/histori', 'android-webview::histori')->name('histori');
+        Route::livewire('/menu',                           'android-webview::menu')->name('menu');
+        Route::livewire('/pesan',                          'android-webview::pesan')->name('pesan');
+        Route::livewire('/histori',                        'android-webview::histori')->name('histori');
+        Route::livewire('/detail-booking/{kode_booking}',  'android-webview::detail-booking')->name('detail-booking');
     });
 });

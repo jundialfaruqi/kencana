@@ -1,4 +1,5 @@
 document.addEventListener('alpine:init', () => {
+    // Banner Information Carousel
     Alpine.data('webviewBannerSlider', (total) => ({
         activeSlide: 0,
         totalSlides: total || 0,
@@ -35,7 +36,11 @@ document.addEventListener('alpine:init', () => {
         scrollToSlide(index) {
             const el = this.$refs.slider;
             if (el && el.children[index]) {
-                el.children[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                const target = el.children[index];
+                el.scrollTo({
+                    left: target.offsetLeft - el.offsetLeft,
+                    behavior: 'smooth'
+                });
             }
         },
         onScroll(e) {
@@ -43,6 +48,31 @@ document.addEventListener('alpine:init', () => {
             const index = Math.round(el.scrollLeft / el.offsetWidth);
             if (index !== this.activeSlide && index >= 0 && index < this.totalSlides) {
                 this.activeSlide = index;
+            }
+        }
+    }));
+
+    // Arena Carousel Slider
+    Alpine.data('webviewArenaSlider', (total) => ({
+        activeArena: 0,
+        totalArenas: total || 0,
+        goTo(index) {
+            this.activeArena = index;
+            const el = this.$refs.arenaSlider;
+            if (el && el.children[index]) {
+                const target = el.children[index];
+                el.scrollTo({
+                    left: target.offsetLeft - el.offsetLeft,
+                    behavior: 'smooth'
+                });
+            }
+        },
+        onScroll(e) {
+            const el = e.target;
+            const cardWidth = el.firstElementChild ? el.firstElementChild.offsetWidth : el.offsetWidth;
+            const index = Math.round(el.scrollLeft / cardWidth);
+            if (index !== this.activeArena && index >= 0 && index < this.totalArenas) {
+                this.activeArena = index;
             }
         }
     }));
