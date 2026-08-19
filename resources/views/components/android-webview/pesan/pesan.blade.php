@@ -50,10 +50,6 @@
                 @endforeach
             </div>
         </div>
-
-        {{-- Loading bar (Absolute agar tidak mendorong garis header) --}}
-        <div wire:loading wire:target="selectArena,proceedToTimeSlots,nextStep,proceedToConfirmation,prevStep,finalizeBooking"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 animate-pulse"></div>
     </div>
 
     {{-- Loading overlay --}}

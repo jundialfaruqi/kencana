@@ -1,9 +1,9 @@
-<div class="min-h-dvh bg-white flex flex-col">
+<div class="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
 
     {{-- ══════════════════════════════════════════════════════════════════
          TOP BAR
     ══════════════════════════════════════════════════════════════════ --}}
-    <div class="sticky top-0 z-30 bg-white border-b border-gray-200">
+    <div class="sticky top-0 z-30 bg-white border-b border-gray-200 shrink-0 relative">
         <div class="flex items-center gap-3 px-4 py-4">
             <a href="{{ route('webview.menu') }}" wire:navigate
                 class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 active:scale-95 transition-transform">
@@ -29,16 +29,13 @@
                 </button>
             @endforeach
         </div>
-
-        {{-- Loading bar --}}
-        <div wire:loading wire:target="setStatus,goToPage" class="h-0.5 bg-blue-600 animate-pulse"></div>
     </div>
 
 
     {{-- ══════════════════════════════════════════════════════════════════
          CONTENT
     ══════════════════════════════════════════════════════════════════ --}}
-    <div class="flex-1 px-4 py-4 relative">
+    <div class="flex-1 px-4 py-4 relative overflow-y-auto min-h-0">
 
         @if($error)
             <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold mb-4">{{ $error }}</div>
