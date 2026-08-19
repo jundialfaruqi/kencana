@@ -23,20 +23,23 @@
                     style="scrollbar-width: none; -ms-overflow-style: none;">
                     @foreach ($banners as $idx => $banner)
                         <div class="snap-start shrink-0 w-full h-full relative overflow-hidden bg-gray-100">
-                            <img src="{{ $banner['image'] ?? '' }}"
-                                class="w-full h-full object-cover"
+                            <img src="{{ $banner['image'] ?? '' }}" class="w-full h-full object-cover"
                                 alt="{{ $banner['judul'] ?? 'Banner' }}" />
 
                             {{-- Gradient Overlay --}}
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
+                            </div>
 
                             {{-- Content (Tanpa Badge Kategori) --}}
-                            <div class="absolute inset-x-0 bottom-0 p-4 sm:p-7 md:p-8 flex flex-col justify-end gap-1 sm:gap-2 text-left">
-                                <h3 class="text-white font-black text-base sm:text-2xl md:text-3xl line-clamp-2 leading-snug drop-shadow-md">
+                            <div
+                                class="absolute inset-x-0 bottom-0 p-4 sm:p-7 md:p-8 flex flex-col justify-end gap-1 sm:gap-2 text-left">
+                                <h3
+                                    class="text-white font-black text-base sm:text-2xl md:text-3xl line-clamp-2 leading-snug drop-shadow-md">
                                     {{ $banner['judul'] ?? '' }}
                                 </h3>
                                 @if (!empty($banner['deskripsi']))
-                                    <p class="text-gray-200 text-xs sm:text-sm md:text-base line-clamp-2 opacity-90 leading-relaxed max-w-2xl">
+                                    <p
+                                        class="text-gray-200 text-xs sm:text-sm md:text-base line-clamp-2 opacity-90 leading-relaxed max-w-2xl">
                                         {{ $banner['deskripsi'] }}
                                     </p>
                                 @endif
@@ -51,7 +54,8 @@
                         @foreach ($banners as $idx => $_)
                             <button type="button" @click="goTo({{ $idx }})"
                                 class="h-1.5 sm:h-2 rounded-full transition-all duration-300"
-                                :class="activeSlide === {{ $idx }} ? 'w-5 sm:w-8 bg-blue-600' : 'w-1.5 sm:w-2 bg-gray-200'"></button>
+                                :class="activeSlide === {{ $idx }} ? 'w-5 sm:w-8 bg-blue-600' :
+                                    'w-1.5 sm:w-2 bg-gray-200'"></button>
                         @endforeach
                     </div>
                 @endif
@@ -62,7 +66,7 @@
         <div>
             {{-- Section Title & Header --}}
             <div class="mb-3">
-                <h2 class="text-sm font-black text-gray-900 uppercase tracking-wider">Pilih Lapangan</h2>
+                <h2 class="text-sm text-gray-600 uppercase">Pilih Lapangan</h2>
                 <p class="text-[11px] text-gray-400 font-medium">Geser untuk melihat semua lapangan</p>
             </div>
 
@@ -74,8 +78,9 @@
                 {{-- Skeleton Loader --}}
                 <div class="flex gap-3 overflow-x-auto pb-2" style="scrollbar-width: none;">
                     @for ($i = 0; $i < 2; $i++)
-                        <div class="w-[86%] sm:w-[360px] shrink-0 rounded-3xl bg-white border border-gray-100 shadow-sm p-4 space-y-3 animate-pulse">
-                            <div class="w-full aspect-[16/10] bg-gray-200 rounded-2xl"></div>
+                        <div
+                            class="w-[86%] sm:w-90 shrink-0 rounded-3xl bg-white border border-gray-100 shadow-sm p-4 space-y-3 animate-pulse">
+                            <div class="w-full aspect-16/10 bg-gray-200 rounded-2xl"></div>
                             <div class="h-4 bg-gray-200 rounded w-3/4"></div>
                             <div class="h-3 bg-gray-100 rounded w-1/2"></div>
                             <div class="grid grid-cols-2 gap-2 pt-2">
@@ -97,16 +102,21 @@
                                 $rawStatus = strtolower((string) ($arena['status'] ?? ''));
                                 $cover = $this->getCoverUrl($arena['image_cover'] ?? ($arena['cover'] ?? null));
                                 $nama = $arena['nama'] ?? ($arena['nama_lapangan'] ?? 'Arena');
-                                $alamat = $arena['alamat'] ?? ($arena['lokasi'] ?? ($arena['deskripsi'] ?? 'Fasilitas olahraga Kencana'));
+                                $alamat =
+                                    $arena['alamat'] ??
+                                    ($arena['lokasi'] ?? ($arena['deskripsi'] ?? 'Fasilitas olahraga Kencana'));
                             @endphp
 
-                            <div class="w-[88%] sm:w-[380px] shrink-0 snap-start bg-white rounded-3xl border border-gray-100 shadow-lg shadow-gray-200/50 overflow-hidden flex flex-col">
+                            <div
+                                class="w-[88%] sm:w-95 shrink-0 snap-start bg-white rounded-3xl border border-gray-100 shadow-lg shadow-gray-200/50 overflow-hidden flex flex-col">
                                 {{-- Card Image Container --}}
-                                <div class="relative w-full aspect-[16/10] bg-gray-100 overflow-hidden">
+                                <div class="relative w-full aspect-16/10 bg-gray-100 overflow-hidden">
                                     @if ($cover)
-                                        <img src="{{ $cover }}" class="w-full h-full object-cover" alt="{{ $nama }}" />
+                                        <img src="{{ $cover }}" class="w-full h-full object-cover"
+                                            alt="{{ $nama }}" />
                                     @else
-                                        <div class="w-full h-full flex flex-col items-center justify-center text-gray-300 bg-gray-50">
+                                        <div
+                                            class="w-full h-full flex flex-col items-center justify-center text-gray-300 bg-gray-50">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -116,7 +126,9 @@
                                     @endif
 
                                     {{-- Gradient for Image Depth --}}
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
+                                    <div
+                                        class="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-black/20 pointer-events-none">
+                                    </div>
                                 </div>
 
                                 {{-- Card Details --}}
@@ -125,28 +137,36 @@
                                         {{-- Status Badge (di atas nama lapangan, tanpa border) --}}
                                         <div class="mb-1.5">
                                             @if ($isOpen)
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                                <span
+                                                    class="py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider text-emerald-700">
                                                     <span>Buka</span>
                                                 </span>
                                             @elseif ($rawStatus === 'coming_soon')
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-50 text-amber-700">
+                                                <span
+                                                    class="py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider text-amber-700">
                                                     <span>Segera Dibuka</span>
                                                 </span>
                                             @else
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-50 text-red-700">
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-50 text-red-700">
                                                     <span>Tutup</span>
                                                 </span>
                                             @endif
                                         </div>
 
-                                        <h3 class="font-black text-gray-900 text-base sm:text-lg leading-snug line-clamp-1">
+                                        <h3
+                                            class="font-black text-gray-900 text-base sm:text-lg leading-snug line-clamp-1">
                                             {{ $nama }}
                                         </h3>
-                                        <p class="text-xs text-gray-500 font-medium line-clamp-2 mt-1 leading-relaxed flex items-start gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 shrink-0 text-gray-400 mt-0.5">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                        <p
+                                            class="text-xs text-gray-500 font-medium line-clamp-2 mt-1 leading-relaxed flex items-start gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor"
+                                                class="w-3.5 h-3.5 shrink-0 text-gray-400 mt-0.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                             </svg>
                                             <span>{{ $alamat ?: '-' }}</span>
                                         </p>
@@ -155,11 +175,13 @@
                                     {{-- Tombol Pesan Lapangan (Langsung ke Pilih Tanggal) --}}
                                     <div class="mt-4 pt-3 border-t border-gray-100">
                                         @if ($isOpen)
-                                            <a href="{{ route('webview.pesan', ['lapangan_id' => $arena['id']]) }}" wire:navigate
+                                            <a href="{{ route('webview.pesan', ['lapangan_id' => $arena['id']]) }}"
+                                                wire:navigate
                                                 class="w-full block py-3 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase tracking-wide shadow-md shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all text-center flex items-center justify-center gap-1.5">
                                                 <span>Pesan Lapangan</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                                                    class="w-3.5 h-3.5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                                                 </svg>
@@ -186,7 +208,7 @@
             {{-- Section Title & "Lihat Semua" Link --}}
             <div class="flex items-center justify-between mb-3">
                 <div>
-                    <h2 class="text-sm font-black text-gray-900 uppercase tracking-wider">Histori Booking</h2>
+                    <h2 class="text-sm text-gray-600 uppercase">Histori Booking</h2>
                     <p class="text-[11px] text-gray-400 font-medium">Aktivitas pemesanan terakhir Anda</p>
                 </div>
                 <a href="{{ route('webview.histori') }}" wire:navigate
@@ -201,9 +223,10 @@
 
             @if (empty($recentBookings))
                 <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 text-center">
-                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-2 text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-5 h-5">
+                    <div
+                        class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-2 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -216,15 +239,23 @@
                     @foreach ($recentBookings as $booking)
                         @php
                             $status = strtolower((string) ($booking['status'] ?? ''));
-                            $stColor = match($status) {
-                                'dipesan'    => ['bg' => 'bg-blue-100',  'text' => 'text-blue-700',  'label' => 'Aktif'],
-                                'dibatalkan' => ['bg' => 'bg-red-100',   'text' => 'text-red-700',   'label' => 'Dibatalkan'],
-                                'selesai'    => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'label' => 'Selesai'],
-                                default      => ['bg' => 'bg-gray-100',  'text' => 'text-gray-700',  'label' => ucfirst($status ?: '-')],
+                            $stColor = match ($status) {
+                                'dipesan' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-700', 'label' => 'Aktif'],
+                                'dibatalkan' => [
+                                    'bg' => 'bg-red-100',
+                                    'text' => 'text-red-700',
+                                    'label' => 'Dibatalkan',
+                                ],
+                                'selesai' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'label' => 'Selesai'],
+                                default => [
+                                    'bg' => 'bg-gray-100',
+                                    'text' => 'text-gray-700',
+                                    'label' => ucfirst($status ?: '-'),
+                                ],
                             };
                             $kode = $booking['kode_booking'] ?? '-';
                             $namaArena = $booking['nama_lapangan'] ?? ($booking['lapangan'] ?? 'Arena');
-                            
+
                             $tglRaw = (string) ($booking['tanggal'] ?? '');
                             $tglFmt = $tglRaw;
                             if (preg_match('/^\d{4}-\d{2}-\d{2}/', $tglRaw)) {
@@ -247,7 +278,8 @@
                                 <span class="font-mono font-bold text-[11px] text-gray-500 tracking-wider">
                                     #{{ $kode }}
                                 </span>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase {{ $stColor['bg'] }} {{ $stColor['text'] }}">
+                                <span
+                                    class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase {{ $stColor['bg'] }} {{ $stColor['text'] }}">
                                     {{ $stColor['label'] }}
                                 </span>
                             </div>
@@ -256,10 +288,12 @@
                                 {{ $namaArena }}
                             </div>
 
-                            <div class="grid grid-cols-2 gap-2 text-[11px] text-gray-500 pt-2 border-t border-gray-100/80">
+                            <div
+                                class="grid grid-cols-2 gap-2 text-[11px] text-gray-500 pt-2 border-t border-gray-100/80">
                                 <div class="flex items-center gap-1.5 truncate">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="w-3.5 h-3.5 text-gray-400 shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="w-3.5 h-3.5 text-gray-400 shrink-0">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
                                     </svg>
@@ -268,8 +302,9 @@
                                     </span>
                                 </div>
                                 <div class="flex items-center gap-1.5 truncate justify-end">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor" class="w-3.5 h-3.5 text-gray-400 shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="w-3.5 h-3.5 text-gray-400 shrink-0">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     </svg>
@@ -314,8 +349,8 @@
                     <div class="flex items-center gap-3">
                         <div
                             class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor" class="w-5 h-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.002A11.959 11.959 0 0 1 12 2.714Zm0 13.036h.008v.008H12v-.008Z" />
                             </svg>
