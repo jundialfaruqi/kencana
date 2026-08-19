@@ -18,7 +18,15 @@ class WebviewAuth
             return $next($request);
         }
 
-        // 2. Fallback: cek ?code= di URL — verifikasi langsung ke Kencana API
+        // 2. Cek ?token= di URL — jika Next.js / iframe mengoper bearer token langsung
+        $directToken = $request->query('token');
+        if (!empty($directToken)) {
+            Session::put('auth_token', $directToken);
+            Session::put('webview_mode', true);
+            return $next($request);
+        }
+
+        // 3. Fallback: cek ?code= di URL — verifikasi langsung ke Kencana API
         $code = $request->query('code');
         if (!empty($code)) {
             try {
