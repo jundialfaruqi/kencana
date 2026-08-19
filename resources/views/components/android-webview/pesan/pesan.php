@@ -61,6 +61,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
     public bool $showTermsModal = false;
     public bool $showCancelConfirm = false;
     public bool $showChangeArenaModal = false;
+    public bool $showChangeDateModal = false;
     public bool $termsAgreed = false;
     public ?string $bookingMessage = null;
     public ?string $bookingCode = null;
@@ -231,6 +232,30 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
             $this->listJadwalStatus = 'loading';
             $this->dispatch('load-jadwal');
         }
+    }
+
+    public function openChangeDateModal(): void
+    {
+        $this->showChangeDateModal = true;
+    }
+
+    public function closeChangeDateModal(): void
+    {
+        $this->showChangeDateModal = false;
+    }
+
+    public function selectNewDate(string $date): void
+    {
+        if (! $this->isDateValid($date)) return;
+        $this->tanggal             = $date;
+        $this->selectedSlot        = null;
+        $this->timeSlots           = [];
+        $this->error               = null;
+        $this->showChangeDateModal = false;
+
+        // Muat ulang jadwal untuk tanggal baru
+        $this->listJadwalStatus = 'loading';
+        $this->dispatch('load-jadwal');
     }
 
     public function cancelBooking()

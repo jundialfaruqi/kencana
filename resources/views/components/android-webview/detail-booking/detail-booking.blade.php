@@ -57,9 +57,9 @@
                     <span>{{ $stBadge['label'] }}</span>
                 </div>
 
-                {{-- QR Code Image --}}
+                {{-- QR Code Image (Borderless) --}}
                 @if ($kode_booking)
-                    <div class="p-3 bg-white border border-gray-200 rounded-3xl inline-flex items-center justify-center shadow-xs">
+                    <div class="inline-flex items-center justify-center">
                         <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($kode_booking, 'QRCODE', 6, 6) }}"
                             alt="QR Code #{{ $kode_booking }}" class="w-44 h-44 block"
                             style="image-rendering: pixelated;" />

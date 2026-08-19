@@ -188,11 +188,24 @@
                     </button>
                 </div>
 
-                <div class="flex justify-between items-center pt-2 border-t border-gray-100">
-                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Tanggal</span>
-                    <span class="text-xs font-black text-gray-800">
-                        {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                    </span>
+                <div class="flex justify-between items-center pt-2 pb-2.5 border-t border-b border-gray-100">
+                    <div class="min-w-0">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Tanggal</span>
+                        <span class="text-xs font-black text-gray-800 block leading-tight mt-0.5 truncate">
+                            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                        </span>
+                    </div>
+
+                    {{-- Tombol Ubah Tanggal --}}
+                    <button type="button" wire:click="openChangeDateModal"
+                        class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                        </svg>
+                        <span>Ubah</span>
+                    </button>
                 </div>
             </div>
 
@@ -762,6 +775,74 @@
                 {{-- Modal Footer --}}
                 <div class="px-5 py-3.5 border-t border-gray-100 bg-gray-50 shrink-0 text-center">
                     <button type="button" wire:click="closeChangeArenaModal"
+                        class="text-xs font-bold text-gray-500 hover:text-gray-700 py-1">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+
+    {{-- ══════════════════════════════════════════════════════════════════
+         MODAL: Ubah / Pilih Ulang Tanggal
+    ══════════════════════════════════════════════════════════════════ --}}
+    @if ($showChangeDateModal)
+        <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+            wire:key="modal-change-date">
+            {{-- Backdrop --}}
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" wire:click="closeChangeDateModal"></div>
+
+            {{-- Modal Dialog --}}
+            <div
+                class="relative w-full max-w-lg bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in slide-in-from-bottom duration-200">
+
+                {{-- Modal Header --}}
+                <div class="px-5 pt-5 pb-4 border-b border-gray-100 shrink-0 flex items-center justify-between bg-white">
+                    <div>
+                        <h3 class="text-base font-black text-gray-900 leading-tight">Ubah Tanggal Bermain</h3>
+                        <p class="text-xs text-gray-400 font-medium mt-0.5">Pilih tanggal bermain yang Anda inginkan</p>
+                    </div>
+                    <button type="button" wire:click="closeChangeDateModal"
+                        class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 active:scale-95 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                            stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Modal Scrollable Date Grid --}}
+                <div class="overflow-y-auto px-5 py-4 flex-1">
+                    <div class="grid grid-cols-4 gap-2.5">
+                        @foreach ($carouselDates as $dateStr)
+                            @php
+                                $isPast = $dateStr < $todayDate;
+                                $dt = \Carbon\Carbon::parse($dateStr)->locale('id');
+                                $isCurrentSelected = $dateStr === $tanggal;
+                            @endphp
+                            @if ($isPast)
+                                <button type="button" disabled
+                                    class="flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl text-center bg-gray-50 text-gray-300 cursor-not-allowed opacity-50">
+                                    <span class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
+                                    <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
+                                    <span class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
+                                </button>
+                            @else
+                                <button type="button" wire:click="selectNewDate('{{ $dateStr }}')"
+                                    class="flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl transition-all active:scale-95 text-center {{ $isCurrentSelected ? 'bg-blue-600 text-white shadow-md shadow-blue-200' : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600 border border-gray-100' }}">
+                                    <span class="text-[10px] font-bold uppercase leading-none {{ $isCurrentSelected ? 'text-blue-100' : 'text-gray-400' }}">{{ $dt->translatedFormat('D') }}</span>
+                                    <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
+                                    <span class="text-[9px] font-semibold uppercase leading-none {{ $isCurrentSelected ? 'text-blue-200' : 'text-gray-400' }}">{{ $dt->translatedFormat('M') }}</span>
+                                </button>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Modal Footer --}}
+                <div class="px-5 py-3.5 border-t border-gray-100 bg-gray-50 shrink-0 text-center">
+                    <button type="button" wire:click="closeChangeDateModal"
                         class="text-xs font-bold text-gray-500 hover:text-gray-700 py-1">
                         Tutup
                     </button>
