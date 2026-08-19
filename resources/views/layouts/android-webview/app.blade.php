@@ -35,8 +35,8 @@
 
         /* Safe-area agar konten tidak tertutup notch / system bar */
         #webview-root {
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
             height: 100dvh;
             max-height: 100dvh;
             display: flex;
