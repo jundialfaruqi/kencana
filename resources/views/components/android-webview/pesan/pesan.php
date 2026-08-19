@@ -240,7 +240,6 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
             'selectedSlot', 'namaKomunitas', 'jumlahPemain',
             'kategoriPemain', 'jenisPermainan',
         ]);
-        $this->showCancelConfirm = false;
         return $this->redirect(route('webview.menu'), navigate: true);
     }
 

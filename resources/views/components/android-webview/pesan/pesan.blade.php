@@ -496,7 +496,7 @@
                         class="py-3.5 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm">
                         Batal
                     </button>
-                    <button type="button" @click="if (agreed) { $wire.finalizeBooking() }"
+                    <button type="button" wire:click="finalizeBooking"
                         wire:loading.attr="disabled"
                         wire:target="finalizeBooking"
                         :disabled="!agreed"
@@ -628,11 +628,16 @@
                 <div class="grid grid-cols-2 gap-3">
                     <button type="button" wire:click="closeCancelConfirm"
                         class="py-3.5 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm">Tidak, Lanjut</button>
-                    <button type="button" wire:click="cancelBooking" wire:loading.attr="disabled"
-                        class="py-3.5 rounded-2xl bg-red-500 text-white font-black text-sm flex items-center justify-center gap-2">
-                        <span wire:loading wire:target="cancelBooking"
+                    <button type="button" wire:click="cancelBooking"
+                        x-data="{ cancelling: false }"
+                        @click="cancelling = true"
+                        :disabled="cancelling"
+                        wire:loading.attr="disabled"
+                        wire:target="cancelBooking"
+                        class="py-3.5 rounded-2xl bg-red-500 text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-75 active:scale-[0.98] transition-all">
+                        <span x-show="cancelling"
                             class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                        <span>Ya, Batalkan</span>
+                        <span x-text="cancelling ? 'Membatalkan...' : 'Ya, Batalkan'"></span>
                     </button>
                 </div>
             </div>
