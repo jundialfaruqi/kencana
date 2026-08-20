@@ -1,42 +1,5 @@
 <div class="flex-1 flex flex-col min-h-0 overflow-hidden bg-white" id="pesan-root" data-step="{{ $currentStep }}">
 
-    {{-- ══════════════════════════════════════════════════════════════════
-         TOP BAR
-    ══════════════════════════════════════════════════════════════════ --}}
-    <div class="sticky top-0 z-30 bg-white border-b border-gray-200 shrink-0 relative">
-        <div class="flex items-center gap-3 px-4 h-16">
-            <div class="flex-1 min-w-0">
-                <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
-                    @if ($currentStep === 0)
-                        Langkah 1 dari 3
-                    @elseif($currentStep === 1)
-                        Langkah 2 dari 3
-                    @else
-                        Langkah 3 dari 3
-                    @endif
-                </div>
-                <div class="text-sm font-black text-gray-900 truncate">
-                    @if ($currentStep === 0)
-                        Pilih Tanggal
-                    @elseif($currentStep === 1)
-                        Pilih Jam
-                    @else
-                        Konfirmasi Booking
-                    @endif
-                </div>
-            </div>
-
-            {{-- Step Dots --}}
-            <div class="flex items-center gap-1 shrink-0">
-                @foreach ([0, 1, 2] as $s)
-                    <div
-                        class="rounded-full transition-all duration-300 {{ $currentStep >= $s ? 'w-6 h-2 bg-blue-600' : 'w-2 h-2 bg-gray-200' }}">
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-
     {{-- Loading overlay --}}
     <div wire:loading wire:target="finalizeBooking"
         class="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center">
@@ -55,76 +18,106 @@
     @if ($currentStep === 0)
         <div class="flex-1 flex flex-col min-h-0 overflow-hidden"
             x-data="{ selectedDate: '{{ $tanggal }}' }">
-            {{-- Arena terpilih (Flat / Tanpa Card) --}}
-            <div class="px-4 pt-3 pb-3 shrink-0 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 min-w-0">
-                    @php $cover = $this->coverUrl; @endphp
-                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-                        @if ($cover)
-                            <img src="{{ $cover }}" class="w-full h-full object-cover" alt="{{ $namaLapangan }}" />
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#9ca3af"
-                                stroke-width="2" class="w-5 h-5">
+            
+            {{-- Scrollable Area --}}
+            <div class="flex-1 overflow-y-auto min-h-0">
+                {{-- Header Langkah 1 (Full-width Border) --}}
+                <div class="px-4 pt-4 pb-3 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
+                                Langkah 1 dari 3
+                            </div>
+                            <div class="text-base font-black text-gray-900 leading-tight">
+                                Pilih Tanggal
+                            </div>
+                        </div>
+
+                        {{-- Step Dots --}}
+                        <div class="flex items-center gap-1 shrink-0">
+                            @foreach ([0, 1, 2] as $s)
+                                <div
+                                    class="rounded-full transition-all duration-300 {{ $currentStep >= $s ? 'w-6 h-2 bg-blue-600' : 'w-2 h-2 bg-gray-200' }}">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Content Body --}}
+                <div class="px-4 py-4 space-y-4">
+                    {{-- Arena terpilih (Flat / Tanpa Card) --}}
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            @php $cover = $this->coverUrl; @endphp
+                            <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+                                @if ($cover)
+                                    <img src="{{ $cover }}" class="w-full h-full object-cover" alt="{{ $namaLapangan }}" />
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#9ca3af"
+                                        stroke-width="2" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
+                                    </svg>
+                                @endif
+                            </div>
+                            <div class="min-w-0">
+                                <span
+                                    class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena terpilih</span>
+                                <span
+                                    class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: 'Arena' }}</span>
+                            </div>
+                        </div>
+
+                        {{-- Tombol Ubah Lapangan --}}
+                        <button type="button" wire:click="openChangeArenaModal"
+                            class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" class="w-3.5 h-3.5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
+                                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                             </svg>
-                        @endif
+                            <span>Ubah</span>
+                        </button>
                     </div>
-                    <div class="min-w-0">
-                        <span
-                            class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena terpilih</span>
-                        <span
-                            class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: 'Arena' }}</span>
+
+                    {{-- Grid Tanggal --}}
+                    <div>
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3">Pilih Tanggal Bermain</p>
+                        <div class="grid grid-cols-4 gap-2" id="date-scroll-container">
+                            @foreach ($carouselDates as $dateStr)
+                                @php
+                                    $isPast = $dateStr < $todayDate;
+                                    $dt = \Carbon\Carbon::parse($dateStr)->locale('id');
+                                @endphp
+                                @if ($isPast)
+                                    <button type="button" disabled
+                                        class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl text-center bg-gray-50 text-gray-300 cursor-not-allowed opacity-60">
+                                        <span
+                                            class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
+                                        <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
+                                        <span
+                                            class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
+                                    </button>
+                                @else
+                                    <button type="button"
+                                        @click="selectedDate = '{{ $dateStr }}'"
+                                        class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl transition-all active:scale-95 text-center"
+                                        :class="selectedDate === '{{ $dateStr }}' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
+                                        <span
+                                            class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
+                                        <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
+                                        <span
+                                            class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
+                                    </button>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-
-                {{-- Tombol Ubah Lapangan --}}
-                <button type="button" wire:click="openChangeArenaModal"
-                    class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" class="w-3.5 h-3.5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                    </svg>
-                    <span>Ubah</span>
-                </button>
-            </div>
-
-            {{-- Grid Tanggal (Only this area scrolls, filling remaining height) --}}
-            <div class="flex-1 flex flex-col min-h-0 px-4 pb-2">
-                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3 shrink-0">Pilih Tanggal Bermain</p>
-                <div class="flex-1 overflow-y-auto pr-0.5 grid grid-cols-4 gap-2 min-h-0 content-start" id="date-scroll-container">
-                    @foreach ($carouselDates as $dateStr)
-                        @php
-                            $isPast = $dateStr < $todayDate;
-                            $dt = \Carbon\Carbon::parse($dateStr)->locale('id');
-                        @endphp
-                        @if ($isPast)
-                            <button type="button" disabled
-                                class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl text-center bg-gray-50 text-gray-300 cursor-not-allowed opacity-60">
-                                <span
-                                    class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
-                                <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
-                                <span
-                                    class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
-                            </button>
-                        @else
-                            <button type="button"
-                                @click="selectedDate = '{{ $dateStr }}'"
-                                class="flex flex-col items-center justify-center py-2.5 px-2 rounded-xl transition-all active:scale-95 text-center"
-                                :class="selectedDate === '{{ $dateStr }}' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
-                                <span
-                                    class="text-[10px] font-bold uppercase leading-none">{{ $dt->translatedFormat('D') }}</span>
-                                <span class="text-lg font-black leading-tight my-1">{{ $dt->format('d') }}</span>
-                                <span
-                                    class="text-[9px] font-semibold uppercase leading-none opacity-80">{{ $dt->translatedFormat('M') }}</span>
-                            </button>
-                        @endif
-                    @endforeach
                 </div>
             </div>
 
-            {{-- Footer: Batal & Selanjutnya --}}
+            {{-- Footer: Batal & Selanjutnya (PINNED BOTTOM) --}}
             <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
                 <button type="button" wire:click="prevStep"
                     class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
@@ -151,127 +144,156 @@
     @if ($currentStep === 1)
         <div class="flex-1 flex flex-col min-h-0 overflow-hidden"
             x-data="{ selectedSlot: '{{ $selectedSlot ? $selectedSlot['mulai'] . '-' . $selectedSlot['selesai'] : '' }}' }">
-            {{-- Summary Arena & Tanggal (Flat / Tanpa Card) --}}
-            <div class="px-4 pt-3 pb-3 shrink-0 space-y-2.5">
-                <div class="flex items-center justify-between gap-3">
-                    <div class="flex items-center gap-3 min-w-0">
-                        @php $cover = $this->coverUrl; @endphp
-                        <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-                            @if ($cover)
-                                <img src="{{ $cover }}" class="w-full h-full object-cover"
-                                    alt="{{ $namaLapangan }}" />
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#9ca3af"
-                                    stroke-width="2" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
-                                </svg>
-                            @endif
-                        </div>
-                        <div class="min-w-0">
-                            <span
-                                class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena terpilih</span>
-                            <span
-                                class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: '-' }}</span>
-                        </div>
-                    </div>
-
-                    {{-- Tombol Ubah Lapangan --}}
-                    <button type="button" wire:click="openChangeArenaModal"
-                        class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" class="w-3.5 h-3.5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                        </svg>
-                        <span>Ubah</span>
-                    </button>
-                </div>
-
-                <div class="flex justify-between items-center pt-2 pb-2.5 border-t border-b border-gray-100">
-                    <div class="min-w-0">
-                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Tanggal</span>
-                        <span class="text-xs font-black text-gray-800 block leading-tight mt-0.5 truncate">
-                            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                        </span>
-                    </div>
-
-                    {{-- Tombol Ubah Tanggal --}}
-                    <button type="button" wire:click="openChangeDateModal"
-                        class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" class="w-3.5 h-3.5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                        </svg>
-                        <span>Ubah</span>
-                    </button>
-                </div>
-            </div>
-
-            {{-- Grid Jam (Only this area scrolls, filling remaining height) --}}
-            <div class="flex-1 flex flex-col min-h-0 px-4 pb-2">
-                <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3 shrink-0">Pilih Jam Bermain</p>
-
-                @if ($listJadwalStatus === 'loading')
-                    <div class="grid grid-cols-3 gap-2 flex-1 overflow-y-auto pr-0.5 min-h-0 animate-pulse">
-                        @for ($j = 0; $j < 12; $j++)
-                            <div
-                                class="flex flex-col items-center justify-center py-3 rounded-2xl bg-gray-50 border border-gray-100/80 space-y-1.5">
-                                <div class="h-3.5 w-12 bg-gray-200 rounded-md"></div>
-                                <div class="h-2 w-5 bg-gray-200/60 rounded"></div>
-                                <div class="h-3.5 w-12 bg-gray-200 rounded-md"></div>
+            
+            {{-- Scrollable Area --}}
+            <div class="flex-1 overflow-y-auto min-h-0">
+                {{-- Header Langkah 2 (Full-width Border) --}}
+                <div class="px-4 pt-4 pb-3 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
+                                Langkah 2 dari 3
                             </div>
-                        @endfor
+                            <div class="text-base font-black text-gray-900 leading-tight">
+                                Pilih Jam
+                            </div>
+                        </div>
+
+                        {{-- Step Dots --}}
+                        <div class="flex items-center gap-1 shrink-0">
+                            @foreach ([0, 1, 2] as $s)
+                                <div
+                                    class="rounded-full transition-all duration-300 {{ $currentStep >= $s ? 'w-6 h-2 bg-blue-600' : 'w-2 h-2 bg-gray-200' }}">
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                @elseif($listJadwalStatus === 'libur')
-                    <div class="flex-1 flex flex-col items-center justify-center py-8 text-center">
-                        <div class="text-4xl mb-3">🚫</div>
-                        <div class="text-sm font-black text-gray-700">Hari Ini Libur</div>
-                        <div class="text-xs text-gray-400 mt-1">Arena tidak beroperasi pada tanggal ini</div>
-                    </div>
-                @elseif($error && count($timeSlots) === 0)
-                    <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
-                        {{ $error }}</div>
-                @elseif(count($timeSlots) === 0)
-                    <div class="flex-1 flex flex-col items-center justify-center py-8 text-center">
-                        <div class="text-4xl mb-3">📅</div>
-                        <div class="text-sm font-black text-gray-700">Tidak Ada Jadwal</div>
-                        <div class="text-xs text-gray-400 mt-1">Coba pilih tanggal lain</div>
-                    </div>
-                @else
-                    {{-- Grid jam dengan scroll internal dan pemilihan client-side instan --}}
-                    <div class="grid grid-cols-3 gap-2 flex-1 overflow-y-auto pr-0.5 min-h-0 content-start">
-                        @foreach ($timeSlots as $slot)
-                            @php
-                                $available = $this->slotIsAvailable($slot);
-                                $slotKey = ($slot['mulai'] ?? '') . '-' . ($slot['selesai'] ?? '');
-                            @endphp
-                            @if ($available)
-                                <button type="button" @click="selectedSlot = '{{ $slotKey }}'"
-                                    class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] transition-all duration-150 active:scale-95"
-                                    :class="selectedSlot === '{{ $slotKey }}' ? 'bg-blue-600 text-white' :
-                                        'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
-                                    <span>{{ $slot['mulai'] }}</span>
-                                    <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
-                                    <span>{{ $slot['selesai'] }}</span>
-                                </button>
-                            @else
-                                <button type="button" disabled
-                                    class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] bg-gray-50 text-gray-300 cursor-not-allowed line-through">
-                                    <span>{{ $slot['mulai'] }}</span>
-                                    <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
-                                    <span>{{ $slot['selesai'] }}</span>
+                </div>
+
+                {{-- Content Body --}}
+                <div class="px-4 py-4 space-y-4">
+                    {{-- Summary Arena & Tanggal (Flat / Tanpa Card) --}}
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3 min-w-0">
+                                @php $cover = $this->coverUrl; @endphp
+                                <div class="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+                                    @if ($cover)
+                                        <img src="{{ $cover }}" class="w-full h-full object-cover"
+                                            alt="{{ $namaLapangan }}" />
+                                    @else
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#9ca3af"
+                                            stroke-width="2" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25" />
+                                        </svg>
+                                    @endif
+                                </div>
+                                <div class="min-w-0">
                                     <span
-                                        class="text-[8px] mt-0.5 opacity-60 uppercase font-bold not-italic">Dipesan</span>
-                                </button>
-                            @endif
-                        @endforeach
+                                        class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Arena terpilih</span>
+                                    <span
+                                        class="text-sm font-black text-gray-900 truncate block leading-tight mt-0.5">{{ $namaLapangan ?: '-' }}</span>
+                                </div>
+                            </div>
+
+                            {{-- Tombol Ubah Lapangan --}}
+                            <button type="button" wire:click="openChangeArenaModal"
+                                class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="w-3.5 h-3.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                                <span>Ubah</span>
+                            </button>
+                        </div>
+
+                        <div class="flex justify-between items-center pt-2 pb-2.5 border-t border-b border-gray-100">
+                            <div class="min-w-0">
+                                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider block leading-tight">Tanggal</span>
+                                <span class="text-xs font-black text-gray-800 block leading-tight mt-0.5 truncate">
+                                    {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                                </span>
+                            </div>
+
+                            {{-- Tombol Ubah Tanggal --}}
+                            <button type="button" wire:click="openChangeDateModal"
+                                class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl active:scale-95 transition-transform shrink-0 flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="w-3.5 h-3.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                                </svg>
+                                <span>Ubah</span>
+                            </button>
+                        </div>
                     </div>
-                @endif
+
+                    {{-- Grid Jam --}}
+                    <div>
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-3">Pilih Jam Bermain</p>
+
+                        @if ($listJadwalStatus === 'loading')
+                            <div class="grid grid-cols-3 gap-2 animate-pulse">
+                                @for ($j = 0; $j < 12; $j++)
+                                    <div
+                                        class="flex flex-col items-center justify-center py-3 rounded-2xl bg-gray-50 border border-gray-100/80 space-y-1.5">
+                                        <div class="h-3.5 w-12 bg-gray-200 rounded-md"></div>
+                                        <div class="h-2 w-5 bg-gray-200/60 rounded"></div>
+                                        <div class="h-3.5 w-12 bg-gray-200 rounded-md"></div>
+                                    </div>
+                                @endfor
+                            </div>
+                        @elseif($listJadwalStatus === 'libur')
+                            <div class="flex flex-col items-center justify-center py-8 text-center">
+                                <div class="text-4xl mb-3">🚫</div>
+                                <div class="text-sm font-black text-gray-700">Hari Ini Libur</div>
+                                <div class="text-xs text-gray-400 mt-1">Arena tidak beroperasi pada tanggal ini</div>
+                            </div>
+                        @elseif($error && count($timeSlots) === 0)
+                            <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
+                                {{ $error }}</div>
+                        @elseif(count($timeSlots) === 0)
+                            <div class="flex flex-col items-center justify-center py-8 text-center">
+                                <div class="text-4xl mb-3">📅</div>
+                                <div class="text-sm font-black text-gray-700">Tidak Ada Jadwal</div>
+                                <div class="text-xs text-gray-400 mt-1">Coba pilih tanggal lain</div>
+                            </div>
+                        @else
+                            <div class="grid grid-cols-3 gap-2 content-start">
+                                @foreach ($timeSlots as $slot)
+                                    @php
+                                        $available = $this->slotIsAvailable($slot);
+                                        $slotKey = ($slot['mulai'] ?? '') . '-' . ($slot['selesai'] ?? '');
+                                    @endphp
+                                    @if ($available)
+                                        <button type="button" @click="selectedSlot = '{{ $slotKey }}'"
+                                            class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] transition-all duration-150 active:scale-95"
+                                            :class="selectedSlot === '{{ $slotKey }}' ? 'bg-blue-600 text-white' :
+                                                'bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600'">
+                                            <span>{{ $slot['mulai'] }}</span>
+                                            <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
+                                            <span>{{ $slot['selesai'] }}</span>
+                                        </button>
+                                    @else
+                                        <button type="button" disabled
+                                            class="flex flex-col items-center justify-center py-3 rounded-2xl font-black text-[13px] bg-gray-50 text-gray-300 cursor-not-allowed line-through">
+                                            <span>{{ $slot['mulai'] }}</span>
+                                            <span class="text-[9px] opacity-70 font-semibold my-0.5">s/d</span>
+                                            <span>{{ $slot['selesai'] }}</span>
+                                            <span
+                                                class="text-[8px] mt-0.5 opacity-60 uppercase font-bold not-italic">Dipesan</span>
+                                        </button>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
 
-            {{-- Tombol Kembali & Selanjutnya (Pinned Bottom) --}}
+            {{-- Footer: Kembali & Selanjutnya (PINNED BOTTOM) --}}
             <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
                 <button type="button" wire:click="prevStep" wire:loading.attr="disabled" wire:target="prevStep"
                     class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform disabled:opacity-60 flex items-center justify-center gap-2">
@@ -297,100 +319,129 @@
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($currentStep === 2)
         <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
-            <div class="flex-1 overflow-y-auto px-4 py-5 space-y-5 min-h-0">
-                {{-- Booking summary card --}}
-                <div class="p-4 rounded-2xl bg-blue-600 text-white space-y-2 shadow-lg shadow-blue-200">
-                    <div class="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">Ringkasan Booking
-                    </div>
-                    <div class="flex justify-between items-center py-1.5 border-b border-white/10">
-                        <span class="text-xs opacity-70 font-semibold">Arena</span>
-                        <span class="text-xs font-black uppercase">{{ $namaLapangan ?: '-' }}</span>
-                    </div>
-                    <div class="flex justify-between items-center py-1.5 border-b border-white/10">
-                        <span class="text-xs opacity-70 font-semibold">Tanggal</span>
-                        <span class="text-xs font-black">
-                            {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                        </span>
-                    </div>
-                    <div class="flex justify-between items-center py-1.5 border-b border-white/10">
-                        <span class="text-xs opacity-70 font-semibold">Jam</span>
-                        <span class="text-xs font-black">
-                            {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' — ' . ($selectedSlot['selesai'] ?? '') : '-' }}
-                        </span>
-                    </div>
-                    <div class="flex justify-between items-center pt-1">
-                        <span class="text-xs opacity-70 font-semibold">Total Biaya</span>
-                        <span class="text-lg font-black">GRATIS</span>
-                    </div>
-                </div>
-
-                {{-- Form data pemesanan --}}
-                <div class="space-y-4">
-                    <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Data Pemesanan</p>
-
-                    {{-- Nama Komunitas --}}
-                    <div>
-                        <label class="text-xs font-bold text-gray-700 block mb-1.5">Nama Komunitas / Tim <span
-                                class="text-gray-400 font-normal">(opsional)</span></label>
-                        <input type="text" wire:model="namaKomunitas" placeholder="Contoh: Tim Futsal Garuda"
-                            class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-                        @error('namaKomunitas')
-                            <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Jumlah Pemain --}}
-                    <div>
-                        <label class="text-xs font-bold text-gray-700 block mb-1.5">Jumlah Pemain <span
-                                class="text-red-500">*</span></label>
-                        <input type="number" min="1" wire:model.live="jumlahPemain"
-                            placeholder="Masukkan jumlah pemain"
-                            class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-                        @error('jumlahPemain')
-                            <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Kategori & Jenis --}}
-                    <div class="grid grid-cols-2 gap-3">
+            
+            {{-- Scrollable Area --}}
+            <div class="flex-1 overflow-y-auto min-h-0">
+                {{-- Header Langkah 3 (Full-width Border) --}}
+                <div class="px-4 pt-4 pb-3 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
                         <div>
-                            <label class="text-xs font-bold text-gray-700 block mb-1.5">Kategori <span
-                                    class="text-red-500">*</span></label>
-                            <select wire:model.live="kategoriPemain"
-                                class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
-                                <option value="">Pilih</option>
-                                <option value="anak-anak">Anak-anak</option>
-                                <option value="remaja">Remaja</option>
-                                <option value="dewasa">Dewasa</option>
-                            </select>
-                            @error('kategoriPemain')
-                                <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                            @enderror
+                            <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
+                                Langkah 3 dari 3
+                            </div>
+                            <div class="text-base font-black text-gray-900 leading-tight">
+                                Konfirmasi Booking
+                            </div>
                         </div>
-                        <div>
-                            <label class="text-xs font-bold text-gray-700 block mb-1.5">Jenis Permainan <span
-                                    class="text-red-500">*</span></label>
-                            <select wire:model.live="jenisPermainan"
-                                class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
-                                <option value="">Pilih</option>
-                                <option value="fun_match">Fun Match</option>
-                                <option value="latihan">Latihan</option>
-                                <option value="turnamen_kecil">Turnamen Kecil</option>
-                            </select>
-                            @error('jenisPermainan')
-                                <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
-                            @enderror
+
+                        {{-- Step Dots --}}
+                        <div class="flex items-center gap-1 shrink-0">
+                            @foreach ([0, 1, 2] as $s)
+                                <div
+                                    class="rounded-full transition-all duration-300 {{ $currentStep >= $s ? 'w-6 h-2 bg-blue-600' : 'w-2 h-2 bg-gray-200' }}">
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
 
-                @if ($error)
-                    <div class="p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
-                        {{ $error }}</div>
-                @endif
+                {{-- Content Body --}}
+                <div class="px-4 py-4 space-y-5">
+
+                    {{-- Booking summary card --}}
+                    <div class="p-4 rounded-2xl bg-blue-600 text-white space-y-2 shadow-lg shadow-blue-200">
+                        <div class="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">Ringkasan Booking
+                        </div>
+                        <div class="flex justify-between items-center py-1.5 border-b border-white/10">
+                            <span class="text-xs opacity-70 font-semibold">Arena</span>
+                            <span class="text-xs font-black uppercase">{{ $namaLapangan ?: '-' }}</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1.5 border-b border-white/10">
+                            <span class="text-xs opacity-70 font-semibold">Tanggal</span>
+                            <span class="text-xs font-black">
+                                {{ \Carbon\Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center py-1.5 border-b border-white/10">
+                            <span class="text-xs opacity-70 font-semibold">Jam</span>
+                            <span class="text-xs font-black">
+                                {{ $selectedSlot ? ($selectedSlot['mulai'] ?? '') . ' — ' . ($selectedSlot['selesai'] ?? '') : '-' }}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center pt-1">
+                            <span class="text-xs opacity-70 font-semibold">Total Biaya</span>
+                            <span class="text-lg font-black">GRATIS</span>
+                        </div>
+                    </div>
+
+                    {{-- Form data pemesanan --}}
+                    <div class="space-y-4">
+                        <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest">Data Pemesanan</p>
+
+                        {{-- Nama Komunitas --}}
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1.5">Nama Komunitas / Tim <span
+                                    class="text-gray-400 font-normal">(opsional)</span></label>
+                            <input type="text" wire:model="namaKomunitas" placeholder="Contoh: Tim Futsal Garuda"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            @error('namaKomunitas')
+                                <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Jumlah Pemain --}}
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1.5">Jumlah Pemain <span
+                                    class="text-red-500">*</span></label>
+                            <input type="number" min="1" wire:model.live="jumlahPemain"
+                                placeholder="Masukkan jumlah pemain"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-semibold text-gray-800 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            @error('jumlahPemain')
+                                <p class="text-xs text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Kategori & Jenis --}}
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-xs font-bold text-gray-700 block mb-1.5">Kategori <span
+                                        class="text-red-500">*</span></label>
+                                <select wire:model.live="kategoriPemain"
+                                    class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                                    <option value="">Pilih</option>
+                                    <option value="anak-anak">Anak-anak</option>
+                                    <option value="remaja">Remaja</option>
+                                    <option value="dewasa">Dewasa</option>
+                                </select>
+                                @error('kategoriPemain')
+                                    <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-gray-700 block mb-1.5">Jenis Permainan <span
+                                        class="text-red-500">*</span></label>
+                                <select wire:model.live="jenisPermainan"
+                                    class="w-full px-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                                    <option value="">Pilih</option>
+                                    <option value="fun_match">Fun Match</option>
+                                    <option value="latihan">Latihan</option>
+                                    <option value="turnamen_kecil">Turnamen Kecil</option>
+                                </select>
+                                @error('jenisPermainan')
+                                    <p class="text-[10px] text-red-500 mt-1 font-semibold">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    @if ($error)
+                        <div class="p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold">
+                            {{ $error }}</div>
+                    @endif
+                </div>
             </div>
 
-            {{-- Tombol Kembali & Pesan (TETAP DI BAWAH) --}}
+            {{-- Footer: Kembali & Pesan (PINNED BOTTOM) --}}
             <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
                 <button type="button" wire:click="prevStep" wire:loading.attr="disabled" wire:target="prevStep"
                     class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform disabled:opacity-60 flex items-center justify-center gap-2">

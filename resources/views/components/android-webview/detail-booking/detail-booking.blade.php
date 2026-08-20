@@ -1,25 +1,20 @@
 <div class="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
 
     {{-- ══════════════════════════════════════════════════════════════════
-         TOP BAR (Pinned Top)
-    ══════════════════════════════════════════════════════════════════ --}}
-    <div class="sticky top-0 z-30 bg-white border-b border-gray-200 shrink-0">
-        <div class="flex items-center gap-3 px-4 h-16">
-            <div class="flex-1 min-w-0">
-                <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
-                    Detail Booking
-                </div>
-                <div class="text-sm font-black text-gray-900 truncate">
-                    #{{ $kode_booking }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- ══════════════════════════════════════════════════════════════════
          SCROLLABLE CONTENT
     ══════════════════════════════════════════════════════════════════ --}}
-    <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4 min-h-0">
+    <div class="flex-1 overflow-y-auto min-h-0">
+        {{-- Header (Full-width Border, Scrollable) --}}
+        <div class="px-4 pt-4 pb-3 border-b border-gray-100">
+            <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">
+                Detail Booking
+            </div>
+            <div class="text-base font-black text-gray-900 truncate">
+                #{{ $kode_booking }}
+            </div>
+        </div>
+
+        <div class="px-4 py-4 space-y-4">
 
         @if ($error)
             <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold text-center">
@@ -206,6 +201,7 @@
         @endif
 
         <div class="pb-4"></div>
+        </div>
     </div>
 
     {{-- ══════════════════════════════════════════════════════════════════

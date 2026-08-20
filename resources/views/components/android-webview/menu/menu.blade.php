@@ -1,17 +1,16 @@
 <div class="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
-
-    {{-- ── Hero / Greeting (Pinned Top) ── --}}
-    <div class="px-4 pt-4 pb-3 shrink-0 border-b border-gray-100/60 bg-white">
-        <div class="text-xl font-black text-gray-900 leading-snug">
-            Selamat Datang
+    <div class="flex-1 overflow-y-auto min-h-0">
+        {{-- ── Hero / Greeting (Full-width Border, Scrollable) ── --}}
+        <div class="px-4 pt-4 pb-3 border-b border-gray-100">
+            <div class="text-xl font-black text-gray-900 leading-snug">
+                Selamat Datang
+            </div>
+            <div class="text-xs text-gray-400 font-medium mt-0.5">
+                Pilih arena olahraga Kencana
+            </div>
         </div>
-        <div class="text-xs text-gray-400 font-medium mt-0.5">
-            Pilih arena olahraga Kencana
-        </div>
-    </div>
 
-    {{-- ── Scrollable Body: Banners + Arena Cards Carousel ── --}}
-    <div class="px-4 flex-1 space-y-5 overflow-y-auto min-h-0 py-4">
+        <div class="px-4 py-4 space-y-5">
 
         {{-- ── 1. Banner Informasi Carousel (Tanpa Badge Kategori) ── --}}
         @if (!empty($banners))
@@ -177,9 +176,14 @@
                                         @if ($isOpen)
                                             <a href="{{ route('webview.pesan', ['lapangan_id' => $arena['id']]) }}"
                                                 wire:navigate
-                                                class="w-full block py-3 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase tracking-wide shadow-md shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all text-center flex items-center justify-center gap-1.5">
-                                                <span>Pesan Lapangan</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                x-data="{ loading: false }"
+                                                @click="loading = true"
+                                                class="w-full block py-3 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase tracking-wide shadow-md shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all text-center flex items-center justify-center gap-2"
+                                                :class="loading ? 'opacity-80 pointer-events-none' : ''">
+                                                <span x-show="loading" class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                                <span x-show="loading">Memuat...</span>
+                                                <span x-show="!loading">Pesan Lapangan</span>
+                                                <svg x-show="!loading" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
                                                     class="w-3.5 h-3.5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -317,14 +321,15 @@
             @endif
         </div>
 
-    </div>
-
-    {{-- ── Footer (Pinned Bottom) ── --}}
-    <div class="px-4 py-3 text-center shrink-0 border-t border-gray-50 bg-white">
-        <div class="text-[11px] text-gray-300 font-medium">
-            Kencana Arena &bull; Dispora Kota Pekanbaru
+        {{-- ── Footer ── --}}
+        <div class="pt-4 text-center border-t border-gray-100">
+            <div class="text-[11px] text-gray-300 font-medium">
+                Kencana Arena &bull; Dispora Kota Pekanbaru
+            </div>
         </div>
+
     </div>
+</div>
 
 
 
