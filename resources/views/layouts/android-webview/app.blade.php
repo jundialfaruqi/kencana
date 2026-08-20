@@ -33,10 +33,10 @@
             font-family: Arial, Helvetica, sans-serif !important;
         }
 
-        /* Safe-area agar konten tidak tertutup notch / system bar */
+        /* Safe-area agar konten tidak tertutup notch di bagian atas */
         #webview-root {
             padding-top: env(safe-area-inset-top, 0px);
-            padding-bottom: env(safe-area-inset-bottom, 0px);
+            padding-bottom: 0;
             height: 100dvh;
             max-height: 100dvh;
             display: flex;
