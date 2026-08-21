@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AndroidWebviewController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -196,11 +197,11 @@ Route::middleware(['api.auth:admin'])->group(function () {
 // Android Webview Route
 Route::prefix('kencana/web-view')->name('webview.')->group(function () {
     // Titik masuk SSO — Super App buka WebView ke URL ini dengan ?code=<sso_code>
-    Route::get('/callback', [\App\Http\Controllers\AndroidWebviewController::class, 'callback'])
+    Route::get('/callback', [AndroidWebviewController::class, 'callback'])
         ->name('callback');
 
     // Halaman session expired / token tidak valid
-    Route::get('/expired', [\App\Http\Controllers\AndroidWebviewController::class, 'expired'])
+    Route::get('/expired', [AndroidWebviewController::class, 'expired'])
         ->name('expired');
 
     // Halaman-halaman yang memerlukan auth session
