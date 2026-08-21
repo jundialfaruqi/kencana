@@ -16,6 +16,7 @@ new #[Title('Beranda')] #[Layout('layouts::android-webview.app')] class extends 
     public array $arenas = [];
     public array $recentBookings = [];
     public ?string $arenaError = null;
+    public bool $isLoading = true;
 
     public function mount(): void
     {
@@ -23,10 +24,14 @@ new #[Title('Beranda')] #[Layout('layouts::android-webview.app')] class extends 
         if (! Session::get('webview_menu_terms_agreed', false)) {
             $this->showTermsModal = true;
         }
+    }
 
+    public function loadData(): void
+    {
         $this->fetchBanners();
         $this->fetchArenas();
         $this->fetchRecentBookings();
+        $this->isLoading = false;
     }
 
     protected function fetchBanners(): void
