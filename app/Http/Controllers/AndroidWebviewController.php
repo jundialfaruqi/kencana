@@ -51,6 +51,7 @@ class AndroidWebviewController extends Controller
             // Cek sukses dari body response (bukan hanya HTTP status)
             if (($json['success'] ?? false) === true) {
                 $authToken = $json['data']['token'] ?? null;
+                $user      = $json['data']['user'] ?? [];
 
                 if (empty($authToken)) {
                     Log::warning('[WebView SSO] Response sukses tapi token kosong.', ['json' => $json]);
@@ -62,10 +63,13 @@ class AndroidWebviewController extends Controller
 
                 Session::put('auth_token', $authToken);
                 Session::put('webview_mode', true);
+                if (!empty($user)) {
+                    Session::put('user_data', $user);
+                }
 
                 Log::info('[WebView SSO] Login berhasil.', [
-                    'user_id'   => $json['data']['user']['id'] ?? null,
-                    'user_name' => $json['data']['user']['name'] ?? null,
+                    'user_id'   => $user['id'] ?? null,
+                    'user_name' => $user['name'] ?? null,
                 ]);
 
                 return redirect()->route('webview.menu');

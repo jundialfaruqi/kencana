@@ -17,6 +17,7 @@ new #[Title('Beranda')] #[Layout('layouts::android-webview.app')] class extends 
     public array $recentBookings = [];
     public ?string $arenaError = null;
     public bool $isLoading = true;
+    public string $userName = '';
 
     public function mount(): void
     {
@@ -24,6 +25,9 @@ new #[Title('Beranda')] #[Layout('layouts::android-webview.app')] class extends 
         if (! Session::get('webview_menu_terms_agreed', false)) {
             $this->showTermsModal = true;
         }
+
+        $user = Session::get('user_data', []);
+        $this->userName = (string) ($user['name'] ?? ($user['nama'] ?? ($user['username'] ?? '')));
     }
 
     public function loadData(): void
