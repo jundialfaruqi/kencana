@@ -29,6 +29,3 @@ import '../views/components/public/⚡detail-lapangan/detail-lapangan.js';
 import '../views/components/auth/⚡login/login.js';
 import '../views/components/auth/⚡register/register.js';
 import '../views/components/auth/⚡admin-login/admin-login.js';
-
-// Webview Components
-import '../views/components/android-webview/menu/menu.js';
