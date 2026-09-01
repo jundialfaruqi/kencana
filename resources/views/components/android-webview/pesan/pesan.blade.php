@@ -636,14 +636,16 @@
                 @endif
 
                 <div class="grid grid-cols-2 gap-3">
-                    <a href="{{ route('webview.histori') }}" wire:navigate
-                        class="py-3.5 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm text-center">
+                    <button type="button"
+                        onclick="window.location.replace('{{ route('webview.histori') }}')"
+                        class="py-3.5 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm text-center cursor-pointer">
                         Lihat Histori
-                    </a>
-                    <a href="{{ route('webview.menu') }}" wire:navigate
-                        class="py-3.5 rounded-2xl bg-blue-600 text-white font-black text-sm text-center shadow-lg shadow-blue-200">
+                    </button>
+                    <button type="button"
+                        onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.replace('{{ route('webview.menu') }}'); }"
+                        class="py-3.5 rounded-2xl bg-blue-600 text-white font-black text-sm text-center shadow-lg shadow-blue-200 cursor-pointer">
                         Menu Utama
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

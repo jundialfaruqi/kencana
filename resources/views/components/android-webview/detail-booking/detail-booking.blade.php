@@ -20,10 +20,11 @@
             <div class="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-500 font-semibold text-center">
                 {{ $error }}
                 <div class="mt-3">
-                    <a href="{{ route('webview.histori') }}" wire:navigate
-                        class="inline-block px-4 py-2 rounded-xl bg-red-600 text-white font-bold text-xs">
+                    <button type="button"
+                        onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.replace('{{ route('webview.histori') }}'); }"
+                        class="inline-block px-4 py-2 rounded-xl bg-red-600 text-white font-bold text-xs cursor-pointer">
                         Kembali ke Histori
-                    </a>
+                    </button>
                 </div>
             </div>
         @elseif (empty($detail))
@@ -208,14 +209,16 @@
          FOOTER ACTIONS (Pinned Bottom — Seperti Halaman Pesan)
     ══════════════════════════════════════════════════════════════════ --}}
     <div class="px-4 py-4 border-t border-gray-100 grid grid-cols-2 gap-3 shrink-0 bg-white">
-        <a href="{{ route('webview.histori') }}" wire:navigate
-            class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform flex items-center justify-center gap-2 text-center">
+        <button type="button"
+            onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.replace('{{ route('webview.histori') }}'); }"
+            class="py-4 rounded-2xl bg-gray-100 text-gray-700 font-black text-sm active:scale-[0.98] transition-transform flex items-center justify-center gap-2 text-center cursor-pointer">
             <span>Kembali</span>
-        </a>
-        <a href="{{ route('webview.menu') }}" wire:navigate
-            class="py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-center">
+        </button>
+        <button type="button"
+            onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.replace('{{ route('webview.menu') }}'); }"
+            class="py-4 rounded-2xl bg-blue-600 text-white font-black text-sm uppercase tracking-wide active:scale-[0.98] transition-transform shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-center cursor-pointer">
             <span>Beranda</span>
-        </a>
+        </button>
     </div>
 
     {{-- ══════════════════════════════════════════════════════════════════

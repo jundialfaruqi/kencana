@@ -5,12 +5,13 @@
     ══════════════════════════════════════════════════════════════════ --}}
     <div class="sticky top-0 z-30 bg-white border-b border-gray-200 shrink-0 relative">
         <div class="flex items-center gap-3 px-4 py-4">
-            <a href="{{ route('webview.menu') }}" wire:navigate
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 active:scale-95 transition-transform">
+            <button type="button"
+                onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.replace('{{ route('webview.menu') }}'); }"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 active:scale-95 transition-transform cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#374151" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>
-            </a>
+            </button>
             <div class="flex-1 min-w-0">
                 <div class="text-[11px] text-gray-400 font-semibold uppercase tracking-widest leading-none mb-1">Kencana Arena</div>
                 <div class="text-sm font-black text-gray-900">Histori Booking</div>

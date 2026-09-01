@@ -89,6 +89,15 @@
     </div>
 
     @livewireScripts
+    <script>
+        window.addEventListener('exit-to-menu', function() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.replace("{{ route('webview.menu') }}");
+            }
+        });
+    </script>
     @stack('scripts')
 </body>
 

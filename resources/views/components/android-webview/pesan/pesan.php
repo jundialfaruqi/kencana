@@ -91,6 +91,13 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
             return;
         }
 
+        $this->showCancelConfirm = false;
+        $this->showTermsModal = false;
+        $this->showSuccessModal = false;
+        $this->showErrorModal = false;
+        $this->showChangeArenaModal = false;
+        $this->showChangeDateModal = false;
+
         Carbon::setLocale('id');
         if (! $this->tanggal) {
             $this->tanggal = Carbon::now()->toDateString();
@@ -258,14 +265,21 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
         $this->dispatch('load-jadwal');
     }
 
-    public function cancelBooking()
+    public function cancelBooking(): void
     {
+        $this->showCancelConfirm = false;
+        $this->showTermsModal = false;
+        $this->showSuccessModal = false;
+        $this->showErrorModal = false;
+        $this->showChangeArenaModal = false;
+        $this->showChangeDateModal = false;
+
         $this->reset([
             'currentStep', 'lapanganId', 'tanggal', 'namaLapangan', 'coverLapangan',
             'selectedSlot', 'namaKomunitas', 'jumlahPemain',
             'kategoriPemain', 'jenisPermainan',
         ]);
-        return $this->redirect(route('webview.menu'), navigate: true);
+        $this->dispatch('exit-to-menu');
     }
 
     public function closeCancelConfirm(): void
@@ -577,7 +591,7 @@ new #[Title('Pesan Lapangan')] #[Layout('layouts::android-webview.app')] class e
     {
         $this->reset(['currentStep', 'lapanganId', 'tanggal', 'namaLapangan', 'selectedSlot', 'namaKomunitas', 'jumlahPemain', 'kategoriPemain', 'jenisPermainan']);
         $this->showErrorModal = false;
-        $this->redirect(route('webview.menu'), navigate: true);
+        $this->dispatch('exit-to-menu');
     }
 
     public function render()
