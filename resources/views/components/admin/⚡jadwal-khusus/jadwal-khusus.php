@@ -148,12 +148,31 @@ new #[Title('Jadwal Khusus')] #[Layout('layouts::admin.app')] class extends Comp
             'active' => false,
         ];
         // Pages
-        for ($p = 1; $p <= $last; $p++) {
-            $links[] = [
-                'label' => (string) $p,
-                'url' => $path.'?page='.$p,
-                'active' => ($p === $curr),
-            ];
+        if ($last <= 7) {
+            $pages = range(1, $last);
+        } elseif ($curr <= 4) {
+            $pages = [1, 2, 3, 4, 5, '...', $last];
+        } elseif ($curr >= $last - 3) {
+            $pages = [1, '...', $last - 4, $last - 3, $last - 2, $last - 1, $last];
+        } else {
+            $pages = [1, '...', $curr - 1, $curr, $curr + 1, '...', $last];
+        }
+
+        foreach ($pages as $p) {
+            if ($p === '...') {
+                $links[] = [
+                    'label' => '...',
+                    'url' => null,
+                    'active' => false,
+                ];
+            } else {
+                $pageNum = (int) $p;
+                $links[] = [
+                    'label' => (string) $pageNum,
+                    'url' => $path.'?page='.$pageNum,
+                    'active' => ($pageNum === $curr),
+                ];
+            }
         }
         // Next
         $links[] = [

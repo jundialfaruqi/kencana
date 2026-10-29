@@ -169,8 +169,7 @@
                             <button
                                 class="join-item btn btn-sm
                                 @if ($link['active']) btn-secondary @endif"
-                                @if (!$link['url']) disabled @endif
-                                wire:click="goToUrl('{{ $link['url'] }}')">
+                                @if (!$link['url']) disabled @else wire:click="goToUrl('{{ $link['url'] }}')" @endif>
                                 @php $lbl = $link['label'] ?? ''; @endphp
                                 @if ($lbl === 'Prev')
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
