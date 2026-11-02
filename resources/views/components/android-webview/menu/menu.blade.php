@@ -13,9 +13,12 @@
                     Pilih arena olahraga Kencana
                 </div>
             </div>
-            <div class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 ml-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            <div
+                class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 ml-3">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                 </svg>
             </div>
         </div>
@@ -24,8 +27,9 @@
 
             {{-- ── 1. Banner Informasi Carousel (Tanpa Badge Kategori) ── --}}
             @if ($isLoading)
-                {{-- Banner Skeleton --}}
-                <div class="relative w-full aspect-video rounded-2xl sm:rounded-3xl bg-gray-200 animate-pulse overflow-hidden shadow-md shadow-gray-200/60 p-4 sm:p-7 flex flex-col justify-end gap-2">
+                {{-- Banner Skeleton Oke --}}
+                <div
+                    class="relative w-full aspect-video rounded-2xl sm:rounded-3xl bg-gray-200 animate-pulse overflow-hidden shadow-md shadow-gray-200/60 p-4 sm:p-7 flex flex-col justify-end gap-2">
                     <div class="h-5 sm:h-7 bg-gray-300 rounded-lg w-2/3"></div>
                     <div class="h-3 sm:h-4 bg-gray-300/80 rounded w-1/2"></div>
                     <div class="flex justify-center items-center gap-1.5 mt-2">
@@ -260,7 +264,8 @@
                     {{-- Histori Booking Skeleton Loader --}}
                     <div class="space-y-3">
                         @for ($i = 0; $i < 3; $i++)
-                            <div class="p-3.5 rounded-2xl bg-white border border-gray-100 shadow-sm animate-pulse space-y-2.5">
+                            <div
+                                class="p-3.5 rounded-2xl bg-white border border-gray-100 shadow-sm animate-pulse space-y-2.5">
                                 <div class="flex items-center justify-between">
                                     <div class="h-3 bg-gray-200 rounded w-20"></div>
                                     <div class="h-4 bg-gray-200 rounded-full w-14"></div>
@@ -523,7 +528,8 @@
                         this.scrollToSlide(this.activeSlide);
                     },
                     prev() {
-                        this.activeSlide = (this.activeSlide - 1 + this.totalSlides) % this.totalSlides;
+                        this.activeSlide = (this.activeSlide - 1 + this.totalSlides) % this
+                            .totalSlides;
                         this.scrollToSlide(this.activeSlide);
                     },
                     goTo(index) {
@@ -569,7 +575,8 @@
                     },
                     onScroll(e) {
                         const el = e.target;
-                        const cardWidth = el.firstElementChild ? el.firstElementChild.offsetWidth : el.offsetWidth;
+                        const cardWidth = el.firstElementChild ? el.firstElementChild.offsetWidth :
+                            el.offsetWidth;
                         const index = Math.round(el.scrollLeft / cardWidth);
                         if (index !== this.activeArena && index >= 0 && index < this.totalArenas) {
                             this.activeArena = index;
