@@ -12,7 +12,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#ffffff">
     <title>{{ isset($title) ? $title . ' — ' . config('app.name') : config('app.name') }}</title>
@@ -33,10 +33,8 @@
             font-family: Arial, Helvetica, sans-serif !important;
         }
 
-        /* Safe-area agar konten tidak tertutup notch di bagian atas */
         #webview-root {
-            padding-top: env(safe-area-inset-top, 0px);
-            /* padding-bottom: env(safe-area-inset-bottom, 0px); */
+            padding-top: 0;
             padding-bottom: 0;
             height: 100dvh;
             max-height: 100dvh;
