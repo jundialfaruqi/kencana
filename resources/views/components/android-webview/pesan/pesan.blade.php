@@ -21,7 +21,7 @@
             {{-- Scrollable Area --}}
             <div class="flex-1 overflow-y-auto min-h-0">
                 {{-- Header Langkah 1 (Full-width Border) --}}
-                <div class="px-4 pt-0 sm:pt-3 pb-3 border-b border-gray-100">
+                <div class="px-4 pt-3 pb-3 border-b border-gray-100">
                     <div class="flex items-center justify-between">
                         <div>
                             <div

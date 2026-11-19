@@ -1,7 +1,7 @@
 <div class="flex-1 flex flex-col min-h-0 overflow-hidden bg-white" wire:init="loadData">
     <div class="flex-1 overflow-y-auto min-h-0">
         {{-- ── Hero / Greeting (Full-width Border, Scrollable) ── --}}
-        <div class="px-4 pt-0 sm:pt-3 pb-3 border-b border-gray-100 flex items-center justify-between">
+        <div class="px-4 pt-3 pb-3 border-b border-gray-100 flex items-center justify-between">
             <div class="min-w-0 flex-1">
                 <div class="text-xs text-gray-400 font-medium">
                     Selamat Datang,
