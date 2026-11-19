@@ -11,7 +11,6 @@ use Livewire\Component;
 new #[Title('Beranda')] #[Layout('layouts::android-webview.app')] class extends Component
 {
     public bool $showTermsModal = false;
-    public bool $termsAgreed = false;
     public array $banners = [];
     public array $arenas = [];
     public array $recentBookings = [];
@@ -139,9 +138,9 @@ new #[Title('Beranda')] #[Layout('layouts::android-webview.app')] class extends 
         return in_array($status, ['open', 'buka', 'aktif']);
     }
 
-    public function acceptTerms(): void
+    public function acceptTerms(bool $agreed = false): void
     {
-        if ($this->termsAgreed) {
+        if ($agreed) {
             Session::put('webview_menu_terms_agreed', true);
             $this->showTermsModal = false;
         }

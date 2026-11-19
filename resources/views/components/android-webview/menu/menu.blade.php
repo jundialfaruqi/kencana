@@ -403,7 +403,7 @@
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($showTermsModal)
         <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
-            wire:key="menu-terms-modal">
+            wire:key="menu-terms-modal" x-data="{ agreed: false }" wire:ignore.self>
             {{-- Backdrop --}}
             <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
@@ -466,10 +466,10 @@
                         </ul>
                     </div>
 
-                    {{-- Checkbox Setuju --}}
+                    {{-- Checkbox Setuju (Client-Side Alpine.js) --}}
                     <label
                         class="flex items-start gap-3 p-3.5 rounded-2xl bg-gray-50 border border-gray-200 cursor-pointer mt-3 transition-colors hover:bg-blue-50/50">
-                        <input type="checkbox" wire:model.live="termsAgreed"
+                        <input type="checkbox" x-model="agreed"
                             class="mt-0.5 w-4 h-4 accent-blue-600 rounded shrink-0">
                         <span class="text-xs font-semibold text-gray-700 leading-relaxed select-none">
                             Saya telah membaca, memahami, dan <strong>setuju</strong> dengan seluruh syarat & ketentuan
@@ -480,10 +480,10 @@
 
                 {{-- Action Button --}}
                 <div class="px-5 py-4 border-t border-gray-100 bg-white shrink-0">
-                    <button type="button" wire:click="acceptTerms" wire:loading.attr="disabled"
-                        wire:target="acceptTerms" @disabled(!$termsAgreed)
-                        class="w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wide transition-all duration-150 disabled:opacity-40 flex items-center justify-center gap-2
-                        {{ $termsAgreed ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 active:scale-[0.98]' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }}">
+                    <button type="button" @click="if (agreed) $wire.acceptTerms(agreed)"
+                        wire:loading.attr="disabled" wire:target="acceptTerms" :disabled="!agreed"
+                        class="w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wide transition-all duration-150 disabled:opacity-40 flex items-center justify-center gap-2"
+                        :class="agreed ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 active:scale-[0.98]' : 'bg-gray-200 text-gray-400 cursor-not-allowed'">
                         <span wire:loading wire:target="acceptTerms"
                             class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                         <span>Setuju dan Lanjutkan</span>
