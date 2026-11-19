@@ -403,7 +403,7 @@
     ══════════════════════════════════════════════════════════════════ --}}
     @if ($showTermsModal)
         <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
-            wire:key="menu-terms-modal" x-data="{ agreed: false }" wire:ignore.self>
+            wire:key="menu-terms-modal" x-data="{ agreed: false }">
             {{-- Backdrop --}}
             <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
@@ -480,7 +480,7 @@
 
                 {{-- Action Button --}}
                 <div class="px-5 py-4 border-t border-gray-100 bg-white shrink-0">
-                    <button type="button" @click="if (agreed) $wire.acceptTerms(agreed)"
+                    <button type="button" wire:click="acceptTerms"
                         wire:loading.attr="disabled" wire:target="acceptTerms" :disabled="!agreed"
                         class="w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wide transition-all duration-150 disabled:opacity-40 flex items-center justify-center gap-2"
                         :class="agreed ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 active:scale-[0.98]' : 'bg-gray-200 text-gray-400 cursor-not-allowed'">

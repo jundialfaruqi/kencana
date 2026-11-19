@@ -138,12 +138,10 @@ new #[Title('Beranda')] #[Layout('layouts::android-webview.app')] class extends 
         return in_array($status, ['open', 'buka', 'aktif']);
     }
 
-    public function acceptTerms(bool $agreed = false): void
+    public function acceptTerms(): void
     {
-        if ($agreed) {
-            Session::put('webview_menu_terms_agreed', true);
-            $this->showTermsModal = false;
-        }
+        Session::put('webview_menu_terms_agreed', true);
+        $this->showTermsModal = false;
     }
 
     public function render()
